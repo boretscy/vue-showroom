@@ -4,10 +4,5 @@ module.exports = {
             splitChunks: false
         }
     },
-
-    publicPath: '',
-
-    css: {
-      extract: false
-    }
+    publicPath: './'
 }
