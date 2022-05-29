@@ -9,6 +9,11 @@
 				title-color="yadarkblue"/>
 		</div>
 		<search-filter/>
+		<brands-item
+			data-name="LADA"
+			data-count="256"
+			data-link="lada"/>
+		<more />
 	</div>
 </template>
 
@@ -19,12 +24,16 @@
 
 import SearchFilter from '@/components/SearchFilter.vue'
 import Drop from '@/components/base/Drop.vue'
+import BrandsItem from '@/components/BrandsItem.vue'
+import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Brands',
 	components: {
 		// IconBase, IconCorner,
-		SearchFilter, Drop
+		SearchFilter, Drop,
+		BrandsItem,
+		More
 	},
 	data() {
 		return {

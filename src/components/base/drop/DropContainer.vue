@@ -55,7 +55,7 @@ export default {
 <style scoped>
 .drop-container {
     position: absolute;
-    width: calc(100% - 40px);
+    width: calc(100% - 10px);
     background-color: var(--yawhite);
     padding: 1rem 1.5rem;
     font-size: var(--p);
@@ -63,8 +63,8 @@ export default {
 	-moz-box-shadow: 2px 4px 8px 0px rgba(189, 192, 194, 0.5);
 	box-shadow: 2px 4px 8px 0px rgba(189, 192, 194, 0.5);
 	transition: .2s;
-    left: 0;
-    top: 40px;
+    left: -20px;
+    top: 31px;
     line-height: 1.8rem;
     z-index: 10;
 }
@@ -75,6 +75,7 @@ ul {
 a, a:visited {
 	color: var(--yadarkblue);
 	transition: .2s;
+    text-decoration: none;
 }
 a:hover, a:active, a:focus {
 	color: var(--yablue);

@@ -60,7 +60,7 @@ svg.up {
     -webkit-transform: rotate(-180deg);
     transition: .2s;
 }
-svg.rihgt {
+svg.right {
     transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     transition: .2s;
