@@ -107,7 +107,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    justify-items: center;
 }
 .grid span {
     margin: 0;
@@ -119,6 +118,7 @@ export default {
     fill: var(--background-color);
     width: var( --icon-size);
     height: var( --icon-size);
+    justify-self: center;
 }
 .grid:hover svg {
     fill: var(--black);

@@ -149,12 +149,11 @@ export default {
     height: 2px !important;
 }
 .noUi-target {
-    background: var(--yayellow) !important;
-    border-radius: 4px !important;
-    border: inherit !important;
-    box-shadow: inherit !important;
-    position: relative !important;
-    top: -4px !important;
+    border-radius: 4px!important;
+    border: inherit!important;
+    box-shadow: inherit!important;
+    position: relative!important;
+    top: -10px!important;
 }
 .noUi-connect {
     background: var(--yayellow) !important;

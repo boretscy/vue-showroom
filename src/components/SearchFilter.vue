@@ -67,7 +67,7 @@
                     list-title="Кузов"
                     list-name="models"/>
             </div>
-            <div class="filter__head-item" style="padding: 0; height: 40px;" v-if="viewFull">
+            <div class="filter__head-item" style="padding: 0; height: 42px;" v-if="viewFull">
                 <multi-range
                     min-val="1970"
                     max-val="2022"
@@ -87,10 +87,14 @@
                     list-title="Цвет"
                     list-name="models"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull" style="padding: 0; height: 40px;">
+            <div class="filter__head-item" v-if="viewFull" style="padding: 0; height: 42px;">
                 <button-cancel />
             </div>
-            <div class="filter__head-item" style="padding: 0; height: 40px;">
+            <div   
+                class="filter__head-item"
+                style="padding: 0; height: 40px;"
+                @click="viewFull = !viewFull"
+                >
                 <button-apply car-count="1246" />
             </div>
         </div>
@@ -166,7 +170,7 @@ export default {
     },
     data() {
         return {
-            viewFull: true,
+            viewFull: this.$store.state.filter.viewFull,
         }
     },
     mounted: function() {
@@ -189,11 +193,11 @@ export default {
     margin-bottom: 2em;
 }
 .filter__head-item {
-    border: 1px solid var(--yadarkblue);
+	border: 1px solid var(--yadarkblue);
     padding: 12px 20px 10px;
     border-radius: 3px;
-    color: var(--yablack) !important;
-    height: 20px;
+    color: var(--yablack)!important;
+    height: 42px;
 }
 
 .filter__list {
@@ -258,9 +262,6 @@ export default {
 }
 .filter__sort-item__switch {
     display: flex;
-}
-.filter__sort-item__switch-radio {
-
 }
 .filter__sort-item__switch-radio input {
     display: none;
