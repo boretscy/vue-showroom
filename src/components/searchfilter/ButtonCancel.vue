@@ -1,8 +1,8 @@
 <template>
-    <button class="button grid">
+    <router-link :to="link" class="button grid">
         <span>Сбросить все</span>
         <icon-base icon-name="cross"><icon-cross /></icon-base>
-    </button>
+    </router-link>
 </template>
 
 <script>
@@ -15,6 +15,11 @@ export default {
         IconBase, IconCross
     },
     props: ['carCount'],
+    data() {
+        return {
+            link: this.$route.path
+        }
+    },
     methods: {
          Format(q) {
 			

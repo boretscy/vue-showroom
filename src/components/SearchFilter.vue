@@ -1,6 +1,6 @@
 <template>
     <div class="filter">
-        <div class="filter__head">
+        <div class="filter__head" v-if="filter">
             <div class="filter__head-item">
                 <drop
                     block-style="block"
@@ -21,9 +21,9 @@
             </div>
             <div class="filter__head-item" style="padding: 0; height: 40px;">
                 <multi-range
-                    min-val="600000"
-                    max-val="12000000"
-                    step-val="1000"
+                    :minVal="filter.ranges.price.min"
+                    :maxVal="filter.ranges.price.max"
+                    :stepVal="filter.ranges.price.step"
                     desc-val="₽"
                     name-range="Цена"/>
             </div>
@@ -31,14 +31,14 @@
                 <drop
                     block-style="block"
                     list-title="КПП"
-                    list-name="models"/>
+                    list-name="transmitions"/>
             </div>
             <div class="filter__head-item" style="padding: 0; height: 40px;" v-if="viewFull">
                 <multi-range
-                    min-val="600000"
-                    max-val="12000000"
-                    step-val="1000"
-                    desc-val="л"
+                    min-val="filter.ranges.volume.min"
+                    max-val="filter.ranges.volume.max"
+                    step-val="filter.ranges.volume.step"
+                    desc-val="см3"
                     name-range="Объем"/>
             </div>
             <div class="filter__head-item" style="padding: 0; height: 40px;" v-if="viewFull">
@@ -53,19 +53,7 @@
                 <drop
                     block-style="block"
                     list-title="Двигатель"
-                    list-name="models"/>
-            </div>
-            <div class="filter__head-item" v-if="viewFull">
-                <drop
-                    block-style="block"
-                    list-title="Привод"
-                    list-name="models"/>
-            </div>
-            <div class="filter__head-item" v-if="viewFull">
-                <drop
-                    block-style="block"
-                    list-title="Кузов"
-                    list-name="models"/>
+                    list-name="engines"/>
             </div>
             <div class="filter__head-item" style="padding: 0; height: 42px;" v-if="viewFull">
                 <multi-range
@@ -79,7 +67,7 @@
                 <drop
                     block-style="block"
                     list-title="Автосалон"
-                    list-name="models"/>
+                    list-name="dealerships"/>
             </div>
             <div class="filter__head-item" v-if="viewFull">
                 <drop
@@ -92,16 +80,40 @@
             </div>
             <div   
                 class="filter__head-item"
-                style="padding: 0; height: 40px;"
+                style="padding: 0; height: 42px;"
                 @click="viewFull = !viewFull"
                 >
                 <button-apply car-count="1246" />
             </div>
         </div>
-        <div class="filter__list">
-            <list-item item-name="Cadillac" item-count="5" item-link="cadillac"/>
+        <div class="filter__head" v-else>
+            <div class="filter__head-item__empty"></div>
+            <div class="filter__head-item__empty"></div>
+            <div class="filter__head-item__empty"></div>
+            <div class="filter__head-item__empty"></div>
+            <div class="filter__head-item__empty"></div>
         </div>
-        <div class="filter__sort">
+        <div class="filter__list" v-if="brands">
+            <list-item 
+                v-for="brand in brands"
+                :key="brand.id"
+                :itemName="brand.name" 
+                :itemCount="brand.vehicles" 
+                :itemLink="brand.alias"/>
+        </div>
+        <div class="filter__list" v-else>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+            <div class="filter__list-item__empty"></div>
+        </div>
+        <div class="filter__sort" v-if="filter">
             <div class="filter__sort-item">
                 <drop
                     block-style="block"
@@ -143,6 +155,10 @@
                 </div>
             </div>
         </div>
+        <div class="filter__sort" v-else>
+            <div class="filter__sort-item__empty"></div>
+            <div class="filter__sort-item__empty"></div>
+        </div>
     </div>
 </template>
 
@@ -150,7 +166,6 @@
 import IconBase from '@/components/IconBase.vue'
 import IconViewplates from '@/components/icons/IconViewplates.vue'
 import IconViewlines from '@/components/icons/IconViewlines.vue'
-
 
 import Drop from '@/components/base/Drop.vue'
 import MultiRange from '@/components/base/MultiRange.vue'
@@ -171,10 +186,20 @@ export default {
     data() {
         return {
             viewFull: this.$store.state.filter.viewFull,
+            filter: this.$store.state.filter,
+            brands: this.$store.state.brands
         }
     },
     mounted: function() {
 
+        this.brands = this.$store.state.brands
+
+        let url = this.$store.state.apiUrl+'filter/'+'?token='+this.$store.state.apiToken
+        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+        this.axios.get(url).then((response) => {
+            this.$store.state.filter = response.data
+            console.log(this.$store.state.filter)
+        })
     }
 }
 </script>
@@ -199,6 +224,22 @@ export default {
     color: var(--yablack)!important;
     height: 42px;
 }
+.filter__head-item__empty {
+	border: 1px solid var(--yalightgray);
+    border-radius: 3px;
+    background-color: var(--yalightgray);
+    height: 42px;
+}
+.filter__list-item__empty {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    width: 100%;
+    align-items: center;
+    text-decoration: none;
+    height: 30px;
+    border-radius: 3px;
+    background-color: var(--yalightgray);
+}
 
 .filter__list {
     display: grid;
@@ -220,12 +261,28 @@ export default {
     padding: 12px 20px 10px;
     border-radius: 3px;
     color: var(--yablack) !important;
-    height: 20px;
+    height: 42px;
 }
 .filter__sort-item:nth-last-child(1) {
     display: flex;
     gap: 2rem;
     align-items: center;
+}
+.filter__sort-item__empty:nth-child(1) {
+    width: 205px;
+    border: 1px solid var(--yalightgray);
+    border-radius: 3px;
+    background-color: var(--yalightgray);
+    height: 42px;
+}
+.filter__sort-item__empty:nth-last-child(1) {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    background-color: var(--yalightgray);
+    border: 1px solid var(--yalightgray);
+    height: 42px;
+    width: 205px;
 }
 .filter__sort-item__button {
     background: transparent;

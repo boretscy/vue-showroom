@@ -1,12 +1,17 @@
 <template>
     <div class="button-centered">
-        <button class="button transparent">Загрузить ещё</button>
+        <button class="button transparent" @click="more">Загрузить ещё</button>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'More'
+    name: 'More',
+    methods: {
+        more() {
+            this.$emit('more');
+        }
+    }
 }
 </script>
 

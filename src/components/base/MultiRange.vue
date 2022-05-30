@@ -58,6 +58,7 @@ export default {
             start: Number(this.minVal),
             step: Number(this.stepVal)
         }
+        console.log(this.slider)
 
         noUiSlider.create(this.$refs.slider, {
         start: [this.slider.startMin, this.slider.startMax],
@@ -155,7 +156,7 @@ export default {
     position: relative!important;
     top: -10px!important;
 }
-.noUi-connect {
+.noUi-target .noUi-connect {
     background: var(--yayellow) !important;
 }
 .slider-styled,

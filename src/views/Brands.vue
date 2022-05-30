@@ -10,10 +10,14 @@
 		</div>
 		<search-filter/>
 		<brands-item
-			data-name="LADA"
-			data-count="256"
-			data-link="lada"/>
-		<more />
+			v-for="(brand, indx) in $store.state.brands"
+			:key="indx"
+			:dataName="brand.name"
+			:dataCount="brand.vehicles"
+			:dataLink="brand.alias"/>
+		<more
+			@more="moreBrands"
+			v-if="showMore"/>
 	</div>
 </template>
 
@@ -37,9 +41,35 @@ export default {
 	},
 	data() {
 		return {
-			dropsStyles: {
-				cities: false
+			brands: [],
+			brandsCount: 0,
+			showMore: false
+		}
+	},
+	mounted: function() {
+
+		let url = this.$store.state.apiUrl+'brands/'+'?token='+this.$store.state.apiToken
+        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+        this.axios.get(url).then((response) => {
+            
+			response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+			this.$store.state.brands = response.data
+
+			for (let i=0; i<=5; i++) {
+				this.brands.push( this.$store.state.brands[i] );
+				this.brandsCount = i
 			}
+			if ( this.brands.length >= this.$store.state.brands.length ) this.showMore = false
+        })
+	},
+	methods: {
+
+		moreBrands() {
+
+			let i = this.brandsCount+1, s = this.brandsCount+6
+			for ( i; i<=s; i++ ) this.brands.push( this.$store.state.brands[i] )
+			this.brandsCount = i
+			if ( this.brands.length >= this.$store.state.brands.length ) this.showMore = false
 		}
 	}
 }

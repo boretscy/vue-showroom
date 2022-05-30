@@ -6,7 +6,8 @@
                     v-for="(item, indx) in lists[listName]"
                     :key="indx"
                     >
-                    <a href="#">{{ item }}</a>
+                    <a :href="item.link" :alt="item.text" v-if="!item.router">{{ item.text }}</a>
+                    <router-link :to="item.link" v-if="item.router">{{ item.text }}</router-link>
                 </li>
 			</ul>
 		</div>
@@ -19,31 +20,7 @@ export default {
     props: ['listName', 'listIndex'],
     data() {
         return {
-            lists: {
-                cities: [
-                    'Краснодар',
-                    'Яблоновский',
-                    'Новороссийск',
-                    'Майкоп'
-                ],
-                mode: [
-                    'Новые',
-                    'С пробегом'
-                ],
-                brands: [
-                    'Cadillac',
-                    'Chevrolet',
-                    'Suzuki',
-                    'Suzuki',
-                    'Suzuki',
-                    'Suzuki',
-                    'Suzuki'
-                ],
-                models: [
-                    'asfdkja',
-                    'askfjahksf'
-                ]
-            }
+            lists: this.$store.state.filter.dropLists
         }
     },
     mounted: function() {

@@ -13,13 +13,16 @@
 
         <div class="available__grid" v-if="viewMode == 'grid'">
             <model-grid 
-                discount="Выгода"
-                price="799000"
-                colors="7"
-                cis="148"
-                name="Granta"
-                picture="https://195004.selcdn.ru/ref/catalog/11197/7/original/4046bd3274.png"
-                brand="LADA"/>
+                v-for="model in models"
+                :key="model.id"
+                :discount="model.has_discounts"
+                :price="Number(model.min_price)"
+                :colors="model.colors"
+                :cis="model.statistics['1'].counter + model.statistics['1'].counter"
+                :name="model.name"
+                :picture="model.image"
+                :brand="dataLink"
+                :alias="model.alias"/>
             <cta-grid 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
@@ -62,8 +65,23 @@ export default {
     props: ['dataName', 'dataCount', 'dataLink'],
     data() {
         return {
-            viewMode: 'grid'
+            viewMode: 'grid',
+            models: null
         }
+    },
+    mounted: function() {
+
+
+		let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
+        url += '&brand='+this.dataLink
+        url += '&chunk='+'7'
+        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+
+        this.axios.get(url).then((response) => {
+            
+			// response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+			this.models = response.data
+        })
     }
 }
 </script>

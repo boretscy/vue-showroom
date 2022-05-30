@@ -1,14 +1,14 @@
 <template>
     <div class="available__grid-item">
         <div class="grid-item__head">
-            <a href="#" class="grid-item__head-img">
+            <router-link :to="'/'+brand+'/'+alias" class="grid-item__head-img">
                 <img :src="picture" :alt="brand + ' ' + name">
-            </a>
-            <div class="grid-item__head-discont">{{ discount }}</div>
+            </router-link>
+            <div class="grid-item__head-discont" v-if="discount">Выгода</div>
         </div>
         <div class="head_items">
-            <div class="grid-item__head-discont--grid_line">{{ discount }}</div>
-            <a href="#" class="grid-item__title">{{ name }}</a>
+            <div class="grid-item__head-discont--grid_line" v-if="discount">Выгода</div>
+            <router-link :to="'/'+brand+'/'+alias" class="grid-item__title">{{ name }}</router-link>
         </div>
         <div class="grid-item__sub">
             <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} автомобилей</span>
@@ -21,7 +21,7 @@
 <script>
 export default {
     name: 'ModelItem',
-    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand'],
+    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'alias'],
     methods: {
         Format(q) {
 			
