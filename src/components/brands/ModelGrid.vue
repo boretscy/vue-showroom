@@ -189,7 +189,7 @@ export default {
 }
 .grid-item__head-discont {
     position: absolute;
-    top: 0;
+    top: -1em;
     left: 0;
     border: solid 1px var(--yayellow);
     padding: 5px 30px;
