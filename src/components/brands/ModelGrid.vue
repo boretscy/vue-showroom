@@ -197,6 +197,7 @@ export default {
     font-size: 12px;
     line-height: 1em;
     color: var(--yadarkblue);
+    background-color: var(--yawhite);
 }
 .grid-item__title {
     text-decoration: none;
