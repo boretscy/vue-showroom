@@ -1,14 +1,6 @@
 <template>
 	<div class="yapps-cis">
-		<div class="title">
-			1 225 автомобилей в 
-			<drop
-				block-style="inline"
-				list-title="Краснодаре"
-				list-name="cities"
-				title-color="yadarkblue"/>
-		</div>
-		<search-filter/>
+		<search-filter ref="searchFilter"/>
 		<brands-item
 			v-for="(brand, indx) in $store.state.brands"
 			:key="indx"
@@ -27,7 +19,6 @@
 // import IconCorner from '@/components/icons/IconCorner.vue'
 
 import SearchFilter from '@/components/SearchFilter.vue'
-import Drop from '@/components/base/Drop.vue'
 import BrandsItem from '@/components/BrandsItem.vue'
 import More from '@/components/brands/More.vue'
 
@@ -35,7 +26,7 @@ export default {
 	name: 'Brands',
 	components: {
 		// IconBase, IconCorner,
-		SearchFilter, Drop,
+		SearchFilter,
 		BrandsItem,
 		More
 	},
@@ -43,7 +34,8 @@ export default {
 		return {
 			brands: [],
 			brandsCount: 0,
-			showMore: false
+			showMore: false,
+			totalcount: 0
 		}
 	},
 	mounted: function() {

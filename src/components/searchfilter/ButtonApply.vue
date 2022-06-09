@@ -1,21 +1,38 @@
 <template>
-    <button class="button grid">
-        <span>Показать {{ Format( Number(carCount) ) }} авто</span>
-        <icon-base icon-name="filter"><icon-filter /></icon-base>
-    </button>
+    <div class="button grid">
+        <span>
+            <router-link to="/filter">Показать {{ Format( Number(carCount) ) }} авто</router-link>
+            </span>
+        <span
+            @click="toggleView">
+            <icon-base icon-name="filter" v-if="!viewFull"><icon-filter /></icon-base>
+            <icon-base icon-name="cross" v-if="viewFull"><icon-cross /></icon-base>
+        </span>
+        
+    </div>
 </template>
 
 <script>
 import IconBase from '@/components/IconBase.vue'
 import IconFilter from '@/components/icons/IconFilter.vue'
+import IconCross from '@/components/icons/IconCross.vue'
 
 export default {
     name: 'ButtonApply',
     components: {
-        IconBase, IconFilter
+        IconBase, IconFilter, IconCross
     },
     props: ['carCount'],
+    data() {
+        return {
+            viewFull: false
+        }
+    },
     methods: {
+        toggleView() {
+            this.viewFull = ! this.viewFull
+            this.$emit('toggle')
+        },
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
@@ -37,7 +54,6 @@ export default {
     --margin-inner: 15px;
     --icon-size: calc(1em * 1.2);
     --transition: 100ms;
-    line-height: calc(1em * 1);
     display: inline-flex;
     border: 1px solid var(--border-color);
     color: var(--white);
@@ -45,7 +61,6 @@ export default {
     font-size: var(--font-size);
     padding: var(--padding-top-bottom) var(--padding-left-right);
     border-radius: 3px;
-    cursor: pointer;
     justify-content: center;
     align-items: center;
     /*margin-bottom: 10px;*/
@@ -81,6 +96,15 @@ export default {
 .button span {
     font-size: var(--font-size);
     margin: 0 calc(var(--margin-inner) / 2.5);
+    cursor: pointer;
+}
+.button a, .button a:hover, .button a:focus, .button a:active, .button a:visited {
+    color: var(--yawhite);
+    text-decoration: none;
+    line-height: 1;
+}
+.button:hover a, .button:hover a:hover, .button:hover a:focus, .button:hover a:active, .button:hover a:visited {
+    color: var(--yablack);
 }
 .--white {
     fill: var(--white);

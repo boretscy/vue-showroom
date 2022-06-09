@@ -1,89 +1,177 @@
 <template>
     <div class="filter">
+        <div class="title">
+			{{ Format(totalCount) }} авто
+		</div>
         <div class="filter__head" v-if="filter">
             <div class="filter__head-item">
-                <drop
-                    block-style="block"
-                    list-title="Выбрать автомобиль"
-                    list-name="mode"/>
+                <multiselect 
+                    v-model="modeValue" 
+                    tag-placeholder="Выбрать автомобиль" 
+                    placeholder="Выбрать автомобиль" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.mode" 
+                    :searchable="false"
+                    :multiple="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    ></multiselect>
             </div>
             <div class="filter__head-item">
-                <drop
-                    block-style="block"
-                    list-title="Марка"
-                    list-name="brands"/>
+                <multiselect 
+                    v-model="brandValue" 
+                    tag-placeholder="Марка" 
+                    placeholder="Марка" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.brands" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
             <div class="filter__head-item">
-                <drop
-                    block-style="block"
-                    list-title="Модель"
-                    list-name="models"/>
+                <multiselect 
+                    v-model="modelValue" 
+                    tag-placeholder="Модель" 
+                    placeholder="Модель" 
+                    label="name" 
+                    track-by="code" 
+                    :options="modelOptions" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
-            <div class="filter__head-item" style="padding: 0; height: 40px;">
+            <div class="filter__head-item filter__head-item__range">
                 <multi-range
-                    :minVal="filter.ranges.price.min"
-                    :maxVal="filter.ranges.price.max"
-                    :stepVal="filter.ranges.price.step"
+                    range="price"
                     desc-val="₽"
-                    name-range="Цена"/>
+                    name-range="Цена"
+                    ref="priceRange"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
-                <drop
-                    block-style="block"
-                    list-title="КПП"
-                    list-name="transmitions"/>
+            <div class="filter__head-item" v-if="filter.viewFull">
+                <multiselect 
+                    v-model="transmitionsValue" 
+                    tag-placeholder="КПП" 
+                    placeholder="КПП" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.transmitions" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
-            <div class="filter__head-item" style="padding: 0; height: 40px;" v-if="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-if="filter.viewFull">
                 <multi-range
-                    min-val="filter.ranges.volume.min"
-                    max-val="filter.ranges.volume.max"
-                    step-val="filter.ranges.volume.step"
+                    range="volume"
                     desc-val="см3"
-                    name-range="Объем"/>
+                    name-range="Объем"
+                    ref="volumeRange"/>
             </div>
-            <div class="filter__head-item" style="padding: 0; height: 40px;" v-if="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-if="filter.viewFull">
                 <multi-range
-                    min-val="600000"
-                    max-val="12000000"
-                    step-val="1000"
+                    range="power"
                     desc-val="л.с."
-                    name-range="Мощность"/>
+                    name-range="Мощность"
+                    ref="volimeRange"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
-                <drop
-                    block-style="block"
-                    list-title="Двигатель"
-                    list-name="engines"/>
+            <div class="filter__head-item" v-if="filter.viewFull">
+                <multiselect 
+                    v-model="engineValue" 
+                    tag-placeholder="Двигатель" 
+                    placeholder="Двигатель" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.engines" 
+                    :multiple="false" 
+                    :searchable="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
-            <div class="filter__head-item" style="padding: 0; height: 42px;" v-if="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-if="filter.viewFull">
                 <multi-range
-                    min-val="1970"
-                    max-val="2022"
-                    step-val="1"
+                    range="year"
                     desc-val=""
-                    name-range="Год выпуска"/>
+                    name-range="Год выпуска"
+                    ref="yearRange"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
-                <drop
-                    block-style="block"
-                    list-title="Автосалон"
-                    list-name="dealerships"/>
+            <div class="filter__head-item" v-if="filter.viewFull">
+                <multiselect 
+                    v-model="dealershipValue" 
+                    tag-placeholder="Автосалон" 
+                    placeholder="Автосалон" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.dealerships" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
-                <drop
-                    block-style="block"
-                    list-title="Цвет"
-                    list-name="models"/>
-            </div>
-            <div class="filter__head-item" v-if="viewFull" style="padding: 0; height: 42px;">
-                <button-cancel />
+            <div class="filter__head-item" v-if="filter.viewFull">
+                <multiselect 
+                    v-model="colorValue" 
+                    tag-placeholder="Цвет" 
+                    placeholder="Цвет" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.colors" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
             <div   
                 class="filter__head-item"
-                style="padding: 0; height: 42px;"
-                @click="viewFull = !viewFull"
+                 v-if="filter.viewFull"
                 >
-                <button-apply car-count="1246" />
+                <button-cancel />
+            </div>
+            
+            <div   
+                class="filter__head-item"
+                >
+                <button-apply 
+                    :carCount="filter.totalCount"
+                    @toggle="toggleFilter"/>
             </div>
         </div>
         <div class="filter__head" v-else>
@@ -93,13 +181,13 @@
             <div class="filter__head-item__empty"></div>
             <div class="filter__head-item__empty"></div>
         </div>
-        <div class="filter__list" v-if="brands">
+        <div class="filter__list" v-if="filter">
             <list-item 
-                v-for="brand in brands"
-                :key="brand.id"
+                v-for="(brand, indx) in filter.dropLists.brands"
+                :key="indx"
                 :itemName="brand.name" 
                 :itemCount="brand.vehicles" 
-                :itemLink="brand.alias"/>
+                :itemLink="brand.code"/>
         </div>
         <div class="filter__list" v-else>
             <div class="filter__list-item__empty"></div>
@@ -115,10 +203,21 @@
         </div>
         <div class="filter__sort" v-if="filter">
             <div class="filter__sort-item">
-                <drop
-                    block-style="block"
-                    list-title="Сортировка"
-                    list-name="mode"/>
+                <multiselect 
+                    v-model="sortValue" 
+                    tag-placeholder="Сортировка" 
+                    placeholder="Сортировка" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.sort" 
+                    :multiple="false" 
+                    :searchable="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
             </div>
             <div class="filter__sort-item">
                 <div class="filter__sort-item_box">
@@ -167,45 +266,117 @@ import IconBase from '@/components/IconBase.vue'
 import IconViewplates from '@/components/icons/IconViewplates.vue'
 import IconViewlines from '@/components/icons/IconViewlines.vue'
 
-import Drop from '@/components/base/Drop.vue'
 import MultiRange from '@/components/base/MultiRange.vue'
 import ButtonCancel from '@/components/searchfilter/ButtonCancel.vue'
 import ButtonApply from '@/components/searchfilter/ButtonApply.vue'
 import ListItem from '@/components/searchfilter/ListItem.vue'
 
+import Multiselect from 'vue-multiselect'
+
 export default {
     name: 'SearchFilter',
     components: {
 		IconBase, IconViewlines, IconViewplates,
-        Drop,
         MultiRange,
         ButtonApply,
         ButtonCancel,
-        ListItem
+        ListItem,
+        Multiselect
     },
     data() {
         return {
-            viewFull: this.$store.state.filter.viewFull,
-            filter: this.$store.state.filter,
-            brands: this.$store.state.brands
+            totalCount: 0,
+
+            filter: null,
+            modeValue: [],
+            brandValue: [],
+
+            modelValue: [],
+            modelOptions: [],
+
+            transmitionsValue: [],
+            engineValue: [],
+            dealershipValue: [],
+            colorValue: [],
+            sortValue: [],
+        }
+    },
+    watch: {
+        modeValue: function(newValue) {
+            window.location.href = newValue.code;
+        },
+        brandValue: function(newValue) {
+            this.getModels(newValue)
         }
     },
     mounted: function() {
 
-        this.brands = this.$store.state.brands
-
         let url = this.$store.state.apiUrl+'filter/'+'?token='+this.$store.state.apiToken
         for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
         this.axios.get(url).then((response) => {
-            this.$store.state.filter = response.data
-            console.log(this.$store.state.filter)
+            this.filter = response.data
+            this.totalCount = response.data.totalCount
+            console.log(this.filter)
+            setTimeout(() => {
+                this.$refs.priceRange.set();
+            }, 500);
         })
+    },
+    methods: {
+        buildLink() {
+        },
+
+        getModels(newValue) {
+            
+            let s = []
+            newValue.forEach( function(item) {
+                s.push(item.code)
+            })
+            
+            if ( s.length ) {
+                let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken+'&brand='+s.join(',')
+                let m = this.modelOptions, p = this.filter.ranges.price
+                this.axios.get(url).then((response) => {
+                    p.min = 1000000000
+                    p.max = 0
+                    response.data.forEach( function(item) {
+                        m.push({
+                            name: item.name,
+                            code: item.alias
+                        })
+                        if ( item.min < p.min ) p.min = item.min
+                        if ( item.max > p.max ) p.max = item.max
+                    })
+                    this.$refs.priceRange.set();
+                })
+            }
+        },
+
+        toggleFilter() {
+            this.filter.viewFull = !this.filter.viewFull
+        },
+        Format(q) {
+			
+            var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
+            return Price.format(q);	
+        }
     }
 }
 </script>
 
 
-<style scoped>
+<style>
+@import '../assets/css/multiselect.css';
+
+.title {
+    font-size: var(--h1);
+    font-weight: 400;
+    line-height: 1em;
+    margin-bottom: 2rem;
+	position: relative;
+	user-select: none;
+}
+
 .filter {
     margin-bottom: 4rem;
     user-select: none;
@@ -214,15 +385,17 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
     gap: 20px;
-    align-items: center;
+    align-items: start;
     margin-bottom: 2em;
 }
 .filter__head-item {
-	border: 1px solid var(--yadarkblue);
-    padding: 12px 20px 10px;
     border-radius: 3px;
     color: var(--yablack)!important;
-    height: 42px;
+    height: 45px;
+}
+.filter__head-item__range {
+	border: 1px solid var(--yadarkblue);
+    padding: 0;
 }
 .filter__head-item__empty {
 	border: 1px solid var(--yalightgray);
@@ -257,8 +430,6 @@ export default {
 }
 .filter__sort-item:nth-child(1) {
     width: 205px;
-    border: 1px solid var(--yagray);
-    padding: 12px 20px 10px;
     border-radius: 3px;
     color: var(--yablack) !important;
     height: 42px;

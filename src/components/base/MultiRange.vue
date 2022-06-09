@@ -2,76 +2,67 @@
     <div class="multirange">
         <div class="multirange__item">
             <label class="input">
-                <input type="text" placeholder="600 000" v-model="minRange">
+                <input type="text" placeholder="600 000" v-model="value[0]">
                 <span class="price">{{ nameRange }} от</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
             <label class="input">
-                <input type="text" placeholder="9 000 000" v-model="maxRange">
+                <input type="text" placeholder="9 000 000" v-model="value[1]">
                 <span  class="price">до</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
         </div>
-        <div class="price_slider slider-styled" ref="slider"></div>
+        <div class="price_slider slider-styled">
+            <vue-slider 
+                v-model="value"
+                :min="min"
+                :max="max"
+                :interval="step"
+                tooltip="none"
+                ></vue-slider>
+        </div>
     </div>
 </template>
 
 <script>
-import * as noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
 
 export default {
     name: 'MultiRange',
+    components: {
+        VueSlider
+    },
     props:[
-        'minVal',
-        'maxVal',
-        'stepVal',
         'descVal',
-        'nameRange'
+        'nameRange',
+        'range'
     ],
     data() {
         return {
-            minRange: null,
-            maxRange: null,
-            slider: {
-                startMin: 600000,
-                startMax: 12000000,
-                min: 600000,
-                max: 12000000,
-                start: 600000,
-                step: 10000
-            }      
-        }
-    },
-    methods: {
-        updateSlider: function updateSlider() {
-        this.$refs.slider.noUiSlider.set([this.minRange, this.maxRange]);
+            value: [0, 1000000000],
+            min: 0,
+            max: 1000000000,
+            step: 1
         }
     },
     mounted: function() {
-
-        this.slider = {
-            startMin: Number(this.minVal),
-            startMax: Number(this.maxVal),
-            min: Number(this.minVal),
-            max: Number(this.maxVal),
-            start: Number(this.minVal),
-            step: Number(this.stepVal)
+        this.min = 0
+        this.max = 1000000000
+        this.step = 1
+    },
+    watch: {
+    },
+    methods: {
+        set() {
+            this.min = this.$parent.filter.ranges[this.range].min
+            this.max = this.$parent.filter.ranges[this.range].max
+            this.step = this.$parent.filter.ranges[this.range].step
+            this.value = [
+                this.$parent.filter.ranges[this.range].min,
+                this.$parent.filter.ranges[this.range].max
+            ]
         }
-        console.log(this.slider)
-
-        noUiSlider.create(this.$refs.slider, {
-        start: [this.slider.startMin, this.slider.startMax],
-        step: this.slider.step,
-        range: {
-            'min': this.slider.min,
-            'max': this.slider.max
-        }
-        }); 
-                
-        this.$refs.slider.noUiSlider.on('update',(values, handle) => {
-        this[handle ? 'maxRange' : 'minRange'] = parseInt(values[handle]);
-        }); 
     }
 }
 </script>
@@ -145,40 +136,14 @@ export default {
     border-top-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-
-.noUi-horizontal {
-    height: 2px !important;
+.vue-slider-process {
+    background-color: var(--yayellow);
+    border-radius: 15px;
 }
-.noUi-target {
-    border-radius: 4px!important;
-    border: inherit!important;
-    box-shadow: inherit!important;
-    position: relative!important;
-    top: -10px!important;
-}
-.noUi-target .noUi-connect {
-    background: var(--yayellow) !important;
-}
-.slider-styled,
-.slider-styled .noUi-handle {
-    box-shadow: none;
-}
-
-/* Hide markers on slider handles */
-.slider-styled .noUi-handle::before,
-.slider-styled .noUi-handle::after {
-    display: none;
-}
-.noUi-handle {
-    background: var(--yawhite) no-repeat !important;
-    border: 1px solid var(--yagray) !important;
-}
-.noUi-horizontal .noUi-handle {
-    width: 16px !important;
-    height: 16px !important;
-    right: -8px !important;
-    cursor: pointer;
-    border-radius: 50%;
+.price_slider {
+    position: absolute;
+    width: 100%;
+    bottom: -4px;
 }
 span.rub {
     margin-left: 5px !important;

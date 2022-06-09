@@ -34,7 +34,7 @@ export default {
 	--yayellow: #fdba4d;
 	--yadarkyellow: #fdaa25;
 
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Roboto', Helvetica, sans-serif;
     font-size: 14px;
 
     --h1: 32px;
