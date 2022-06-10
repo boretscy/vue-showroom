@@ -2,7 +2,7 @@
 	<div class="yapps-cis">
 		<search-filter ref="searchFilter"/>
 		<brands-item
-			v-for="(brand, indx) in $store.state.brands"
+			v-for="(brand, indx) in brands"
 			:key="indx"
 			:dataName="brand.name"
 			:dataCount="brand.vehicles"
@@ -34,7 +34,7 @@ export default {
 		return {
 			brands: [],
 			brandsCount: 0,
-			showMore: false,
+			showMore: true,
 			totalcount: 0
 		}
 	},
@@ -43,25 +43,26 @@ export default {
 		let url = this.$store.state.apiUrl+'brands/'+'?token='+this.$store.state.apiToken
         for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
         this.axios.get(url).then((response) => {
-            
 			response.data.sort((a, b) => a.name > b.name ? 1 : -1);
 			this.$store.state.brands = response.data
-
-			for (let i=0; i<=5; i++) {
-				this.brands.push( this.$store.state.brands[i] );
-				this.brandsCount = i
-			}
-			if ( this.brands.length >= this.$store.state.brands.length ) this.showMore = false
-        })
+        }).then(() => {
+			this.moreBrands()
+		})
 	},
 	methods: {
 
 		moreBrands() {
-
-			let i = this.brandsCount+1, s = this.brandsCount+6
-			for ( i; i<=s; i++ ) this.brands.push( this.$store.state.brands[i] )
-			this.brandsCount = i
-			if ( this.brands.length >= this.$store.state.brands.length ) this.showMore = false
+			console.log(this.brandsCount, this.brands.length)
+			let p = this.brandsCount+5
+			for ( this.brandsCount = this.brands.length; this.brandsCount<=p; this.brandsCount++ ) {
+				if ( this.brandsCount <= this.$store.state.brands.length-1 ) {
+					this.brands.push( this.$store.state.brands[this.brandsCount] );
+				} else {
+					this.showMore = false
+					break
+				}
+			}
+			console.log(this.brandsCount)
 		}
 	}
 }

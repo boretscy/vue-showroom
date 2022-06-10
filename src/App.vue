@@ -14,7 +14,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 @import '/assets/fonts/font.css';
 #app {
     --yalightgray: #f3f5f6;

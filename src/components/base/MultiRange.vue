@@ -47,11 +47,15 @@ export default {
         }
     },
     mounted: function() {
-        this.min = 0
-        this.max = 1000000000
+        this.min = this.$route.query['min'+this.range] || 0
+        this.max = this.$route.query['max'+this.range] || 1000000000
         this.step = 1
+        this.set()
     },
     watch: {
+        value: function(newValue) {
+            this.$emit('range', { range: this.range, value: newValue})
+        }
     },
     methods: {
         set() {

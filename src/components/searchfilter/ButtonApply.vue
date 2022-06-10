@@ -1,7 +1,7 @@
 <template>
     <div class="button grid">
         <span>
-            <router-link to="/filter">Показать {{ Format( Number(carCount) ) }} авто</router-link>
+            <router-link :to="filterLink">Показать {{ Format( Number(carCount) ) }} авто</router-link>
             </span>
         <span
             @click="toggleView">
@@ -22,7 +22,7 @@ export default {
     components: {
         IconBase, IconFilter, IconCross
     },
-    props: ['carCount'],
+    props: ['carCount','filterLink'],
     data() {
         return {
             viewFull: false
@@ -125,7 +125,7 @@ export default {
 .grid {
     --icon-size: 20px;
     --padding-left-right: 20px;
-    --padding-top-bottom: 12px;
+    --padding-top-bottom: 11px;
     display: grid;
     grid-template-columns: 1fr calc(var(--icon-size) * 2);
     justify-content: space-between;
@@ -137,69 +137,18 @@ export default {
     padding: var(--padding-top-bottom) var(--padding-left-right);
     border-right: solid 1px var(--yawhite);
 }
+.grid span:nth-last-child(1) {
+    justify-self: center;
+}
 .grid svg {
     --background-color: var(--yawhite);
     fill: var(--background-color);
     width: var( --icon-size);
     height: var( --icon-size);
     justify-self: center;
+    display: block;
 }
 .grid:hover svg {
     fill: var(--black);
-}
-
-.hovered-t {
-    --ui-color: var(--yadarkblue);
-    position: relative;
-    overflow: hidden;
-    transition: 300ms;
-    background: transparent;
-    color: var(--ui-color);
-}
-.hovered-t:hover {
-    --ui-color: var(--main);
-    background: transparent;
-    color: var(--ui-color);
-    border: solid 1px var(--ui-color);
-}
-.hovered-t::before {
-    content: "";
-    background-color: var(--yayellow);
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-    position: absolute;
-    bottom: -300px;
-    left: -300px;
-    transition: .2s;
-    z-index: 0;
-}
-.hovered-t:hover::before{
-    bottom: -199px;
-    left: -240px;
-}
-.question {
-    --icon-size: 10px;
-    --padding-top-bottom: 0;
-    --padding-left-right: 0;
-    --ui-color: var(--yamiddlegray);
-    border-radius: 50%;
-    width: calc(var(--icon-size) * 2);
-    height: calc(var(--icon-size) * 2);
-    background: var(--ui-color);
-    border: solid 1px var(--ui-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-.question:hover {
-    background: var(--yadarkblue);
-    border: solid 1px var(--yadarkblue);
-}
-.question svg {
-    fill: var(--yawhite);
-    width: var(--icon-size);
-    height: var(--icon-size);
 }
 </style>

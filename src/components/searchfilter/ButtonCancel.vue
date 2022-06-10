@@ -1,8 +1,13 @@
 <template>
-    <router-link :to="link" class="button grid">
-        <span>Сбросить все</span>
-        <icon-base icon-name="cross"><icon-cross /></icon-base>
-    </router-link>
+    <div class="button grid">
+        <span>
+            <router-link to="/filter">Сбросить все</router-link>
+        </span>
+        <span>
+            <icon-base icon-name="cross"><icon-cross /></icon-base>
+        </span>
+        
+    </div>
 </template>
 
 <script>
@@ -32,7 +37,7 @@ export default {
 
 <style scoped>
 .button {
-    --ui-color: var(--yalightgray);
+    --ui-color: var(--yalighgray);
     --border-color: var(--ui-color);
     --background: transparen;
     --color: var(--ui-color);
@@ -42,25 +47,21 @@ export default {
     --margin-inner: 15px;
     --icon-size: calc(1em * 1.2);
     --transition: 100ms;
-    line-height: calc(1em * 1);
     display: inline-flex;
     border: 1px solid var(--border-color);
-    color: var(--white);
+    color: var(--yablack);
     background: var(--color);
     font-size: var(--font-size);
     padding: var(--padding-top-bottom) var(--padding-left-right);
     border-radius: 3px;
-    cursor: pointer;
     justify-content: center;
     align-items: center;
-    /*margin-bottom: 10px;*/
     align-content: space-between;
     transition: var(--transition);
     text-decoration: none;
-    /*box-shadow: inset 0 0 1px 1px #00000038, 0px 1px 0px 0px #0000002b;*/
 
     width: 100%;
-    color: var(--yablack);
+    color: var(--yawhite);
 }
 .button:active {
     box-shadow: inset 0 0 3px 2px #00000020;
@@ -70,9 +71,6 @@ export default {
     color: var(--black);
     background: var( --ui-color);
     border: solid 1px var(--border-color);
-    /*
-     Создать медиа запрос на кастомный скрин вот так
-     */
 }
 .button svg {
     width: var(--icon-size);
@@ -86,6 +84,15 @@ export default {
 .button span {
     font-size: var(--font-size);
     margin: 0 calc(var(--margin-inner) / 2.5);
+    cursor: pointer;
+}
+.button a, .button a:hover, .button a:focus, .button a:active, .button a:visited {
+    color: var(--yablack);
+    text-decoration: none;
+    line-height: 1;
+}
+.button:hover a, .button:hover a:hover, .button:hover a:focus, .button:hover a:active, .button:hover a:visited {
+    color: var(--yablack);
 }
 .--white {
     fill: var(--white);
@@ -106,7 +113,7 @@ export default {
 .grid {
     --icon-size: 20px;
     --padding-left-right: 20px;
-    --padding-top-bottom: 12px;
+    --padding-top-bottom: 11px;
     display: grid;
     grid-template-columns: 1fr calc(var(--icon-size) * 2);
     justify-content: space-between;
@@ -116,7 +123,11 @@ export default {
 .grid span {
     margin: 0;
     padding: var(--padding-top-bottom) var(--padding-left-right);
-    border-right: solid 1px var(--yablack);
+    border-right: solid 1px var(--yawhite);
+    text-align: center;
+}
+.grid span:nth-last-child(1) {
+    justify-self: center;
 }
 .grid svg {
     --background-color: var(--yablack);
@@ -124,63 +135,9 @@ export default {
     width: var( --icon-size);
     height: var( --icon-size);
     justify-self: center;
+    display: block;
 }
 .grid:hover svg {
     fill: var(--black);
-}
-
-.hovered-t {
-    --ui-color: var(--yalightgray);
-    position: relative;
-    overflow: hidden;
-    transition: 300ms;
-    background: transparent;
-    color: var(--ui-color);
-}
-.hovered-t:hover {
-    --ui-color: var(--main);
-    background: transparent;
-    color: var(--ui-color);
-    border: solid 1px var(--ui-color);
-}
-.hovered-t::before {
-    content: "";
-    background-color: var(--yagray);
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-    position: absolute;
-    bottom: -300px;
-    left: -300px;
-    transition: .2s;
-    z-index: 0;
-}
-.hovered-t:hover::before{
-    bottom: -199px;
-    left: -240px;
-}
-.question {
-    --icon-size: 10px;
-    --padding-top-bottom: 0;
-    --padding-left-right: 0;
-    --ui-color: var(--yamiddlegray);
-    border-radius: 50%;
-    width: calc(var(--icon-size) * 2);
-    height: calc(var(--icon-size) * 2);
-    background: var(--ui-color);
-    border: solid 1px var(--ui-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-.question:hover {
-    background: var(--yalightgray);
-    border: solid 1px var(--yalightgray);
-}
-.question svg {
-    fill: var(--yablack);
-    width: var(--icon-size);
-    height: var(--icon-size);
 }
 </style>

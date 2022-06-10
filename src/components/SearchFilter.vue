@@ -62,7 +62,8 @@
                     range="price"
                     desc-val="₽"
                     name-range="Цена"
-                    ref="priceRange"/>
+                    ref="priceRange"
+                    @range="setRangeValue"/>
             </div>
             <div class="filter__head-item" v-if="filter.viewFull">
                 <multiselect 
@@ -88,14 +89,16 @@
                     range="volume"
                     desc-val="см3"
                     name-range="Объем"
-                    ref="volumeRange"/>
+                    ref="volumeRange"
+                    @range="setRangeValue"/>
             </div>
             <div class="filter__head-item filter__head-item__range" v-if="filter.viewFull">
                 <multi-range
                     range="power"
                     desc-val="л.с."
                     name-range="Мощность"
-                    ref="volimeRange"/>
+                    ref="powerRange"
+                    @range="setRangeValue"/>
             </div>
             <div class="filter__head-item" v-if="filter.viewFull">
                 <multiselect 
@@ -105,8 +108,29 @@
                     label="name" 
                     track-by="code" 
                     :options="filter.dropLists.engines" 
-                    :multiple="false" 
+                    :multiple="true" 
                     :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
+            </div>
+            <div class="filter__head-item" v-if="filter.viewFull">
+                <multiselect 
+                    v-model="bodyValue" 
+                    tag-placeholder="Кузов" 
+                    placeholder="Кузов" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.bodies" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
                     selectLabel="Выбрать"
                     selectedLabel="Выбрано"
                     deselectLabel="Удалить"
@@ -119,7 +143,8 @@
                     range="year"
                     desc-val=""
                     name-range="Год выпуска"
-                    ref="yearRange"/>
+                    ref="yearRange"
+                    @range="setRangeValue"/>
             </div>
             <div class="filter__head-item" v-if="filter.viewFull">
                 <multiselect 
@@ -171,6 +196,7 @@
                 >
                 <button-apply 
                     :carCount="filter.totalCount"
+                    :filterLink="link"
                     @toggle="toggleFilter"/>
             </div>
         </div>
@@ -298,7 +324,10 @@ export default {
             engineValue: [],
             dealershipValue: [],
             colorValue: [],
+            bodyValue: [],
             sortValue: [],
+
+            link: '/filter'
         }
     },
     watch: {
@@ -307,6 +336,25 @@ export default {
         },
         brandValue: function(newValue) {
             this.getModels(newValue)
+            this.link = this.buildLink()
+        },
+        modelValue: function() {
+            this.link = this.buildLink()
+        },
+        transmitionsValue: function() {
+            this.link = this.buildLink()
+        },
+        engineValue: function() {
+            this.link = this.buildLink()
+        },
+        dealershipValue: function() {
+            this.link = this.buildLink()
+        },
+        colorValue: function() {
+            this.link = this.buildLink()
+        },
+        bodyValue: function() {
+            this.link = this.buildLink()
         }
     },
     mounted: function() {
@@ -316,14 +364,62 @@ export default {
         this.axios.get(url).then((response) => {
             this.filter = response.data
             this.totalCount = response.data.totalCount
+            this.buildLink()
             console.log(this.filter)
-            setTimeout(() => {
-                this.$refs.priceRange.set();
-            }, 500);
         })
     },
     methods: {
         buildLink() {
+            let  s = [], l = '/filter?'
+
+            if ( this.brandValue.length ) {
+                this.brandValue.forEach( function(i) { s.push(i.code) })
+                l += 'brand='+s.join(',')
+            }
+            s = []
+            if ( this.modelValue.length ) {
+                this.modelValue.forEach( function(i) { s.push(i.code) })
+                l += '&model='+s.join(',')
+            }
+            s = []
+            if ( this.transmitionsValue.length ) {
+                this.transmitionsValue.forEach( function(i) { s.push(i.code) })
+                l += '&transmition='+s.join(',')
+            }
+            s = []
+            if ( this.engineValue.length ) {
+                this.engineValue.forEach( function(i) { s.push(i.code) })
+                l += '&engine='+s.join(',')
+            }
+            s = []
+            if ( this.colorValue.length ) {
+                this.colorValue.forEach( function(i) { s.push(i.code) })
+                l += '&color='+s.join(',')
+            }
+            s = []
+            if ( this.bodyValue.length ) {
+                this.bodyValue.forEach( function(i) { s.push(i.code) })
+                l += '&body='+s.join(',')
+            }
+            s = []
+            if ( this.dealershipValue.length ) {
+                this.dealershipValue.forEach( function(i) { s.push(i.code) })
+                l += '&dealership='+s.join(',')
+            }
+
+            l += '&minprice='+this.filter.ranges.price.min
+            l += '&maxprice='+this.filter.ranges.price.max
+
+            l += '&minvolume='+this.filter.ranges.volume.min
+            l += '&maxvolume='+this.filter.ranges.volume.max
+
+            l += '&minpower='+this.filter.ranges.power.min
+            l += '&maxpower='+this.filter.ranges.power.max
+
+            l += '&minyear='+this.filter.ranges.year.min
+            l += '&maxyear='+this.filter.ranges.year.max
+
+            return l
         },
 
         getModels(newValue) {
@@ -335,11 +431,12 @@ export default {
             
             if ( s.length ) {
                 let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken+'&brand='+s.join(',')
+                this.modelOptions = []
                 let m = this.modelOptions, p = this.filter.ranges.price
                 this.axios.get(url).then((response) => {
                     p.min = 1000000000
                     p.max = 0
-                    response.data.forEach( function(item) {
+                    response.data.forEach((item) => {
                         m.push({
                             name: item.name,
                             code: item.alias
@@ -350,6 +447,15 @@ export default {
                     this.$refs.priceRange.set();
                 })
             }
+        },
+
+
+
+
+        setRangeValue() {
+            // this.link['min'+w.range] = w.value[0]
+            // this.link['max'+w.range] = w.value[1]
+            this.link = this.buildLink()
         },
 
         toggleFilter() {
