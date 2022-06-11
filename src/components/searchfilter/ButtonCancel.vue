@@ -1,7 +1,7 @@
 <template>
-    <div class="button grid">
+    <div class="button grid" @click="cancelFilter">
         <span>
-            <router-link to="/filter">Сбросить все</router-link>
+            Сбросить все
         </span>
         <span>
             <icon-base icon-name="cross"><icon-cross /></icon-base>
@@ -26,7 +26,10 @@ export default {
         }
     },
     methods: {
-         Format(q) {
+        cancelFilter() {
+            this.$emit('cancel')
+        },
+        Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
             return Price.format(q);	
@@ -61,7 +64,6 @@ export default {
     text-decoration: none;
 
     width: 100%;
-    color: var(--yawhite);
 }
 .button:active {
     box-shadow: inset 0 0 3px 2px #00000020;

@@ -1,12 +1,13 @@
 <template>
 	<div class="yapps-cis">
 		<search-filter ref="searchFilter"/>
-		<brands-item
+		<list-brand-models
 			v-for="(brand, indx) in brands"
 			:key="indx"
 			:dataName="brand.name"
 			:dataCount="brand.vehicles"
-			:dataLink="brand.alias"/>
+			:dataLink="brand.alias"
+			:viewMode="viewMode"/>
 		<more
 			@more="moreBrands"
 			v-if="showMore"/>
@@ -19,7 +20,7 @@
 // import IconCorner from '@/components/icons/IconCorner.vue'
 
 import SearchFilter from '@/components/SearchFilter.vue'
-import BrandsItem from '@/components/BrandsItem.vue'
+import ListBrandModels from '@/components/ListBrandModels.vue'
 import More from '@/components/brands/More.vue'
 
 export default {
@@ -27,15 +28,20 @@ export default {
 	components: {
 		// IconBase, IconCorner,
 		SearchFilter,
-		BrandsItem,
+		ListBrandModels,
 		More
 	},
 	data() {
 		return {
 			brands: [],
 			brandsCount: 0,
-			showMore: true,
+			showMore: false,
 			totalcount: 0
+		}
+	},
+	computed: {
+		viewMode: function() {
+			return this.$store.state.viewMode
 		}
 	},
 	mounted: function() {
@@ -48,21 +54,21 @@ export default {
         }).then(() => {
 			this.moreBrands()
 		})
+		console.log(this.$store.state.viewMode, 'brands')
 	},
 	methods: {
 
 		moreBrands() {
-			console.log(this.brandsCount, this.brands.length)
 			let p = this.brandsCount+5
 			for ( this.brandsCount = this.brands.length; this.brandsCount<=p; this.brandsCount++ ) {
 				if ( this.brandsCount <= this.$store.state.brands.length-1 ) {
-					this.brands.push( this.$store.state.brands[this.brandsCount] );
+					this.brands.push( this.$store.state.brands[this.brandsCount] )
+					this.showMore = true
 				} else {
 					this.showMore = false
 					break
 				}
 			}
-			console.log(this.brandsCount)
 		}
 	}
 }

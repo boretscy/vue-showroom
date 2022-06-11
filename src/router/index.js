@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Brands from '../views/Brands.vue'
 import Brand from '../views/Brand.vue'
-import Model from '../views/Model.vue'
 import Item from '../views/Item.vue'
 import Items from '../views/Items.vue'
 
@@ -27,7 +26,7 @@ const routes = [
     {
         path: '/:brand/:model',
         name: 'Model',
-        component: Model
+        component: Items
     },
     {
         path: '/:brand/:model/:item',

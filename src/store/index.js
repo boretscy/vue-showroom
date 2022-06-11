@@ -11,7 +11,9 @@ export default new Vuex.Store({
             countBrandsOnMain: 6
         },
         brands: null,
-        brand: null
+        brand: null,
+        viewMode: null,
+        modelItems: null
     },
     mutations: {
     },

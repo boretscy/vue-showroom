@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: 'ModelItem',
+    name: 'ModelGrid',
     props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'alias'],
     methods: {
         Format(q) {

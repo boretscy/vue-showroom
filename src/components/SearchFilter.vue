@@ -186,9 +186,9 @@
             </div>
             <div   
                 class="filter__head-item"
-                 v-if="filter.viewFull"
+                v-if="filter.viewFull"
                 >
-                <button-cancel />
+                <button-cancel @cancel="initFilter"/>
             </div>
             
             <div   
@@ -263,16 +263,16 @@
                 <div class="filter__sort-item__switch">
                     <div class="filter__sort-item__switch-radio">
                         <label>
-                            <input type="radio" name="radio_grid" value="grid" checked="checked">
-                            <span>
+                            <input type="radio" name="radio_grid" value="grid" :checked="($store.state.viewMode == 'grid') ? true : false">
+                            <span @click="toggleViewMode">
                                 <icon-base icon-name="viewplates"><icon-viewplates /></icon-base>
                             </span>
                         </label>
                     </div>
                     <div class="filter__sort-item__switch-radio">
                         <label>
-                            <input type="radio" name="radio_grid" value="line">
-                            <span>
+                            <input type="radio" name="radio_grid" value="line" :checked="($store.state.viewMode == 'list') ? true : false">
+                            <span @click="toggleViewMode">
                                 <icon-base icon-name="viewlines"><icon-viewlines /></icon-base>
                             </span>
                         </label>
@@ -301,6 +301,7 @@ import Multiselect from 'vue-multiselect'
 
 export default {
     name: 'SearchFilter',
+    props: ['listName'],
     components: {
 		IconBase, IconViewlines, IconViewplates,
         MultiRange,
@@ -359,16 +360,26 @@ export default {
     },
     mounted: function() {
 
-        let url = this.$store.state.apiUrl+'filter/'+'?token='+this.$store.state.apiToken
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-        this.axios.get(url).then((response) => {
-            this.filter = response.data
-            this.totalCount = response.data.totalCount
-            this.buildLink()
-            console.log(this.filter)
-        })
+        this.initFilter()
     },
     methods: {
+        initFilter() {
+            let url = this.$store.state.apiUrl+'filter/'+'?token='+this.$store.state.apiToken
+            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+            this.axios.get(url).then((response) => {
+                this.filter = response.data
+                this.totalCount = response.data.totalCount
+                this.buildLink()
+                // console.log(this.filter)
+                this.brandValue = []
+                this.modelValue = []
+                this.modelOptions = []
+                // console.log( this.filter.ranges.price )
+            }).then(() => {
+                this.$refs.priceRange.set()
+            })
+        },
+        
         buildLink() {
             let  s = [], l = '/filter?'
 
@@ -444,14 +455,19 @@ export default {
                         if ( item.min < p.min ) p.min = item.min
                         if ( item.max > p.max ) p.max = item.max
                     })
-                    this.$refs.priceRange.set();
+                    this.$refs.priceRange.set()
                 })
             }
         },
 
 
+        toggleViewMode() {
+            let s =  (this.$store.state.viewMode=='grid') ? 'list' : 'grid'
+            this.$store.state.viewMode = s
+            this.$cookies.set('CIS_VIEW_MODE', s)
 
-
+            console.log(this.$store.state.viewMode, 'searchfilter')
+        },
         setRangeValue() {
             // this.link['min'+w.range] = w.value[0]
             // this.link['max'+w.range] = w.value[1]

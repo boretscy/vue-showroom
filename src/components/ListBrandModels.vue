@@ -18,7 +18,7 @@
                 :discount="model.has_discounts"
                 :price="Number(model.min_price)"
                 :colors="model.colors"
-                :cis="model.statistics['1'].counter + model.statistics['1'].counter"
+                :cis="model.statistics['1'].counter + model.statistics['2'].counter"
                 :name="model.name"
                 :picture="model.image"
                 :brand="dataLink"
@@ -29,20 +29,26 @@
                 button="Получить одобрение"
                 icon="credit"/>
         </div>
-        <div class="available__grid" v-if="viewMode == 'line'">
+        <div 
+            class="available__grid" 
+            :class="{'available__line': viewMode == 'list'}"
+            v-if="viewMode == 'list'">
             <model-line 
-                discount="Выгода"
-                price="799000"
-                colors="7"
-                cis="148"
-                name="Granta"
-                picture="https://195004.selcdn.ru/ref/catalog/11197/7/original/4046bd3274.png"
-                brand="LADA"/>
-            <cta-line 
+                v-for="model in models"
+                :key="model.id"
+                :discount="model.has_discounts"
+                :price="Number(model.min_price)"
+                :colors="model.colors"
+                :cis="model.statistics['1'].counter + model.statistics['1'].counter"
+                :name="model.name"
+                :picture="model.image"
+                :brand="dataLink"
+                :alias="model.alias"/>
+            <!-- <cta-line 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
                 button="Получить одобрение"
-                icon="credit"/>
+                icon="credit"/> -->
         </div>
     </div>
 </template>
@@ -52,25 +58,24 @@ import IconBase from '@/components/IconBase.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
 import ModelGrid from '@/components/brands/ModelGrid.vue'
 import ModelLine from '@/components/brands/ModelLine.vue'
-import CtaGrid from './brands/CtaGrid.vue'
-import CtaLine from './brands/CtaLine.vue'
+import CtaGrid from '@/components/cta/CtaGrid.vue'
+// import CtaLine from './brands/CtaLine.vue'
 
 export default {
-    name: 'BrandsItem',
+    name: 'ListBrandModels',
     components: {
         IconBase, IconCorner,
         ModelGrid, ModelLine,
-        CtaGrid, CtaLine
+        CtaGrid, 
+        // CtaLine
     },
-    props: ['dataName', 'dataCount', 'dataLink'],
+    props: ['dataName', 'dataCount', 'dataLink', 'viewMode'],
     data() {
         return {
-            viewMode: 'grid',
             models: null
         }
     },
     mounted: function() {
-
 
 		let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
         url += '&brand='+this.dataLink
@@ -129,5 +134,8 @@ h2, .h2 {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     margin-bottom: 4rem;
+}
+.available__line {
+    display: block;
 }
 </style>
