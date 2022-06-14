@@ -172,11 +172,11 @@
                         </div> -->
                         <div class="profit__list--stock_item">
                             <div class="list--stock_item-name">Цена без учета выгод</div>
-                            <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">С</span></div>
+                            <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
                         </div>
                         <div class="profit__list--stock_item">
                             <div class="list--stock_item-name">Цена с учетом выгод</div>
-                            <div class="list--stock_item-price">{{ Format( curPrice ) }}<span class="rub">С</span></div>
+                            <div class="list--stock_item-price">{{ Format( curPrice ) }}<span class="rub">₽</span></div>
                         </div>
                     </div>
                         <div class="car__grid-box-profit__footer">
