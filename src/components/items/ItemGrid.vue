@@ -105,7 +105,7 @@ export default {
 }
 .model__grid-card__head--img img {
     width: 100%;
-    object-fit: none;
+    object-fit: cover;
 }
 .model__grid-card__head--top {
     position: absolute;
