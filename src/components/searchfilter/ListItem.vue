@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="itemLink" class="filter__list-item">
+    <router-link :to="'/'+itemLink" class="filter__list-item">
         <div class="filter__list-item__name">{{ itemName }}</div>
         <div class="filter__list-item__count">{{ itemCount }}</div>
     </router-link>
