@@ -69,17 +69,13 @@ export default {
         }
     },
     mounted: function() {
+        let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
+        url += '&brand='+this.dataLink
+        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 
-
-         console.log(this.dataLink)
-            let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
-            url += '&brand='+this.dataLink
-            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-
-            this.axios.get(url).then((response) => {
-                
-                this.models = response.data
-            })
+        this.axios.get(url).then((response) => {
+            this.models = response.data
+        })
         
     }
 }

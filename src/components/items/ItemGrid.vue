@@ -12,12 +12,10 @@
                     <a href="#">
                         <icon-base icon-name="favorites"><icon-favorites /></icon-base>
                     </a>
-                    <!-- <a href="#" class="compare is--active">
-                        <svg class="icon">
-                            <use xlink:href="assets/img/sprites.svg#compare"></use>
-                        </svg>
+                    <a href="#" class="compare is--active">
+                        <icon-base icon-name="favorites"><icon-favorites /></icon-base>
                         <span>5</span>
-                    </a> -->
+                    </a>
                 </div>
             </div>
         </div>
