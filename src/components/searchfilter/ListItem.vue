@@ -34,8 +34,7 @@ export default {
     background: var(--yalightgray);
     color: var(--yalightblack);
     font-weight: 600;
-    border-radius: 3px;
-    padding: 5px;
+    border-radius: 5px;
     justify-self: baseline;
     min-width: 40px;
     text-align: center;

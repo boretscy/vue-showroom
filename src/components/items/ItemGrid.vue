@@ -93,6 +93,9 @@ export default {
     border-radius: 3px;
     transition: 200ms;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .model__grid-card:hover {
     border: solid 1px var(--yayellow);
@@ -102,10 +105,10 @@ export default {
 }
 .model__grid-card__head--img {
     background: var(--yawhite);
-    max-height: 220px;
-    min-height: 100px;
+    min-height: 200px;
     height: 100%;
     display: flex;
+    align-items: center;
 }
 .model__grid-card__head--img img {
     width: 100%;

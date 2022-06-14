@@ -93,6 +93,9 @@ export default {
     border-radius: 3px;
     transition: 200ms;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .model__grid-card:hover {
     border: solid 1px var(--yayellow);
@@ -101,9 +104,13 @@ export default {
     position: relative;
 }
 .model__grid-card__head--img {
-    background: var(--yalightgray);
-    height: 220px;
-    display: flex;
+    background: var(--yawhite);
+    height: 100%;
+    min-height: 220px;
+    /* max-height: 220px; */
+    width: 100%;
+    display: grid;
+    align-items: center;
 }
 .model__grid-card__head--img img {
     width: 100%;
@@ -138,7 +145,7 @@ export default {
     gap: 0.5em;
 }
 .model__grid-card__head--top_icons a {
-    background: var(--white);
+    background: var(--yawhite);
     padding: 5px;
     border: solid 1px var(--yagray);
     border-radius: 3px;
@@ -153,7 +160,7 @@ export default {
     font-size: 11px;
     background: var(--yadarkblue);
     border-radius: 50%;
-    color: var(--white);
+    color: var(--yawhite);
     align-items: center;
     justify-content: center;
     display: none;
@@ -334,7 +341,7 @@ export default {
 .transparent:hover {
     --ui-color: var(--yadarkblue);
     background: var(--ui-color);
-    color: var(--white);
+    color: var(--yawhite);
 }
 .transparent:active {
     box-shadow: inset 0 0 3px 2px #00000020;
