@@ -22,6 +22,7 @@
                     watch-slides-progress
                     :slides-per-view="3"
                     :space-between="10"
+                    :loop="false"
                     >
                     <swiper-slide
                         v-for="(item, indx) in vehicle.images"
@@ -88,7 +89,7 @@
                             <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
                             <div class="car__grid-box-stock__head-options">
                                 <span>{{ vehicle.options.length }} базовых опций</span>
-                                <span v-if="vehicle.side_options">{{ vehicle.side_options.length }} дополнительных опций</span>
+                                <span v-if="vehicle.side_options">{{ vehicle._additional.length }} дополнительных опций</span>
                             </div>
                         </div>
                         <div class="car__grid-box-stock__list">
@@ -192,22 +193,36 @@
         <div class="configuration" v-if="vehicle">
             <div class="tabs">
                 <div class="tabs_head">
-                    <button class="button hovered-t" data-role="tab" data-target="#equipment">
-                        <span>Дополнительно</span>
+                    <button 
+                        class="button hovered-t"
+                        :class="{'--is-active': tabs.equipment.view}"
+                        @click="toggleTabs"
+                        >
+                        <span>{{ tabs.equipment.text }}</span>
                     </button>
-                    <button class="button hovered-t --is-active" data-role="tab" data-target="#settings">
-                        <span>Комплектация и характеристики</span>
+                    <button 
+                        class="button hovered-t"
+                        :class="{'--is-active': tabs.specifications.view}"
+                        @click="toggleTabs"
+                        >
+                        <span>{{ tabs.specifications.text }}</span>
                     </button>
                 </div>
                 <div class="tabs_content">
-                    <div class="tabs_content-item" id="equipment" v-if="vehicle.side_options">
+                    <div 
+                        class="tabs_content-item"
+                        :class="{'--is-active': tabs.equipment.view}"
+                        v-if="tabs.equipment.view">
                         <div 
                             class="tabs_content-item__list"
-                            v-for="(item, indx) in vehicle.side_options"
+                            v-for="(item, indx) in vehicle._additional"
                             :key="indx"
                             >{{ item }}</div>
                     </div>
-                    <div class="tabs_content-item --is-active" id="settings">
+                    <div 
+                        class="tabs_content-item"
+                        :class="{'--is-active': tabs.specifications.view}"
+                        v-if="tabs.specifications.view">
                         <div class="tabs_content-item__title">Характеристики</div>
                         <div class="settigns_items">
                             <div 
@@ -225,122 +240,38 @@
                             </div>
                         </div>
                         <div class="setting_accordion-content">
-                            <div class="settings_accordion">
-                                <div class="settings_accordion--head">
-                                    <div class="settings_accordion--head__title">Экстерьер</div>
+                            <div 
+                                class="settings_accordion"
+                                :class="{'--accordion-open': group.view}"
+                                v-for="(group, gindx) in accordion"
+                                :key="gindx">
+                                <div
+                                    class="settings_accordion--head"
+                                    @click="toggleAccordion(gindx)"
+                                    >
+                                    <div class="settings_accordion--head__title">{{ group.group }}</div>
                                     <div class="tabs_content-item__sub">
-                                        <div class="tabs_content-item__sub-count">4 опции</div>
+                                        <div class="tabs_content-item__sub-count">{{ group.options.length }} опции</div>
                                         <div class="tabs_content-item__sub-drop">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                            </svg>
+                                            <icon-base 
+                                                icon-name="corner"
+                                                :class="{'up': group.view}"
+                                                >
+                                                <icon-corner />
+                                            </icon-base>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="settings_accordion--body">
-                                    <div class="settings_accordion--body_list">15" стальные диски</div>
-                                    <div class="settings_accordion--body_list">Запасное полноразмерное стальное колесо 15"</div>
-                                    <div class="settings_accordion--body_list">Колпаки колес декоративные</div>
-                                    <div class="settings_accordion--body_list">Наружные зеркала с боковыми указателями поворота</div>
+                                    <div 
+                                        class="settings_accordion--body_list"
+                                        v-for="(item, indx) in group.options"
+                                        :key="indx"
+                                        >{{ item }}</div>
                                 </div>
                             </div>
-                            <div class="settings_accordion">
-                                <div class="settings_accordion--head">
-                                    <div class="settings_accordion--head__title">Интерьер</div>
-                                    <div class="tabs_content-item__sub">
-                                        <div class="tabs_content-item__sub-count">5 опции</div>
-                                        <div class="tabs_content-item__sub-drop">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="settings_accordion--body">
-                                    <div class="settings_accordion--body_list">Бортовой компьютер</div>
-                                    <div class="settings_accordion--body_list">Заднее сиденье с раскладной спинкой в пропорции 60/40</div>
-                                    <div class="settings_accordion--body_list">Розетка 12V</div>
-                                    <div class="settings_accordion--body_list">Обивка сидений ткань. Цвет темно-серый</div>
-                                    <div class="settings_accordion--body_list">Подсказчик переключения передач в комбинации приборов</div>
-                                    <div class="settings_accordion--body_list">диски</div>
-                                </div>
-                            </div>
-                            <div class="settings_accordion">
-                                <div class="settings_accordion--head">
-                                    <div class="settings_accordion--head__title">Комфорт</div>
-                                    <div class="tabs_content-item__sub">
-                                        <div class="tabs_content-item__sub-count">11 опции</div>
-                                        <div class="tabs_content-item__sub-drop">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="settings_accordion--body">
-                                    <div class="settings_accordion--body_list">Воздушный фильтр салона</div>
-                                    <div class="settings_accordion--body_list">Кондиционер</div>
-                                    <div class="settings_accordion--body_list">Легкая тонировка стекол</div>
-                                    <div class="settings_accordion--body_list">Охлаждаемый вещевой ящик</div>
-                                    <div class="settings_accordion--body_list">Регулировка ремней безопасности передних сидений по высоте</div>
-                                    <div class="settings_accordion--body_list">Регулируемая по высоте и по вылету рулевая колонка</div>
-                                    <div class="settings_accordion--body_list">Складной ключ</div>
-                                    <div class="settings_accordion--body_list">Центральный замок с дистанционным управлением</div>
-                                    <div class="settings_accordion--body_list">Электропривод и обогрев наружных зеркал</div>
-                                    <div class="settings_accordion--body_list">Электростеклоподъемники передних дверей</div>
-                                    <div class="settings_accordion--body_list">Электроусилитель рулевого управления</div>
-                                </div>
-                            </div>
-                            <div class="settings_accordion">
-                                <div class="settings_accordion--head">
-                                    <div class="settings_accordion--head__title">Безопасность</div>
-                                    <div class="tabs_content-item__sub">
-                                        <div class="tabs_content-item__sub-count">17 опции</div>
-                                        <div class="tabs_content-item__sub-drop">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="settings_accordion--body">
-                                    <div class="settings_accordion--body_list">Автоматическое включение аварийной сигнализации при экстренном торможении</div>
-                                    <div class="settings_accordion--body_list">Автоматическое запирание дверей при начале движения</div>
-                                    <div class="settings_accordion--body_list">Автоматическое отпирание дверей и включение аварийной сигнализации при столкновении</div>
-                                    <div class="settings_accordion--body_list">Антиблокировочная система с электронным распределением тормозных сил (ABS, EBD)</div>
-                                    <div class="settings_accordion--body_list">Блокировка задних дверей от открывания детьми</div>
-                                    <div class="settings_accordion--body_list">Дневные ходовые огни</div>
-                                    <div class="settings_accordion--body_list">Система экстренного оповещения ЭРА-ГЛОНАСС</div>
-                                    <div class="settings_accordion--body_list">Система электронного контроля устойчивости (ESC) с функцией отключения</div>
-                                    <div class="settings_accordion--body_list">Защита двигателя и подкапотного пространства</div>
-                                    <div class="settings_accordion--body_list">Иммобилайзер</div>
-                                    <div class="settings_accordion--body_list">Крепления для детских сидений ISOFIX</div>
-                                    <div class="settings_accordion--body_list">Подголовники задних сидений 2 шт.</div>
-                                    <div class="settings_accordion--body_list">Подушка безопасности водителя</div>
-                                    <div class="settings_accordion--body_list">Подушка безопасности переднего пассажира с функцией отключения</div>
-                                    <div class="settings_accordion--body_list">Противобуксовочная система (TCS)</div>
-                                    <div class="settings_accordion--body_list">Система вспомогательного торможения (BAS)</div>
-                                    <div class="settings_accordion--body_list">Система помощи при трогании на подъеме (HSА)</div>
-                                </div>
-                            </div>
-                            <div class="settings_accordion">
-                                <div class="settings_accordion--head">
-                                    <div class="settings_accordion--head__title">Безопасность</div>
-                                    <div class="tabs_content-item__sub">
-                                        <div class="tabs_content-item__sub-count">1 опции</div>
-                                        <div class="tabs_content-item__sub-drop">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="settings_accordion--body">
-                                    <div class="settings_accordion--body_list">Воздушный фильтр салона</div>
-                                </div>
-                            </div>
-                            <div class="show-btn">
-                                <div class="setting_accordion-all">Посмотреть все опции</div>
+                            <div class="show-btn" @click="toggleAllAccordion">
+                                <div class="setting_accordion-all">{{ accordionButton }}</div>
                             </div>
                         </div>
                     </div>
@@ -361,6 +292,7 @@ import IconQuestion from '@/components/icons/IconQuestion.vue'
 
 import { Navigation, Thumbs } from 'swiper'
 import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
+
 import 'swiper/swiper-bundle.css'
 
 SwiperCore.use([Navigation, Thumbs])
@@ -377,6 +309,41 @@ export default {
         return {
             discountsList: null,
             thumbsSwiper: null,
+            tabs: {
+                equipment: {
+                    view: false,
+                    text: 'Дополнительно'
+                },
+                specifications: {
+                    view: true,
+                    text: 'Комплектация и характеристики'
+                }
+
+            },
+            accordion: [
+                {
+                    group: 'Экстерьер',
+                    view: false,
+                    options: [
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                    ] 
+                },
+                {
+                    group: 'Интерьер',
+                    view: false,
+                    options: [
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                        'sdjgadfakdf',
+                    ] 
+                }
+            ]
         }
     },
 
@@ -398,12 +365,43 @@ export default {
                 })
             }
             return res
+        },
+        accordionButton: function() {
+            let res = 'Посмотреть все опции'
+            this.accordion.forEach( (item) => {
+                if (item.view) res = 'Скрыть все опции'
+            })
+            return res
         }
     },
     mounted: function() {
         window.scrollTo(0,0);
     },
     methods: {
+        /* UI */
+        toggleTabs() {
+            for (let i in this.tabs) {
+                this.tabs[i].view = !this.tabs[i].view
+            }
+        },
+        toggleAccordion(i) {
+            this.accordion[i].view = !this.accordion[i].view 
+        },
+        toggleAllAccordion() {
+            let res = true
+            this.accordion.forEach( (item) => {
+                if (item.view) res = false
+            })
+            this.accordion.forEach( (item) => {
+                item.view = res
+            })
+        },
+        
+        
+        
+        
+        
+        
         getDiscountsName() {
             let s = []
             if ( this.vehicle.discounts ) {
@@ -428,8 +426,8 @@ export default {
         },
         Format(q) {
 			
-            var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
-            return Price.format(q);	
+            var Price = new Intl.NumberFormat('ru', { currency: 'RUR' })
+            return Price.format(q)
         },
 
 
@@ -438,7 +436,7 @@ export default {
 
 
         setThumbsSwiper(swiper) {
-            this.thumbsSwiper = swiper;
+            this.thumbsSwiper = swiper
         },
     }
 }
@@ -799,10 +797,10 @@ a.drop-item:hover {
     left: -240px;
 }
 .question {
-    --icon-size: 10px;
+    --icon-size: 14px;
     --padding-top-bottom: 0;
     --padding-left-right: 0;
-    --ui-color: var(--dark-yagray);
+    --ui-color: var(--yagray);
     border-radius: 50%;
     width: calc(var(--icon-size) * 2);
     height: calc(var(--icon-size) * 2);
@@ -1933,7 +1931,7 @@ input[type=range]::-ms-fill-upper {
 .configuration {
     max-width: var(--left-w);
     width: 100%;
-    margin-top: -80px;
+    margin-top: -40px;
 }
 .sticky_box {}
 .car__grid-item .car__grid-item_title {
@@ -1983,7 +1981,7 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box__dc-item_update {
     font-weight: 300;
-    color: var(--dark-yagray);
+    color: var(--yablackgray);
 }
 .car__grid-box__status-phone {
     font-size: 16px;
@@ -2011,14 +2009,14 @@ input[type=range]::-ms-fill-upper {
     height: calc(var(--size) * 2);
     align-items: center;
     justify-content: center;
-    border: solid 1px var(--dark-yagray);
+    border: solid 1px var(--yagray);
     border-radius: 3px;
     position: relative;
 }
 .car__grid-box__status-links svg {
     width: var(--size);
     height: var(--size);
-    fill: var(--dark-yagray);
+    fill: var(--yagray);
     transform: 200ms;
 }
 .car__grid-box__status-links span {
@@ -2132,7 +2130,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 1em;
-    color: var(--dark-yagray);
+    color: var(--yablackgray);
     text-align: right;
     text-decoration: line-through;
 }
@@ -2147,7 +2145,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 1em;
-    color: var(--dark-yagray);
+    color: var(--yablackgray);
 }
 .car__grid-box-stock__head-title {
     font-size: 20px;
@@ -2160,7 +2158,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 1em;
-    color: var(--dark-yagray);
+    color: var(--yablackgray);
 }
 .car__grid-box-stock__head-options span::before {
     content: '\2022';
@@ -2306,7 +2304,7 @@ input[type=range]::-ms-fill-upper {
     font-size: 12px;
     font-weight: 300;
     line-height: 1em;
-    color: var(--dark-yagray);
+    color: var(--yablackgray);
 }
 .stock__list-items__name {
     font-size: 14px;
@@ -2340,7 +2338,7 @@ input[type=range]::-ms-fill-upper {
     border: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-    border-bottom: solid 1px var(--dark-yagray);
+    border-bottom: solid 1px var(--yagray);
     font-size: 14px;
     font-weight: 400;
     line-height: 1em;
@@ -2412,7 +2410,7 @@ input[type=range]::-ms-fill-upper {
 }
 .settings_accordion {
     --ptb: 1em;
-    border-bottom: solid 1px var(--dark-yagray);
+    border-bottom: solid 1px var(--yagray);
     user-select: none;
     display: block;
     cursor: pointer;
@@ -2440,13 +2438,13 @@ input[type=range]::-ms-fill-upper {
     font-size: 14px;
     font-weight: 400;
     line-height: 1em;
-    color: var(--dark-yagray);
+    color: var(--yablackgray);
 }
 .tabs_content-item__sub-drop svg {
-    --icon: 10px;
+    --icon: 16px;
     width: var(--icon);
-    height: calc(var(--icon) / 2);
-    fill: var(--dark-yagray);
+    height: var(--icon);
+    fill: var(--yagray);
     display: block;
 }
 .settings_accordion--body {
@@ -2460,7 +2458,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 1em;
-    color: var(--dark-yagray);
+    color: var(--yadarkgray);
 }
 .--accordion-open {
     border-bottom: 0;
@@ -2473,7 +2471,7 @@ input[type=range]::-ms-fill-upper {
     opacity: 1;
     max-height: 1000px;
     height: fit-content;
-    border-bottom: solid 1px var(--dark-yagray);
+    border-bottom: solid 1px var(--yagray);
     padding-top: calc(var(--ptb) * 2);
     padding-bottom: calc(var(--ptb) * 2);
 }
@@ -2503,6 +2501,9 @@ input[type=range]::-ms-fill-upper {
     --height-slider: 135px;
     height: var(--height-slider);
     border-radius: 3px;
+}
+.swiper__detail-thumb .swiper-slide {
+    cursor: pointer;
 }
 .swiper__detail-thumb .swiper-slide img {
     height: var(--height-slider);
@@ -2596,7 +2597,7 @@ input[type=range]::-ms-fill-upper {
 .dealership__dc-body__item-sub {
     font-size: 12px;
     font-weight: 300;
-    color: var(--dark-yagray);
+    color: var(--yagray);
     margin-bottom: 0.5rem;
 }
 .dealership__dc-body__item-fields {
