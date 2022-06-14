@@ -102,12 +102,14 @@ export default {
 }
 .model__grid-card__head--img {
     background: var(--yawhite);
-    height: 220px;
+    max-height: 220px;
+    min-height: 100px;
+    height: 100%;
     display: flex;
 }
 .model__grid-card__head--img img {
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 .model__grid-card__head--top {
     position: absolute;
@@ -138,7 +140,7 @@ export default {
     gap: 0.5em;
 }
 .model__grid-card__head--top_icons a {
-    background: var(--white);
+    background: var(--yawhite);
     padding: 5px;
     border: solid 1px var(--yagray);
     border-radius: 3px;
@@ -153,7 +155,7 @@ export default {
     font-size: 11px;
     background: var(--yadarkblue);
     border-radius: 50%;
-    color: var(--white);
+    color: var(--yawhite);
     align-items: center;
     justify-content: center;
     display: none;
@@ -334,7 +336,7 @@ export default {
 .transparent:hover {
     --ui-color: var(--yadarkblue);
     background: var(--ui-color);
-    color: var(--white);
+    color: var(--yawhite);
 }
 .transparent:active {
     box-shadow: inset 0 0 3px 2px #00000020;
