@@ -101,7 +101,7 @@ export default {
     position: relative;
 }
 .model__grid-card__head--img {
-    background: var(--yalightgray);
+    background: var(--yawhite);
     height: 220px;
     display: flex;
 }
