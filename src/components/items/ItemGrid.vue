@@ -112,7 +112,7 @@ export default {
 }
 .model__grid-card__head--img img {
     width: 100%;
-    object-fit: cover;
+    object-fit: unset;
 }
 .model__grid-card__head--top {
     position: absolute;

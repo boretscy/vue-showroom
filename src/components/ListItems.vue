@@ -97,5 +97,8 @@ export default {
 .model__grid .head_items {
     display: block;
 }
+.model__line {
+    display: block;
+}
 
 </style>

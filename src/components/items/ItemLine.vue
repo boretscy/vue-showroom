@@ -82,7 +82,18 @@ export default {
 </script>
 
 <style scoped>
-
+.model__line {
+    display: block;
+}
+.model__line .model__grid-card {
+    /*--rows: 200px;*/
+    display: grid;
+    grid-template-columns: 300px repeat(2, 1fr);
+    /*grid-template-rows: var(--rows);*/
+    justify-items: start;
+    align-items: center;
+    margin-bottom: 1rem;
+}
 .model__grid-card {
     --margin-bottom: 2em;
     --padding: 2rem 2rem;;
@@ -106,15 +117,27 @@ export default {
 .model__grid-card__head--img {
     background: var(--yawhite);
     height: 100%;
-    min-height: 220px;
+    min-height: inherit;
     /* max-height: 220px; */
     width: 100%;
     display: grid;
     align-items: center;
 }
+.model__line .model__grid-card__footer {
+    justify-self: end;
+}
+.model__line .model__grid-card__head--img {
+    height: var(--rows);
+    display: flex;
+    align-items: center;
+}
 .model__grid-card__head--img img {
     width: 100%;
     object-fit: cover;
+}
+.model__line .model__grid-card__head--img img {
+    object-fit: cover;
+    height: var(--rows);
 }
 .model__grid-card__head--top {
     position: absolute;
@@ -188,6 +211,9 @@ export default {
 .model__grid-card__footer {
     padding: var(--padding);
     padding-top: 0;
+}
+.model__line .model__grid-card__footer {
+    padding-top: 2em;
 }
 .model__grid-card__footer .button {
     --padding-left-right: 20px;
