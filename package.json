@@ -10,15 +10,14 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
-    "nouislider": "^15.6.0",
-    "swiper": "^8.1.6",
+    "swiper": "^8.2.4",
+    "swiper-vue2": "^1.0.9",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.1",
     "vue-cookies": "^1.8.1",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.2.0",
     "vue-slider-component": "^3.2.15",
-    "vue-social-sharing": "^3.0.9",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

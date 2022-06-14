@@ -2,58 +2,37 @@
     <div class="car__grid">
         <div class="car_grid-left" v-if="vehicle">
             <div class="car_grid-left__slider">
-                <!-- <swiper :modules="[Thumbs]" :thumbs="{ swiper: thumbsSwiper }">
-
+                
+                <swiper
+                    :slides-per-view="1"
+                    :space-between="50"
+                    :loop="false"
+                    :navigation="true"
+                    class="swiper__detail"
+                    >
+                    <swiper-slide
+                        v-for="(item, indx) in vehicle.images"
+                        :key="indx">
+                        <img :src="item.full" />
+                    </swiper-slide>
                 </swiper>
                 <swiper
-                    :modules="[Thumbs]"
-                    watch-slides-progress
                     @swiper="setThumbsSwiper"
+                    watch-slides-visibility
+                    watch-slides-progress
+                    :slides-per-view="3"
+                    :space-between="10"
                     >
                     <swiper-slide
                         v-for="(item, indx) in vehicle.images"
                         :key="indx"
-                        ><img :src="item.full" />
+                        class="swiper swiper__detail-thumb">
+                        <div class="detail-thumb">
+                            <img :src="item.preview_small" />
+                        </div>
                     </swiper-slide>
-                </swiper> -->
-                <div class="swiper swiper__detail">
-                    <div class="swiper-wrapper">
-                        <!-- <div 
-                            class="swiper-slide"
-                            v-for="(item, indx) in vehicle.images"
-                            :key="indx"
-                            >
-                            <img :src="item.full" />
-                        </div> -->
-                        <div 
-                            class="swiper-slide"
-                            >
-                            <img :src="vehicle.images[0].full" />
-                        </div>
-                    </div>
-                    <div class="swiper-button-next detail_next"></div>
-                    <div class="swiper-button-prev detail_prev"></div>
-                </div>
-                <div thumbsSlider="" class="swiper swiper__detail-thumb">
-                    <div class="swiper-wrapper">
-                        <!-- <div 
-                            class="swiper-slide"
-                            v-for="(item, indx) in vehicle.images"
-                            :key="indx"
-                            >
-                            <div class="detail-thumb">
-                                <img :src="item.preview_small" />
-                            </div>
-                        </div> -->
-                        <div 
-                            class="swiper-slide"
-                            >
-                            <div class="detail-thumb">
-                                <img :src="vehicle.images[0].preview_small" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </swiper>
+
             </div>
         </div>
         <div class="car__grid-item" v-if="vehicle">
@@ -245,7 +224,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="setting_accordion-content" v-if="vehicle.options.length">
+                        <div class="setting_accordion-content">
                             <div class="settings_accordion">
                                 <div class="settings_accordion--head">
                                     <div class="settings_accordion--head__title">Экстерьер</div>
@@ -380,34 +359,27 @@ import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
 
-// import { ref } from 'vue';
-// import { Thumbs } from 'swiper';
-// import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Thumbs } from 'swiper'
+import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
+import 'swiper/swiper-bundle.css'
+
+SwiperCore.use([Navigation, Thumbs])
 
 
 export default {
     name: 'DetailItem',
     components: {
         IconBase, IconFavorites, IconCompare, IconShare, IconCheck, IconQuestion,
-        // Swiper, SwiperSlide,
+        Swiper, SwiperSlide
     },
     props: ['vehicle'],
     data() {
         return {
-            discountsList: null
+            discountsList: null,
+            thumbsSwiper: null,
         }
     },
-    // setup() {
-    //   const thumbsSwiper = ref(null);
-    //   const setThumbsSwiper = (swiper) => {
-    //     thumbsSwiper.value = swiper;
-    //   };
-    //   return {
-    //     Thumbs,
-    //     thumbsSwiper,
-    //     setThumbsSwiper,
-    //   };
-    // },
+
     computed: {
         curPrice: function() {
             let res = this.vehicle.price
@@ -443,9 +415,6 @@ export default {
         },
 
 
-
-
-
         FormatPhoneOut(q) {
             q = this.FormatPhoneIn(q);
             return '+' + '7' + ' (' + q[1] + q[2] + q[3] + ') ' + q[4] + q[5] + q[6] + '-' + q[7] + q[8] + '-' + q[9] + q[10];
@@ -461,7 +430,16 @@ export default {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
             return Price.format(q);	
-        }
+        },
+
+
+
+
+
+
+        setThumbsSwiper(swiper) {
+            this.thumbsSwiper = swiper;
+        },
     }
 }
 </script>
@@ -2503,7 +2481,10 @@ input[type=range]::-ms-fill-upper {
     margin: 1em 0;
 }
 .car_grid-left__slider {
-
+    overflow: hidden;
+}
+.car_grid-left__slider .swiper-container {
+    position: relative;
 }
 .car_grid-left__slider .swiper-slide img {
     border-radius: 3px;
@@ -2513,6 +2494,7 @@ input[type=range]::-ms-fill-upper {
 }
 .car_grid-left__slider .swiper-wrapper{
     cursor: pointer;
+    position: relative;
 }
 .detail-thumb {
     max-height: 150px;
@@ -2670,21 +2652,7 @@ h2, .h2 a {
 .position-relative {
     position: relative;
 }
-/*multi range slider*/
-.noUi-horizontal {
-    height: 2px !important;
-}
-.noUi-target {
-    background: var(--yayellow) !important;
-    border-radius: 4px !important;
-    border: inherit !important;
-    box-shadow: inherit !important;
-    position: relative !important;
-    top: -12px !important;
-}
-.noUi-connect {
-    background: var(--yayellow) !important;
-}
+
 .slider-styled,
 .slider-styled .noUi-handle {
     box-shadow: none;

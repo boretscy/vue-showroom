@@ -3,6 +3,7 @@
 		<search-filter ref="searchFilter" list-name="models"/>
         <list-items
             data="modelItems"
+			:viewMode="viewMode"
             ></list-items>
 	</div>
 </template>

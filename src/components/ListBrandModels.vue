@@ -11,7 +11,9 @@
             </router-link>
         </div>
 
-        <div class="available__grid" v-if="viewMode == 'grid'">
+        <div 
+            class="available__grid" 
+            v-if="viewMode == 'grid'">
             <model-grid 
                 v-for="model in models"
                 :key="model.id"

@@ -1,28 +1,49 @@
 <template>
-    <div class="model__grid">
-        <item-grid 
-            v-for="item in items"
-            :key="item.id"
-            :brand="brand"
-            :model="model"
-            :item="item"
-            />
-        <cta-grid 
-            title="Рассчитайте ежемесячный платеж"
-            link="#"
-            button="Получить одобрение"
-            icon="credit"/>
+    <div>
+        <div 
+            class="model__grid"
+            v-if="viewMode == 'grid'"
+            >
+            <item-grid 
+                v-for="item in items"
+                :key="item.id"
+                :brand="brand"
+                :model="model"
+                :item="item"
+                />
+            <cta-grid 
+                title="Рассчитайте ежемесячный платеж"
+                link="#"
+                button="Получить одобрение"
+                icon="credit"
+                v-if="viewMode == 'grid'"
+                />
+        </div>
+        <div 
+            class="model__grid"
+            v-if="viewMode == 'list'"
+            :class="{'model__line': viewMode == 'list'}"
+            >
+            <item-line 
+                v-for="item in items"
+                :key="item.id"
+                :brand="brand"
+                :model="model"
+                :item="item"
+                />
+        </div>
     </div>
 </template>
 
 <script>
 import ItemGrid from '@/components/items/ItemGrid.vue'
+import ItemLine from '@/components/items/ItemLine.vue'
 import CtaGrid from '@/components/cta/CtaGrid.vue'
 
 export default {
 	name: 'ListItems',
 	components: {
-        ItemGrid, CtaGrid
+        ItemGrid, ItemLine, CtaGrid
 	},
 	data() {
 		return {
