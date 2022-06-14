@@ -75,6 +75,7 @@ export default {
 
         this.axios.get(url).then((response) => {
             this.models = response.data
+            window.scrollTo(0,0);
         })
         
     }

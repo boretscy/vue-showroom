@@ -149,8 +149,8 @@
                     </div>
                     <div class="car__grid-box-profit --detail__bg">
                         <div class="car__grid-box-profit__head">
-                            <div class="profit__head-title" v-if="curDiscount">Выгода на авто</div>
-                            <div class="profit__head-discount" v-if="curDiscount">
+                            <div class="profit__head-title">Выгода на авто</div>
+                            <div class="profit__head-discount">
                                 <div class="profit__head-discount__item">Максимальная сумма выгод - {{ Format(curDiscount) }} <span class="rub">₽</span></div>
                                 <div class="profit__head-discount__item">
                                     <div class="drop">
@@ -171,7 +171,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-profit__list" v-if="curDiscount">
+                        <div class="box-profit__list">
                             <div 
                                 class="profit__list--grid_item"
                                 v-for="(item, indx) in vehicle.discounts"
@@ -185,7 +185,7 @@
                                 <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
                             </div>
                         </div>
-                    <div class="profit__list--stock" v-if="curDiscount">
+                    <div class="profit__list--stock">
                         <!-- <div class="profit__list--stock_item">
                             <div class="list--stock_item-name">Доп оборудование</div>
                             <div class="list--stock_item-price">+ 150 000 <span class="rub">С</span></div>
@@ -429,6 +429,7 @@ export default {
         }
     },
     mounted: function() {
+        window.scrollTo(0,0);
     },
     methods: {
         getDiscountsName() {
@@ -446,12 +447,15 @@ export default {
 
 
         FormatPhoneOut(q) {
-            q = q.replace(/[^\d;]/g, '');
-            return '+' + q[0] + ' (' + q[1] + q[2] + q[3] + ') ' + q[4] + q[5] + q[6] + '-' + q[7] + q[8] + '-' + q[9] + q[10];
+            q = this.FormatPhoneIn(q);
+            return '+' + '7' + ' (' + q[1] + q[2] + q[3] + ') ' + q[4] + q[5] + q[6] + '-' + q[7] + q[8] + '-' + q[9] + q[10];
         },
 
         FormatPhoneIn(q) {
-            return String(q).replace(/[^\d;]/g, '');
+            q = String(q).replace(/[^\d;]/g, '')
+            if ( q.length == 10 ) q = '7'+q
+            if ( q.length == 7 ) q = '7861'+q
+            return '7'+q.slice(1);
         },
         Format(q) {
 			

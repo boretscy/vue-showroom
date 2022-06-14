@@ -10,6 +10,8 @@ export default {
     name: 'App',
     mounted: function() {
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
+    },
+    methods: {
     }
 }
 </script>

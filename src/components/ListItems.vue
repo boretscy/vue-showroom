@@ -47,6 +47,7 @@ export default {
 			this.items = response.data.items
             this.brand = response.data.brand
             this.model = response.data.model
+            window.scrollTo(0,0);
         })
 	},
 }
