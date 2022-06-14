@@ -14,8 +14,8 @@ export default {
 
 <style scoped>
 .filter__list-item {
-    display: grid;
-    grid-template-columns: 1fr 50px;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     align-items: center;
     text-decoration: none;
@@ -31,13 +31,17 @@ export default {
     transition: 200ms;
 }
 .filter__list-item__count {
-    color: var(--yamiddlegray);
-    font-weight: 500;
-    border: solid 1px var(--yayellow);
+    background: var(--yalightgray);
+    color: var(--yalightblack);
+    font-weight: 600;
     border-radius: 3px;
     padding: 5px;
     justify-self: baseline;
-    min-width: 50px;
+    min-width: 40px;
     text-align: center;
+    transition: 200ms;
+}
+.filter__list-item:hover .filter__list-item__count {
+    background-color: var(--yayellow);
 }
 </style>
