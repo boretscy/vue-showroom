@@ -157,8 +157,8 @@
                                 v-for="(item, indx) in vehicle.discounts"
                                 :key="indx">
                                 <div class="box-profit__list-item__checkbox">
-                                    <div class="item__checkbox">
-                                        <icon-base icon-name="check" v-if="item.use"><icon-check /></icon-base>
+                                    <div class="item__checkbox" @click="item.active = !item.active">
+                                        <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
                                     </div>
                                     <div class="item">{{ item.name }}</div>
                                 </div>
@@ -2263,12 +2263,13 @@ input[type=range]::-ms-fill-upper {
     border-radius: 3px;
     border: solid 1px var(--yayellow);
     width: 100%;
+    height: 18px;
     text-align: center;
 }
-.box-profit__list-item__checkbox .icon {
+.box-profit__list-item__checkbox svg {
     width: var(--icon-size);
     height: var(--icon-size);
-    fill: var(--yawhite);
+    fill: var(--yadarkblue);
 }
 .box-profit__list-item {
     font-size: 15px;
