@@ -62,13 +62,17 @@
                     <div class="car__grid-box__price --detail__bg">
                         <div class="car__grid-box__price-title">
                             <div class="price">{{ Format(curPrice) }}<span class="rub">₽</span></div>
-                            <div class="drop">
-                                <div class="drop-btn">
+                            <div 
+                                class="drop"
+                                :class="{'--open': drops[0]}"
+                                v-if="vehicle.discounts"
+                                >
+                                <div class="drop-btn" @click="toogleDrop(0)">
                                     <button class="question">
                                         <icon-base icon-name="question"><icon-question /></icon-base>
                                     </button>
                                 </div>
-                                <div class="drop-container" v-if="vehicle.discounts">
+                                <div class="drop-container">
                                     <div class="drop-content">
                                         <div class="question-drop">
                                             Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
@@ -78,7 +82,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="car__grid-box__price-discount">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
+                        <div 
+                            class="car__grid-box__price-discount"
+                            v-if="vehicle.discounts">
+                            {{ Format(vehicle.price) }}<span class="rub">₽</span>
+                        </div>
                         <button class="button hovered-t w100">
                             <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
                         </button>
@@ -131,10 +139,17 @@
                         <div class="car__grid-box-profit__head">
                             <div class="profit__head-title">Выгода на авто</div>
                             <div class="profit__head-discount">
-                                <div class="profit__head-discount__item">Максимальная сумма выгод - {{ Format(curDiscount) }} <span class="rub">₽</span></div>
+                                <div 
+                                    class="profit__head-discount__item"
+                                    v-if="maxDiscount">
+                                    Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span>
+                                </div>
                                 <div class="profit__head-discount__item">
-                                    <div class="drop">
-                                        <div class="drop-btn">
+                                    <div 
+                                        class="drop"
+                                        :class="{'--open': drops[1]}"
+                                        v-if="vehicle.discounts">
+                                        <div class="drop-btn" @click="toogleDrop(1)">
                                             <button class="question">
                                                 <icon-base icon-name="question"><icon-question /></icon-base>
                                             </button>
@@ -155,9 +170,10 @@
                             <div 
                                 class="profit__list--grid_item"
                                 v-for="(item, indx) in vehicle.discounts"
-                                :key="indx">
+                                :key="indx"
+                                @click="item.active = !item.active">
                                 <div class="box-profit__list-item__checkbox">
-                                    <div class="item__checkbox" @click="item.active = !item.active">
+                                    <div class="item__checkbox">
                                         <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
                                     </div>
                                     <div class="item">{{ item.name }}</div>
@@ -343,6 +359,10 @@ export default {
                         'sdjgadfakdf',
                     ] 
                 }
+            ],
+            drops: [
+                false,
+                false
             ]
         }
     },
@@ -362,6 +382,15 @@ export default {
             if ( this.vehicle.discounts ) {
                 this.vehicle.discounts.forEach( (item) => {
                     if (item.active) res += item.sum
+                })
+            }
+            return res
+        },
+        maxDiscount: function() {
+            let res = 0
+            if ( this.vehicle.discounts ) {
+                this.vehicle.discounts.forEach( (item) => {
+                    res += item.sum
                 })
             }
             return res
@@ -395,6 +424,10 @@ export default {
             this.accordion.forEach( (item) => {
                 item.view = res
             })
+        },
+        toogleDrop(i) {
+            this.drops[i] = !this.drops[i]
+            console.log(this.drops[i])
         },
         
         
