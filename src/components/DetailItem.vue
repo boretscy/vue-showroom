@@ -180,6 +180,19 @@
                                 </div>
                                 <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
                             </div>
+                            <div 
+                                class="profit__list--grid_item"
+                                v-for="(item, indx) in vehicle.discounts"
+                                :key="indx"
+                                @click="item.active = !item.active">
+                                <div class="box-profit__list-item__checkbox">
+                                    <div class="item__checkbox">
+                                        <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
+                                    </div>
+                                    <div class="item">{{ item.name }}</div>
+                                </div>
+                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
+                            </div>
                         </div>
                     <div class="profit__list--stock">
                         <!-- <div class="profit__list--stock_item">
