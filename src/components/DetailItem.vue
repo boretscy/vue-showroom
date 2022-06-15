@@ -2,37 +2,10 @@
     <div class="car__grid">
         <div class="car_grid-left" v-if="vehicle">
             <div class="car_grid-left__slider">
-                
-                <swiper
-                    :slides-per-view="1"
-                    :space-between="50"
-                    :loop="false"
-                    :navigation="true"
-                    class="swiper__detail"
-                    >
-                    <swiper-slide
-                        v-for="(item, indx) in vehicle.images"
-                        :key="indx">
-                        <img :src="item.full" />
-                    </swiper-slide>
-                </swiper>
-                <swiper
-                    @swiper="setThumbsSwiper"
-                    watch-slides-visibility
-                    watch-slides-progress
-                    :slides-per-view="3"
-                    :space-between="10"
-                    :loop="false"
-                    >
-                    <swiper-slide
-                        v-for="(item, indx) in vehicle.images"
-                        :key="indx"
-                        class="swiper swiper__detail-thumb">
-                        <div class="detail-thumb">
-                            <img :src="item.preview_small" />
-                        </div>
-                    </swiper-slide>
-                </swiper>
+                <carousel
+                    :images="vehicle._images"
+                    :starting-image="0"
+                    ></carousel>
 
             </div>
         </div>
@@ -64,11 +37,10 @@
                             <div class="price">{{ Format(curPrice) }}<span class="rub">₽</span></div>
                             <div 
                                 class="drop"
-                                :class="{'--open': drops[0]}"
-                                v-if="vehicle.discounts"
-                                >
-                                <div class="drop-btn" @click="toogleDrop(0)">
-                                    <button class="question">
+                                :class="{'--open': drops.title}"
+                                v-if="vehicle.discounts">
+                                <div class="drop-btn">
+                                    <button class="question" @click="drops.title = !drops.title">
                                         <icon-base icon-name="question"><icon-question /></icon-base>
                                     </button>
                                 </div>
@@ -147,9 +119,9 @@
                                 <div class="profit__head-discount__item">
                                     <div 
                                         class="drop"
-                                        :class="{'--open': drops[1]}"
+                                        :class="{'--open': drops.description}"
                                         v-if="vehicle.discounts">
-                                        <div class="drop-btn" @click="toogleDrop(1)">
+                                        <div class="drop-btn" @click="drops.description = !drops.description">
                                             <button class="question">
                                                 <icon-base icon-name="question"><icon-question /></icon-base>
                                             </button>
@@ -167,19 +139,6 @@
                             </div>
                         </div>
                         <div class="box-profit__list">
-                            <div 
-                                class="profit__list--grid_item"
-                                v-for="(item, indx) in vehicle.discounts"
-                                :key="indx"
-                                @click="item.active = !item.active">
-                                <div class="box-profit__list-item__checkbox">
-                                    <div class="item__checkbox">
-                                        <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
-                                    </div>
-                                    <div class="item">{{ item.name }}</div>
-                                </div>
-                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
-                            </div>
                             <div 
                                 class="profit__list--grid_item"
                                 v-for="(item, indx) in vehicle.discounts"
@@ -318,26 +277,19 @@ import IconCompare from '@/components/icons/IconCompare.vue'
 import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
-
-import { Navigation, Thumbs } from 'swiper'
-import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
-
-import 'swiper/swiper-bundle.css'
-
-SwiperCore.use([Navigation, Thumbs])
-
+import Carousel from '@/components/detail/Carousel.vue'
 
 export default {
     name: 'DetailItem',
     components: {
         IconBase, IconFavorites, IconCompare, IconShare, IconCheck, IconQuestion,
-        Swiper, SwiperSlide
+        Carousel,
     },
     props: ['vehicle'],
     data() {
         return {
             discountsList: null,
-            thumbsSwiper: null,
+            // thumbsSwiper: null,
             tabs: {
                 equipment: {
                     view: false,
@@ -373,13 +325,12 @@ export default {
                     ] 
                 }
             ],
-            drops: [
-                false,
-                false
-            ]
+            drops: {
+                title: false,
+                description: false
+            }
         }
     },
-
     computed: {
         curPrice: function() {
             let res = this.vehicle.price
@@ -438,10 +389,8 @@ export default {
                 item.view = res
             })
         },
-        toogleDrop(i) {
-            this.drops[i] = !this.drops[i]
-            console.log(this.drops[i])
-        },
+        
+        
         
         
         
@@ -476,14 +425,6 @@ export default {
             return Price.format(q)
         },
 
-
-
-
-
-
-        setThumbsSwiper(swiper) {
-            this.thumbsSwiper = swiper
-        },
     }
 }
 </script>
@@ -1963,7 +1904,7 @@ input[type=range]::-ms-fill-upper {
 .car_grid-left {
     position: static;
     top: 0;
-    min-height: 650px;
+    min-height: 580px;
     max-width: var(--left-w);
 }
 

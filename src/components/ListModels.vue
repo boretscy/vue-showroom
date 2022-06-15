@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="flex__head">
-            <router-link :to="dataLink" class="flex__head-title h2" v-if="models">
-                {{ dataName }}
-                <span class="flex__head-count">{{ dataCount }}</span>
+            <router-link :to="brand.alias" class="flex__head-title h2" v-if="models">
+                {{ brand.alias }}
+                <span class="flex__head-count">{{ brand.vehicles }}</span>
             </router-link>
         </div>
 
@@ -65,20 +65,30 @@ export default {
     props: ['dataName', 'dataCount', 'dataLink', 'viewMode'],
     data() {
         return {
+            brand: null,
             models: null
         }
     },
-    mounted: function() {
-        let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
-        url += '&brand='+this.dataLink
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+    watch: {
 
-        this.axios.get(url).then((response) => {
-            this.models = response.data
-            window.scrollTo(0,0);
-        })
-        
-    }
+        '$route.params.brand': {
+            immediate: true,
+            handler(value) {
+                let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
+                url += '&brand='+this.dataLink
+                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+
+                this.axios.get(url).then((response) => {
+                    this.models = response.data
+                    window.scrollTo(0,0);
+                })
+                url = this.$store.state.apiUrl+'brand/'+value+'/?token='+this.$store.state.apiToken
+                this.axios.get(url).then((response) => {
+                    this.brand = response.data
+                })
+            }
+        }
+    },
 }
 </script>
 

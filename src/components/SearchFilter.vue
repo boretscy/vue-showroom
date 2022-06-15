@@ -356,7 +356,7 @@ export default {
         },
         bodyValue: function() {
             this.link = this.buildLink()
-        }
+        },
     },
     mounted: function() {
 
