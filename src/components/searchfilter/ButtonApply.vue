@@ -1,10 +1,10 @@
 <template>
     <div class="button grid">
         <span>
-            <router-link :to="filterLink">Показать {{ Format( Number(carCount) ) }} авто</router-link>
+            <router-link :to="'/filter'+filterLink">Показать {{ Format( Number(carCount) ) }} авто</router-link>
             </span>
         <span
-            @click="toggleView">
+            @click="$emit('toggle')">
             <icon-base icon-name="filter" v-if="!viewFull"><icon-filter /></icon-base>
             <icon-base icon-name="cross" v-if="viewFull"><icon-cross /></icon-base>
         </span>
@@ -22,17 +22,8 @@ export default {
     components: {
         IconBase, IconFilter, IconCross
     },
-    props: ['carCount','filterLink'],
-    data() {
-        return {
-            viewFull: false
-        }
-    },
+    props: ['filterLink', 'carCount', 'viewFull'],
     methods: {
-        toggleView() {
-            this.viewFull = ! this.viewFull
-            this.$emit('toggle')
-        },
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });

@@ -46,9 +46,14 @@ export default {
             step: 1
         }
     },
+    computed:{
+        indxRange: function() {
+            return this.range
+        }
+    },
     mounted: function() {
-        this.min = this.$route.query['min'+this.range] || 0
-        this.max = this.$route.query['max'+this.range] || 1000000000
+        this.min = this.$route.query['min'+this.indxRange] || 0
+        this.max = this.$route.query['max'+this.indxRange] || 1000000000
         this.step = 1
         this.set()
     },
@@ -59,12 +64,11 @@ export default {
     },
     methods: {
         set() {
-            this.min = this.$parent.filter.ranges[this.range].min
-            this.max = this.$parent.filter.ranges[this.range].max
-            this.step = this.$parent.filter.ranges[this.range].step
+            this.min = this.$parent.filter.ranges[this.indxRange].min
+            this.max = this.$parent.filter.ranges[this.indxRange].max
             this.value = [
-                this.$parent.filter.ranges[this.range].min,
-                this.$parent.filter.ranges[this.range].max
+                this.$parent.filter.ranges[this.indxRange].min,
+                this.$parent.filter.ranges[this.indxRange].max
             ]
         }
     }

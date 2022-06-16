@@ -1,6 +1,6 @@
 <template>
 	<div class="yapps-cis">
-		<search-filter ref="searchFilter"/>
+		<search-filter @sort="sort"/>
 		<list-brand-models
 			v-for="(brand, indx) in brands"
 			:key="indx"
@@ -35,8 +35,7 @@ export default {
 		return {
 			brands: [],
 			brandsCount: 0,
-			showMore: false,
-			totalcount: 0
+			showMore: false
 		}
 	},
 	computed: {
@@ -54,7 +53,6 @@ export default {
         }).then(() => {
 			this.moreBrands()
 		})
-		console.log(this.$store.state.viewMode, 'brands')
 	},
 	methods: {
 
@@ -69,6 +67,10 @@ export default {
 					break
 				}
 			}
+		},
+
+		sort(v) {
+			console.log('brands', v)
 		}
 	}
 }

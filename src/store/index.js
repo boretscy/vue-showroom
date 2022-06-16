@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+// let mode = document.getElementById('YAppsShowroom').getAttribute('mode')
+
+
 export default new Vuex.Store({
     state: {
         apiUrl: 'https://apps.yug-avto.ru/API/get/cis/',
@@ -13,7 +16,8 @@ export default new Vuex.Store({
         brands: null,
         brand: null,
         viewMode: null,
-        modelItems: null
+        modelItems: null,
+        mode: 'new'
     },
     mutations: {
     },
