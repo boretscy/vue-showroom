@@ -171,6 +171,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
+    cursor: ew-resize;
 }
 
 .thumbnail-image {
@@ -184,12 +185,12 @@ export default {
     width: 100%;
     height: auto;
     transition: all 250ms;
+    opacity: 0.6;
 }
 
 .thumbnail-image:hover > img, 
 .thumbnail-image.active > img {
-    opacity: 0.6;
-    box-shadow: 2px 2px 6px 1px rgba(0,0,0, 0.5);
+    opacity: 1;
 }
 
 .card-img {
@@ -198,6 +199,7 @@ export default {
     background-position: center center;
     background-size: cover;
     height: 500px;
+    cursor: ew-resize;
 }
 
 .card-img > img {
