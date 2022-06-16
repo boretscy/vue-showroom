@@ -179,6 +179,7 @@ export default {
 .grid__icon-form .grid-item__sub {}
 .grid-item__head {
     position: relative;
+    min-height: 182.5px;
 }
 .grid-item__head-img {
     display: block;
