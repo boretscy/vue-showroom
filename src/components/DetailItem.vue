@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="car__grid-item" v-if="vehicle">
-                <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+vehicle.model_name+' '+vehicle.equipment }}</div>
+                <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
                 <div class="car__grid-box">
                     <div class="car__grid-box__dc --detail__bg">
                         <div class="car__grid-box__dc-title detail_bg">{{ vehicle.dealership.name }}</div>

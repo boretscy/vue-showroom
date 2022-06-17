@@ -1,7 +1,7 @@
 <template>
     <div class="filter">
         <div class="title">
-            <router-link :to="link">{{ Format(totalCount) }} авто</router-link>
+            <router-link :to="'/filter'+link">{{ Format(totalCount) }} авто</router-link>
 		</div>
         <div class="filter__head" v-if="filter">
             <div class="filter__head-item">
@@ -344,18 +344,25 @@ export default {
         modeValue: function(newValue) {
             window.location.href = newValue.code;
         },
-        brandValue: function(newValue) {
+        brandValue: function(newValue, oldValue) {
             if (newValue.length) {
                 this.getModels(newValue)
                 this.link = this.buildLink()
                 this.getFilter(this.link)
             }
+            if (!newValue.length && oldValue.length) {
+                this.initFilter()
+            }
             
 
         },
-        modelValue: function(newValue) {
+        modelValue: function(newValue/*, oldValue*/) {
             this.link = this.buildLink()
-            if (newValue.length) this.getFilter(this.link)
+            this.getFilter(this.link)
+            console.log(newValue)
+            // if ( newValue.length || (!newValue.length && oldValue.length) ) {
+            //     this.getFilter(this.link)
+            // }
         },
         transmitionsValue: function(newValue) {
             this.link = this.buildLink()
@@ -661,7 +668,7 @@ export default {
 .filter__sort-item__button:nth-last-child(1) {
     margin-right: 0;
 }
-.active span{
+.filter__sort-item__button.active span{
     padding: 10px 15px;
     background: transparent;
     border: solid 1px var(--yayellow) !important;
