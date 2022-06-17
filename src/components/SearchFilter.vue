@@ -645,7 +645,7 @@ export default {
 .filter__sort-item__button {
     background: transparent;
     border: 0;
-    margin-right: 2em;
+    margin-right: 1em;
 }
 .filter__sort-item__button span{
     font-size: 14px;
@@ -653,6 +653,10 @@ export default {
     line-height: 1em;
     cursor: pointer;
     display: block;
+    padding: 10px 15px;
+    background: transparent;
+    border: solid 1px transparent!important;
+    border-radius: 3px!important;
     transition: 200ms;
 }
 .filter__sort-item__button span:hover, .filter__sort-item__button span.active {
