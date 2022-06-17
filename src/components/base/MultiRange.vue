@@ -19,6 +19,7 @@
                 :max="max"
                 :interval="step"
                 tooltip="none"
+                @drag-end="cc"
                 ></vue-slider>
         </div>
     </div>
@@ -57,19 +58,18 @@ export default {
         this.step = 1
         this.set()
     },
-    watch: {
-        value: function(newValue) {
-            this.$emit('range', { range: this.range, value: newValue})
-        }
-    },
     methods: {
+        init(value) {
+            this.min = this.$parent.filter.ranges[this.indxRange].min
+            this.max = this.$parent.filter.ranges[this.indxRange].max
+            this.value = value
+        },
         set() {
             this.min = this.$parent.filter.ranges[this.indxRange].min
             this.max = this.$parent.filter.ranges[this.indxRange].max
-            this.value = [
-                this.$parent.filter.ranges[this.indxRange].min,
-                this.$parent.filter.ranges[this.indxRange].max
-            ]
+        },
+        cc() {
+            this.$emit('range', { range: this.range, value: this.value})
         }
     }
 }

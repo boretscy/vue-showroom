@@ -65,7 +65,7 @@
                     ref="priceRange"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-model="transmitionsValue" 
                     tag-placeholder="КПП" 
@@ -84,7 +84,7 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item filter__head-item__range" v-if="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-show="viewFull">
                 <multi-range
                     range="volume"
                     desc-val="см3"
@@ -92,7 +92,7 @@
                     ref="volumeRange"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item filter__head-item__range" v-if="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-show="viewFull">
                 <multi-range
                     range="power"
                     desc-val="л.с."
@@ -100,7 +100,7 @@
                     ref="powerRange"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-model="engineValue" 
                     tag-placeholder="Двигатель" 
@@ -119,7 +119,26 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
+            <div class="filter__head-item" v-show="viewFull">
+                <multiselect 
+                    v-model="driveValue" 
+                    tag-placeholder="Привод" 
+                    placeholder="Привод" 
+                    label="name" 
+                    track-by="code" 
+                    :options="filter.dropLists.drives" 
+                    :multiple="true" 
+                    :searchable="false"
+                    :close-on-select="false" 
+                    :clear-on-select="false"
+                    selectLabel="Выбрать"
+                    selectedLabel="Выбрано"
+                    deselectLabel="Удалить"
+                    >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
+                    </multiselect>
+            </div>
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-model="bodyValue" 
                     tag-placeholder="Кузов" 
@@ -138,7 +157,7 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item filter__head-item__range" v-if="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-show="viewFull">
                 <multi-range
                     range="year"
                     desc-val=""
@@ -146,7 +165,7 @@
                     ref="yearRange"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-model="dealershipValue" 
                     tag-placeholder="Автосалон" 
@@ -165,7 +184,7 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item" v-if="viewFull">
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-model="colorValue" 
                     tag-placeholder="Цвет" 
@@ -186,7 +205,7 @@
             </div>
             <div   
                 class="filter__head-item"
-                v-if="viewFull"
+                v-show="viewFull"
                 >
                 <button-cancel @cancel="initFilter"/>
             </div>
@@ -251,14 +270,14 @@
                     <button class="filter__sort-item__button active" @click="sort('all')" v-if="filter.instock && filter.inpath && filter.discount">
                         <span>Все</span>
                     </button>
-                    <button class="filter__sort-item__button"  @click="sort('discont')" v-if="filter.discount">
-                        <span :class="{'active': sortbuttons.discont}">Со скидкой</span>
+                    <button class="filter__sort-item__button" :class="{'active': sortbuttons.discount}"  @click="sort('discount')" v-if="filter.discount">
+                        <span>Со скидкой</span>
                     </button>
-                    <button class="filter__sort-item__button" @click="sort('instock')" v-if="filter.instock">
-                        <span :class="{'active': sortbuttons.instock}">В наличии</span>
+                    <button class="filter__sort-item__button" :class="{'active': sortbuttons.instock}" @click="sort('instock')" v-if="filter.instock">
+                        <span>В наличии</span>
                     </button>
-                    <button class="filter__sort-item__button" @click="sort('inpath')" v-if="filter.inpath">
-                        <span :class="{'active': sortbuttons.inpath}">В пути</span>
+                    <button class="filter__sort-item__button" :class="{'active': sortbuttons.inpath}" @click="sort('inpath')" v-if="filter.inpath">
+                        <span>В пути</span>
                     </button>
                 </div>
                 <div class="filter__sort-item__switch">
@@ -317,6 +336,7 @@ export default {
 
             filter: null,
             viewFull: false,
+            blockFilter: false,
 
             modeValue: [],
             brandValue: [],
@@ -329,6 +349,7 @@ export default {
             dealershipValue: [],
             colorValue: [],
             bodyValue: [],
+            driveValue: [],
             sortValue: [],
 
             link: '/filter',
@@ -346,48 +367,64 @@ export default {
         },
         brandValue: function(newValue, oldValue) {
             if (newValue.length) {
+                
                 this.getModels(newValue)
+
+                this.blockFilter = true
+                this.transmitionsValue = []
+                this.engineValue = []
+                this.dealershipValue = []
+                this.colorValue = []
+                this.driveValue = []
+                this.bodyValue = []
+                this.blockFilter = false
+
                 this.link = this.buildLink()
                 this.getFilter(this.link)
             }
             if (!newValue.length && oldValue.length) {
+                this.blockFilter = true
                 this.initFilter()
+                this.blockFilter = false
             }
             
 
         },
-        modelValue: function(newValue/*, oldValue*/) {
+        modelValue: function() {
             this.link = this.buildLink()
+            this.blockFilter = true
             this.getFilter(this.link)
-            console.log(newValue)
-            // if ( newValue.length || (!newValue.length && oldValue.length) ) {
-            //     this.getFilter(this.link)
-            // }
+            this.blockFilter = false
         },
-        transmitionsValue: function(newValue) {
+        transmitionsValue: function() {
             this.link = this.buildLink()
-            if (newValue.length) this.getFilter(this.link)
+            if (!this.blockFilter) this.getFilter(this.link)
         },
-        engineValue: function(newValue) {
+        engineValue: function() {
             this.link = this.buildLink()
-            if (newValue.length) this.getFilter(this.link)
+            if (!this.blockFilter) this.getFilter(this.link)
         },
-        dealershipValue: function(newValue) {
+        dealershipValue: function() {
             this.link = this.buildLink()
-            if (newValue.length) this.getFilter(this.link)
+            if (!this.blockFilter) this.getFilter(this.link)
         },
-        colorValue: function(newValue) {
+        colorValue: function() {
             this.link = this.buildLink()
-            if (newValue.length) this.getFilter(this.link)
+            if (!this.blockFilter) this.getFilter(this.link)
         },
-        bodyValue: function(newValue) {
+        bodyValue: function() {
             this.link = this.buildLink()
-            if (newValue.length) this.getFilter(this.link)
+            if (!this.blockFilter) this.getFilter(this.link)
+        },
+        driveValue: function() {
+            this.link = this.buildLink()
+            if (!this.blockFilter) this.getFilter(this.link)
         },
     },
     mounted: function() {
-
+        this.blockFilter = true
         this.initFilter()
+        this.blockFilter = false
     },
     methods: {
         initFilter() {
@@ -397,7 +434,6 @@ export default {
                 this.filter = response.data
                 console.log(this.filter)
                 this.totalCount = response.data.totalCount
-                this.link = this.buildLink()
                 this.brandValue = []
                 this.modelValue = []
                 this.modelOptions = []
@@ -405,10 +441,16 @@ export default {
                 this.engineValue = []
                 this.dealershipValue = []
                 this.colorValue = []
+                this.driveValue = []
                 this.bodyValue = []
                 this.sortValue = []
+
+                this.link = this.buildLink()
             }).then(() => {
-                this.$refs.priceRange.set()
+                this.$refs.priceRange.init(this.filter.ranges.price.value)
+                this.$refs.volumeRange.init(this.filter.ranges.volume.value)
+                this.$refs.powerRange.init(this.filter.ranges.power.value)
+                this.$refs.yearRange.init(this.filter.ranges.year.value)
             })
         },
 
@@ -457,6 +499,11 @@ export default {
                 l += '&body='+s.join(',')
             }
             s = []
+            if ( this.driveValue.length ) {
+                this.driveValue.forEach( function(i) { s.push(i.code) })
+                l += '&drive='+s.join(',')
+            }
+            s = []
             if ( this.dealershipValue.length ) {
                 this.dealershipValue.forEach( function(i) { s.push(i.code) })
                 l += '&dealership='+s.join(',')
@@ -499,6 +546,16 @@ export default {
                         if ( item.min < p.min ) p.min = item.min
                         if ( item.max > p.max ) p.max = item.max
                     })
+
+                    this.blockFilter = true
+                    this.transmitionsValue = []
+                    this.engineValue = []
+                    this.dealershipValue = []
+                    this.colorValue = []
+                    this.driveValue = []
+                    this.bodyValue = []
+                    this.blockFilter = false
+
                     this.$refs.priceRange.set()
                     if (typeof this.$refs.volumeRange != 'undefined') this.$refs.volumeRange.set()
                     if (typeof this.$refs.powerRange != 'undefined') this.$refs.powerRange.set()
@@ -512,22 +569,16 @@ export default {
             let s =  (this.$store.state.viewMode=='grid') ? 'list' : 'grid'
             this.$store.state.viewMode = s
             this.$cookies.set('CIS_VIEW_MODE', s)
-
-            console.log(this.$store.state.viewMode, 'searchfilter')
         },
         setRangeValue(v) {
             this.filter.ranges[v.range].value = v.value
             this.link = this.buildLink()
+            this.getFilter(this.link)
+
         },
 
         toggleFilter() {
             this.viewFull = !this.viewFull
-            setTimeout(() => {
-                this.$refs.priceRange.set()
-                if (typeof this.$refs.volumeRange != 'undefined') this.$refs.volumeRange.set()
-                if (typeof this.$refs.powerRange != 'undefined') this.$refs.powerRange.set()
-                if (typeof this.$refs.yearRange != 'undefined') this.$refs.yearRange.set()
-            }, 500);
             
         },
         
