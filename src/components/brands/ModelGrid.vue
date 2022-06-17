@@ -204,7 +204,7 @@ export default {
 }
 .grid-item__title {
     text-decoration: none;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 1em;
     margin-bottom: 1em;
