@@ -180,6 +180,8 @@ export default {
 .grid-item__head {
     position: relative;
     min-height: 182.5px;
+    display: flex;
+    align-items: center;
 }
 .grid-item__head-img {
     display: block;
