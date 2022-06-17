@@ -210,6 +210,8 @@ export default {
     margin-bottom: 1em;
     display: block;
     color: var(--black);
+    min-height: 50px;
+    max-height: 50px;
 }
 .grid-item__sub {
     font-size: 14px;
