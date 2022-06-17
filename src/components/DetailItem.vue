@@ -1,5 +1,6 @@
 <template>
     <div class="car__grid">
+        <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
         <div class="car_grid-left" v-if="vehicle">
             <div class="car_grid-left__slider">
                 <carousel
@@ -35,7 +36,7 @@
                     <div class="car__grid-box__price --detail__bg">
                         <div class="car__grid-box__price-title">
                             <div class="price">{{ Format(curPrice) }}<span class="rub">₽</span></div>
-                            <div 
+                            <div
                                 class="drop"
                                 :class="{'--open': drops.title}"
                                 v-if="vehicle.discounts">
@@ -54,7 +55,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div 
+                        <div
                             class="car__grid-box__price-discount"
                             v-if="vehicle.discounts">
                             {{ Format(vehicle.price) }}<span class="rub">₽</span>
@@ -87,7 +88,7 @@
                             </div>
                             <div class="car__grid-box-stock__list-items">
                                 <div class="stock__list-items__category">Коробка:</div>
-                                <div class="stock__list-items__name">{{ vehicle.transmition.name }}</div> 
+                                <div class="stock__list-items__name">{{ vehicle.transmition.name }}</div>
                             </div>
                             <div class="car__grid-box-stock__list-items">
                                 <div class="stock__list-items__category">Топливо:</div>
@@ -107,17 +108,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="car__grid-box-profit --detail__bg">
+                    <div class="car__grid-box-profit --detail__bg desktop">
                         <div class="car__grid-box-profit__head">
                             <div class="profit__head-title">Выгода на авто</div>
                             <div class="profit__head-discount">
-                                <div 
+                                <div
                                     class="profit__head-discount__item"
                                     v-if="maxDiscount">
                                     Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span>
                                 </div>
                                 <div class="profit__head-discount__item">
-                                    <div 
+                                    <div
                                         class="drop"
                                         :class="{'--open': drops.description}"
                                         v-if="vehicle.discounts">
@@ -139,7 +140,7 @@
                             </div>
                         </div>
                         <div class="box-profit__list">
-                            <div 
+                            <div
                                 class="profit__list--grid_item"
                                 v-for="(item, indx) in vehicle.discounts"
                                 :key="indx"
@@ -176,19 +177,28 @@
                             </button>
                         </div>
                 </div>
+                <div class="profit_mobile" data-popup-trigger="profit">
+                    <div class="profit_mobile-content">
+                        <div class="profit_mobile-content__title">Выгода на авто</div>
+                        <div class="profit_mobile-content__sub">Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span></div>
+                    </div>
+                    <div class="profit_mobile-icon">
+                        <icon-base icon-name="down"><icon-down /></icon-base>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="configuration" v-if="vehicle">
             <div class="tabs">
                 <div class="tabs_head">
-                    <button 
+                    <button
                         class="button hovered-t"
                         :class="{'--is-active': tabs.equipment.view}"
                         @click="toggleTabs"
                         >
                         <span>{{ tabs.equipment.text }}</span>
                     </button>
-                    <button 
+                    <button
                         class="button hovered-t"
                         :class="{'--is-active': tabs.specifications.view}"
                         @click="toggleTabs"
@@ -197,28 +207,28 @@
                     </button>
                 </div>
                 <div class="tabs_content">
-                    <div 
+                    <div
                         class="tabs_content-item"
                         :class="{'--is-active': tabs.equipment.view}"
                         v-if="tabs.equipment.view">
-                        <div 
+                        <div
                             class="tabs_content-item__list"
                             v-for="(item, indx) in vehicle._additional"
                             :key="indx"
                             >{{ item }}</div>
                     </div>
-                    <div 
+                    <div
                         class="tabs_content-item"
                         :class="{'--is-active': tabs.specifications.view}"
                         v-if="tabs.specifications.view">
                         <div class="tabs_content-item__title">Характеристики</div>
                         <div class="settigns_items">
-                            <div 
+                            <div
                                 class="tabs_content-item__title-settings"
                                 v-for="(group, gindx) in vehicle._specifications"
                                 :key="gindx"
                                 >
-                                <div 
+                                <div
                                     class="settings_item"
                                     v-for="(item, indx) in group"
                                     :key="indx">
@@ -228,7 +238,7 @@
                             </div>
                         </div>
                         <div class="setting_accordion-content">
-                            <div 
+                            <div
                                 class="settings_accordion"
                                 :class="{'--accordion-open': group.view}"
                                 v-for="(group, gindx) in accordion"
@@ -241,7 +251,7 @@
                                     <div class="tabs_content-item__sub">
                                         <div class="tabs_content-item__sub-count">{{ group.options.length }} опции</div>
                                         <div class="tabs_content-item__sub-drop">
-                                            <icon-base 
+                                            <icon-base
                                                 icon-name="corner"
                                                 :class="{'up': group.view}"
                                                 >
@@ -251,7 +261,7 @@
                                     </div>
                                 </div>
                                 <div class="settings_accordion--body">
-                                    <div 
+                                    <div
                                         class="settings_accordion--body_list"
                                         v-for="(item, indx) in group.options"
                                         :key="indx"
@@ -311,7 +321,7 @@ export default {
                         'sdjgadfakdf',
                         'sdjgadfakdf',
                         'sdjgadfakdf',
-                    ] 
+                    ]
                 },
                 {
                     group: 'Интерьер',
@@ -322,7 +332,7 @@ export default {
                         'sdjgadfakdf',
                         'sdjgadfakdf',
                         'sdjgadfakdf',
-                    ] 
+                    ]
                 }
             ],
             drops: {
@@ -378,7 +388,7 @@ export default {
             }
         },
         toggleAccordion(i) {
-            this.accordion[i].view = !this.accordion[i].view 
+            this.accordion[i].view = !this.accordion[i].view
         },
         toggleAllAccordion() {
             let res = true
@@ -389,14 +399,14 @@ export default {
                 item.view = res
             })
         },
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
         getDiscountsName() {
             let s = []
             if ( this.vehicle.discounts ) {
@@ -420,7 +430,7 @@ export default {
             return '7'+q.slice(1);
         },
         Format(q) {
-			
+
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' })
             return Price.format(q)
         },
@@ -1984,7 +1994,7 @@ input[type=range]::-ms-fill-upper {
     color: var(--yadarkblue);
 }
 .car__grid-box__status-links {
-    --size: 15px;
+    --size: 16px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(calc(var(--size) * 2), 1fr));
     gap: calc(var(--size) / 2);
@@ -2003,8 +2013,8 @@ input[type=range]::-ms-fill-upper {
 .car__grid-box__status-links svg {
     width: var(--size);
     height: var(--size);
-    fill: var(--yagray);
-    transform: 200ms;
+    fill: var(--yadarkgray);
+    transition: 200ms;
 }
 .car__grid-box__status-links span {
     position: absolute;
@@ -2652,13 +2662,96 @@ h2, .h2 a {
 .slider-styled .noUi-handle::after {
     display: none;
 }
-
+.profit_mobile {
+    --icon-size: 13px;
+    padding: 1rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr calc(var(--icon-size) * 2);
+    gap: var(--icon-size);
+    align-items: center;
+    border: solid 1px var(--yayellow);
+    border-radius: 4px;
+    margin-bottom: 1em;
+    cursor: pointer;
+    display: none;
+}
+.profit_mobile-content {}
+.profit_mobile-content__title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1em;
+    margin-bottom: 1em;
+    color: var(--yablue);
+}
+.profit_mobile-content__sub {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1em;
+    color: var(--yablackgray);
+}
+.profit_mobile-icon svg {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    fill: var(--yablue);
+    transform: rotate(-90deg);
+}
+.desktop {
+    display: block;
+}
+.mobile {
+    display: none;
+}
 span.rub {
     /* font-family: 'Rub'; */
     margin-left: 5px !important;
 }
 /*multi range slider*/
-
+@media (max-width: 1024px) {
+   .mobile {
+    display: block;
+}
+    .car__grid {
+        --left-w: itherit;
+        grid-template-columns: 1fr;
+    }
+    .car__grid-item {
+        max-height: inherit;
+        position: inherit;
+    }
+    .car__grid-box__price {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .car__grid-item .car__grid-item_title {
+        display: none;
+    }
+    .car__grid-item_title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    }
+}
+@media (max-width: 500px) {
+    .desktop {
+        display: none;
+    }
+    .car__grid-box {
+        grid-template-columns: 1fr;
+    }
+    .profit_mobile {
+        display: grid;
+    }
+    .settigns_items {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+@media (max-width: 350px) {
+    .tabs_head .button span {
+        font-size: 12px;
+    }
+}
 
 
 
