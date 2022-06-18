@@ -1,7 +1,7 @@
 <template>
     <div class="button grid">
         <span>
-            <router-link :to="'/filter'+filterLink">Показать {{ Format( Number(carCount) ) }} авто</router-link>
+            <router-link :to="filterLink">Показать {{ Format( Number(carCount) ) }} авто</router-link>
             </span>
         <span
             @click="$emit('toggle')">

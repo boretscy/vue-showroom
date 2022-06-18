@@ -1,7 +1,7 @@
 <template>
     <div class="filter">
         <div class="title">
-            <router-link :to="'/filter'+link">{{ Format(totalCount) }} авто</router-link>
+            <router-link to="/">{{ Format(totalCount) }} авто</router-link>
 		</div>
         <div class="filter__head" v-if="filter">
             <div class="filter__head-item">
@@ -352,7 +352,7 @@ export default {
             driveValue: [],
             sortValue: [],
 
-            link: '/filter',
+            link: '',
 
             sortbuttons: {
                 discount: false,
@@ -379,8 +379,8 @@ export default {
                 this.bodyValue = []
                 this.blockFilter = false
 
-                this.link = this.buildLink()
-                this.getFilter(this.link)
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
             }
             if (!newValue.length && oldValue.length) {
                 this.blockFilter = true
@@ -391,66 +391,55 @@ export default {
 
         },
         modelValue: function() {
-            this.link = this.buildLink()
+            this.link = this.buildLink(this.buildQuery())
             this.blockFilter = true
-            this.getFilter(this.link)
+            this.getFilter(this.buildQuery())
             this.blockFilter = false
         },
         transmitionsValue: function() {
-            this.link = this.buildLink()
-            if (!this.blockFilter) this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            if (!this.blockFilter) this.getFilter(this.buildQuery())
         },
         engineValue: function() {
-            this.link = this.buildLink()
-            if (!this.blockFilter) this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            if (!this.blockFilter) this.getFilter(this.buildQuery())
         },
         dealershipValue: function() {
-            this.link = this.buildLink()
-            if (!this.blockFilter) this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            if (!this.blockFilter) this.getFilter(this.buildQuery())
         },
         colorValue: function() {
-            this.link = this.buildLink()
-            if (!this.blockFilter) this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            if (!this.blockFilter) this.getFilter(this.buildQuery())
         },
         bodyValue: function() {
-            this.link = this.buildLink()
-            if (!this.blockFilter) this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            if (!this.blockFilter) this.getFilter(this.buildQuery())
         },
         driveValue: function() {
-            this.link = this.buildLink()
-            if (!this.blockFilter) this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            if (!this.blockFilter) this.getFilter(this.buildQuery())
         },
     },
     mounted: function() {
         this.blockFilter = true
-        this.initFilter()
+        this.initFilter().then(() => {
+            this.getStartDropsValues()
+        })
         this.blockFilter = false
     },
     methods: {
         initFilter() {
-            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-            this.axios.get(url).then((response) => {
-                this.filter = response.data
-                console.log(this.filter)
-                this.totalCount = response.data.totalCount
-                this.brandValue = []
-                this.modelValue = []
-                this.modelOptions = []
-                this.transmitionsValue = []
-                this.engineValue = []
-                this.dealershipValue = []
-                this.colorValue = []
-                this.driveValue = []
-                this.bodyValue = []
-                this.sortValue = []
-
-                this.link = this.buildLink()
-            }).then(() => {
-                this.$refs.priceRange.init(this.filter.ranges.price.value)
-                this.$refs.volumeRange.init(this.filter.ranges.volume.value)
-                this.$refs.powerRange.init(this.filter.ranges.power.value)
-                this.$refs.yearRange.init(this.filter.ranges.year.value)
+            return new Promise((resolve) => {
+                let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                this.axios.get(url).then((response) => {
+                    this.filter = response.data
+                    // console.log(this.filter)
+                    this.totalCount = response.data.totalCount
+                    this.link = this.buildLink(this.buildQuery())
+                    resolve(true)
+                })
             })
         },
 
@@ -459,14 +448,68 @@ export default {
             this.axios.get(url).then((response) => {
                 this.filter = response.data
             }).then(() => {
-                this.$refs.priceRange.set()
-                if (typeof this.$refs.volumeRange != 'undefined') this.$refs.volumeRange.set()
-                if (typeof this.$refs.powerRange != 'undefined') this.$refs.powerRange.set()
-                if (typeof this.$refs.yearRange != 'undefined') this.$refs.yearRange.set()
             })
         },
+        getStartDropsValues() {
+            if ( this.$route.query.brand ) {
+                this.$route.query.brand.split(',').forEach( (qi) => {
+                    this.filter.dropLists.brands.forEach( (i) => {
+                        if ( i.code == qi ) this.brandValue.push(i)
+                    })
+                })
+            } 
+            else if ( this.$route.params.brand ) {
+                this.filter.dropLists.brands.forEach( (i) => {
+                    if ( i.code == this.$route.params.brand ) this.brandValue.push(i)
+                })
+            }
+            if ( this.$route.query.transmition ) {
+                this.$route.query.transmition.split(',').forEach( (qi) => {
+                    this.filter.dropLists.transmitions.forEach( (i) => {
+                        if ( i.code == qi ) this.transmitionValue.push(i)
+                    })
+                })
+            }
+            if ( this.$route.query.engine ) {
+                this.$route.query.engine.split(',').forEach( (qi) => {
+                    this.filter.dropLists.engines.forEach( (i) => {
+                        if ( i.code == qi ) {
+                            this.engineValue.push(i)
+                        }
+                    })
+                })
+            }
+            if ( this.$route.query.drive ) {
+                this.$route.query.drive.split(',').forEach( (qi) => {
+                    this.filter.dropLists.drives.forEach( (i) => {
+                        if ( i.code == qi ) this.driveValue.push(i)
+                    })
+                })
+            }
+            if ( this.$route.query.body ) {
+                this.$route.query.body.split(',').forEach( (qi) => {
+                    this.filter.dropLists.bodies.forEach( (i) => {
+                        if ( i.code == qi ) this.bodyValue.push(i)
+                    })
+                })
+            }
+            if ( this.$route.query.dealership ) {
+                this.$route.query.dealership.split(',').forEach( (qi) => {
+                    this.filter.dropLists.dealerships.forEach( (i) => {
+                        if ( i.code == qi ) this.dealershipValue.push(i)
+                    })
+                })
+            }
+            if ( this.$route.query.color ) {
+                this.$route.query.color.split(',').forEach( (qi) => {
+                    this.filter.dropLists.colors.forEach( (i) => {
+                        if ( i.code == qi ) this.colorValue.push(i)
+                    })
+                })
+            }
+        },
         
-        buildLink() {
+        buildQuery() {
             let  s = [], l = '?'
 
             if ( this.brandValue.length ) {
@@ -523,6 +566,31 @@ export default {
 
             return l
         },
+        buildLink( query ) {
+            let str = query || ''
+            let l = '/', q = ''
+            if ( str.length ) {
+                let get = {}
+                str.split('?')[1].split('&').forEach( (param) => {
+                    if ( param !== '' ) get[param.split('=')[0]] = param.split('=')[1].split(',')
+                })
+
+                // path
+                if (typeof get.brand == 'object' && get.brand.length == 1) l += get.brand[0]
+                if (typeof get.model == 'object' && get.model.length == 1) l += '/'+get.model[0]
+
+                // query
+                for (let key in get) {
+                    if (key=='brand' || key=='model') {
+                        if (get[key].length > 1) q += key+'='+get[key].join(',')+'&'
+                    } else {
+                        if (get[key].length && Boolean(get[key][0])) q += key+'='+get[key].join(',')+'&'
+                    }
+                }
+            }
+
+            return l+((q.length)?'?':'')+q.slice(0, -1)
+        },
 
         getModels(newValue) {
             
@@ -547,19 +615,16 @@ export default {
                         if ( item.max > p.max ) p.max = item.max
                     })
 
-                    this.blockFilter = true
-                    this.transmitionsValue = []
-                    this.engineValue = []
-                    this.dealershipValue = []
-                    this.colorValue = []
-                    this.driveValue = []
-                    this.bodyValue = []
-                    this.blockFilter = false
-
-                    this.$refs.priceRange.set()
-                    if (typeof this.$refs.volumeRange != 'undefined') this.$refs.volumeRange.set()
-                    if (typeof this.$refs.powerRange != 'undefined') this.$refs.powerRange.set()
-                    if (typeof this.$refs.yearRange != 'undefined') this.$refs.yearRange.set()
+                    if ( this.$route.query.model ) {
+                        let r = []
+                        this.$route.query.model.split(',').forEach( (qi) => {
+                            this.modelOptions.forEach( (i) => {
+                                if ( i.code == qi ) r.push(i)
+                            })
+                        })
+                        this.modelValue = r
+                    }
+                    // this.setRanges()
                 })
             }
         },
@@ -572,14 +637,13 @@ export default {
         },
         setRangeValue(v) {
             this.filter.ranges[v.range].value = v.value
-            this.link = this.buildLink()
-            this.getFilter(this.link)
+            this.link = this.buildLink(this.buildQuery())
+            this.getFilter(this.buildQuery())
 
         },
 
         toggleFilter() {
             this.viewFull = !this.viewFull
-            
         },
         
         sort(v) {

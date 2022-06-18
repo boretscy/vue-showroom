@@ -1,5 +1,5 @@
 <template>
-    <div class="button grid" @click="cancelFilter">
+    <router-link to="/" class="button grid" @click="cancelFilter">
         <span>
             Сбросить все
         </span>
@@ -7,7 +7,7 @@
             <icon-base icon-name="cross"><icon-cross /></icon-base>
         </span>
         
-    </div>
+    </router-link>
 </template>
 
 <script>

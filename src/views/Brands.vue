@@ -43,16 +43,28 @@ export default {
 			return this.$store.state.viewMode
 		}
 	},
+    watch: {
+        '$route.query': {
+            immediate: true,
+            handler() {
+                let url = this.$store.state.apiUrl+'brands/'+'?token='+this.$store.state.apiToken
+				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+				this.axios.get(url).then((response) => {
+					
+					if ( this.$route.query.brand ) {
+						let b = this.$route.query.brand.split(',')
+						response.data.forEach( (item) => {
+							if ( b.includes(item.alias) ) this.brands.push(item)
+						})
+					} else {
+						this.brands = response.data
+					}
+					this.brands.sort((a, b) => a.name > b.name ? 1 : -1);
+				})
+            }
+        }
+    },
 	mounted: function() {
-
-		let url = this.$store.state.apiUrl+'brands/'+'?token='+this.$store.state.apiToken
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-        this.axios.get(url).then((response) => {
-			response.data.sort((a, b) => a.name > b.name ? 1 : -1);
-			this.$store.state.brands = response.data
-        }).then(() => {
-			this.moreBrands()
-		})
 	},
 	methods: {
 

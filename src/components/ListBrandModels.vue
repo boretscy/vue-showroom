@@ -3,7 +3,7 @@
         <div class="flex__head">
             <router-link :to="dataLink" class="flex__head-title h2">
                 {{ dataName }}
-                <span class="flex__head-count">{{ dataCount }}</span>
+                <span class="flex__head-count">{{ count }}</span>
             </router-link>
             <router-link :to="dataLink" class="flex__head-link">
                 Все модели {{ dataName }}
@@ -24,7 +24,7 @@
                 :name="model.name"
                 :picture="model.image"
                 :brand="dataLink"
-                :alias="model.alias"/>
+                :link="buildLink(model.alias)"/>
             <cta-grid 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
@@ -71,24 +71,57 @@ export default {
         CtaGrid, 
         // CtaLine
     },
-    props: ['dataName', 'dataCount', 'dataLink', 'viewMode'],
+    props: ['dataName', 'dataLink', 'viewMode'],
     data() {
         return {
-            models: null
+            models: [],
+            count: 0
         }
     },
-    mounted: function() {
+    watch: {
+        '$route.query': {
+            immediate: true,
+            handler() {
+                let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
+                url += '&brand='+this.dataLink
+                for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
-		let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
-        url += '&brand='+this.dataLink
-        url += '&chunk='+'7'
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                this.axios.get(url).then((response) => {
+                    
+                    if ( this.$route.query.model ) {
+						let b = this.$route.query.model.split(',')
+						response.data.forEach( (item) => {
+							if ( b.includes(item.alias) ) {
+                                this.models.push(item)
+                                this.count += item.statistics[1].counter + item.statistics[2].counter
+                            }
+						})
+					} else {
+						this.models = response.data
+                        this.models.forEach( (item) => {
+                            this.count += item.statistics[1].counter + item.statistics[2].counter
+                        })
+					}
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                })
+            }
+        }
+    },
+    methods: {
+        buildLink(model) {
+            let l = '/'+this.dataLink+'/'+model, q = ''
+            for (let key in this.$route.query) {
+                
 
-        this.axios.get(url).then((response) => {
-            
-			// response.data.sort((a, b) => a.name > b.name ? 1 : -1);
-			this.models = response.data
-        })
+                if (key!='brand' && key!='model') {
+                    if (this.$route.query[key].length && Boolean(this.$route.query[key][0])) {
+                        q += key+'='+this.$route.query[key]+'&'
+                    }
+                
+                }
+            }
+            return l+((q.length)?'?':'')+q.slice(0, -1)
+        },
     }
 }
 </script>

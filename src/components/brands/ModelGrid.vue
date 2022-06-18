@@ -1,14 +1,14 @@
 <template>
     <div class="available__grid-item">
         <div class="grid-item__head">
-            <router-link :to="'/'+brand+'/'+alias" class="grid-item__head-img">
+            <router-link :to="link" class="grid-item__head-img">
                 <img :src="picture" :alt="brand + ' ' + name">
             </router-link>
             <div class="grid-item__head-discont" v-if="discount">Выгода</div>
         </div>
         <div class="head_items">
             <div class="grid-item__head-discont--grid_line" v-if="discount">Выгода</div>
-            <router-link :to="'/'+brand+'/'+alias" class="grid-item__title">{{ name }}</router-link>
+            <router-link :to="link" class="grid-item__title">{{ name }}</router-link>
         </div>
         <div class="grid-item__sub">
             <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} автомобилей</span>
@@ -21,8 +21,11 @@
 <script>
 export default {
     name: 'ModelGrid',
-    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'alias'],
+    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'link'],
+    mounted: function() {
+    },
     methods: {
+        
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });

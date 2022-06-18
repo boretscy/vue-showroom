@@ -41,9 +41,9 @@ export default {
     ],
     data() {
         return {
-            value: [0, 1000000000],
+            value: [0,0],
             min: 0,
-            max: 1000000000,
+            max: 999999999,
             step: 1
         }
     },
@@ -53,21 +53,14 @@ export default {
         }
     },
     mounted: function() {
-        this.min = this.$route.query['min'+this.indxRange] || 0
-        this.max = this.$route.query['max'+this.indxRange] || 1000000000
-        this.step = 1
-        this.set()
+        this.min = this.$parent.filter.ranges[this.indxRange].min
+        this.max = this.$parent.filter.ranges[this.indxRange].max
+        this.value = [
+            this.$parent.filter.ranges[this.indxRange].min,
+            this.$parent.filter.ranges[this.indxRange].max
+        ]
     },
     methods: {
-        init(value) {
-            this.min = this.$parent.filter.ranges[this.indxRange].min
-            this.max = this.$parent.filter.ranges[this.indxRange].max
-            this.value = value
-        },
-        set() {
-            this.min = this.$parent.filter.ranges[this.indxRange].min
-            this.max = this.$parent.filter.ranges[this.indxRange].max
-        },
         cc() {
             this.$emit('range', { range: this.range, value: this.value})
         }
