@@ -668,6 +668,9 @@ export default {
     background-position: center center;
     background-color: var(--yalightgray);
 }
+.slide--thumbniail.agile__slide.agile__slide--active {
+    opacity: 1;
+}
 .slide--thumbniail {
   cursor: pointer;
   height: 100px;
