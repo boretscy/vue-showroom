@@ -111,6 +111,7 @@ export default {
     align-items: center;
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
 }
 .model__grid-card__head--img img {
     width: 100%;
