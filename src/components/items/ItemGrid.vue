@@ -113,7 +113,6 @@ export default {
 .model__grid-card__head--img img {
     width: 100%;
     object-fit: unset;
-    max-height: 200px;
 }
 .model__grid-card__head--top {
     position: absolute;
@@ -347,5 +346,10 @@ export default {
 }
 .w100 {
     width: 100%;
+}
+@media (max-width: 1024px) {
+    .model__grid-card__footer .button {
+        width: 100%;
+    }
 }
 </style>
