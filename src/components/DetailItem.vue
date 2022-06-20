@@ -265,7 +265,7 @@
                                <div
                                        class="settings_accordion"
                                        :class="{'--accordion-open': group.view}"
-                                       v-for="(group, gindx) in vehicle.options"
+                                       v-for="(group, gindx) in accordion"
                                        :key="gindx">
                                    <div
                                            class="settings_accordion--head"
@@ -512,6 +512,8 @@ export default {
     mounted: function() {
         console.log(this.vehicle)
         window.scrollTo(0,0);
+
+        this.accordion = this.vehicle.options
 
         this.asNavForMainSlider.push(this.$refs.thumbnails)
 		this.asNavForMainThumbs.push(this.$refs.main)
@@ -2728,7 +2730,7 @@ input[type=range]::-ms-fill-upper {
     margin: 1em 0;
 }
 .car_grid-left__slider {
-    overflow: hidden;
+    overflow: visible;
 }
 .car_grid-left__slider .swiper-container {
     position: relative;
