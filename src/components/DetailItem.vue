@@ -4,10 +4,33 @@
            <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
            <div class="car_grid-left" v-if="vehicle">
                <div class="car_grid-left__slider">
-                   <carousel
+                   <!-- <carousel
                            :images="vehicle._images"
                            :starting-image="0"
-                   ></carousel>
+                   ></carousel> -->
+                   <agile class="main" ref="main" :options="optionsMainSlider" :as-nav-for="asNavForMainSlider">
+                        <div 
+                            class="slide" 
+                            v-for="(slide, index) in vehicle._images" 
+                            :key="index" 
+                            :class="`slide--${index}`"
+                            >
+                            <img :src="slide.big"/>
+                        </div>
+                        <template slot="prevButton">
+                            <div class="agile__nav-button__inner-circle">
+                                <icon-base icon-name="corner" class="left"><icon-corner /></icon-base>
+                            </div>
+                        </template>
+                        <template slot="nextButton">
+                            <div class="agile__nav-button__inner-circle">
+                                <icon-base icon-name="corner" class="right"><icon-corner /></icon-base>
+                            </div>
+                        </template>
+                    </agile>
+                    <agile class="thumbnails" ref="thumbnails" :options="optionsMainThumbs" :as-nav-for="asNavForMainThumbs">
+                        <div class="slide slide--thumbniail" v-for="(slide, index) in vehicle._images" :key="index" :class="`slide--${index}`" @click="$refs.thumbnails.goTo(index)"><img :src="slide.thumb"/></div>
+                    </agile>
 
                </div>
            </div>
@@ -29,9 +52,9 @@
                                <icon-base icon-name="compare"><icon-compare /></icon-base>
                                <span>5</span>
                            </a>
-                           <a href="#">
+                           <!-- <a href="#">
                                <icon-base icon-name="share"><icon-share /></icon-base>
-                           </a>
+                           </a> -->
                        </div>
                    </div>
                    <div class="car__grid-box__price --detail__bg">
@@ -196,14 +219,14 @@
                                class="button hovered-t"
                                :class="{'--is-active': tabs.equipment.view}"
                                @click="toggleTabs"
-                       >
+                            >
                            <span>{{ tabs.equipment.text }}</span>
                        </button>
                        <button
                                class="button hovered-t"
                                :class="{'--is-active': tabs.specifications.view}"
                                @click="toggleTabs"
-                       >
+                            >
                            <span>{{ tabs.specifications.text }}</span>
                        </button>
                    </div>
@@ -216,7 +239,7 @@
                                    class="tabs_content-item__list"
                                    v-for="(item, indx) in vehicle._additional"
                                    :key="indx"
-                           >{{ item }}</div>
+                                >{{ item }}</div>
                        </div>
                        <div
                                class="tabs_content-item"
@@ -228,7 +251,7 @@
                                        class="tabs_content-item__title-settings"
                                        v-for="(group, gindx) in vehicle._specifications"
                                        :key="gindx"
-                               >
+                                    >
                                    <div
                                            class="settings_item"
                                            v-for="(item, indx) in group"
@@ -242,7 +265,7 @@
                                <div
                                        class="settings_accordion"
                                        :class="{'--accordion-open': group.view}"
-                                       v-for="(group, gindx) in accordion"
+                                       v-for="(group, gindx) in vehicle.options"
                                        :key="gindx">
                                    <div
                                            class="settings_accordion--head"
@@ -356,16 +379,23 @@
 import IconBase from '@/components/IconBase.vue'
 import IconFavorites from '@/components/icons/IconFavorites.vue'
 import IconCompare from '@/components/icons/IconCompare.vue'
-import IconShare from '@/components/icons/IconShare.vue'
+// import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
-import Carousel from '@/components/detail/Carousel.vue'
+import IconCorner from '@/components/icons/IconCorner.vue'
+// import Carousel from '@/components/detail/Carousel.vue'
+
+import { VueAgile } from 'vue-agile'
+
 
 export default {
     name: 'DetailItem',
     components: {
-        IconBase, IconFavorites, IconCompare, IconShare, IconCheck, IconQuestion,
-        Carousel,
+        IconBase, IconFavorites, IconCompare, 
+        // IconShare, 
+        IconCheck, IconQuestion, IconCorner,
+        // Carousel,
+        agile: VueAgile
     },
     props: ['vehicle'],
     data() {
@@ -410,9 +440,39 @@ export default {
             drops: {
                 title: false,
                 description: false
-            }
+            },
+            asNavForMainSlider: [],
+			asNavForMainThumbs: [],
+			optionsMainSlider: {
+				dots: false,
+				navButtons: true
+			},
+			optionsMainThumbs: {
+				centerMode: true,
+				dots: false,
+				navButtons: false,
+				slidesToShow: 3,
+				responsive: [
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 1000,
+                        settings: {
+                            navButtons: false
+                        }
+                    }
+                ]
+				
+			}
+            
         }
     },
+
+
     computed: {
         curPrice: function() {
             let res = this.vehicle.price
@@ -450,7 +510,11 @@ export default {
         }
     },
     mounted: function() {
+        console.log(this.vehicle)
         window.scrollTo(0,0);
+
+        this.asNavForMainSlider.push(this.$refs.thumbnails)
+		this.asNavForMainThumbs.push(this.$refs.main)
     },
     methods: {
         /* UI */
@@ -511,7 +575,115 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.main {
+  margin-bottom: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.thumbnails {
+  margin: 0 -5px;
+  width: calc(100% + 10px);
+}
+.agile__actions {
+    position: absolute;
+    top: calc(50% - 25px);
+    width: calc(100% + 50px);
+    left: -25px;
+}
+.agile__nav-button {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: var(--yawhite);
+    padding: 3px;
+    border-radius: 50%;
+    border: var(--yablue) 1px solid;
+}
+.agile__nav-button.agile__nav-button--prev {
+    left: 0
+}
+.agile__nav-button.agile__nav-button--next {
+    right: 0
+}
+.agile__nav-button__inner-circle {
+    padding: 3px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: var(--yayellow) 1px solid;
+}
+.agile__nav-button__inner-circle svg {
+    width: 35px;
+    height: 35px;
+    fill: var(--yablue);
+}
+.thumbnails .agile__nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.thumbnails .agile__nav-button--prev {
+  left: -45px;
+}
+.thumbnails .agile__nav-button--next {
+  right: -45px;
+}
+.agile__nav-button:hover {
+  color: #888;
+}
+.agile__dot {
+  margin: 0 10px;
+}
+.agile__dot button {
+  background-color: #eee;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+  height: 10px;
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+  transition-duration: 0.3s;
+  width: 10px;
+}
+.agile__dot--current button, .agile__dot:hover button {
+  background-color: #888;
+}
+
+.slide {
+  align-items: center;
+  box-sizing: border-box;
+  color: #fff;
+  display: flex;
+  height: 530px;
+  justify-content: center;
+    background-size: cover;
+    background-position: center center;
+    background-color: var(--yalightgray);
+}
+.slide--thumbniail {
+  cursor: pointer;
+  height: 100px;
+  padding: 0 5px;
+  opacity: 0.75;
+}
+.slide--thumbniail:hover {
+  opacity: 1;
+}
+.slide img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  width: 100%;
+}
+
+
 .drop {
     position: relative;
     z-index: 1;

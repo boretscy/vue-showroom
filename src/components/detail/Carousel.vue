@@ -25,7 +25,7 @@
                 :key="image.id"
                 :class="['thumbnail-image', (activeImage == index) ? 'active' : '']"
                 @click="activateImage(index)"
-            >
+                >
                 <img :src="image.thumb">
             </div>
         </div>
