@@ -4,10 +4,6 @@
            <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
            <div class="car_grid-left" v-if="vehicle">
                <div class="car_grid-left__slider">
-                   <!-- <carousel
-                           :images="vehicle._images"
-                           :starting-image="0"
-                   ></carousel> -->
                    <agile class="main" ref="main" :options="optionsMainSlider" :as-nav-for="asNavForMainSlider">
                         <div 
                             class="slide" 
@@ -578,8 +574,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .drop {
     position: relative;
     z-index: 1;
