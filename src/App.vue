@@ -34,7 +34,7 @@ export default {
 	--yablue: #0048a9;
 	--yadarkblue: #003375;
 	
-	--yalightyellow: #ffe687;
+	--yalightyellow: #fce0b2;
 	--yayellow: #fdba4d;
 	--yadarkyellow: #fdaa25;
 

@@ -4,17 +4,16 @@
             <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__head--img">
                 <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name">
             </router-link>
-            <div class="model__grid-card__head--top" v-if="item.discounts">
-                <div class="model__grid-card__head--top_discont">
+            <div class="model__grid-card__head--top">
+                <div class="model__grid-card__head--top_discont" v-if="item.discounts">
                     до {{ Format(discount) }} <span class="rub">₽</span>
                 </div>
                 <div class="model__grid-card__head--top_icons">
-                    <a href="#">
+                    <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
                         <icon-base icon-name="favorites"><icon-favorites /></icon-base>
                     </a>
-                    <a href="#" class="compare is--active">
-                        <icon-base icon-name="favorites"><icon-favorites /></icon-base>
-                        <span>5</span>
+                    <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
+                        <icon-base icon-name="compare"><icon-compare /></icon-base>
                     </a>
                 </div>
             </div>
@@ -44,15 +43,20 @@
 <script>
 import IconBase from '@/components/IconBase.vue'
 import IconFavorites from '@/components/icons/IconFavorites.vue'
+import IconCompare from '@/components/icons/IconCompare.vue'
 
 export default {
     name: 'ItemGrid',
     components: {
-        IconBase, IconFavorites
+        IconBase, IconFavorites, IconCompare
     },
     props: ['brand', 'model', 'item'],
     data() {
         return {
+            locstore: {
+                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+            }
         }
     },
     computed: {
@@ -70,8 +74,23 @@ export default {
         }
     },
     mounted: function() {
+        setInterval(() => {
+            this.locstore = {
+                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+            }
+        }, 500);
     },
     methods: {
+        toggleLocstore(elem, id = this.item.id) {
+            
+            if ( this.locstore[elem].indexOf(id) < 0) {
+                this.locstore[elem].push(id)
+            } else {
+                this.locstore[elem].splice(this.locstore[elem].indexOf(id), 1)
+            }
+            localStorage.setItem('CIS_'+elem, JSON.stringify(this.locstore[elem]))
+        },
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
@@ -148,6 +167,11 @@ export default {
     border: solid 1px var(--yagray);
     border-radius: 3px;
     position: relative;
+    transition: .2s;
+}
+.model__grid-card__head--top_icons a.is--active {
+    background: var(--yalightyellow);
+    transition: .2s;
 }
 .model__grid-card__head--top_icons a span {
     position: absolute;
@@ -167,7 +191,7 @@ export default {
     display: flex;
 }
 .model__grid-card__head--top_icons a.is--active svg{
-    fill: var(--yayellow);
+    fill: var(--yadarkblue);
 }
 .model__grid-card__head--top_icons a svg {
     --icon-size: 15px;

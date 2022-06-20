@@ -71,11 +71,12 @@ export default {
         CtaGrid, 
         // CtaLine
     },
-    props: ['dataName', 'dataLink', 'viewMode'],
+    props: ['dataName', 'dataLink', 'viewMode', 'dataSort'],
     data() {
         return {
             models: [],
-            count: 0
+            count: 0,
+            sortMode: this.$parent.sortMode
         }
     },
     watch: {
@@ -88,33 +89,54 @@ export default {
 
                 this.axios.get(url).then((response) => {
 
-                    console.log(response.data)
                     this.count = 0
                     this.models = []
                     
-                    response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+                    // response.data.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.models = response.data
+                    if ( !this.models.length ) console.log(url) 
                     this.models.forEach( (item) => {
                         this.count += item.statistics[1].counter + item.statistics[2].counter
                     })
-                    // if ( this.$route.query.model ) {
-					// 	let b = this.$route.query.model.split(',')
-					// 	response.data.forEach( (item) => {
-					// 		if ( b.includes(item.alias) ) {
-                    //             this.models.push(item)
-                    //             this.count += item.statistics[1].counter + item.statistics[2].counter
-                    //         }
-					// 	})
-					// } else {
-					// 	this.models = response.data
-                    //     this.models.forEach( (item) => {
-                    //         this.count += item.statistics[1].counter + item.statistics[2].counter
-                    //     })
-					// }
-                    // this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
                 })
             }
+        },
+        '$parent.sortMode': function(newValue) {
+            switch(newValue) {
+                case 'all':
+                case 'name':
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.$emit('sort', {brand: this.dataLink, mode: newValue})
+                    break;
+                case 'price_up':
+                    this.models.sort((a, b) => {
+                        // console.log(a.min, b.min)
+                        a.min > b.min ? 1 : -1
+                    })
+                    console.log(this.models[0].min)
+                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: Number(this.models[0].min)})
+                    break;
+                case 'price_down':
+                    this.models.sort((a, b) => b.max > a.max ? 1 : -1);
+                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: Number(this.models[0].max)})
+                    break;
+                case 'Discount':
+                    this.models.sort((a, b) => a.has_discounts > b.has_discounts ? 1 : -1);
+                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: this.models[0].has_discounts})
+                    break;
+                case 'InStock':
+                    this.models.sort((a, b) => a.statistics['1'].counter > b.statistics['1'].counter ? 1 : -1);
+                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: this.models[0].statistics['1'].counter})
+                    break;
+                case 'OnWay':
+                    this.models.sort((a, b) => a.statistics['2'].counter > b.statistics['2'].counter ? 1 : -1);
+                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: this.models[0].statistics['2'].counter})
+                    break;
+            }
         }
+    },
+    mounted: function() {
     },
     methods: {
         buildLink(model) {
@@ -131,6 +153,10 @@ export default {
             }
             return l+((q.length)?'?':'')+q.slice(0, -1)
         },
+        sort(v) {
+            this.$emit('sort', v)
+        }
+        
     }
 }
 </script>

@@ -247,70 +247,10 @@
             <div class="filter__list-item__empty"></div>
             <div class="filter__list-item__empty"></div>
         </div>
-        <div class="filter__sort" v-if="filter">
-            <div class="filter__sort-item">
-                <multiselect 
-                    v-model="sortValue" 
-                    tag-placeholder="Сортировка" 
-                    placeholder="Сортировка" 
-                    label="name" 
-                    track-by="code" 
-                    :options="filter.dropLists.sort" 
-                    :multiple="false" 
-                    :searchable="false"
-                    selectLabel="Выбрать"
-                    selectedLabel="Выбрано"
-                    deselectLabel="Удалить"
-                    >
-                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
-                    </multiselect>
-            </div>
-            <div class="filter__sort-item">
-                <div class="filter__sort-item_box">
-                    <button class="filter__sort-item__button active" @click="sort('all')" v-if="filter.instock && filter.inpath && filter.discount">
-                        <span>Все</span>
-                    </button>
-                    <button class="filter__sort-item__button" :class="{'active': sortbuttons.discount}"  @click="sort('discount')" v-if="filter.discount">
-                        <span>Со скидкой</span>
-                    </button>
-                    <button class="filter__sort-item__button" :class="{'active': sortbuttons.instock}" @click="sort('instock')" v-if="filter.instock">
-                        <span>В наличии</span>
-                    </button>
-                    <button class="filter__sort-item__button" :class="{'active': sortbuttons.inpath}" @click="sort('inpath')" v-if="filter.inpath">
-                        <span>В пути</span>
-                    </button>
-                </div>
-                <div class="filter__sort-item__switch">
-                    <div class="filter__sort-item__switch-radio">
-                        <label>
-                            <input type="radio" name="radio_grid" value="grid" :checked="($store.state.viewMode == 'grid') ? true : false">
-                            <span @click="toggleViewMode">
-                                <icon-base icon-name="viewplates"><icon-viewplates /></icon-base>
-                            </span>
-                        </label>
-                    </div>
-                    <div class="filter__sort-item__switch-radio">
-                        <label>
-                            <input type="radio" name="radio_grid" value="line" :checked="($store.state.viewMode == 'list') ? true : false">
-                            <span @click="toggleViewMode">
-                                <icon-base icon-name="viewlines"><icon-viewlines /></icon-base>
-                            </span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="filter__sort" v-else>
-            <div class="filter__sort-item__empty"></div>
-            <div class="filter__sort-item__empty"></div>
-        </div>
     </div>
 </template>
 
 <script>
-import IconBase from '@/components/IconBase.vue'
-import IconViewplates from '@/components/icons/IconViewplates.vue'
-import IconViewlines from '@/components/icons/IconViewlines.vue'
 
 import MultiRange from '@/components/base/MultiRange.vue'
 import ButtonCancel from '@/components/searchfilter/ButtonCancel.vue'
@@ -323,7 +263,6 @@ export default {
     name: 'SearchFilter',
     props: ['listName'],
     components: {
-		IconBase, IconViewlines, IconViewplates,
         MultiRange,
         ButtonApply,
         ButtonCancel,
@@ -651,16 +590,6 @@ export default {
 
         toggleFilter() {
             this.viewFull = !this.viewFull
-        },
-        
-        sort(v) {
-            this.sortbuttons = {
-                discount: false,
-                instock: false,
-                inpath: false
-            }
-            if ( v != 'all' ) this.sortbuttons[v] = !this.sortbuttons[v]
-            this.$emit('sort', v)
         },
 
 

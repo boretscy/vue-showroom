@@ -11,8 +11,8 @@
             <router-link :to="link" class="grid-item__title">{{ name }}</router-link>
         </div>
         <div class="grid-item__sub">
-            <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} автомобилей</span>
-            <span class="grid-item__sub--items">{{ Format( Number(colors) ) }} цветов</span>
+            <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} {{ getWorld(Number(cis), 'a') }}</span>
+            <span class="grid-item__sub--items">{{ Format( Number(colors.length) ) }} {{ getWorld(Number(colors.length), 'c') }}</span>
         </div>
         <button class="button transparent w100">от {{ Format( Number(price) ) }} <span class="rub">₽</span></button>
     </div>
@@ -25,6 +25,22 @@ export default {
     mounted: function() {
     },
     methods: {
+
+        getWorld( q = 1, f = 'a' ) {
+
+            let res = {
+                'c': ['цвет', 'цвета', 'цветов'],
+                'a': ['автомобиль', 'автомобиля', 'автомобилей']
+            }
+            let t = [
+				[1, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 131, 141, 151, 161, 171, 181, 191],
+				[2,3,4,22,23,24,32,33,34,42,43,44,52,53,54,62,63,64,72,73,74,82,83,84,92,93,94,102,103,104,122,123,124,132,133,134,142,143,144,152,153,154,162,163,164,172,173,174,182,183,184,192,193,194]
+			]
+
+            if ( t[0].indexOf(q) >= 0 ) return res[f][0]
+            if ( t[1].indexOf(q) >= 0 ) return res[f][1]
+            return res[f][2]
+        },
         
         Format(q) {
 			

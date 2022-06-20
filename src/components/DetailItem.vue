@@ -41,12 +41,11 @@
                        </div>
                        <a :href="'tel:+'+FormatPhoneIn(vehicle.dealership.phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(vehicle.dealership.phone) }}</a>
                        <div class="car__grid-box__status-links">
-                           <a href="#">
+                           <a href="#" :class="{'--is-active': locstore.FAVORITES.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
                                <icon-base icon-name="favorites"><icon-favorites /></icon-base>
                            </a>
-                           <a href="#" class="--is-active">
+                           <a href="#" :class="{'--is-active': locstore.COMPARE.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
                                <icon-base icon-name="compare"><icon-compare /></icon-base>
-                               <span>5</span>
                            </a>
                            <!-- <a href="#">
                                <icon-base icon-name="share"><icon-share /></icon-base>
@@ -379,7 +378,6 @@ import IconCompare from '@/components/icons/IconCompare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
-// import Carousel from '@/components/detail/Carousel.vue'
 
 import { VueAgile } from 'vue-agile'
 
@@ -390,7 +388,6 @@ export default {
         IconBase, IconFavorites, IconCompare, 
         // IconShare, 
         IconCheck, IconQuestion, IconCorner,
-        // Carousel,
         agile: VueAgile
     },
     props: ['vehicle'],
@@ -413,24 +410,7 @@ export default {
                 {
                     group: 'Экстерьер',
                     view: false,
-                    options: [
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                    ]
-                },
-                {
-                    group: 'Интерьер',
-                    view: false,
-                    options: [
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                        'sdjgadfakdf',
-                    ]
+                    options: ['sdjgadfakdf']
                 }
             ],
             drops: {
@@ -447,28 +427,16 @@ export default {
 				centerMode: true,
 				dots: false,
 				navButtons: false,
-				slidesToShow: 3,
-				responsive: [
-                    {
-                        breakpoint: 600,
-                        settings: {
-                            slidesToShow: 3
-                        }
-                    },
-                    {
-                        breakpoint: 1000,
-                        settings: {
-                            navButtons: false
-                        }
-                    }
-                ]
-				
-			}
+				slidesToShow: 3
+			},
+
+            locstore: {
+                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+            }
             
         }
     },
-
-
     computed: {
         curPrice: function() {
             let res = this.vehicle.price
@@ -513,6 +481,13 @@ export default {
 
         this.asNavForMainSlider.push(this.$refs.thumbnails)
 		this.asNavForMainThumbs.push(this.$refs.main)
+
+        setInterval(() => {
+            this.locstore = {
+                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+            }
+        }, 500);
     },
     methods: {
         /* UI */
@@ -533,14 +508,6 @@ export default {
                 item.view = res
             })
         },
-
-
-
-
-
-
-
-
         getDiscountsName() {
             let s = []
             if ( this.vehicle.discounts ) {
@@ -549,6 +516,15 @@ export default {
                 })
             }
             return s.join(', ')
+        },
+        toggleLocstore(elem, id = this.vehicle.id) {
+            
+            if ( this.locstore[elem].indexOf(id) < 0) {
+                this.locstore[elem].push(id)
+            } else {
+                this.locstore[elem].splice(this.locstore[elem].indexOf(id), 1)
+            }
+            localStorage.setItem('CIS_'+elem, JSON.stringify(this.locstore[elem]))
         },
 
 
@@ -2150,6 +2126,11 @@ input[type=range]::-ms-fill-upper {
     border: solid 1px var(--yagray);
     border-radius: 3px;
     position: relative;
+    transition: .2s;
+}
+.car__grid-box__status-links a.--is-active {
+    background: var(--yalightyellow);
+    transition: .2s;
 }
 .car__grid-box__status-links svg {
     width: var(--size);
@@ -2173,9 +2154,6 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box__status-links .--is-active span{
     display: flex;
-}
-.car__grid-box__status-links .--is-active svg{
-    fill: var(--yayellow);
 }
 .car__grid-box__status-links a:hover svg{
     fill: var(--yadarkblue);
@@ -2393,13 +2371,13 @@ input[type=range]::-ms-fill-upper {
     justify-items: center;
 }
 .item__checkbox {
-    background: var(--yayellow);
+    background: var(--yalightyellow);
     padding: 1px 1px;
     box-sizing: border-box;
     display: block;
     justify-self: start;
     border-radius: 3px;
-    border: solid 1px var(--yayellow);
+    border: solid 1px var(--yalightyellow);
     width: 100%;
     height: 18px;
     text-align: center;
@@ -2552,7 +2530,6 @@ input[type=range]::-ms-fill-upper {
     border-bottom: solid 1px var(--yagray);
     user-select: none;
     display: block;
-    cursor: pointer;
 }
 .setting_accordion-content .settings_accordion:nth-last-child(1) {
     margin-bottom: 2em;
@@ -2560,6 +2537,7 @@ input[type=range]::-ms-fill-upper {
 .settings_accordion--head {
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 }
 .settings_accordion--head__title {
     font-size: 14px;

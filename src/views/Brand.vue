@@ -2,9 +2,6 @@
 	<div class="yapps-cis">
 		<search-filter ref="searchFilter" list-name="models"/>
 		<list-models
-			:dataName="brand.name"
-			:dataCount="brand.vehicles"
-			:dataLink="$route.params.brand"
 			:viewMode="viewMode"/>
 	</div>
 </template>
@@ -21,9 +18,7 @@ export default {
 	},
 	data() {
 		return {
-			brand: [],
-			showMore: false,
-			totalcount: 0
+			brand: null,
 		}
 	},
 	computed: {
@@ -32,12 +27,15 @@ export default {
 		}
 	},
 	mounted: function() {
-
-		let url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+this.$route.params.brand+'?token='+this.$store.state.apiToken
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-        this.axios.get(url).then((response) => {
-			this.brand = response.data
-        })
+		localStorage.setItem(
+			'CIS_NAV',
+			JSON.stringify([
+				{
+					path: '/'+this.$route.params.brand+'/',
+					name: this.$route.params.brand
+				}
+			])
+		)
 	},
 }
 </script>

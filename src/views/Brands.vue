@@ -1,6 +1,11 @@
 <template>
 	<div class="yapps-cis">
 		<search-filter @sort="sort"/>
+		<sort
+			:Discount="true"
+			:InStock="true"
+			:OnWay="true"
+			@sort="sortToggle"/>
 		<div v-if="brands">
 			<list-brand-models
 				v-for="(brand, indx) in brands"
@@ -8,7 +13,9 @@
 				:dataName="brand.name"
 				:dataCount="brand.vehicles"
 				:dataLink="brand.alias"
-				:viewMode="viewMode"/>
+				:dataSort="sortMode"
+				:viewMode="viewMode"
+				@sort="sort"/>
 			<more
 				@more="moreBrands"
 				v-if="showMore"/>
@@ -22,6 +29,7 @@
 // import IconCorner from '@/components/icons/IconCorner.vue'
 
 import SearchFilter from '@/components/SearchFilter.vue'
+import Sort from '@/components/Sort.vue'
 import ListBrandModels from '@/components/ListBrandModels.vue'
 import More from '@/components/brands/More.vue'
 
@@ -31,13 +39,16 @@ export default {
 		// IconBase, IconCorner,
 		SearchFilter,
 		ListBrandModels,
+		Sort,
 		More
 	},
 	data() {
 		return {
 			brands: [],
 			brandsCount: 0,
-			showMore: false
+			showMore: false,
+			sortMode: 'name',
+			sortList: []
 		}
 	},
 	computed: {
@@ -52,14 +63,32 @@ export default {
                 let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
 				if ( this.$route.query.brand ) url += '&brand='+this.$route.query.brand
 				this.axios.get(url).then((response) => {
-					console.log(response.data)
 					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
 					this.brands = response.data
 				})
             }
-        }
+        },
+		sortList: function(val) {
+			if (val.length == this.brands.length) {
+				console.log(this.brands)
+				switch(this.sortMode) {
+					case 'all':
+					case 'name':
+					case 'price_up':
+					case 'Discount':
+					case 'InStock':
+					case 'OnWay':
+						this.brands.sort((a, b) => a.sort.value > b.sort.value ? 1 : -1);
+						break;
+					case 'price_down':
+						this.brands.sort((a, b) => a.sort.value > b.sort.value ? 1 : -1);
+						break;
+				}
+			}
+		}
     },
 	mounted: function() {
+		
 	},
 	methods: {
 
@@ -75,9 +104,28 @@ export default {
 				}
 			}
 		},
-
+		sortToggle(v) {
+			this.sortMode = v
+		},
 		sort(v) {
-			console.log('brands', v)
+			this.brands.forEach( (b) => {
+				if (b.alias == v.brand) {
+					this.sortList.push(
+						{
+							id: b.id,
+							value: b.value
+						}
+					)
+					b.sort = {
+						id: b.id,
+						value: b.value
+					}
+				}
+			})
+			// switch (v) {
+			// 	case 'name':
+			// 		break;
+			// }
 		}
 	}
 }
