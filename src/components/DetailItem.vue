@@ -1,282 +1,354 @@
 <template>
-    <div class="car__grid">
-        <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
-        <div class="car_grid-left" v-if="vehicle">
-            <div class="car_grid-left__slider">
-                <carousel
-                    :images="vehicle._images"
-                    :starting-image="0"
-                    ></carousel>
+   <div>
+       <div class="car__grid">
+           <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
+           <div class="car_grid-left" v-if="vehicle">
+               <div class="car_grid-left__slider">
+                   <carousel
+                           :images="vehicle._images"
+                           :starting-image="0"
+                   ></carousel>
 
-            </div>
-        </div>
-        <div class="car__grid-item" v-if="vehicle">
-                <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
-                <div class="car__grid-box">
-                    <div class="car__grid-box__dc --detail__bg">
-                        <div class="car__grid-box__dc-title detail_bg">{{ vehicle.dealership.name }}</div>
-                        <div class="car__grid-box__dc-item">
-                            <span class="car__grid-box__dc-item_status --in-stock">{{ vehicle.status.name }}</span>
-                            <span class="car__grid-box__dc-item_update">Обновлено {{ vehicle.updated }}</span>
-                        </div>
-                        <a :href="'tel:+'+FormatPhoneIn(vehicle.dealership.phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(vehicle.dealership.phone) }}</a>
-                        <div class="car__grid-box__status-links">
-                            <a href="#">
-                                <icon-base icon-name="favorites"><icon-favorites /></icon-base>
-                            </a>
-                            <a href="#" class="--is-active">
-                                <icon-base icon-name="compare"><icon-compare /></icon-base>
-                                <span>5</span>
-                            </a>
-                            <a href="#">
-                                <icon-base icon-name="share"><icon-share /></icon-base>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="car__grid-box__price --detail__bg">
-                        <div class="car__grid-box__price-title">
-                            <div class="price">{{ Format(curPrice) }}<span class="rub">₽</span></div>
-                            <div
-                                class="drop"
-                                :class="{'--open': drops.title}"
-                                v-if="vehicle.discounts">
-                                <div class="drop-btn">
-                                    <button class="question" @click="drops.title = !drops.title">
-                                        <icon-base icon-name="question"><icon-question /></icon-base>
-                                    </button>
-                                </div>
-                                <div class="drop-container">
-                                    <div class="drop-content">
-                                        <div class="question-drop">
-                                            Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
-                                            {{ getDiscountsName() }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="car__grid-box__price-discount"
-                            v-if="vehicle.discounts">
-                            {{ Format(vehicle.price) }}<span class="rub">₽</span>
-                        </div>
-                        <button class="button hovered-t w100">
-                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                        </button>
-                    </div>
-                    <div class="car__grid-box-stock">
-                        <div class="car__grid-box-stock__head">
-                            <div class="car__grid-box-stock__head-sub">Комплектация:</div>
-                            <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
-                            <div class="car__grid-box-stock__head-options">
-                                <span>{{ vehicle.options.length }} базовых опций</span>
-                                <span v-if="vehicle.side_options">{{ vehicle._additional.length }} дополнительных опций</span>
-                            </div>
-                        </div>
-                        <div class="car__grid-box-stock__list">
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Цвет кузова:</div>
-                                <div class="stock__list-items__name">{{ vehicle.general[2].value }}</div>
-                            </div>
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Год выпуска:</div>
-                                <div class="stock__list-items__name">{{ vehicle.general[4].value }}</div>
-                            </div>
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Кузов:</div>
-                                <div class="stock__list-items__name">{{ vehicle.body.name }}</div>
-                            </div>
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Коробка:</div>
-                                <div class="stock__list-items__name">{{ vehicle.transmition.name }}</div>
-                            </div>
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Топливо:</div>
-                                <div class="stock__list-items__name">{{ vehicle.engine.name }}</div>
-                            </div>
-                            <!-- <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Привод:</div>
-                                <div class="stock__list-items__name">Передний</div>
-                            </div> -->
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Двигатель:</div>
-                                <div class="stock__list-items__name">{{ vehicle.general[5].value }}</div>
-                            </div>
-                            <div class="car__grid-box-stock__list-items">
-                                <div class="stock__list-items__category">Расход л/100км:</div>
-                                <div class="stock__list-items__name">{{ vehicle.specifications[3].value }} - {{ vehicle.specifications[2].value }}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="car__grid-box-profit --detail__bg desktop">
-                        <div class="car__grid-box-profit__head">
-                            <div class="profit__head-title">Выгода на авто</div>
-                            <div class="profit__head-discount">
-                                <div
-                                    class="profit__head-discount__item"
-                                    v-if="maxDiscount">
-                                    Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span>
-                                </div>
-                                <div class="profit__head-discount__item">
-                                    <div
-                                        class="drop"
-                                        :class="{'--open': drops.description}"
-                                        v-if="vehicle.discounts">
-                                        <div class="drop-btn" @click="drops.description = !drops.description">
-                                            <button class="question">
-                                                <icon-base icon-name="question"><icon-question /></icon-base>
-                                            </button>
-                                        </div>
-                                        <div class="drop-container">
-                                            <div class="drop-content">
-                                                <div class="question-drop">
-                                                    Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
-                                                    {{ getDiscountsName() }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box-profit__list">
-                            <div
-                                class="profit__list--grid_item"
-                                v-for="(item, indx) in vehicle.discounts"
-                                :key="indx"
-                                @click="item.active = !item.active">
-                                <div class="box-profit__list-item__checkbox">
-                                    <div class="item__checkbox">
-                                        <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
-                                    </div>
-                                    <div class="item">{{ item.name }}</div>
-                                </div>
-                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
-                            </div>
-                        </div>
-                    <div class="profit__list--stock">
-                        <!-- <div class="profit__list--stock_item">
-                            <div class="list--stock_item-name">Доп оборудование</div>
-                            <div class="list--stock_item-price">+ 150 000 <span class="rub">С</span></div>
-                        </div> -->
-                        <div class="profit__list--stock_item">
-                            <div class="list--stock_item-name">Цена без учета выгод</div>
-                            <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
-                        </div>
-                        <div class="profit__list--stock_item">
-                            <div class="list--stock_item-name">Цена с учетом выгод</div>
-                            <div class="list--stock_item-price">{{ Format( curPrice ) }}<span class="rub">₽</span></div>
-                        </div>
-                    </div>
-                        <div class="car__grid-box-profit__footer">
-                            <button class="button hovered-t w100">
-                                <span>ОЦЕНИТЬ АВТОМОБИЛЬ</span>
-                            </button>
-                            <button class="button hovered-t w100">
-                                <span>РАССЧИТАТЬ КРЕДИТ</span>
-                            </button>
-                        </div>
-                </div>
-                <div class="profit_mobile" data-popup-trigger="profit">
-                    <div class="profit_mobile-content">
-                        <div class="profit_mobile-content__title">Выгода на авто</div>
-                        <div class="profit_mobile-content__sub">Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span></div>
-                    </div>
-                    <div class="profit_mobile-icon">
-                        <icon-base icon-name="down"><icon-down /></icon-base>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="configuration" v-if="vehicle">
-            <div class="tabs">
-                <div class="tabs_head">
-                    <button
-                        class="button hovered-t"
-                        :class="{'--is-active': tabs.equipment.view}"
-                        @click="toggleTabs"
-                        >
-                        <span>{{ tabs.equipment.text }}</span>
-                    </button>
-                    <button
-                        class="button hovered-t"
-                        :class="{'--is-active': tabs.specifications.view}"
-                        @click="toggleTabs"
-                        >
-                        <span>{{ tabs.specifications.text }}</span>
-                    </button>
-                </div>
-                <div class="tabs_content">
-                    <div
-                        class="tabs_content-item"
-                        :class="{'--is-active': tabs.equipment.view}"
-                        v-if="tabs.equipment.view">
-                        <div
-                            class="tabs_content-item__list"
-                            v-for="(item, indx) in vehicle._additional"
-                            :key="indx"
-                            >{{ item }}</div>
-                    </div>
-                    <div
-                        class="tabs_content-item"
-                        :class="{'--is-active': tabs.specifications.view}"
-                        v-if="tabs.specifications.view">
-                        <div class="tabs_content-item__title">Характеристики</div>
-                        <div class="settigns_items">
-                            <div
-                                class="tabs_content-item__title-settings"
-                                v-for="(group, gindx) in vehicle._specifications"
-                                :key="gindx"
-                                >
-                                <div
-                                    class="settings_item"
-                                    v-for="(item, indx) in group"
-                                    :key="indx">
-                                    <div class="settings_item--category">{{ item.name }}</div>
-                                    <div class="settings_item--name">{{ item.value }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setting_accordion-content">
-                            <div
-                                class="settings_accordion"
-                                :class="{'--accordion-open': group.view}"
-                                v-for="(group, gindx) in accordion"
-                                :key="gindx">
-                                <div
-                                    class="settings_accordion--head"
-                                    @click="toggleAccordion(gindx)"
-                                    >
-                                    <div class="settings_accordion--head__title">{{ group.group }}</div>
-                                    <div class="tabs_content-item__sub">
-                                        <div class="tabs_content-item__sub-count">{{ group.options.length }} опции</div>
-                                        <div class="tabs_content-item__sub-drop">
-                                            <icon-base
-                                                icon-name="corner"
-                                                :class="{'up': group.view}"
-                                                >
-                                                <icon-corner />
-                                            </icon-base>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="settings_accordion--body">
-                                    <div
-                                        class="settings_accordion--body_list"
-                                        v-for="(item, indx) in group.options"
-                                        :key="indx"
-                                        >{{ item }}</div>
-                                </div>
-                            </div>
-                            <div class="show-btn" @click="toggleAllAccordion">
-                                <div class="setting_accordion-all">{{ accordionButton }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+               </div>
+           </div>
+           <div class="car__grid-item" v-if="vehicle">
+               <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
+               <div class="car__grid-box">
+                   <div class="car__grid-box__dc --detail__bg">
+                       <div class="car__grid-box__dc-title detail_bg">{{ vehicle.dealership.name }}</div>
+                       <div class="car__grid-box__dc-item">
+                           <span class="car__grid-box__dc-item_status --in-stock">{{ vehicle.status.name }}</span>
+                           <span class="car__grid-box__dc-item_update">Обновлено {{ vehicle.updated }}</span>
+                       </div>
+                       <a :href="'tel:+'+FormatPhoneIn(vehicle.dealership.phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(vehicle.dealership.phone) }}</a>
+                       <div class="car__grid-box__status-links">
+                           <a href="#">
+                               <icon-base icon-name="favorites"><icon-favorites /></icon-base>
+                           </a>
+                           <a href="#" class="--is-active">
+                               <icon-base icon-name="compare"><icon-compare /></icon-base>
+                               <span>5</span>
+                           </a>
+                           <a href="#">
+                               <icon-base icon-name="share"><icon-share /></icon-base>
+                           </a>
+                       </div>
+                   </div>
+                   <div class="car__grid-box__price --detail__bg">
+                       <div class="car__grid-box__price-title">
+                           <div class="price">{{ Format(curPrice) }}<span class="rub">₽</span></div>
+                           <div
+                                   class="drop"
+                                   :class="{'--open': drops.title}"
+                                   v-if="vehicle.discounts">
+                               <div class="drop-btn">
+                                   <button class="question" @click="drops.title = !drops.title">
+                                       <icon-base icon-name="question"><icon-question /></icon-base>
+                                   </button>
+                               </div>
+                               <div class="drop-container">
+                                   <div class="drop-content">
+                                       <div class="question-drop">
+                                           Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
+                                           {{ getDiscountsName() }}
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div
+                               class="car__grid-box__price-discount"
+                               v-if="vehicle.discounts">
+                           {{ Format(vehicle.price) }}<span class="rub">₽</span>
+                       </div>
+                       <button class="button hovered-t w100">
+                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                       </button>
+                   </div>
+                   <div class="car__grid-box-stock">
+                       <div class="car__grid-box-stock__head">
+                           <div class="car__grid-box-stock__head-sub">Комплектация:</div>
+                           <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
+                           <div class="car__grid-box-stock__head-options">
+                               <span>{{ vehicle.options.length }} базовых опций</span>
+                               <span v-if="vehicle.side_options">{{ vehicle._additional.length }} дополнительных опций</span>
+                           </div>
+                       </div>
+                       <div class="car__grid-box-stock__list">
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Цвет кузова:</div>
+                               <div class="stock__list-items__name">{{ vehicle.general[2].value }}</div>
+                           </div>
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Год выпуска:</div>
+                               <div class="stock__list-items__name">{{ vehicle.general[4].value }}</div>
+                           </div>
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Кузов:</div>
+                               <div class="stock__list-items__name">{{ vehicle.body.name }}</div>
+                           </div>
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Коробка:</div>
+                               <div class="stock__list-items__name">{{ vehicle.transmition.name }}</div>
+                           </div>
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Топливо:</div>
+                               <div class="stock__list-items__name">{{ vehicle.engine.name }}</div>
+                           </div>
+                           <!-- <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Привод:</div>
+                               <div class="stock__list-items__name">Передний</div>
+                           </div> -->
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Двигатель:</div>
+                               <div class="stock__list-items__name">{{ vehicle.general[5].value }}</div>
+                           </div>
+                           <div class="car__grid-box-stock__list-items">
+                               <div class="stock__list-items__category">Расход л/100км:</div>
+                               <div class="stock__list-items__name">{{ vehicle.specifications[3].value }} - {{ vehicle.specifications[2].value }}</div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="car__grid-box-profit --detail__bg desktop">
+                       <div class="car__grid-box-profit__head">
+                           <div class="profit__head-title">Выгода на авто</div>
+                           <div class="profit__head-discount">
+                               <div
+                                       class="profit__head-discount__item"
+                                       v-if="maxDiscount">
+                                   Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span>
+                               </div>
+                               <div class="profit__head-discount__item">
+                                   <div
+                                           class="drop"
+                                           :class="{'--open': drops.description}"
+                                           v-if="vehicle.discounts">
+                                       <div class="drop-btn" @click="drops.description = !drops.description">
+                                           <button class="question">
+                                               <icon-base icon-name="question"><icon-question /></icon-base>
+                                           </button>
+                                       </div>
+                                       <div class="drop-container">
+                                           <div class="drop-content">
+                                               <div class="question-drop">
+                                                   Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
+                                                   {{ getDiscountsName() }}
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="box-profit__list">
+                           <div
+                                   class="profit__list--grid_item"
+                                   v-for="(item, indx) in vehicle.discounts"
+                                   :key="indx"
+                                   @click="item.active = !item.active">
+                               <div class="box-profit__list-item__checkbox">
+                                   <div class="item__checkbox">
+                                       <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
+                                   </div>
+                                   <div class="item">{{ item.name }}</div>
+                               </div>
+                               <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
+                           </div>
+                       </div>
+                       <div class="profit__list--stock">
+                           <!-- <div class="profit__list--stock_item">
+                               <div class="list--stock_item-name">Доп оборудование</div>
+                               <div class="list--stock_item-price">+ 150 000 <span class="rub">С</span></div>
+                           </div> -->
+                           <div class="profit__list--stock_item">
+                               <div class="list--stock_item-name">Цена без учета выгод</div>
+                               <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
+                           </div>
+                           <div class="profit__list--stock_item">
+                               <div class="list--stock_item-name">Цена с учетом выгод</div>
+                               <div class="list--stock_item-price">{{ Format( curPrice ) }}<span class="rub">₽</span></div>
+                           </div>
+                       </div>
+                       <div class="car__grid-box-profit__footer">
+                           <button class="button hovered-t w100">
+                               <span>ОЦЕНИТЬ АВТОМОБИЛЬ</span>
+                           </button>
+                           <button class="button hovered-t w100">
+                               <span>РАССЧИТАТЬ КРЕДИТ</span>
+                           </button>
+                       </div>
+                   </div>
+                   <div class="profit_mobile" data-popup-trigger="profit">
+                       <div class="profit_mobile-content">
+                           <div class="profit_mobile-content__title">Выгода на авто</div>
+                           <div class="profit_mobile-content__sub">Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span></div>
+                       </div>
+                       <div class="profit_mobile-icon">
+                           <icon-base icon-name="down"><icon-down /></icon-base>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <div class="configuration" v-if="vehicle">
+               <div class="tabs">
+                   <div class="tabs_head">
+                       <button
+                               class="button hovered-t"
+                               :class="{'--is-active': tabs.equipment.view}"
+                               @click="toggleTabs"
+                       >
+                           <span>{{ tabs.equipment.text }}</span>
+                       </button>
+                       <button
+                               class="button hovered-t"
+                               :class="{'--is-active': tabs.specifications.view}"
+                               @click="toggleTabs"
+                       >
+                           <span>{{ tabs.specifications.text }}</span>
+                       </button>
+                   </div>
+                   <div class="tabs_content">
+                       <div
+                               class="tabs_content-item"
+                               :class="{'--is-active': tabs.equipment.view}"
+                               v-if="tabs.equipment.view">
+                           <div
+                                   class="tabs_content-item__list"
+                                   v-for="(item, indx) in vehicle._additional"
+                                   :key="indx"
+                           >{{ item }}</div>
+                       </div>
+                       <div
+                               class="tabs_content-item"
+                               :class="{'--is-active': tabs.specifications.view}"
+                               v-if="tabs.specifications.view">
+                           <div class="tabs_content-item__title">Характеристики</div>
+                           <div class="settigns_items">
+                               <div
+                                       class="tabs_content-item__title-settings"
+                                       v-for="(group, gindx) in vehicle._specifications"
+                                       :key="gindx"
+                               >
+                                   <div
+                                           class="settings_item"
+                                           v-for="(item, indx) in group"
+                                           :key="indx">
+                                       <div class="settings_item--category">{{ item.name }}</div>
+                                       <div class="settings_item--name">{{ item.value }}</div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="setting_accordion-content">
+                               <div
+                                       class="settings_accordion"
+                                       :class="{'--accordion-open': group.view}"
+                                       v-for="(group, gindx) in accordion"
+                                       :key="gindx">
+                                   <div
+                                           class="settings_accordion--head"
+                                           @click="toggleAccordion(gindx)"
+                                   >
+                                       <div class="settings_accordion--head__title">{{ group.group }}</div>
+                                       <div class="tabs_content-item__sub">
+                                           <div class="tabs_content-item__sub-count">{{ group.options.length }} опции</div>
+                                           <div class="tabs_content-item__sub-drop">
+                                               <icon-base
+                                                       icon-name="corner"
+                                                       :class="{'up': group.view}"
+                                               >
+                                                   <icon-corner />
+                                               </icon-base>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="settings_accordion--body">
+                                       <div
+                                               class="settings_accordion--body_list"
+                                               v-for="(item, indx) in group.options"
+                                               :key="indx"
+                                       >{{ item }}</div>
+                                   </div>
+                               </div>
+                               <div class="show-btn" @click="toggleAllAccordion">
+                                   <div class="setting_accordion-all">{{ accordionButton }}</div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+       <div class="liner_model">
+           <div class="available__grid-item">
+               <div class="grid-item__head">
+                   <a href="#" class="grid-item__head-img">
+                       <img src="https://195004.selcdn.ru/ref/catalog/20619/12/7f34bb3cf7.jpg" alt="granta">
+                   </a>
+               </div>
+               <div class="head_items-box">
+                   <div class="head_items">
+                       <a href="#" class="grid-item__title">Niva Travel</a>
+                   </div>
+                   <div class="grid-item__sub">
+                       <span class="grid-item__sub--items">148 автомобилей</span>
+                       <span class="grid-item__sub--items">7 цветов</span>
+                   </div>
+               </div>
+           </div>
+           <div class="available__grid-item">
+               <div class="grid-item__head">
+                   <a href="#" class="grid-item__head-img">
+                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
+                   </a>
+               </div>
+               <div class="head_items-box">
+                   <div class="head_items">
+                       <a href="#" class="grid-item__title">Niva Travel</a>
+                   </div>
+                   <div class="grid-item__sub">
+                       <span class="grid-item__sub--items">148 автомобилей</span>
+                       <span class="grid-item__sub--items">7 цветов</span>
+                   </div>
+               </div>
+           </div>
+           <div class="available__grid-item">
+               <div class="grid-item__head">
+                   <a href="#" class="grid-item__head-img">
+                       <img src="https://apps.yug-avto.ru/upload/Cis/default.png" alt="granta">
+                   </a>
+               </div>
+               <div class="head_items-box">
+                   <div class="head_items">
+                       <a href="#" class="grid-item__title">Niva Travel</a>
+                   </div>
+                   <div class="grid-item__sub">
+                       <span class="grid-item__sub--items">148 автомобилей</span>
+                       <span class="grid-item__sub--items">7 цветов</span>
+                   </div>
+               </div>
+           </div>
+           <div class="available__grid-item">
+               <div class="grid-item__head">
+                   <a href="#" class="grid-item__head-img">
+                       <img src="https://195004.selcdn.ru/ref/catalog/13380/4_blagorodny%20agat.jpg" alt="granta">
+                   </a>
+               </div>
+               <div class="head_items-box">
+                   <div class="head_items">
+                       <a href="#" class="grid-item__title">Niva Travel</a>
+                   </div>
+                   <div class="grid-item__sub">
+                       <span class="grid-item__sub--items">148 автомобилей</span>
+                       <span class="grid-item__sub--items">7 цветов</span>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+   </div>
+
+
 
 </template>
 
@@ -1337,7 +1409,7 @@ input[type=range]::-ms-fill-upper {
 }
 .available__grid-item {
     text-decoration: none;
-    border: solid 1px var(--ligth-yagray);
+    border: solid 1px var(--yagray);
     display: block;
     padding: 2rem 2rem;
     user-select: none;
@@ -1416,6 +1488,10 @@ input[type=range]::-ms-fill-upper {
 .grid__icon-form .grid-item__sub {}
 .grid-item__head {
     position: relative;
+    min-height: 182.5px;
+    max-height: 182.5px;
+    display: flex;
+    align-items: center;
 }
 .grid-item__head-img {
     display: block;
@@ -1437,11 +1513,14 @@ input[type=range]::-ms-fill-upper {
 }
 .grid-item__title {
     text-decoration: none;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 1em;
     margin-bottom: 1em;
     display: block;
+    min-height: 50px;
+    max-height: 50px;
+    text-transform: uppercase;
     color: var(--yablack);
 }
 .grid-item__sub {
@@ -2695,6 +2774,52 @@ h2, .h2 a {
     fill: var(--yablue);
     transform: rotate(-90deg);
 }
+.flex__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.flex__head-title {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    text-decoration: none;
+    color: var(--yablack);
+}
+.flex__head-count {
+    color: var(--yamiddlegray);
+    margin-left: 1em;
+}
+.flex__head-link {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    text-decoration: none;
+    color: var(--yablack);
+}
+.flex__head-link svg {
+    fill: var(--yayellow);
+    width: 20px;
+    height: 20px;
+    margin-left: 2em;
+}
+.liner_model {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 4rem;
+}
+.liner_model .available__grid-item {
+
+    padding: 1rem 1rem;
+}
+.liner_model .grid-item__head-img img {
+    object-fit: contain;
+}
+.liner_model .grid-item__title {margin-bottom: 0;}
+.liner_model .grid-item__sub {margin-bottom: 1em;}
 .desktop {
     display: block;
 }
