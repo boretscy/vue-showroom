@@ -50,19 +50,35 @@ export default {
     computed:{
         indxRange: function() {
             return this.range
+        },
+        tow: function() {
+            return this.$parent.filter.ranges[this.indxRange]
+        }
+    },
+    watch: {
+        tow: function(newValue) {
+            this.reset()
+            this.value = newValue.value
+            this.min = newValue.min
+            this.max = newValue.max
         }
     },
     mounted: function() {
-        this.min = this.$parent.filter.ranges[this.indxRange].min
-        this.max = this.$parent.filter.ranges[this.indxRange].max
         this.value = [
             this.$parent.filter.ranges[this.indxRange].min,
             this.$parent.filter.ranges[this.indxRange].max
         ]
+        this.min = this.$parent.filter.ranges[this.indxRange].min
+        this.max = this.$parent.filter.ranges[this.indxRange].max
     },
     methods: {
         cc() {
             this.$emit('range', { range: this.range, value: this.value})
+        },
+        reset() {
+            this.value = [0,0]
+            this.min = 0
+            this.max = 1000000000
         }
     }
 }

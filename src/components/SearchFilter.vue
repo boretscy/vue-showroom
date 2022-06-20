@@ -381,6 +381,7 @@ export default {
 
                 this.link = this.buildLink(this.buildQuery())
                 this.getFilter(this.buildQuery())
+                
             }
             if (!newValue.length && oldValue.length) {
                 this.blockFilter = true
@@ -447,6 +448,7 @@ export default {
             let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
             this.axios.get(url).then((response) => {
                 this.filter = response.data
+                this.setRangesValues()
             }).then(() => {
             })
         },
@@ -640,6 +642,11 @@ export default {
             this.link = this.buildLink(this.buildQuery())
             this.getFilter(this.buildQuery())
 
+        },
+        setRangesValues() {
+            for (let r in this.filter.ranges) {
+                this.filter.ranges[r].value = [this.filter.ranges[r].min, this.filter.ranges[r].max]
+            }
         },
 
         toggleFilter() {

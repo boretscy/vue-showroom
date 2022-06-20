@@ -82,27 +82,36 @@ export default {
         '$route.query': {
             immediate: true,
             handler() {
-                let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
+                let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 url += '&brand='+this.dataLink
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
                 this.axios.get(url).then((response) => {
+
+                    console.log(response.data)
+                    this.count = 0
+                    this.models = []
                     
-                    if ( this.$route.query.model ) {
-						let b = this.$route.query.model.split(',')
-						response.data.forEach( (item) => {
-							if ( b.includes(item.alias) ) {
-                                this.models.push(item)
-                                this.count += item.statistics[1].counter + item.statistics[2].counter
-                            }
-						})
-					} else {
-						this.models = response.data
-                        this.models.forEach( (item) => {
-                            this.count += item.statistics[1].counter + item.statistics[2].counter
-                        })
-					}
-                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                    response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.models = response.data
+                    this.models.forEach( (item) => {
+                        this.count += item.statistics[1].counter + item.statistics[2].counter
+                    })
+                    // if ( this.$route.query.model ) {
+					// 	let b = this.$route.query.model.split(',')
+					// 	response.data.forEach( (item) => {
+					// 		if ( b.includes(item.alias) ) {
+                    //             this.models.push(item)
+                    //             this.count += item.statistics[1].counter + item.statistics[2].counter
+                    //         }
+					// 	})
+					// } else {
+					// 	this.models = response.data
+                    //     this.models.forEach( (item) => {
+                    //         this.count += item.statistics[1].counter + item.statistics[2].counter
+                    //     })
+					// }
+                    // this.models.sort((a, b) => a.name > b.name ? 1 : -1);
                 })
             }
         }

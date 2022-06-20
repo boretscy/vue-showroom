@@ -61,8 +61,9 @@ export default {
 	},
 	mounted: function() {
 
-		let url = this.$store.state.apiUrl+'model/'+this.$route.params.model+'?token='+this.$store.state.apiToken
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+		let url = this.$store.state.apiUrl+'model/'+this.$store.state.mode+'/'+this.$route.params.model+'?token='+this.$store.state.apiToken
+        url += '&brand='+this.$route.params.brand
+        for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
         this.axios.get(url).then((response) => {
             console.log(response.data)
 			this.items = response.data.items

@@ -1,16 +1,18 @@
 <template>
 	<div class="yapps-cis">
 		<search-filter @sort="sort"/>
-		<list-brand-models
-			v-for="(brand, indx) in brands"
-			:key="indx"
-			:dataName="brand.name"
-			:dataCount="brand.vehicles"
-			:dataLink="brand.alias"
-			:viewMode="viewMode"/>
-		<more
-			@more="moreBrands"
-			v-if="showMore"/>
+		<div v-if="brands">
+			<list-brand-models
+				v-for="(brand, indx) in brands"
+				:key="indx"
+				:dataName="brand.name"
+				:dataCount="brand.vehicles"
+				:dataLink="brand.alias"
+				:viewMode="viewMode"/>
+			<more
+				@more="moreBrands"
+				v-if="showMore"/>
+		</div>
 	</div>
 </template>
 
@@ -47,19 +49,12 @@ export default {
         '$route.query': {
             immediate: true,
             handler() {
-                let url = this.$store.state.apiUrl+'brands/'+'?token='+this.$store.state.apiToken
-				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+				if ( this.$route.query.brand ) url += '&brand='+this.$route.query.brand
 				this.axios.get(url).then((response) => {
-					
-					if ( this.$route.query.brand ) {
-						let b = this.$route.query.brand.split(',')
-						response.data.forEach( (item) => {
-							if ( b.includes(item.alias) ) this.brands.push(item)
-						})
-					} else {
-						this.brands = response.data
-					}
-					this.brands.sort((a, b) => a.name > b.name ? 1 : -1);
+					console.log(response.data)
+					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+					this.brands = response.data
 				})
             }
         }

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="flex__head">
-            <router-link :to="brand.alias" class="flex__head-title h2" v-if="models">
-                {{ brand.alias }}
+            <router-link :to="dataLink" class="flex__head-title h2" v-if="models">
+                {{ dataName }}
                 <span class="flex__head-count">{{ brand.vehicles }}</span>
             </router-link>
         </div>
@@ -17,8 +17,8 @@
                 :cis="model.statistics['1'].counter + model.statistics['2'].counter"
                 :name="model.name"
                 :picture="model.image"
-                :brand="dataLink"
-                :alias="model.alias"/>
+                :brand="$route.params.brand"
+                :link="buildLink(model.alias)"/>
             <cta-grid 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
@@ -74,11 +74,12 @@ export default {
         '$route.params.brand': {
             immediate: true,
             handler(value) {
-                let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken
+                let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 url += '&brand='+this.dataLink
-                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
                 this.axios.get(url).then((response) => {
+                    console.log(response.data)
                     this.models = response.data
                     window.scrollTo(0,0);
                 })
@@ -89,6 +90,22 @@ export default {
             }
         }
     },
+    methods: {
+        buildLink(model) {
+            let l = '/'+this.$route.params.brand+'/'+model, q = ''
+            for (let key in this.$route.query) {
+                
+
+                if (key!='brand' && key!='model') {
+                    if (this.$route.query[key].length && Boolean(this.$route.query[key][0])) {
+                        q += key+'='+this.$route.query[key]+'&'
+                    }
+                
+                }
+            }
+            return l+((q.length)?'?':'')+q.slice(0, -1)
+        },
+    }
 }
 </script>
 
