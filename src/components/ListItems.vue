@@ -79,8 +79,8 @@ export default {
     --grid-card: 300px;
     --margin-bottom: 2em;
     display: grid;
-    /*grid-template-columns: repeat(auto-fill, minmax(var(--grid-card), 1fr));*/
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-card), 1fr));
+    /*grid-template-columns: repeat(4, 1fr);*/
     gap: 20px;
     margin-bottom: 4rem;
 }
@@ -101,5 +101,6 @@ export default {
 .model__line {
     display: block;
 }
+
 
 </style>
