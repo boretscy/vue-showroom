@@ -1,8 +1,8 @@
 <template>
     <div class="model__grid-card">
         <div class="model__grid-card__head">
-            <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__head--img">
-                <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name">
+            <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__head--img" :style="{ backgroundImage: `url('${item.images[0].preview_large}')` }">
+                <!--<img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name">-->
             </router-link>
             <div class="model__grid-card__head--top" v-if="item.discounts">
                 <div class="model__grid-card__head--top_discont">
@@ -109,6 +109,8 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .model__grid-card__head--img img {
     width: 100%;
