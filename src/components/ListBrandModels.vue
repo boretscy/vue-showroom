@@ -93,9 +93,7 @@ export default {
                     this.count = 0
                     this.models = []
                     
-                    // response.data.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.models = response.data
-                    if ( !this.models.length ) console.log(url) 
                     this.models.forEach( (item) => {
                         this.count += item.statistics[1].counter + item.statistics[2].counter
                     })

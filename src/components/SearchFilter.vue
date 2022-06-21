@@ -375,6 +375,12 @@ export default {
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
+                    this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                     // console.log(this.filter)
                     this.totalCount = response.data.totalCount
                     this.link = this.buildLink(this.buildQuery())
@@ -387,6 +393,12 @@ export default {
             let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
             this.axios.get(url).then((response) => {
                 this.filter = response.data
+                this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.filter.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.filter.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                 this.setRangesValues()
             }).then(() => {
             })
