@@ -2570,10 +2570,19 @@ input[type=range]::-ms-fill-upper {
     transition: 100ms;
     overflow: hidden;
 }
+.settings_accordion--body::-webkit-scrollbar {
+    width: 5px;
+    height: 15px;
+    background-color: var(--ligth-yagray);
+}
+.settings_accordion--body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--yayellow);
+}
 .settings_accordion--body_list {
     font-size: 14px;
     font-weight: 300;
-    line-height: 1em;
+    line-height: 1.5em;
     margin-bottom: 1em;
     color: var(--yadarkgray);
 }
@@ -2584,9 +2593,9 @@ input[type=range]::-ms-fill-upper {
     transform: rotate(180deg);
 }
 .--accordion-open .settings_accordion--body{
-    overflow: visible;
+    overflow-y: auto;
     opacity: 1;
-    max-height: 1000px;
+    max-height: 350px;
     height: fit-content;
     border-bottom: solid 1px var(--yagray);
     padding-top: calc(var(--ptb) * 2);
