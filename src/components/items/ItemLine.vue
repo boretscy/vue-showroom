@@ -9,12 +9,11 @@
                     до {{ Format(discount) }} <span class="rub">₽</span>
                 </div>
                 <div class="model__grid-card__head--top_icons">
-                    <a href="#">
-                        <icon-base icon-name="favorites"><icon-favorites /></icon-base>
+                    <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
+                        <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
                     </a>
-                    <a href="#" class="compare is--active">
-                        <icon-base icon-name="favorites"><icon-favorites /></icon-base>
-                        <span>5</span>
+                    <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
+                        <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
                     </a>
                 </div>
             </div>
@@ -43,12 +42,13 @@
 
 <script>
 import IconBase from '@/components/IconBase.vue'
-import IconFavorites from '@/components/icons/IconFavorites.vue'
+import IconCisfavorites from '@/components/icons/IconCisfavorites.vue'
+import IconCiscompare from '@/components/icons/IconCiscompare.vue'
 
 export default {
     name: 'ItemLine',
     components: {
-        IconBase, IconFavorites
+        IconBase, IconCisfavorites, IconCiscompare
     },
     props: ['brand', 'model', 'item'],
     data() {
@@ -70,8 +70,23 @@ export default {
         }
     },
     mounted: function() {
+        setInterval(() => {
+            this.locstore = {
+                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+            }
+        }, 500);
     },
     methods: {
+        toggleLocstore(elem, id = this.item.id) {
+            
+            if ( this.locstore[elem].indexOf(id) < 0) {
+                this.locstore[elem].push(id)
+            } else {
+                this.locstore[elem].splice(this.locstore[elem].indexOf(id), 1)
+            }
+            localStorage.setItem('CIS_'+elem, JSON.stringify(this.locstore[elem]))
+        },
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });

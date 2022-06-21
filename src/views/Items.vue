@@ -1,6 +1,11 @@
 <template>
     <div class="yapps-cis">
-		<search-filter ref="searchFilter" list-name="models"/>
+		<search-filter @sort="sort"/>
+		<sort
+			:Discount="true"
+			:InStock="true"
+			:OnWay="true"
+			@sort="sortToggle"/>
         <list-items
             data="modelItems"
 			:viewMode="viewMode"
@@ -10,12 +15,13 @@
 
 <script>
 import SearchFilter from '@/components/SearchFilter.vue'
+import Sort from '@/components/Sort.vue'
 import ListItems from '@/components/ListItems.vue'
 
 export default {
 	name: 'Items',
 	components: {
-		SearchFilter,
+		SearchFilter, Sort,
         ListItems
 	},
 	data() {

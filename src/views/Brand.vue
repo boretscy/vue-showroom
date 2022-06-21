@@ -1,24 +1,32 @@
 <template>
 	<div class="yapps-cis">
-		<search-filter ref="searchFilter" list-name="models"/>
+		<search-filter @sort="sort"/>
+		<sort
+			:Discount="true"
+			:InStock="true"
+			:OnWay="true"
+			@sort="sortToggle"/>
 		<list-models
-			:viewMode="viewMode"/>
+			:viewMode="viewMode"
+			:dataSort="sortMode"/>
 	</div>
 </template>
 
 <script>
 import SearchFilter from '@/components/SearchFilter.vue'
+import Sort from '@/components/Sort.vue'
 import ListModels from '@/components/ListModels.vue'
 
 export default {
 	name: 'Brand',
 	components: {
-		SearchFilter,
+		SearchFilter, Sort,
 		ListModels
 	},
 	data() {
 		return {
 			brand: null,
+			sortMode: 'name',
 		}
 	},
 	computed: {
@@ -37,5 +45,26 @@ export default {
 			])
 		)
 	},
+	methods: {
+		sortToggle(v) {
+			this.sortMode = v
+		},
+		sort(v) {
+			this.brands.forEach( (b) => {
+				if (b.alias == v.brand) {
+					this.sortList.push(
+						{
+							id: b.id,
+							value: b.value
+						}
+					)
+					b.sort = {
+						id: b.id,
+						value: b.value
+					}
+				}
+			})
+		}
+	}
 }
 </script>

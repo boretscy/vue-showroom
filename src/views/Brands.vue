@@ -122,10 +122,6 @@ export default {
 					}
 				}
 			})
-			// switch (v) {
-			// 	case 'name':
-			// 		break;
-			// }
 		}
 	}
 }

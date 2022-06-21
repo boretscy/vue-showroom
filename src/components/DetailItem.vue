@@ -42,10 +42,10 @@
                        <a :href="'tel:+'+FormatPhoneIn(vehicle.dealership.phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(vehicle.dealership.phone) }}</a>
                        <div class="car__grid-box__status-links">
                            <a href="#" :class="{'--is-active': locstore.FAVORITES.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
-                               <icon-base icon-name="favorites"><icon-favorites /></icon-base>
+                               <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
                            </a>
                            <a href="#" :class="{'--is-active': locstore.COMPARE.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
-                               <icon-base icon-name="compare"><icon-compare /></icon-base>
+                               <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
                            </a>
                            <!-- <a href="#">
                                <icon-base icon-name="share"><icon-share /></icon-base>
@@ -372,8 +372,8 @@
 
 <script>
 import IconBase from '@/components/IconBase.vue'
-import IconFavorites from '@/components/icons/IconFavorites.vue'
-import IconCompare from '@/components/icons/IconCompare.vue'
+import IconCisfavorites from '@/components/icons/IconCisfavorites.vue'
+import IconCiscompare from '@/components/icons/IconCiscompare.vue'
 // import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
@@ -385,7 +385,7 @@ import { VueAgile } from 'vue-agile'
 export default {
     name: 'DetailItem',
     components: {
-        IconBase, IconFavorites, IconCompare, 
+        IconBase, IconCisfavorites, IconCiscompare, 
         // IconShare, 
         IconCheck, IconQuestion, IconCorner,
         agile: VueAgile

@@ -10,10 +10,10 @@
                 </div>
                 <div class="model__grid-card__head--top_icons">
                     <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
-                        <icon-base icon-name="favorites"><icon-favorites /></icon-base>
+                        <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
                     </a>
                     <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
-                        <icon-base icon-name="compare"><icon-compare /></icon-base>
+                        <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
                     </a>
                 </div>
             </div>
@@ -42,13 +42,13 @@
 
 <script>
 import IconBase from '@/components/IconBase.vue'
-import IconFavorites from '@/components/icons/IconFavorites.vue'
-import IconCompare from '@/components/icons/IconCompare.vue'
+import IconCisfavorites from '@/components/icons/IconCisfavorites.vue'
+import IconCiscompare from '@/components/icons/IconCiscompare.vue'
 
 export default {
     name: 'ItemGrid',
     components: {
-        IconBase, IconFavorites, IconCompare
+        IconBase, IconCiscompare, IconCisfavorites
     },
     props: ['brand', 'model', 'item'],
     data() {
