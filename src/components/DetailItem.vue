@@ -2299,6 +2299,9 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box-profit {
     padding: var(--padding);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .car__grid-box-profit .drop{
     --max-w: 300px;
