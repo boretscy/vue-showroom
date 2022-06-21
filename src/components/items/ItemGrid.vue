@@ -123,8 +123,9 @@ export default {
     position: relative;
 }
 .model__grid-card__head--img {
+    --heigth: 200px;
     background: var(--yawhite);
-    min-height: 200px;
+    min-height: var(--heigth);
     height: 100%;
     display: flex;
     align-items: center;
@@ -132,6 +133,7 @@ export default {
 .model__grid-card__head--img img {
     width: 100%;
     object-fit: unset;
+    max-height: var(--heigth);
 }
 .model__grid-card__head--top {
     position: absolute;
