@@ -22,7 +22,8 @@
                 :colors="model._colors"
                 :cis="model.statistics['1'].counter + model.statistics['2'].counter"
                 :name="model.name"
-                :picture="model.image"
+                :picture="model.image || null"
+                :body="model.body.code"
                 :brand="dataLink"
                 :link="buildLink(model.alias)"/>
             <cta-grid 
