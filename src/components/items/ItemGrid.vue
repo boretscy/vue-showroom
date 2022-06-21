@@ -135,7 +135,7 @@ export default {
 }
 .model__grid-card__head--top {
     position: absolute;
-    top: 0;
+    top: 1em;
     left: 0;
     right: 0;
     padding: 1em 2em;
@@ -143,7 +143,8 @@ export default {
     font-size: 12px;
     line-height: 1em;
     color: var(--yadarkblue);
-    display: flex;
+    display: grid;
+    grid-template-columns: 120px 60px;
     justify-content: space-between;
     align-items: center;
 }
@@ -155,11 +156,15 @@ export default {
     font-weight: 300;
     color: var(--yadarkblue);
     border-radius: 3px;
+    position: absolute;
+    left: 2em;
 }
 .model__grid-card__head--top_icons {
     display: flex;
     justify-content: space-between;
     gap: 0.5em;
+    position: absolute;
+    right: 2em;
 }
 .model__grid-card__head--top_icons a {
     background: var(--yawhite);
@@ -194,10 +199,10 @@ export default {
     fill: var(--yadarkblue);
 }
 .model__grid-card__head--top_icons a svg {
-    --icon-size: 15px;
+    --icon-size: 14px;
     width: var(--icon-size);
     height: var(--icon-size);
-    fill: var(--yagray);
+    fill: var(--yadarkgray);
     transition: 200ms;
 }
 .model__grid-card__head--top_icons a:hover svg {
