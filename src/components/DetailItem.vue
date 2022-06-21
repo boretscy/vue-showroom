@@ -2160,6 +2160,9 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box__price {
     padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .car__grid-box__price button.button {
     --padding-left-right: 10px;
@@ -2430,6 +2433,7 @@ input[type=range]::-ms-fill-upper {
     font-size: 14px;
     font-weight: 400;
     line-height: 1em;
+    text-align: right;
 }
 .car__grid-box-profit__footer  button.button {
     --padding-left-right: 10px;
