@@ -2160,6 +2160,9 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box__price {
     padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .car__grid-box__price button.button {
     --padding-left-right: 10px;
@@ -2215,6 +2218,12 @@ input[type=range]::-ms-fill-upper {
 .--open .question {
     background: var(--yadarkblue);
     border: solid 1px var(--yadarkblue);
+}
+.--open .question svg {
+    fill: var(--yawhite);
+}
+.question:hover svg {
+    fill: var(--yawhite);
 }
 .question-drop {
     --max-w: 300px;
@@ -2299,6 +2308,9 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box-profit {
     padding: var(--padding);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .car__grid-box-profit .drop{
     --max-w: 300px;
@@ -2317,7 +2329,7 @@ input[type=range]::-ms-fill-upper {
     top: 2px;
 }
 .profit__head-discount__item .question {
-    --icon-size: 8px;
+    --icon-size: 12px;
 }
 .car__grid-box-profit__head {
     margin-bottom: 2em;
@@ -2427,6 +2439,7 @@ input[type=range]::-ms-fill-upper {
     font-size: 14px;
     font-weight: 400;
     line-height: 1em;
+    text-align: right;
 }
 .car__grid-box-profit__footer  button.button {
     --padding-left-right: 10px;
@@ -2491,7 +2504,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 400;
     line-height: 1em;
     padding: 1em 0 calc(1em / 2);
-    border-bottom: dotted 1px var(--radio-grid-color);
+    border-bottom: dotted 1px var(--yablackgray);
 }
 .tabs_content-item__title {
     font-size: 14px;
