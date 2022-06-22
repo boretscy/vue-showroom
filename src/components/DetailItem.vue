@@ -83,7 +83,7 @@
                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
                        </button>
                    </div>
-                   <div class="car__grid-box-stock">
+                   <div class="car__grid-box-stock --detail__bg">
                        <div class="car__grid-box-stock__head">
                            <div class="car__grid-box-stock__head-sub">Комплектация:</div>
                            <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
@@ -173,27 +173,29 @@
                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
                            </div>
                        </div>
-                       <div class="profit__list--stock">
-                           <!-- <div class="profit__list--stock_item">
-                               <div class="list--stock_item-name">Доп оборудование</div>
-                               <div class="list--stock_item-price">+ 150 000 <span class="rub">С</span></div>
-                           </div> -->
-                           <div class="profit__list--stock_item">
-                               <div class="list--stock_item-name">Цена без учета выгод</div>
-                               <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
+                       <div class="car__grid-foot">
+                           <div class="profit__list--stock">
+                               <!-- <div class="profit__list--stock_item">
+                                   <div class="list--stock_item-name">Доп оборудование</div>
+                                   <div class="list--stock_item-price">+ 150 000 <span class="rub">С</span></div>
+                               </div> -->
+                               <div class="profit__list--stock_item">
+                                   <div class="list--stock_item-name">Цена без учета выгод</div>
+                                   <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
+                               </div>
+                               <div class="profit__list--stock_item">
+                                   <div class="list--stock_item-name">Цена с учетом выгод</div>
+                                   <div class="list--stock_item-price">{{ Format( curPrice ) }}<span class="rub">₽</span></div>
+                               </div>
                            </div>
-                           <div class="profit__list--stock_item">
-                               <div class="list--stock_item-name">Цена с учетом выгод</div>
-                               <div class="list--stock_item-price">{{ Format( curPrice ) }}<span class="rub">₽</span></div>
+                           <div class="car__grid-box-profit__footer">
+                               <button class="button hovered-t w100">
+                                   <span>ОЦЕНИТЬ АВТОМОБИЛЬ</span>
+                               </button>
+                               <button class="button hovered-t w100">
+                                   <span>РАССЧИТАТЬ КРЕДИТ</span>
+                               </button>
                            </div>
-                       </div>
-                       <div class="car__grid-box-profit__footer">
-                           <button class="button hovered-t w100">
-                               <span>ОЦЕНИТЬ АВТОМОБИЛЬ</span>
-                           </button>
-                           <button class="button hovered-t w100">
-                               <span>РАССЧИТАТЬ КРЕДИТ</span>
-                           </button>
                        </div>
                    </div>
                    <div class="profit_mobile" data-popup-trigger="profit">
@@ -2019,11 +2021,11 @@ input[type=range]::-ms-fill-upper {
 
 }
 .car__grid {
-    --left-w: 560px;
+    --left-w: 634px;
     --mb: 50px;
     display: grid;
     grid-template-columns: var(--left-w) 1fr;
-    gap: 30px;
+    gap: 20px;
     row-gap: 1em;
     position: relative;
     margin-bottom: var(--mb);
@@ -2308,7 +2310,7 @@ input[type=range]::-ms-fill-upper {
 }
 .car__grid-box-profit {
     padding: var(--padding);
-    display: flex !important;
+    display: grid !important;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -2329,7 +2331,7 @@ input[type=range]::-ms-fill-upper {
     top: 2px;
 }
 .profit__head-discount__item .question {
-    --icon-size: 12px;
+    --icon-size: 11px;
 }
 .car__grid-box-profit__head {
     margin-bottom: 2em;
@@ -2363,7 +2365,7 @@ input[type=range]::-ms-fill-upper {
     margin-bottom: 2em;
 }
 .profit__list--grid_item {
-    display: flex;
+    display: grid;
     justify-content: space-between;
     grid-template-columns: 1fr 100px;
     gap: 10px;
@@ -2400,14 +2402,19 @@ input[type=range]::-ms-fill-upper {
     fill: var(--yadarkblue);
 }
 .box-profit__list-item {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     line-height: 1em;
     justify-self: end;
     min-width: 100px;
+    align-self: start;
+    text-align: right;
+}
+.car__grid-foot {
+    align-self: end;
 }
 .profit__list--stock {
-    margin-bottom: 2em;
+    /*margin-bottom: 2em;*/
 }
 .profit__list--stock_item {
     display: flex;
@@ -2502,7 +2509,7 @@ input[type=range]::-ms-fill-upper {
 .tabs_content-item__list {
     font-size: 14px;
     font-weight: 400;
-    line-height: 1em;
+    line-height: 1.5em;
     padding: 1em 0 calc(1em / 2);
     border-bottom: dotted 1px var(--yablackgray);
 }
