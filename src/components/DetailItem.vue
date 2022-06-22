@@ -2355,11 +2355,14 @@ input[type=range]::-ms-fill-upper {
     width: var(--icon-size);
     height: var(--icon-size);
 }
+.profit__head-discount__item:nth-child(1) {
+    margin-top: .5em;
+}
 .profit__head-discount__item {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1em;
-    color: var(--dark-black);
+    color: var(--yalightblack);
 }
 .box-profit__list {
     margin-bottom: 2em;
