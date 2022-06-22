@@ -2238,7 +2238,7 @@ input[type=range]::-ms-fill-upper {
 }
 .question-drop::-webkit-scrollbar {
     width: 5px;
-    background-color: var(--ligth-yagray);
+    background-color: var(--yagray);
 }
 .question-drop::-webkit-scrollbar-thumb {
     border-radius: 10px;
@@ -2586,7 +2586,7 @@ input[type=range]::-ms-fill-upper {
 .settings_accordion--body::-webkit-scrollbar {
     width: 5px;
     height: 15px;
-    background-color: var(--ligth-yagray);
+    background-color: var(--yagray);
 }
 .settings_accordion--body::-webkit-scrollbar-thumb {
     border-radius: 10px;
