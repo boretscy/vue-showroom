@@ -2255,7 +2255,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 1em;
-    color: var(--yablackgray);
+    color: var(--yagray);
     text-align: right;
     text-decoration: line-through;
 }
