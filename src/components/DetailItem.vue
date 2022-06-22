@@ -2219,6 +2219,12 @@ input[type=range]::-ms-fill-upper {
     background: var(--yadarkblue);
     border: solid 1px var(--yadarkblue);
 }
+.--open .question svg {
+    fill: var(--yawhite);
+}
+.question:hover svg {
+    fill: var(--yawhite);
+}
 .question-drop {
     --max-w: 300px;
     --max-h: 300px;
