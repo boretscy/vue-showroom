@@ -2,14 +2,16 @@
 	<div class="yapps-cis">
 		<search-filter @sort="sort"/>
 		<sort
-			:Discount="true"
-			:InStock="true"
-			:OnWay="true"
+			:Discount="sortButtons.Discount"
+			:InStock="sortButtons.InStock"
+			:OnWay="sortButtons.OnWay"
+			:Mode="mode"
 			@sort="sortToggle"/>
 		<div v-if="brands">
 			<list-brand-models
 				v-for="(brand, indx) in brands"
 				:key="indx"
+				v-if="brand._models"
 				:dataName="brand.name"
 				:dataCount="brand.vehicles"
 				:dataLink="brand.alias"
@@ -48,12 +50,22 @@ export default {
 			brandsCount: 0,
 			showMore: false,
 			sortMode: 'name',
-			sortList: []
+			sortList: [],
+			sortButtons: {
+				Discount: false,
+				InStock: false,
+				OnWay: false,
+			}
 		}
 	},
 	computed: {
 		viewMode: function() {
 			return this.$store.state.viewMode
+		},
+		mode: function() {
+			let res = 'all'
+			if ( this.$route.query.sort ) res = this.$route.query.sort
+			return res
 		}
 	},
     watch: {
@@ -62,6 +74,7 @@ export default {
             handler() {
                 let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
 				if ( this.$route.query.brand ) url += '&brand='+this.$route.query.brand
+				if ( this.$route.query.sort ) url += '&sort='+this.$route.query.sort
 				this.axios.get(url).then((response) => {
 					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
 					this.brands = response.data
@@ -81,7 +94,7 @@ export default {
 						this.brands.sort((a, b) => a.sort.value > b.sort.value ? 1 : -1);
 						break;
 					case 'price_down':
-						this.brands.sort((a, b) => a.sort.value > b.sort.value ? 1 : -1);
+						this.brands.sort((a, b) => b.sort.value > a.sort.value ? 1 : -1);
 						break;
 				}
 			}

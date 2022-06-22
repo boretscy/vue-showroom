@@ -20,16 +20,16 @@
             </div>
             <div class="filter__sort-item">
                 <div class="filter__sort-item_box">
-                    <button class="filter__sort-item__button active" :class="{'active': !SortButtons.Discount && !SortButtons.InStock && !SortButtons.OnWay}"  @click="sort('name')">
+                    <button class="filter__sort-item__button" :class="{'active': Mode == 'all'}" @click="$router.push(allLink)">
                         <span>Все</span>
                     </button>
-                    <button class="filter__sort-item__button" :class="{'active': SortButtons.Discount}"  @click="sort('Discount')" v-if="Discount">
+                    <button class="filter__sort-item__button" :class="{'active': Mode == 'discount'}" @click="$router.push(discountLink)" v-if="Discount">
                         <span>Со скидкой</span>
                     </button>
-                    <button class="filter__sort-item__button" :class="{'active': SortButtons.InStock}" @click="sort('InStock')" v-if="InStock">
+                    <button :to="instockLink"  class="filter__sort-item__button" :class="{'active': Mode == 'instock'}" @click="$router.push(instockLink)" v-if="InStock">
                         <span>В наличии</span>
                     </button>
-                    <button class="filter__sort-item__button" :class="{'active': SortButtons.OnWay}" @click="sort('OnWay')" v-if="OnWay">
+                    <button :to="onwayLink" class="filter__sort-item__button" :class="{'active': Mode == 'onway'}" @click="$router.push(onwayLink)" v-if="OnWay">
                         <span>В пути</span>
                     </button>
                 </div>
@@ -67,7 +67,7 @@ export default {
         IconBase, IconViewplates, IconViewlines,
         Multiselect
     },
-    props: {Discount: Boolean, InStock: Boolean, OnWay: Boolean},
+    props: {Discount: Boolean, InStock: Boolean, OnWay: Boolean, Mode: String},
     data() {
         return {
             SortButtons: {
@@ -98,6 +98,20 @@ export default {
             ]
         }
     },
+    computed: {
+        allLink: function() {
+            return this.buildLink('all')
+        },
+        discountLink: function() {
+            return this.buildLink('discount')
+        },
+        instockLink: function() {
+            return this.buildLink('instock')
+        },
+        onwayLink: function() {
+            return this.buildLink('onway')
+        },
+    },
     watch: {
         sortValue: function(newValue) {
             this.$emit('sort', newValue.code)
@@ -119,6 +133,20 @@ export default {
             this.SortButtons[v] = true
             this.$emit('sort', v)
         },
+        buildLink( but ) {
+            let l = '/'
+            if (this.$route.params.brand) l += this.$route.params.brand
+            if (this.$route.params.model) l += '/'+this.$route.params.model
+            l += '?'
+            if (this.$route.query) {
+                for ( let key in this.$route.query ) {
+                    if (key != 'sort') l += key+'='+this.$route.query[key]+'&'
+                }
+            } 
+            if ( but != 'all' ) l += 'sort='+but
+            
+            return l
+        }
     }
 }
 </script>

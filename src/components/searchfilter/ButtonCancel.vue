@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/" class="button grid" @click="cancelFilter">
+    <router-link :to="link" class="button grid">
         <span>
             Сбросить все
         </span>
@@ -20,19 +20,12 @@ export default {
         IconBase, IconCross
     },
     props: ['carCount'],
-    data() {
-        return {
-            link: this.$route.path
-        }
-    },
-    methods: {
-        cancelFilter() {
-            this.$emit('cancel')
-        },
-        Format(q) {
-			
-            var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
-            return Price.format(q);	
+    computed: {
+        link: function() {
+            let l = '/'
+            if (this.$route.params.brand) l += this.$route.params.brand
+            if (this.$route.params.model) l += '/'+this.$route.params.model
+            return l
         }
     }
 }

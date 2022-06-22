@@ -17,7 +17,7 @@
             <model-grid 
                 v-for="model in models"
                 :key="model.id"
-                :discount="model.has_discounts"
+                :discount="model.Discount"
                 :price="Number(model.min_price)"
                 :colors="model._colors"
                 :cis="model.statistics['1'].counter + model.statistics['2'].counter"
@@ -87,6 +87,7 @@ export default {
                 let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 url += '&brand='+this.dataLink
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
+                // console.log(url)
 
                 this.axios.get(url).then((response) => {
 
@@ -94,8 +95,12 @@ export default {
                     this.models = []
                     
                     this.models = response.data
+                    // console.log(this.models)
                     this.models.forEach( (item) => {
                         this.count += item.statistics[1].counter + item.statistics[2].counter
+                        if (item.Discount) this.$parent.sortButtons.Discount = true
+                        if (item.InStock) this.$parent.sortButtons.InStock = true
+                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
                     })
                     this.models.sort((a, b) => a.name > b.name ? 1 : -1);
                 })
@@ -144,7 +149,7 @@ export default {
                 
 
                 if (key!='brand' && key!='model') {
-                    if (this.$route.query[key].length && Boolean(this.$route.query[key][0])) {
+                    if (this.$route.query[key] && Boolean(this.$route.query[key][0])) {
                         q += key+'='+this.$route.query[key]+'&'
                     }
                 

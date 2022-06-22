@@ -79,11 +79,12 @@ export default {
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
                 this.axios.get(url).then((response) => {
-                    console.log(response.data)
+                    // console.log(response.data)
                     this.models = response.data
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
                     window.scrollTo(0,0);
                 })
-                url = this.$store.state.apiUrl+'brand/'+value+'/?token='+this.$store.state.apiToken
+                url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken
                 this.axios.get(url).then((response) => {
                     this.brand = response.data
                 })

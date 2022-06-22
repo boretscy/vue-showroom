@@ -44,7 +44,8 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/no-side-effects-in-computed-properties": "off"
+      "vue/no-side-effects-in-computed-properties": "off",
+      "vue/no-use-v-if-with-v-for": "off"
     }
   },
   "browserslist": [

@@ -1,7 +1,16 @@
 <template>
     <div class="filter">
         <div class="title">
-            <router-link to="/">{{ Format(totalCount) }} авто</router-link>
+            <router-link to="/">
+                <span v-if="curBrand">
+                    {{ curBrand+' ' }}
+                </span>
+                <span v-if="curBrand && curModel">
+                    {{ curModel+' ' }}
+                </span>
+                <span v-if="curBrand"> - </span>
+                {{ Format(totalCount) }} авто
+            </router-link>
 		</div>
         <div class="filter__head" v-if="filter">
             <div class="filter__head-item">
@@ -26,7 +35,7 @@
                     placeholder="Марка" 
                     label="name" 
                     track-by="code" 
-                    :options="filter.dropLists.brands" 
+                    :options="brandOptions" 
                     :multiple="true" 
                     :searchable="false"
                     :close-on-select="false" 
@@ -207,7 +216,7 @@
                 class="filter__head-item"
                 v-show="viewFull"
                 >
-                <button-cancel @cancel="initFilter"/>
+                <button-cancel @cancelfilter="initFilter"/>
             </div>
             
             <div   
@@ -229,7 +238,7 @@
         </div>
         <div class="filter__list" v-if="filter">
             <list-item 
-                v-for="(brand, indx) in filter.dropLists.brands"
+                v-for="(brand, indx) in brands"
                 :key="indx"
                 :itemName="brand.name" 
                 :itemCount="brand.vehicles" 
@@ -272,6 +281,10 @@ export default {
     data() {
         return {
             totalCount: 0,
+            curBrand: null,
+            curModel: null,
+
+            brands: [],
 
             filter: null,
             viewFull: false,
@@ -279,6 +292,7 @@ export default {
 
             modeValue: [],
             brandValue: [],
+            brandOptions: [],
 
             modelValue: [],
             modelOptions: [],
@@ -304,37 +318,29 @@ export default {
         modeValue: function(newValue) {
             window.location.href = newValue.code;
         },
-        brandValue: function(newValue, oldValue) {
+        brandValue: function(newValue) {
             if (newValue.length) {
-                
                 this.getModels(newValue)
-
-                this.blockFilter = true
-                this.transmitionsValue = []
-                this.engineValue = []
-                this.dealershipValue = []
-                this.colorValue = []
-                this.driveValue = []
-                this.bodyValue = []
-                this.blockFilter = false
-
+                this.resetDrops()
                 this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-                
-            }
-            if (!newValue.length && oldValue.length) {
+                this.getFilter(this.buildQuery()).then(() => {
+                    this.resetDrops()
+                })
+            } else {
                 this.blockFilter = true
-                this.initFilter()
+                this.initFilter().then(() => {
+                    this.resetDrops()
+                })
                 this.blockFilter = false
             }
-            
-
         },
         modelValue: function() {
-            this.link = this.buildLink(this.buildQuery())
             this.blockFilter = true
-            this.getFilter(this.buildQuery())
+            this.getFilter(this.buildQuery()).then(() => {
+                this.resetDrops()
+            })
             this.blockFilter = false
+            this.link = this.buildLink(this.buildQuery())
         },
         transmitionsValue: function() {
             this.link = this.buildLink(this.buildQuery())
@@ -359,9 +365,20 @@ export default {
         driveValue: function() {
             this.link = this.buildLink(this.buildQuery())
             if (!this.blockFilter) this.getFilter(this.buildQuery())
-        },
+        }
     },
     mounted: function() {
+        let url = this.$store.state.apiUrl+'filter-brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+		this.axios.get(url).then((response) => {
+			response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+            this.brands = response.data
+            response.data.forEach( (i) => {
+                this.brandOptions.push(
+                    {code: i.alias, name: i.name}
+                )
+            })
+		})
+
         this.blockFilter = true
         this.initFilter().then(() => {
             this.getStartDropsValues()
@@ -369,6 +386,7 @@ export default {
         this.blockFilter = false
     },
     methods: {
+        // filter
         initFilter() {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
@@ -382,38 +400,48 @@ export default {
                     this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                     // console.log(this.filter)
-                    this.totalCount = response.data.totalCount
+                    this.totalCount = this.filter.totalCount
+                    this.resetDrops()
                     this.link = this.buildLink(this.buildQuery())
                     resolve(true)
                 })
             })
         },
-
         getFilter(link) {
-            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
-            this.axios.get(url).then((response) => {
-                this.filter = response.data
-                this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
-                this.filter.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
-                this.filter.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
-                this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
-                this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
-                this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
-                this.setRangesValues()
-            }).then(() => {
+            return new Promise((resolve) => {
+                let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
+                this.axios.get(url).then((response) => {
+                    this.filter = response.data
+                    this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.setRangesValues()
+                    this.totalCount = this.filter.totalCount
+                    resolve(true)
+                })
             })
         },
+
+        // drops
         getStartDropsValues() {
-            if ( this.$route.query.brand ) {
+            if ( typeof this.$route.query.brand == 'object' ) {
                 this.$route.query.brand.split(',').forEach( (qi) => {
-                    this.filter.dropLists.brands.forEach( (i) => {
-                        if ( i.code == qi ) this.brandValue.push(i)
+                    this.brands.forEach( (i) => {
+                        if ( i.alias == qi ) {
+                            this.brandValue.push({code: i.alias, name: i.name})
+                        }
                     })
                 })
             } 
             else if ( this.$route.params.brand ) {
-                this.filter.dropLists.brands.forEach( (i) => {
-                    if ( i.code == this.$route.params.brand ) this.brandValue.push(i)
+                this.brands.forEach( (i) => {
+                    if ( i.alias == this.$route.params.brand ) {
+                        this.brandValue.push({code: i.alias, name: i.name})
+                        this.curBrand = i.name
+                    }
                 })
             }
             if ( this.$route.query.transmition ) {
@@ -461,7 +489,31 @@ export default {
                 })
             }
         },
+        resetDrops() {
+            this.blockFilter = true
+            this.transmitionsValue = []
+            this.engineValue = []
+            this.dealershipValue = []
+            this.colorValue = []
+            this.driveValue = []
+            this.bodyValue = []
+            this.blockFilter = false
+        },
+
+        // ranges
+        setRangeValue(v) {
+            this.filter.ranges[v.range].value = v.value
+            this.link = this.buildLink(this.buildQuery())
+            this.getFilter(this.buildQuery())
+
+        },
+        setRangesValues() {
+            for (let r in this.filter.ranges) {
+                this.filter.ranges[r].value = [this.filter.ranges[r].min, this.filter.ranges[r].max]
+            }
+        },
         
+        // link
         buildQuery() {
             let  s = [], l = '?'
 
@@ -521,7 +573,7 @@ export default {
         },
         buildLink( query ) {
             let str = query || ''
-            let l = '/', q = ''
+            let l = '', q = ''
             if ( str.length ) {
                 let get = {}
                 str.split('?')[1].split('&').forEach( (param) => {
@@ -529,16 +581,20 @@ export default {
                 })
 
                 // path
-                if (typeof get.brand == 'object' && get.brand.length == 1) l += get.brand[0]
-                if (typeof get.model == 'object' && get.model.length == 1) l += '/'+get.model[0]
-
+                if (typeof get.brand == 'object') {
+                    if (get.brand.length == 1) {
+                        l += '/'+get.brand[0]
+                        if (typeof get.model == 'object') {
+                            if (get.model.length == 1) l += '/'+get.model[0]
+                        }
+                    } else {
+                        q += 'brand='+get.brand.join(',')+'&'
+                        if (typeof get.model == 'object') q += 'model='+get.model.join(',')+'&'
+                    }
+                }
                 // query
                 for (let key in get) {
-                    if (key=='brand' || key=='model') {
-                        if (get[key].length > 1) q += key+'='+get[key].join(',')+'&'
-                    } else {
-                        if (get[key].length && Boolean(get[key][0])) q += key+'='+get[key].join(',')+'&'
-                    }
+                    if (key!='brand' && key!='model') q += key+'='+get[key].join(',')+'&'
                 }
             }
 
@@ -553,7 +609,7 @@ export default {
             })
             
             if ( s.length ) {
-                let url = this.$store.state.apiUrl+'models/'+'?token='+this.$store.state.apiToken+'&brand='+s.join(',')
+                let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken+'&brand='+s.join(',')
                 this.modelOptions = []
                 let m = this.modelOptions, p = this.filter.ranges.price
                 this.axios.get(url).then((response) => {
@@ -582,29 +638,21 @@ export default {
             }
         },
 
+        
 
+
+        // toggles
         toggleViewMode() {
             let s =  (this.$store.state.viewMode=='grid') ? 'list' : 'grid'
             this.$store.state.viewMode = s
             this.$cookies.set('CIS_VIEW_MODE', s)
         },
-        setRangeValue(v) {
-            this.filter.ranges[v.range].value = v.value
-            this.link = this.buildLink(this.buildQuery())
-            this.getFilter(this.buildQuery())
-
-        },
-        setRangesValues() {
-            for (let r in this.filter.ranges) {
-                this.filter.ranges[r].value = [this.filter.ranges[r].min, this.filter.ranges[r].max]
-            }
-        },
-
         toggleFilter() {
             this.viewFull = !this.viewFull
         },
 
 
+        // helpers
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
