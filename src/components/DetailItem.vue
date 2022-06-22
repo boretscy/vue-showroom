@@ -2039,7 +2039,7 @@ input[type=range]::-ms-fill-upper {
     --padding: 1rem 1rem;
     position: sticky;
     max-height: 800px;
-    top: 0;
+    top: 1em;
     margin-bottom: var(--mb);
 }
 .configuration {
