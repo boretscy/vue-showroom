@@ -2329,7 +2329,7 @@ input[type=range]::-ms-fill-upper {
     top: 2px;
 }
 .profit__head-discount__item .question {
-    --icon-size: 8px;
+    --icon-size: 12px;
 }
 .car__grid-box-profit__head {
     margin-bottom: 2em;
@@ -2504,7 +2504,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 400;
     line-height: 1em;
     padding: 1em 0 calc(1em / 2);
-    border-bottom: dotted 1px var(--radio-grid-color);
+    border-bottom: dotted 1px var(--yablackgray);
 }
 .tabs_content-item__title {
     font-size: 14px;
