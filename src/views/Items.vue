@@ -1,14 +1,16 @@
 <template>
     <div class="yapps-cis">
-		<search-filter @sort="sort"/>
+		<search-filter />
 		<sort
-			:Discount="true"
-			:InStock="true"
-			:OnWay="true"
+			:Discount="sortButtons.Discount"
+			:InStock="sortButtons.InStock"
+			:OnWay="sortButtons.OnWay"
+			:Mode="mode"
 			@sort="sortToggle"/>
         <list-items
             data="modelItems"
 			:viewMode="viewMode"
+			:dataSort="sortMode"
             ></list-items>
 	</div>
 </template>
@@ -26,22 +28,38 @@ export default {
 	},
 	data() {
 		return {
+			sortMode: 'name',
+			iter: 0,
+
+			sortButtons: {
+				Discount: false,
+				InStock: false,
+				OnWay: false,
+			}
 		}
 	},
 	computed: {
 		viewMode: function() {
 			return this.$store.state.viewMode
+		},
+		mode: function() {
+			let res = 'all'
+			if ( this.$route.query.sort ) res = this.$route.query.sort
+			return res
 		}
 	},
+	watch: {
+		sortMode: function(v) {
+			this.sort(v)
+		}
+    },
 	mounted: function() {
-
-		// let url = this.$store.state.apiUrl+'model/'+this.$route.params.model+'?token='+this.$store.state.apiToken
-        // for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-        // this.axios.get(url).then((response) => {
-		// 	this.items = response.data
-        //     console.log(this.items)
-        // })
 	},
+	methods: {
+		sortToggle(v) {
+			this.sortMode = v
+		}
+	}
 }
 </script>
 

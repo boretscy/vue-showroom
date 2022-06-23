@@ -3,7 +3,7 @@
         <div class="flex__head">
             <router-link :to="brand.alias" class="flex__head-title h2" v-if="brand">
                 {{ brand.name }}
-                <span class="flex__head-count">{{ brand.vehicles }}</span>
+                <span class="flex__head-count">{{ count }}</span>
             </router-link>
         </div>
 
@@ -67,7 +67,8 @@ export default {
     data() {
         return {
             brand: null,
-            models: null
+            models: null,
+            count: 0
         }
     },
     watch: {
@@ -82,6 +83,12 @@ export default {
                 this.axios.get(url).then((response) => {
                     // console.log(response.data)
                     this.models = response.data
+                    this.models.forEach( (item) => {
+                        this.count += item.statistics[1].counter + item.statistics[2].counter
+                        if (item.Discount) this.$parent.sortButtons.Discount = true
+                        if (item.InStock) this.$parent.sortButtons.InStock = true
+                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                    })
                     this.models.sort((a, b) => a.name > b.name ? 1 : -1);
                     window.scrollTo(0,0);
                 })
@@ -89,6 +96,20 @@ export default {
                 this.axios.get(url).then((response) => {
                     this.brand = response.data
                 })
+            }
+        },
+
+        '$parent.sortMode': function(newValue) {
+            switch(newValue) {
+                case 'name':
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1)
+                    break;
+                case 'price_up':
+                    this.models.sort((a, b) => a.min_price > b.min_price ? 1 : -1)
+                    break;
+                case 'price_down':
+                    this.models.sort((a, b) => a.min_price < b.min_price ? 1 : -1)
+                    break;
             }
         }
     },

@@ -442,7 +442,15 @@ export default {
 
         // drops
         getStartDropsValues() {
-            if ( typeof this.$route.query.brand == 'object' ) {
+
+            if ( this.$route.params.brand ) {
+                this.brands.forEach( (i) => {
+                    if ( i.alias == this.$route.params.brand ) {
+                        this.brandValue.push({code: i.alias, name: i.name})
+                        this.curBrand = i.name
+                    }
+                })
+            } else if ( typeof this.$route.query.brand == 'object' ) {
                 this.$route.query.brand.split(',').forEach( (qi) => {
                     this.brands.forEach( (i) => {
                         if ( i.alias == qi ) {
@@ -450,15 +458,8 @@ export default {
                         }
                     })
                 })
-            } 
-            else if ( this.$route.params.brand ) {
-                this.brands.forEach( (i) => {
-                    if ( i.alias == this.$route.params.brand ) {
-                        this.brandValue.push({code: i.alias, name: i.name})
-                        this.curBrand = i.name
-                    }
-                })
             }
+             
             if ( this.$route.query.transmition ) {
                 this.$route.query.transmition.split(',').forEach( (qi) => {
                     this.filter.dropLists.transmitions.forEach( (i) => {
@@ -647,7 +648,11 @@ export default {
                         if ( item.max > p.max ) p.max = item.max
                     })
 
-                    if ( this.$route.query.model ) {
+                    if ( this.$route.params.model ) {
+                        this.modelOptions.forEach( (i) => {
+                            if ( i.code == this.$route.params.model ) this.modelValue.push(i)
+                        })
+                    } else if ( this.$route.query.model ) {
                         this.$route.query.model.split(',').forEach( (qi) => {
                             this.modelOptions.forEach( (i) => {
                                 if ( i.code == qi ) this.modelValue.push(i)

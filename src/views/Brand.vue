@@ -1,14 +1,16 @@
 <template>
 	<div class="yapps-cis">
-		<search-filter @sort="sort"/>
+		<search-filter />
 		<sort
-			:Discount="true"
-			:InStock="true"
-			:OnWay="true"
+			:Discount="sortButtons.Discount"
+			:InStock="sortButtons.InStock"
+			:OnWay="sortButtons.OnWay"
+			:Mode="mode"
 			@sort="sortToggle"/>
 		<list-models
 			:viewMode="viewMode"
-			:dataSort="sortMode"/>
+			:dataSort="sortMode"
+			:key="iter"/>
 	</div>
 </template>
 
@@ -27,13 +29,36 @@ export default {
 		return {
 			brand: null,
 			sortMode: 'name',
+			iter: 0,
+
+			sortButtons: {
+				Discount: false,
+				InStock: false,
+				OnWay: false,
+			}
 		}
 	},
 	computed: {
 		viewMode: function() {
 			return this.$store.state.viewMode
+		},
+		mode: function() {
+			let res = 'all'
+			if ( this.$route.query.sort ) res = this.$route.query.sort
+			return res
 		}
 	},
+	watch: {
+        '$route.params.brand': {
+            immediate: true,
+            handler() {
+                this.iter++
+            }
+        },
+		sortMode: function(v) {
+			this.sort(v)
+		}
+    },
 	mounted: function() {
 		localStorage.setItem(
 			'CIS_NAV',
@@ -48,22 +73,6 @@ export default {
 	methods: {
 		sortToggle(v) {
 			this.sortMode = v
-		},
-		sort(v) {
-			this.brands.forEach( (b) => {
-				if (b.alias == v.brand) {
-					this.sortList.push(
-						{
-							id: b.id,
-							value: b.value
-						}
-					)
-					b.sort = {
-						id: b.id,
-						value: b.value
-					}
-				}
-			})
 		}
 	}
 }
