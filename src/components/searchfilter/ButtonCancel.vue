@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="link" class="button grid">
+    <button class="button grid" @click="cl">
         <span>
             Сбросить все
         </span>
@@ -7,7 +7,7 @@
             <icon-base icon-name="cross"><icon-cross /></icon-base>
         </span>
         
-    </router-link>
+    </button>
 </template>
 
 <script>
@@ -19,13 +19,11 @@ export default {
     components: {
         IconBase, IconCross
     },
-    props: ['carCount'],
-    computed: {
-        link: function() {
-            let l = '/'
-            if (this.$route.params.brand) l += this.$route.params.brand
-            if (this.$route.params.model) l += '/'+this.$route.params.model
-            return l
+    methods: {
+        cl() {
+            console.log(this.$route)
+            this.$router.push(this.$route.path)
+            this.$root.GlobalIter++
         }
     }
 }

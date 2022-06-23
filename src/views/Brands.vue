@@ -7,17 +7,16 @@
 			:OnWay="sortButtons.OnWay"
 			:Mode="mode"
 			@sort="sortToggle"/>
-		<div v-if="brands">
+		<div v-if="brands" :key="iter">
 			<list-brand-models
 				v-for="(brand, indx) in brands"
 				:key="indx"
-				v-if="brand._models"
+				v-if="brand._models && brand.vehicles > 0"
 				:dataName="brand.name"
 				:dataCount="brand.vehicles"
 				:dataLink="brand.alias"
 				:dataSort="sortMode"
-				:viewMode="viewMode"
-				@sort="sort"/>
+				:viewMode="viewMode"/>
 			<more
 				@more="moreBrands"
 				v-if="showMore"/>
@@ -46,11 +45,11 @@ export default {
 	},
 	data() {
 		return {
+			iter: 0,
 			brands: [],
 			brandsCount: 0,
 			showMore: false,
 			sortMode: 'name',
-			sortList: [],
 			sortButtons: {
 				Discount: false,
 				InStock: false,
@@ -73,31 +72,16 @@ export default {
             immediate: true,
             handler() {
                 let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-				if ( this.$route.query.brand ) url += '&brand='+this.$route.query.brand
-				if ( this.$route.query.sort ) url += '&sort='+this.$route.query.sort
+				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 				this.axios.get(url).then((response) => {
 					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+					console.log(response.data)
 					this.brands = response.data
 				})
             }
         },
-		sortList: function(val) {
-			if (val.length == this.brands.length) {
-				console.log(this.brands)
-				switch(this.sortMode) {
-					case 'all':
-					case 'name':
-					case 'price_up':
-					case 'Discount':
-					case 'InStock':
-					case 'OnWay':
-						this.brands.sort((a, b) => a.sort.value > b.sort.value ? 1 : -1);
-						break;
-					case 'price_down':
-						this.brands.sort((a, b) => b.sort.value > a.sort.value ? 1 : -1);
-						break;
-				}
-			}
+		sortMode: function(v) {
+			this.sort(v)
 		}
     },
 	mounted: function() {
@@ -121,20 +105,18 @@ export default {
 			this.sortMode = v
 		},
 		sort(v) {
-			this.brands.forEach( (b) => {
-				if (b.alias == v.brand) {
-					this.sortList.push(
-						{
-							id: b.id,
-							value: b.value
-						}
-					)
-					b.sort = {
-						id: b.id,
-						value: b.value
-					}
-				}
-			})
+			switch(v) {
+                case 'name':
+                    this.brands.sort((a, b) => a.name > b.name ? 1 : -1)
+                    break;
+                case 'price_up':
+                    this.brands.sort((a, b) => a.min > b.min ? 1 : -1)
+                    break;
+                case 'price_down':
+                    this.brands.sort((a, b) => a.max < b.max ? 1 : -1)
+                    break;
+            }
+			this.iter++
 		}
 	}
 }

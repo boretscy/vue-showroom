@@ -102,40 +102,20 @@ export default {
                         if (item.InStock) this.$parent.sortButtons.InStock = true
                         if (item.OnWay) this.$parent.sortButtons.OnWay = true
                     })
-                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1)
                 })
             }
         },
         '$parent.sortMode': function(newValue) {
             switch(newValue) {
-                case 'all':
                 case 'name':
-                    this.models.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.$emit('sort', {brand: this.dataLink, mode: newValue})
+                    this.models.sort((a, b) => a.name > b.name ? 1 : -1)
                     break;
                 case 'price_up':
-                    this.models.sort((a, b) => {
-                        // console.log(a.min, b.min)
-                        a.min > b.min ? 1 : -1
-                    })
-                    console.log(this.models[0].min)
-                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: Number(this.models[0].min)})
+                    this.models.sort((a, b) => a.min_price > b.min_price ? 1 : -1)
                     break;
                 case 'price_down':
-                    this.models.sort((a, b) => b.max > a.max ? 1 : -1);
-                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: Number(this.models[0].max)})
-                    break;
-                case 'Discount':
-                    this.models.sort((a, b) => a.has_discounts > b.has_discounts ? 1 : -1);
-                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: this.models[0].has_discounts})
-                    break;
-                case 'InStock':
-                    this.models.sort((a, b) => a.statistics['1'].counter > b.statistics['1'].counter ? 1 : -1);
-                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: this.models[0].statistics['1'].counter})
-                    break;
-                case 'OnWay':
-                    this.models.sort((a, b) => a.statistics['2'].counter > b.statistics['2'].counter ? 1 : -1);
-                    this.$emit('sort', {brand: this.dataLink, mode: newValue, value: this.models[0].statistics['2'].counter})
+                    this.models.sort((a, b) => a.min_price < b.min_price ? 1 : -1)
                     break;
             }
         }

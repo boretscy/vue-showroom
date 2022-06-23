@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" :key="GlobalIter">
         <router-view/>
     </div>
 </template>
@@ -8,6 +8,11 @@
 
 export default {
     name: 'App',
+    data() {
+        return {
+            GlobalIter: 0
+        }
+    },
     mounted: function() {
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
     },

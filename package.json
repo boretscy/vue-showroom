@@ -45,7 +45,8 @@
     },
     "rules": {
       "vue/no-side-effects-in-computed-properties": "off",
-      "vue/no-use-v-if-with-v-for": "off"
+      "vue/no-use-v-if-with-v-for": "off",
+      "vue/return-in-computed-property": "off"
     }
   },
   "browserslist": [
