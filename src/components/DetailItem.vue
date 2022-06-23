@@ -56,27 +56,27 @@
                        <div class="car__grid-box__price-title">
                            <div class="price">{{ Format(curPrice) }}<span class="rub">₽</span></div>
                            <div
-                                   class="drop"
-                                   :class="{'--open': drops.title}"
-                                   v-if="vehicle.discounts">
-                               <div class="drop-btn">
-                                   <button class="question" @click="drops.title = !drops.title">
-                                       <icon-base icon-name="question"><icon-question /></icon-base>
-                                   </button>
-                               </div>
-                               <div class="drop-container">
-                                   <div class="drop-content">
-                                       <div class="question-drop">
-                                           Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
-                                           {{ getDiscountsName() }}
-                                       </div>
-                                   </div>
-                               </div>
+                                class="drop"
+                               :class="{'--open': drops.title}"
+                               v-if="vehicle.discounts">
+                                <div class="drop-btn">
+                                    <button class="question" @click="drops.title = !drops.title">
+                                        <icon-base icon-name="question"><icon-question /></icon-base>
+                                    </button>
+                                </div>
+                                <div class="drop-container">
+                                    <div class="drop-content">
+                                        <div class="question-drop">
+                                            Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
+                                            {{ getDiscountsName() }}
+                                        </div>
+                                    </div>
+                                </div>
                            </div>
                        </div>
                        <div
-                               class="car__grid-box__price-discount"
-                               v-if="vehicle.discounts">
+                            class="car__grid-box__price-discount"
+                            v-if="maxDiscount">
                            {{ Format(vehicle.price) }}<span class="rub">₽</span>
                        </div>
                        <button class="button hovered-t w100">
@@ -132,46 +132,55 @@
                            <div class="profit__head-title">Выгода на авто</div>
                            <div class="profit__head-discount">
                                <div
-                                       class="profit__head-discount__item"
-                                       v-if="maxDiscount">
-                                   Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span>
+                                    class="profit__head-discount__item"
+                                    v-if="maxDiscount">
+                                    Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span>
                                </div>
                                <div class="profit__head-discount__item">
                                    <div
-                                           class="drop"
-                                           :class="{'--open': drops.description}"
-                                           v-if="vehicle.discounts">
-                                       <div class="drop-btn" @click="drops.description = !drops.description">
-                                           <button class="question">
-                                               <icon-base icon-name="question"><icon-question /></icon-base>
-                                           </button>
-                                       </div>
-                                       <div class="drop-container">
-                                           <div class="drop-content">
-                                               <div class="question-drop">
-                                                   Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
-                                                   {{ getDiscountsName() }}
-                                               </div>
-                                           </div>
-                                       </div>
+                                        class="drop"
+                                        :class="{'--open': drops.description}"
+                                        v-if="vehicle.discounts">
+                                        <div class="drop-btn" @click="drops.description = !drops.description">
+                                            <button class="question">
+                                                <icon-base icon-name="question"><icon-question /></icon-base>
+                                            </button>
+                                        </div>
+                                        <div class="drop-container">
+                                            <div class="drop-content">
+                                                <div class="question-drop">
+                                                    Данная специальная цена действительна в случае приобретения автомобиля клиентом при условии использования специальных программ Производителя и/или ДЦ, а именно:
+                                                    {{ getDiscountsName() }}
+                                                </div>
+                                            </div>
+                                        </div>
                                    </div>
                                </div>
                            </div>
                        </div>
                        <div class="box-profit__list">
-                           <div
-                                   class="profit__list--grid_item"
-                                   v-for="(item, indx) in vehicle.discounts"
-                                   :key="indx"
-                                   @click="item.active = !item.active">
-                               <div class="box-profit__list-item__checkbox">
-                                   <div class="item__checkbox">
-                                       <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
-                                   </div>
-                                   <div class="item">{{ item.name }}</div>
+                            <div
+                                class="profit__list--grid_item"
+                                v-for="(item, indx) in vehicle.discounts"
+                                :key="indx"
+                                @click="item.active = !item.active">
+                                <div class="box-profit__list-item__checkbox">
+                                    <div class="item__checkbox">
+                                        <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
+                                    </div>
+                                    <div class="item">{{ item.name }}</div>
                                </div>
                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
-                           </div>
+                            </div>
+                            <div class="profit__list--grid_item" v-if="specDiscount">
+                                <div class="box-profit__list-item__checkbox">
+                                    <div class="item__checkbox">
+                                        <icon-base icon-name="check"><icon-check /></icon-base>
+                                    </div>
+                                    <div class="item">Дополнительно</div>
+                               </div>
+                               <div class="box-profit__list-item">до {{ Format(specDiscount) }} <span class="rub">₽</span></div>
+                            </div>
                        </div>
                        <div class="car__grid-foot">
                            <div class="profit__list--stock">
@@ -447,25 +456,35 @@ export default {
                     if (item.active) res = res - item.sum
                 })
             }
-            return res
+            return this.vehicle.price - this.curDiscount
         },
         curDiscount: function() {
-            let res = 0
+            let d = 0, res = 0
             if ( this.vehicle.discounts ) {
                 this.vehicle.discounts.forEach( (item) => {
-                    if (item.active) res += item.sum
+                    if (item.active) d += item.sum
                 })
             }
+            if ( d ) {
+                res = (d <= this.maxDiscount) ? d : this.maxDiscount
+            } else {
+                res = this.maxDiscount
+            }
+
             return res
         },
         maxDiscount: function() {
-            let res = 0
-            if ( this.vehicle.discounts ) {
-                this.vehicle.discounts.forEach( (item) => {
-                    res += item.sum
-                })
-            }
-            return res
+            // let res = 0
+            // if ( this.vehicle.discounts ) {
+            //     this.vehicle.discounts.forEach( (item) => {
+            //         res += item.sum
+            //     })
+            // }
+            return this.vehicle.price - this.vehicle.min_price
+        },
+        specDiscount: function() {
+
+            return this.vehicle.price - this.vehicle.special_price
         },
         accordionButton: function() {
             let res = 'Посмотреть все опции'
