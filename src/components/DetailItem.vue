@@ -164,7 +164,7 @@
                                     <div class="item__checkbox">
                                         <icon-base icon-name="check"><icon-check /></icon-base>
                                     </div>
-                                    <div class="item">Постоянная скидка</div>
+                                    <div class="item">Специальная</div>
                                </div>
                                <div class="box-profit__list-item">до {{ Format(specDiscount) }} <span class="rub">₽</span></div>
                             </div>
