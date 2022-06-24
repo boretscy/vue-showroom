@@ -77,7 +77,6 @@ export default {
                 url += '&model='+this.$route.params.model
                 for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
                 this.axios.get(url).then((response) => {
-                    console.log(response.data)
                     this.items = response.data.items
                     this.brand = response.data.brand
                     this.model = response.data.model
@@ -114,7 +113,6 @@ export default {
         url += '&model='+this.$route.params.model
         for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
         this.axios.get(url).then((response) => {
-            console.log(response.data)
 			this.items = response.data.items
             this.brand = response.data.brand
             this.model = response.data.model

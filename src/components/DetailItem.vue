@@ -88,8 +88,8 @@
                            <div class="car__grid-box-stock__head-sub">Комплектация:</div>
                            <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
                            <div class="car__grid-box-stock__head-options">
-                               <span>{{ mainOptionsCount }} базовых опций</span>
-                               <span v-if="vehicle.side_options">{{ vehicle._additional.length }} дополнительных опций</span>
+                               <span>{{ mainOptionsCount }} {{ getWorld(mainOptionsCount,'b') }} {{ getWorld(mainOptionsCount,'o') }}</span>
+                               <span v-if="vehicle.side_options">{{ vehicle._additional.length }} {{ getWorld(vehicle._additional.length,'d') }} {{ getWorld(vehicle._additional.length,'o') }}</span>
                            </div>
                        </div>
                        <div class="car__grid-box-stock__list">
@@ -496,7 +496,6 @@ export default {
         },
     },
     mounted: function() {
-        console.log(this.vehicle)
         window.scrollTo(0,0);
 
         this.accordion = this.vehicle.options
@@ -578,6 +577,8 @@ export default {
 
             let res = {
                 'o': ['опция', 'опции', 'опций'],
+                'b': ['базовая', 'базовые', 'базовых'],
+                'd': ['дополнительная', 'дополнительные', 'дополнительних'],
             }
             let t = [
 				[1, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 131, 141, 151, 161, 171, 181, 191],

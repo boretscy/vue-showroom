@@ -329,7 +329,6 @@ export default {
     computed: {
         filterList: {
             get() {
-                console.log(this.brands)
                 return ( this.$route.params.brand ) ? this.modelOptions : this.brands
             },
             set() {
@@ -526,7 +525,6 @@ export default {
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
-                console.log(url)
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
                     this.filter.dropLists.brands.sort((a, b) => a.name > b.name ? 1 : -1);
@@ -601,7 +599,6 @@ export default {
                 this.$route.query.engine.split(',').forEach( (qi) => {
                     this.filter.dropLists.engines.forEach( (i) => {
                         if ( i.code == qi ) {
-                            console.log(this.engineValue)
                             this.engineValue.push({name: i.name, code: i.code})
                         }
                     })
@@ -841,7 +838,6 @@ export default {
                     this.modelOptions = []
                     let p = this.filter.ranges.price
                     this.axios.get(url).then((response) => {
-                        console.log(response.data)
                         p.min = 1000000000
                         p.max = 0
                         let pi

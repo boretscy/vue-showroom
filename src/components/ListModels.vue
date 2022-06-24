@@ -81,7 +81,6 @@ export default {
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
                 this.axios.get(url).then((response) => {
-                    console.log(response.data)
                     this.models = response.data
                     this.models.forEach( (item) => {
                         this.count += item.statistics[1].counter + item.statistics[2].counter
