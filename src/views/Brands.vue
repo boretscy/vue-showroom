@@ -75,7 +75,7 @@ export default {
 				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 				this.axios.get(url).then((response) => {
 					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
-					console.log(response.data)
+					// console.log(response.data)
 					this.brands = response.data
 				})
             }

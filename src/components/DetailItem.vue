@@ -159,6 +159,15 @@
                            </div>
                        </div>
                        <div class="box-profit__list">
+                            <div class="profit__list--grid_item" v-if="specDiscount">
+                                <div class="box-profit__list-item__checkbox">
+                                    <div class="item__checkbox">
+                                        <icon-base icon-name="check"><icon-check /></icon-base>
+                                    </div>
+                                    <div class="item">Постоянная скидка</div>
+                               </div>
+                               <div class="box-profit__list-item">до {{ Format(specDiscount) }} <span class="rub">₽</span></div>
+                            </div>
                             <div
                                 class="profit__list--grid_item"
                                 v-for="(item, indx) in vehicle.discounts"
@@ -172,15 +181,7 @@
                                </div>
                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
                             </div>
-                            <div class="profit__list--grid_item" v-if="specDiscount">
-                                <div class="box-profit__list-item__checkbox">
-                                    <div class="item__checkbox">
-                                        <icon-base icon-name="check"><icon-check /></icon-base>
-                                    </div>
-                                    <div class="item">Дополнительно</div>
-                               </div>
-                               <div class="box-profit__list-item">до {{ Format(specDiscount) }} <span class="rub">₽</span></div>
-                            </div>
+                            
                        </div>
                        <div class="car__grid-foot">
                            <div class="profit__list--stock">
@@ -459,7 +460,8 @@ export default {
             return this.vehicle.price - this.curDiscount
         },
         curDiscount: function() {
-            let d = 0, res = 0
+
+            let d = this.specDiscount, res = 0
             if ( this.vehicle.discounts ) {
                 this.vehicle.discounts.forEach( (item) => {
                     if (item.active) d += item.sum
@@ -467,10 +469,7 @@ export default {
             }
             if ( d ) {
                 res = (d <= this.maxDiscount) ? d : this.maxDiscount
-            } else {
-                res = this.maxDiscount
-            }
-
+            } 
             return res
         },
         maxDiscount: function() {

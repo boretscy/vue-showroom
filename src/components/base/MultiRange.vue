@@ -52,15 +52,50 @@ export default {
             return this.range
         },
         tow: function() {
-            return this.$parent.filter.ranges[this.indxRange]
+            return [
+                this.$parent.filter.ranges[this.indxRange].min,
+                this.$parent.filter.ranges[this.indxRange].max,
+            ]
         }
     },
     watch: {
-        tow: function(newValue) {
+        tow: function(v) {
             this.reset()
-            this.value = newValue.value
-            this.min = newValue.min
-            this.max = newValue.max
+            
+
+            // if ( this.value[0] < v.min ) {
+            //     this.value[0] = v.min
+            //     this.min = v.min
+            // } else {
+            //     this.min = v.min
+            //     this.value[0] = v.min
+            // }
+            // if ( this.value[1] > v.max ) {
+            //     this.value[1] = v.max
+            //     this.max = v.max
+            // } else {
+            //     this.max = v.max
+            //     this.value[1] = v.max
+            // }
+
+            if ( this.value[0] < v[0] ) this.value[0] = v[0]
+            if ( this.value[1] > v[1] ) this.value[1] = v[1]
+            this.min = v[0]
+            this.max = v[1]
+
+
+            // if ( this.value[0] < v.min ) this.value[0] = v.min
+            // if ( this.value[1] > v.max ) this.value[1] = v.max
+            // this.min = v.min
+            // this.max = v.max
+
+
+            // this.value = [
+            //     this.$parent.filter.ranges[this.indxRange].min,
+            //     this.$parent.filter.ranges[this.indxRange].max
+            // ]
+            // this.min = this.$parent.filter.ranges[this.indxRange].min
+            // this.max = this.$parent.filter.ranges[this.indxRange].max
         }
     },
     mounted: function() {
@@ -76,9 +111,10 @@ export default {
             this.$emit('range', { range: this.range, value: this.value})
         },
         reset() {
-            this.value = [0,0]
+
             this.min = 0
-            this.max = 1000000000
+            this.max = 99999999
+            this.value = [0,99999999]
         }
     }
 }

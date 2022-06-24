@@ -15,8 +15,30 @@ export default {
     },
     mounted: function() {
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
+        // this.$store.state.global.filter = this.getDefaultFilter()
+        // this.$store.state.global.brands = this.getDefaultBrands()
     },
     methods: {
+
+        getDefaultFilter() {
+            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            this.axios.get(url).then((response) => {
+                response.data.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
+                response.data.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
+                response.data.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
+                response.data.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
+                response.data.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
+                response.data.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
+                return response.data
+            })
+        }, 
+        getDefaultBrands() {
+            let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+			this.axios.get(url).then((response) => {
+				response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+				return response.data
+			})
+        }
     }
 }
 </script>

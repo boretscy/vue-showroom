@@ -24,6 +24,7 @@ export default {
             console.log(this.$route)
             this.$router.push(this.$route.path)
             this.$root.GlobalIter++
+            this.$emit('reset')
         }
     }
 }
@@ -31,7 +32,7 @@ export default {
 
 <style scoped>
 .button {
-    --ui-color: var(--yalighgray);
+    --ui-color: var(--yagray);
     --border-color: var(--ui-color);
     --background: transparen;
     --color: var(--ui-color);
@@ -60,8 +61,8 @@ export default {
     box-shadow: inset 0 0 3px 2px #00000020;
 }
 .button:hover {
-    --ui-color: var(--yagray);
-    color: var(--black);
+    --ui-color: var(--yamiddlegray);
+    color: var(--yawhite);
     background: var( --ui-color);
     border: solid 1px var(--border-color);
 }
@@ -72,6 +73,10 @@ export default {
     fill: var(--color);
     margin: 0 calc(var(--margin-inner) / 2.5);
     box-sizing: border-box;
+    transition: var(--transition);
+}
+.button:hover svg {
+    fill: var(--yawhite);
     transition: var(--transition);
 }
 .button span {
@@ -131,6 +136,6 @@ export default {
     display: block;
 }
 .grid:hover svg {
-    fill: var(--black);
+    fill: var(--yawhite);
 }
 </style>

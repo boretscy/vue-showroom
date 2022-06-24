@@ -2,7 +2,8 @@
     <div class="model__grid-card">
         <div class="model__grid-card__head">
             <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__head--img">
-                <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name">
+                <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name" v-if="item.images.length">
+                <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="brand.name+' '+model.name" v-else>
             </router-link>
             <div class="model__grid-card__head--top">
                 <div class="model__grid-card__head--top_discont" v-if="item.discounts">

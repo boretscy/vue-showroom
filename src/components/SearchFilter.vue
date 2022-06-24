@@ -216,7 +216,7 @@
                 class="filter__head-item"
                 v-show="viewFull"
                 >
-                <button-cancel />
+                <button-cancel @reset="resetFilter"/>
             </div>
             
             <div   
@@ -300,6 +300,7 @@ export default {
             bodyValue: [],
             driveValue: [],
             sortValue: [],
+            complectationOptions: [],
 
             link: '',
 
@@ -309,13 +310,28 @@ export default {
                 inpath: false
             },
 
+            query: {
+                brand: null,
+                model: null,
+                price: null,
+                transmition: null,
+                volume: null,
+                power: null,
+                engine: null,
+                drive: null,
+                body: null,
+                year: null,
+                dealership: null,
+                color: null,
+            },
+
             filterListQuery: ''
         }
     },
     computed: {
         filterList: {
             get() {
-                return ( this.modelOptions.length ) ? this.modelOptions : this.filter.dropLists.brands
+                return ( this.$route.params.brand ) ? this.modelOptions : this.filter.dropLists.brands
             },
             set() {
             }
@@ -326,57 +342,78 @@ export default {
         modeValue: function(newValue) {
             window.location.href = newValue.code;
         },
+
         brandValue: function(newValue) {
             if (newValue.length) {
-                this.getModels(newValue)
-                this.resetDrops()
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery()).then(() => {
+                this.modelValue = []
+                this.getModels(newValue).then(()=>{
                     this.resetDrops()
+                    this.getFilter(this.buildQuery())
                 })
             } else {
-                this.blockFilter = true
                 this.initFilter().then(() => {
                     this.resetDrops()
                 })
-                this.blockFilter = false
             }
         },
         modelValue: function() {
-            this.blockFilter = true
-            this.getFilter(this.buildQuery()).then(() => {
-                this.resetDrops()
-            })
-            this.blockFilter = false
-            this.link = this.buildLink(this.buildQuery())
+            this.resetDrops()
+            this.getFilter(this.buildQuery())
         },
-        transmitionsValue: function() {
-            this.link = this.buildLink(this.buildQuery())
-            if (!this.blockFilter) this.getFilter(this.buildQuery())
+        transmitionsValue: function(v, o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
         },
-        engineValue: function() {
-            this.link = this.buildLink(this.buildQuery())
-            if (!this.blockFilter) this.getFilter(this.buildQuery())
+        engineValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
         },
-        dealershipValue: function() {
-            this.link = this.buildLink(this.buildQuery())
-            if (!this.blockFilter) this.getFilter(this.buildQuery())
+        dealershipValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
         },
-        colorValue: function() {
-            this.link = this.buildLink(this.buildQuery())
-            if (!this.blockFilter) this.getFilter(this.buildQuery())
+        colorValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
         },
-        bodyValue: function() {
-            this.link = this.buildLink(this.buildQuery())
-            if (!this.blockFilter) this.getFilter(this.buildQuery())
+        bodyValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
         },
-        driveValue: function() {
-            this.link = this.buildLink(this.buildQuery())
-            if (!this.blockFilter) this.getFilter(this.buildQuery())
+        driveValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
         },
         '$route.query': function() {
-            this.initFilter().then(() => {
-                this.getStartDropsValues()
+            console.log(this.buildQuery())
+            this.getFilter(this.buildQuery()).then(() => {
+                this.$parent.iter++
+            })
+            
+        },
+        '$route.params.brand': function() {
+            this.brands.forEach( (i) => {
+                if ( i.alias == this.$route.params.brand ) {
+                    this.brandValue.push({code: i.alias, name: i.name})
+                    this.curBrand = i.name
+                }
+            })
+        },
+        '$route.param.model': function() {
+            this.modelOptions.forEach( (i) => {
+                if ( i.code == this.$route.params.model ) this.modelValue.push(i)
             })
         }
     },
@@ -393,7 +430,10 @@ export default {
 		})
 
         this.initFilter().then(() => {
-            this.getStartDropsValues()
+            setTimeout(() => {
+                this.getStartDropsValues()
+            }, 500);
+            
         })
     },
     methods: {
@@ -402,6 +442,8 @@ export default {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
+                if ( this.$route.params.model ) url += '&model='+this.$route.params.model
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
                     this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
@@ -410,10 +452,8 @@ export default {
                     this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
-                    // console.log(this.filter)
                     this.totalCount = this.filter.totalCount
                     this.filterList = this.filter.dropLists.brands
-                    this.resetDrops()
                     this.link = this.buildLink(this.buildQuery())
                     resolve(true)
                 })
@@ -422,6 +462,9 @@ export default {
         getFilter(link) {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
+                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
+                if ( this.$route.params.model ) url += '&model='+this.$route.params.model
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
                     this.filter.dropLists.brands.sort((a, b) => a.name > b.name ? 1 : -1);
@@ -431,13 +474,39 @@ export default {
                     this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.filter.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
-                    // this.setRangesValues()
                     this.totalCount = this.filter.totalCount
                     this.filterList = this.filter.dropLists.brands
                     this.link = this.buildLink(this.buildQuery())
                     resolve(true)
                 })
             })
+        },
+        getRangeCount(link) {
+            return new Promise((resolve) => {
+                let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
+                this.axios.get(url).then((response) => {
+                    this.totalCount = response.data.totalCount
+                    this.filter.totalCount = response.data.totalCount
+                    this.filterList = response.data.dropLists
+                    this.link = this.buildLink(this.buildQuery())
+                    resolve(true)
+                })
+            })
+        },
+        resetFilter() {
+            this.$router.replace({'query': null});
+            if (this.$route.path != '/') this.$router.push('/')
+            this.resetDrops()
+
+                this.brandValue = []
+                this.modeValue = []
+            // this.initFilter().then(() => {
+            //     for (let i in this.filter.ranges) {
+            //         this.filter.ranges =
+            //     }
+            // })
+            this.$parent.iter++
+            
         },
 
         // drops
@@ -463,7 +532,9 @@ export default {
             if ( this.$route.query.transmition ) {
                 this.$route.query.transmition.split(',').forEach( (qi) => {
                     this.filter.dropLists.transmitions.forEach( (i) => {
-                        if ( i.code == qi ) this.transmitionValue.push(i)
+                        if ( i.code == qi ) {
+                            this.transmitionsValue.push(i)
+                        }
                     })
                 })
             }
@@ -471,7 +542,8 @@ export default {
                 this.$route.query.engine.split(',').forEach( (qi) => {
                     this.filter.dropLists.engines.forEach( (i) => {
                         if ( i.code == qi ) {
-                            this.engineValue.push(i)
+                            console.log(this.engineValue)
+                            this.engineValue.push({name: i.name, code: i.code})
                         }
                     })
                 })
@@ -505,26 +577,102 @@ export default {
                 })
             }
         },
+        setDrops(drops) {
+            let q = []
+            this.blockFilter = true
+
+            if ( !drops.includes('transmitions') ) {
+                q = []
+                if ( this.transmitionsValue.length ) {
+                    this.filter.dropLists.transmissions.forEach((o) => {
+                        this.transmitionsValue.forEach((i) => {
+                            if ( i.code == o.code ) q.push(i)
+                        })
+                    })
+                }
+                this.transmitionsValue = q
+            }
+
+            if ( !drops.includes('engines') ) {
+                q = []
+                if ( this.engineValue.length ) {
+                    this.filter.dropLists.engines.forEach((o) => {
+                        this.engineValue.forEach((i) => {
+                            if ( i.code == o.code ) q.push(i)
+                        })
+                    })
+                }
+                this.engineValue = q
+            }
+            
+            if ( !drops.includes('drives') ) {
+                q = []
+                if ( this.driveValue.length ) {
+                    this.filter.dropLists.drives.forEach((o) => {
+                        this.driveValue.forEach((i) => {
+                            if ( i.code == o.code ) q.push(i)
+                        })
+                    })
+                }
+                this.driveValue = q
+            }
+
+            if ( !drops.includes('bodies') ) {
+                q = []
+                if ( this.bodyValue.length ) {
+                    this.filter.dropLists.bodies.forEach((o) => {
+                        this.bodyValue.forEach((i) => {
+                            if ( i.code == o.code ) q.push(i)
+                        })
+                    })
+                }
+                this.bodyValue = q
+            }
+            
+            if ( !drops.includes('dealerships') ) {
+                q = []
+                if ( this.dealershipValue.length ) {
+                    this.filter.dropLists.dealerships.forEach((o) => {
+                        this.dealershipValue.forEach((i) => {
+                            if ( i.code == o.code ) q.push(i)
+                        })
+                    })
+                }
+                this.dealershipValue = q
+            }
+
+            if ( !drops.includes('colors') ) {
+                q = []
+                if ( this.colorValue.length ) {
+                    this.filter.dropLists.colors.forEach((o) => {
+                        this.colorValue.forEach((i) => {
+                            if ( i.code == o.code ) q.push(i)
+                        })
+                    })
+                }
+                this.colorValue = q
+            }
+
+            this.blockFilter = false
+        },
         resetDrops() {
-            this.transmitionsValue = []
-            this.engineValue = []
-            this.dealershipValue = []
-            this.colorValue = []
-            this.driveValue = []
-            this.bodyValue = []
+            console.log('reset')
+            this.blockFilter = true
+                this.transmitionsValue = []
+                this.engineValue = []
+                this.dealershipValue = []
+                this.colorValue = []
+                this.driveValue = []
+                this.bodyValue = []
+            this.blockFilter = false
         },
 
         // ranges
         setRangeValue(v) {
             this.filter.ranges[v.range].value = v.value
-            // this.link = this.buildLink(this.buildQuery())
-            this.getFilter(this.buildQuery())
+            this.link = this.buildLink(this.buildQuery())
+            this.getRangeCount(this.buildQuery())
 
-        },
-        setRangesValues() {
-            for (let r in this.filter.ranges) {
-                this.filter.ranges[r].value = [this.filter.ranges[r].min, this.filter.ranges[r].max]
-            }
         },
         
         // link
@@ -571,17 +719,22 @@ export default {
                 l += '&dealership='+s.join(',')
             }
 
-            l += '&minprice='+this.filter.ranges.price.value[0]
-            l += '&maxprice='+this.filter.ranges.price.value[1]
-
-            l += '&minvolume='+this.filter.ranges.volume.value[0]
-            l += '&maxvolume='+this.filter.ranges.volume.value[1]
-
-            l += '&minpower='+this.filter.ranges.power.value[0]
-            l += '&maxpower='+this.filter.ranges.power.value[1]
-
-            l += '&minyear='+this.filter.ranges.year.value[0]
-            l += '&maxyear='+this.filter.ranges.year.value[1]
+            if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
+                l += '&minprice='+this.filter.ranges.price.value[0]
+                l += '&maxprice='+this.filter.ranges.price.value[1]
+            }
+            if ( this.filter.ranges.volume.value[0] != this.filter.ranges.volume.min || this.filter.ranges.volume.value[1] != this.filter.ranges.volume.max ) {
+                l += '&minvolume='+this.filter.ranges.volume.value[0]
+                l += '&maxvolume='+this.filter.ranges.volume.value[1]
+            }
+            if ( this.filter.ranges.power.value[0] != this.filter.ranges.power.min || this.filter.ranges.power.value[1] != this.filter.ranges.power.max ) {
+                l += '&minpower='+this.filter.ranges.power.value[0]
+                l += '&maxpower='+this.filter.ranges.power.value[1]
+            }
+            if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
+                l += '&minyear='+this.filter.ranges.year.value[0]
+                l += '&maxyear='+this.filter.ranges.year.value[1]
+            }
 
             this.filterListQuery = l
 
@@ -617,51 +770,56 @@ export default {
             return l+((q.length)?'?':'')+q.slice(0, -1)
         },
 
-        getModels(newValue) {
+        getModels(brands) {
             
-            let s = []
-            newValue.forEach( function(item) {
-                s.push(item.code)
-            })
-            
-            if ( s.length ) {
-                let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken+'&brand='+s.join(',')
-                this.modelOptions = []
-                let m = this.modelOptions, p = this.filter.ranges.price
-                this.axios.get(url).then((response) => {
-                    console.log(response.data)
-                    p.min = 1000000000
-                    p.max = 0
-                    let pi
-                    response.data.forEach((item) => {
-                        pi = {
-                            name: item.name,
-                            code: item.alias,
-                            brand: item.brand,
-                            vehicles: 0
-                        }
-                        for ( let i in item.statistics ) {
-                            pi.vehicles += item.statistics[i].counter
-                        }
-                        m.push(pi)
-                        if ( item.min < p.min ) p.min = item.min
-                        if ( item.max > p.max ) p.max = item.max
-                    })
+            return new Promise((resolve) => {
 
-                    if ( this.$route.params.model ) {
-                        this.modelOptions.forEach( (i) => {
-                            if ( i.code == this.$route.params.model ) this.modelValue.push(i)
-                        })
-                    } else if ( this.$route.query.model ) {
-                        this.$route.query.model.split(',').forEach( (qi) => {
-                            this.modelOptions.forEach( (i) => {
-                                if ( i.code == qi ) this.modelValue.push(i)
-                            })
-                        })
-                    }
-                    // this.setRanges()
+                let s = []
+                brands.forEach( function(item) {
+                    s.push(item.code)
                 })
-            }
+                
+                if ( s.length ) {
+                    let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken+'&brand='+s.join(',')
+                    for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                    this.modelOptions = []
+                    let p = this.filter.ranges.price
+                    this.axios.get(url).then((response) => {
+                        console.log(response.data)
+                        p.min = 1000000000
+                        p.max = 0
+                        let pi
+                        response.data.forEach((item) => {
+                            pi = {
+                                name: item.name,
+                                code: item.alias,
+                                brand: item.brand,
+                                vehicles: 0
+                            }
+                            for ( let i in item.statistics ) {
+                                pi.vehicles += item.statistics[i].counter
+                            }
+                            this.modelOptions.push(pi)
+                            if ( item.min < p.min ) p.min = item.min
+                            if ( item.max > p.max ) p.max = item.max
+                        })
+
+                        if ( this.$route.params.model ) {
+                            this.modelOptions.forEach( (i) => {
+                                if ( i.code == this.$route.params.model ) this.modelValue.push(i)
+                            })
+                        } else if ( this.$route.query.model ) {
+                            this.$route.query.model.split(',').forEach( (qi) => {
+                                this.modelOptions.forEach( (i) => {
+                                    if ( i.code == qi ) this.modelValue.push(i)
+                                })
+                            })
+                        }
+                        // this.setRanges()
+                    })
+                }
+                resolve(true)
+            })
         },
 
         
