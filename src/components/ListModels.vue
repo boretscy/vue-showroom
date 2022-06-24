@@ -11,7 +11,7 @@
             <model-grid 
                 v-for="model in models"
                 :key="model.id"
-                :discount="model.has_discounts"
+                :discount="model.Discount"
                 :price="Number(model.min_price)"
                 :colors="model._colors"
                 :cis="model.statistics['1'].counter + model.statistics['2'].counter"
