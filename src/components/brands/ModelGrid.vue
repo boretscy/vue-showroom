@@ -15,10 +15,10 @@
                 <icon-base icon-name="cisvan" v-if="!picture && body == 'van'"><icon-cisvan /></icon-base>
                 <icon-base icon-name="ciswagon" v-if="!picture && body == 'wagon'"><icon-ciswagon /></icon-base>
             </router-link>
-            <div class="grid-item__head-discont" v-if="discount">Выгода</div>
+            <div class="grid-item__head-discont" v-if="Discount">Выгода</div>
         </div>
         <div class="head_items">
-            <div class="grid-item__head-discont--grid_line" v-if="discount">Выгода</div>
+            <div class="grid-item__head-discont--grid_line" v-if="Discount">Выгода</div>
             <router-link :to="link" class="grid-item__title">{{ name }}</router-link>
         </div>
         <div class="grid-item__sub">
