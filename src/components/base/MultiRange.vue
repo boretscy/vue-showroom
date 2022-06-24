@@ -2,12 +2,14 @@
     <div class="multirange">
         <div class="multirange__item">
             <label class="input">
-                <input type="text" placeholder="600 000" v-model="value[0]">
+                <input type="hidden" v-model="value[0]">
+                <input type="text" :value="String(value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')">
                 <span class="price">{{ nameRange }} от</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
             <label class="input">
-                <input type="text" placeholder="9 000 000" v-model="value[1]">
+                <input type="hidden" v-model="value[1]">
+                <input type="text" :value="String(value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')">
                 <span  class="price">до</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
@@ -115,6 +117,13 @@ export default {
             this.min = 0
             this.max = 99999999
             this.value = [0,99999999]
+        },
+
+        // helpers
+        Format(q) {
+			
+            var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
+            return Price.format(q);	
         }
     }
 }

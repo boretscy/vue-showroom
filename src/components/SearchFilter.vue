@@ -324,19 +324,77 @@ export default {
                 dealership: null,
                 color: null,
             },
-
-            filterListQuery: ''
         }
     },
     computed: {
         filterList: {
             get() {
+                console.log(this.brands)
                 return ( this.$route.params.brand ) ? this.modelOptions : this.brands
             },
             set() {
             }
 
+        },
+        filterListQuery: {
+            get() {
+
+                let q = '', s = []
+                if ( this.transmitionsValue.length ) {
+                this.transmitionsValue.forEach( function(i) { s.push(i.code) })
+                    q += '&transmition='+s.join(',')
+                }
+                s = []
+                if ( this.engineValue.length ) {
+                    this.engineValue.forEach( function(i) { s.push(i.code) })
+                    q += '&engine='+s.join(',')
+                }
+                s = []
+                if ( this.colorValue.length ) {
+                    this.colorValue.forEach( function(i) { s.push(i.code) })
+                    q += '&color='+s.join(',')
+                }
+                s = []
+                if ( this.bodyValue.length ) {
+                    this.bodyValue.forEach( function(i) { s.push(i.code) })
+                    q += '&body='+s.join(',')
+                }
+                s = []
+                if ( this.driveValue.length ) {
+                    this.driveValue.forEach( function(i) { s.push(i.code) })
+                    q += '&drive='+s.join(',')
+                }
+                s = []
+                if ( this.dealershipValue.length ) {
+                    this.dealershipValue.forEach( function(i) { s.push(i.code) })
+                    q += '&dealership='+s.join(',')
+                }
+
+                if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
+                    q += '&minprice='+this.filter.ranges.price.value[0]
+                    q += '&maxprice='+this.filter.ranges.price.value[1]
+                }
+                if ( this.filter.ranges.volume.value[0] != this.filter.ranges.volume.min || this.filter.ranges.volume.value[1] != this.filter.ranges.volume.max ) {
+                    q += '&minvolume='+this.filter.ranges.volume.value[0]
+                    q += '&maxvolume='+this.filter.ranges.volume.value[1]
+                }
+                if ( this.filter.ranges.power.value[0] != this.filter.ranges.power.min || this.filter.ranges.power.value[1] != this.filter.ranges.power.max ) {
+                    q += '&minpower='+this.filter.ranges.power.value[0]
+                    q += '&maxpower='+this.filter.ranges.power.value[1]
+                }
+                if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
+                    q += '&minyear='+this.filter.ranges.year.value[0]
+                    q += '&maxyear='+this.filter.ranges.year.value[1]
+                }
+
+                return ((q.length)?'?':'') + q
+
+            },
+            set() {
+
+            }
         }
+        
     },
     watch: {
         modeValue: function(newValue) {
@@ -456,6 +514,7 @@ export default {
                     this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.totalCount = this.filter.totalCount
                     this.filterList = this.filter.dropLists.brands
+                    this.brands = this.filter.dropLists.brands
                     this.link = this.buildLink(this.buildQuery())
                     resolve(true)
                 })
@@ -734,8 +793,6 @@ export default {
                 l += '&minyear='+this.filter.ranges.year.value[0]
                 l += '&maxyear='+this.filter.ranges.year.value[1]
             }
-
-            this.filterListQuery = l
 
             return l
         },

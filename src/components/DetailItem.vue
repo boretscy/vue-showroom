@@ -88,7 +88,7 @@
                            <div class="car__grid-box-stock__head-sub">Комплектация:</div>
                            <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
                            <div class="car__grid-box-stock__head-options">
-                               <span>{{ vehicle.options.length }} базовых опций</span>
+                               <span>{{ mainOptionsCount }} базовых опций</span>
                                <span v-if="vehicle.side_options">{{ vehicle._additional.length }} дополнительных опций</span>
                            </div>
                        </div>
@@ -280,7 +280,7 @@
                                    >
                                        <div class="settings_accordion--head__title">{{ group.group }}</div>
                                        <div class="tabs_content-item__sub">
-                                           <div class="tabs_content-item__sub-count">{{ group.options.length }} опции</div>
+                                           <div class="tabs_content-item__sub-count">{{ Object.keys(group.options).length }} {{ getWorld(Object.keys(group.options).length, 'o') }}</div>
                                            <div class="tabs_content-item__sub-drop">
                                                <icon-base
                                                        icon-name="corner"
@@ -445,7 +445,9 @@ export default {
             locstore: {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
-            }
+            },
+
+            mainOptionsCount: 0
             
         }
     },
@@ -491,7 +493,7 @@ export default {
                 if (item.view) res = 'Скрыть все опции'
             })
             return res
-        }
+        },
     },
     mounted: function() {
         console.log(this.vehicle)
@@ -508,6 +510,13 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             }
         }, 500);
+
+        this.vehicle.options.forEach( (i) => {
+
+            Object.keys(i.options).forEach( () => {
+                this.mainOptionsCount++
+            })
+        })
     },
     methods: {
         /* UI */
@@ -563,6 +572,21 @@ export default {
 
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' })
             return Price.format(q)
+        },
+
+        getWorld( q = 1, f = 'o' ) {
+
+            let res = {
+                'o': ['опция', 'опции', 'опций'],
+            }
+            let t = [
+				[1, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 131, 141, 151, 161, 171, 181, 191],
+				[2,3,4,22,23,24,32,33,34,42,43,44,52,53,54,62,63,64,72,73,74,82,83,84,92,93,94,102,103,104,122,123,124,132,133,134,142,143,144,152,153,154,162,163,164,172,173,174,182,183,184,192,193,194]
+			]
+
+            if ( t[0].indexOf(q) >= 0 ) return res[f][0]
+            if ( t[1].indexOf(q) >= 0 ) return res[f][1]
+            return res[f][2]
         },
 
     }
