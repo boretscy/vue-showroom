@@ -499,6 +499,7 @@ export default {
         resetFilter() {
             if (this.$route.path == '/') {
                 this.initFilter().then(() => {
+                    this.$router.replace({'query': null})
                     this.brandValue = []
                     this.resetDrops()
                 })
