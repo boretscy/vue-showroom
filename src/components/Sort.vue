@@ -24,7 +24,7 @@
                         <span>Все</span>
                     </button>
                     <button class="filter__sort-item__button" :class="{'active': Mode == 'discount'}" @click="$router.push(discountLink)" v-if="Discount">
-                        <span>Со скидкой</span>
+                        <span>Выгода</span>
                     </button>
                     <button :to="instockLink"  class="filter__sort-item__button" :class="{'active': Mode == 'instock'}" @click="$router.push(instockLink)" v-if="InStock">
                         <span>В наличии</span>

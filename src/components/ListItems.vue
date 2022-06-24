@@ -68,6 +68,31 @@ export default {
 	},
     watch: {
 
+
+        '$route.query': {
+            immediate: true,
+            handler() {
+                let url = this.$store.state.apiUrl+'model/'+this.$store.state.mode+'/'+this.$route.params.model+'?token='+this.$store.state.apiToken
+                url += '&brand='+this.$route.params.brand
+                url += '&model='+this.$route.params.model
+                for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
+                this.axios.get(url).then((response) => {
+                    console.log(response.data)
+                    this.items = response.data.items
+                    this.brand = response.data.brand
+                    this.model = response.data.model
+
+                    this.items.forEach( (item) => {
+                        if (item.Discount) this.$parent.sortButtons.Discount = true
+                        if (item.InStock) this.$parent.sortButtons.InStock = true
+                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                    })
+
+                    window.scrollTo(0,0);
+                })
+            }
+        },
+
         '$parent.sortMode': function(newValue) {
             switch(newValue) {
                 case 'name':

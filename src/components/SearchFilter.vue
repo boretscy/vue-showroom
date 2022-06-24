@@ -331,7 +331,7 @@ export default {
     computed: {
         filterList: {
             get() {
-                return ( this.$route.params.brand ) ? this.modelOptions : this.filter.dropLists.brands
+                return ( this.$route.params.brand ) ? this.modelOptions : this.brands
             },
             set() {
             }
@@ -397,7 +397,6 @@ export default {
             }
         },
         '$route.query': function() {
-            console.log(this.buildQuery())
             this.getFilter(this.buildQuery()).then(() => {
                 this.$parent.iter++
             })
@@ -468,6 +467,7 @@ export default {
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
+                console.log(url)
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
                     this.filter.dropLists.brands.sort((a, b) => a.name > b.name ? 1 : -1);
