@@ -1,5 +1,5 @@
 <template>
-    <button class="button grid" @click="cl">
+    <button class="button grid" @click="$emit('reset')">
         <span>
             Сбросить все
         </span>
@@ -19,14 +19,6 @@ export default {
     components: {
         IconBase, IconCross
     },
-    methods: {
-        cl() {
-            console.log(this.$route)
-            this.$router.push(this.$route.path)
-            this.$root.GlobalIter++
-            this.$emit('reset')
-        }
-    }
 }
 </script>
 

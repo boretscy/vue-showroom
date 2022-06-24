@@ -2,14 +2,25 @@
     <div class="available__grid available__line">
         <div class="available__grid-item">
             <div class="grid-item__head">
-                <router-link :to="'/'+brand+'/'+alias" class="grid-item__head-img">
-                    <img :src="picture" :alt="brand + ' ' + name">
+                <router-link :to="link" class="grid-item__head-img">
+                    <img :src="picture" :alt="brand + ' ' + name" v-if="picture">
+                    <icon-base icon-name="ciscrossover" v-if="!picture && body == 'crossover'"><icon-ciscrossover /></icon-base>
+                    <icon-base icon-name="ciscupe" v-if="!picture && body == 'cupe'"><icon-ciscupe /></icon-base>
+                    <icon-base icon-name="cisliftback" v-if="!picture && body == 'liftback'"><icon-cisliftback /></icon-base>
+                    <icon-base icon-name="cishatchback" v-if="!picture && body == 'hatchback'"><icon-cishatchback /></icon-base>
+                    <icon-base icon-name="cismicrobus" v-if="!picture && body == 'microbus'"><icon-cismicrobus /></icon-base>
+                    <icon-base icon-name="cisminivan" v-if="!picture && body == 'minivan'"><icon-cisminivan /></icon-base>
+                    <icon-base icon-name="cispickup" v-if="!picture && body == 'pickup'"><icon-cispickup /></icon-base>
+                    <icon-base icon-name="cissedan" v-if="!picture && body == 'sedan'"><icon-cissedan /></icon-base>
+                    <icon-base icon-name="cissuv" v-if="!picture && body == 'suv'"><icon-cissuv /></icon-base>
+                    <icon-base icon-name="cisvan" v-if="!picture && body == 'van'"><icon-cisvan /></icon-base>
+                    <icon-base icon-name="ciswagon" v-if="!picture && body == 'wagon'"><icon-ciswagon /></icon-base>
                 </router-link>
                 <div class="grid-item__head-discont" v-if="discount">Выгода</div>
             </div>
             <div class="head_items">
                 <div class="grid-item__head-discont--grid_line" v-if="discount">Выгода</div>
-                <router-link :to="'/'+brand+'/'+alias" class="grid-item__title">{{ name }}</router-link>
+                <router-link :to="link" class="grid-item__title">{{ name }}</router-link>
             </div>
             <div class="grid-item__sub">
                 <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} автомобилей</span>
@@ -21,9 +32,28 @@
 </template>
 
 <script>
+import IconBase from '@/components/IconBase.vue'
+import IconCiscrossover from '@/components/icons/IconCiscrossover.vue'
+import IconCiscupe from '@/components/icons/IconCiscupe.vue'
+import IconCisliftback from '@/components/icons/IconCisliftback.vue'
+import IconCishatchback from '@/components/icons/IconCishatchback.vue'
+import IconCismicrobus from '@/components/icons/IconCismicrobus.vue'
+import IconCisminivan from '@/components/icons/IconCisminivan.vue'
+import IconCispickup from '@/components/icons/IconCispickup.vue'
+import IconCissedan from '@/components/icons/IconCissedan.vue'
+import IconCissuv from '@/components/icons/IconCissuv.vue'
+import IconCisvan from '@/components/icons/IconCisvan.vue'
+import IconCiswagon from '@/components/icons/IconCiswagon.vue'
+
 export default {
     name: 'ModelItem',
-    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'alias'],
+    components: {
+        IconBase,
+        IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
+        IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
+        IconCissuv, IconCisvan, IconCiswagon
+    },
+    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'link', 'body'],
     methods: {
         Format(q) {
 			
@@ -197,6 +227,14 @@ export default {
 .grid-item__head-img img {
     width: 100%;
     object-fit: none;
+}
+.grid-item__head-img svg {
+    width: 176px;
+    height: 176px;
+    fill: var(--yamiddlegray);
+    object-fit: unset;
+    transform: scale(-1, 1);
+
 }
 .grid-item__head-discont {
     position: absolute;

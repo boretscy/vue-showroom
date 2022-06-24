@@ -413,7 +413,10 @@ export default {
         },
         '$route.param.model': function() {
             this.modelOptions.forEach( (i) => {
-                if ( i.code == this.$route.params.model ) this.modelValue.push(i)
+                if ( i.code == this.$route.params.model ) {
+                    this.modelValue.push(i)
+                    this.curBrand = i.name
+                }
             })
         }
     },
@@ -494,19 +497,15 @@ export default {
             })
         },
         resetFilter() {
-            this.$router.replace({'query': null});
-            if (this.$route.path != '/') this.$router.push('/')
-            this.resetDrops()
-
-                this.brandValue = []
-                this.modeValue = []
-            // this.initFilter().then(() => {
-            //     for (let i in this.filter.ranges) {
-            //         this.filter.ranges =
-            //     }
-            // })
+            if (this.$route.path == '/') {
+                this.initFilter().then(() => {
+                    this.brandValue = []
+                    this.resetDrops()
+                })
+            } else {
+                this.$router.push('/').catch(() => {})
+            }
             this.$parent.iter++
-            
         },
 
         // drops
@@ -656,7 +655,6 @@ export default {
             this.blockFilter = false
         },
         resetDrops() {
-            console.log('reset')
             this.blockFilter = true
                 this.transmitionsValue = []
                 this.engineValue = []

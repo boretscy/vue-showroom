@@ -62,16 +62,8 @@ export default {
     },
     computed: {
         discount: function() {
-            if ( this.item.discounts ) {
-                let s = 0
-                this.item.discounts.forEach( (item) => {
-                    s += item.sum
-                })
-                
-                return s
-            } else {
-                return false
-            }
+
+            return this.item.price - this.item.min_price
         }
     },
     mounted: function() {
