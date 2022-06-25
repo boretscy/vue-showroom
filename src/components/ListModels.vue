@@ -165,8 +165,8 @@ h2, .h2 {
 }
 .flex__head-link svg {
     fill: var(--yayellow);
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin-left: 2em;
 }
 .available__grid {

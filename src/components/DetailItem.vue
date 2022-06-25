@@ -446,8 +446,6 @@ export default {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             },
-
-            mainOptionsCount: 0
             
         }
     },
@@ -494,6 +492,15 @@ export default {
             })
             return res
         },
+        mainOptionsCount: function() {
+            let res = 0
+            this.vehicle.options.forEach( (i) => {
+                Object.keys(i.options).forEach( () => {
+                    res++
+                })
+            })
+            return res
+        }
     },
     mounted: function() {
         window.scrollTo(0,0);
@@ -510,12 +517,7 @@ export default {
             }
         }, 500);
 
-        this.vehicle.options.forEach( (i) => {
-
-            Object.keys(i.options).forEach( () => {
-                this.mainOptionsCount++
-            })
-        })
+        
     },
     methods: {
         /* UI */
@@ -1611,7 +1613,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 2em;
-    color: var(--yagray);
+    color: var(--yadarkgray);
    /* display: grid;
     grid-template-columns: repeat(2, 1fr);*/
     gap: 10px;
@@ -2585,11 +2587,13 @@ input[type=range]::-ms-fill-upper {
     font-size: 12px;
     font-weight: 300;
     line-height: 1em;
+    color: var(--yadarkgray);
 }
 .settings_item--name {
     font-size: 14px;
     font-weight: 500;
     line-height: 1em;
+    color: var(--yadarkgray);
 }
 .settings_accordion {
     --ptb: 1em;
@@ -2627,7 +2631,7 @@ input[type=range]::-ms-fill-upper {
     --icon: 16px;
     width: var(--icon);
     height: var(--icon);
-    fill: var(--yagray);
+    fill: var(--yadarkgray);
     display: block;
 }
 .settings_accordion--body {
