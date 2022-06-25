@@ -326,16 +326,26 @@
            <div class="available__grid-item">
                <div class="grid-item__head">
                    <a href="#" class="grid-item__head-img">
-                       <img src="https://195004.selcdn.ru/ref/catalog/20619/12/7f34bb3cf7.jpg" alt="granta">
+                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
                    </a>
                </div>
                <div class="head_items-box">
                    <div class="head_items">
                        <a href="#" class="grid-item__title">Niva Travel</a>
                    </div>
-                   <div class="grid-item__sub">
-                       <span class="grid-item__sub--items">148 автомобилей</span>
-                       <span class="grid-item__sub--items">7 цветов</span>
+                   <div class="model__grid-card__content--list">
+                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
+                       <span class="model__grid-card__content--list-item">7 цветов</span>
+                       <span class="model__grid-card__content--list-item">2022</span>
+                   </div>
+                   <div class="model__grid-card__footer">
+                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
+                       <div class="model__grid-card__content--price">
+                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
+                       </div>
+                       <button class="button transparent w100">
+                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                       </button>
                    </div>
                </div>
            </div>
@@ -349,41 +359,71 @@
                    <div class="head_items">
                        <a href="#" class="grid-item__title">Niva Travel</a>
                    </div>
-                   <div class="grid-item__sub">
-                       <span class="grid-item__sub--items">148 автомобилей</span>
-                       <span class="grid-item__sub--items">7 цветов</span>
+                   <div class="model__grid-card__content--list">
+                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
+                       <span class="model__grid-card__content--list-item">7 цветов</span>
+                       <span class="model__grid-card__content--list-item">2022</span>
+                   </div>
+                   <div class="model__grid-card__footer">
+                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
+                       <div class="model__grid-card__content--price">
+                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
+                       </div>
+                       <button class="button transparent w100">
+                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                       </button>
                    </div>
                </div>
            </div>
            <div class="available__grid-item">
                <div class="grid-item__head">
                    <a href="#" class="grid-item__head-img">
-                       <img src="https://apps.yug-avto.ru/upload/Cis/default.png" alt="granta">
+                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
                    </a>
                </div>
                <div class="head_items-box">
                    <div class="head_items">
                        <a href="#" class="grid-item__title">Niva Travel</a>
                    </div>
-                   <div class="grid-item__sub">
-                       <span class="grid-item__sub--items">148 автомобилей</span>
-                       <span class="grid-item__sub--items">7 цветов</span>
+                   <div class="model__grid-card__content--list">
+                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
+                       <span class="model__grid-card__content--list-item">7 цветов</span>
+                       <span class="model__grid-card__content--list-item">2022</span>
+                   </div>
+                   <div class="model__grid-card__footer">
+                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
+                       <div class="model__grid-card__content--price">
+                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
+                       </div>
+                       <button class="button transparent w100">
+                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                       </button>
                    </div>
                </div>
            </div>
            <div class="available__grid-item">
                <div class="grid-item__head">
                    <a href="#" class="grid-item__head-img">
-                       <img src="https://195004.selcdn.ru/ref/catalog/13380/4_blagorodny%20agat.jpg" alt="granta">
+                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
                    </a>
                </div>
                <div class="head_items-box">
                    <div class="head_items">
                        <a href="#" class="grid-item__title">Niva Travel</a>
                    </div>
-                   <div class="grid-item__sub">
-                       <span class="grid-item__sub--items">148 автомобилей</span>
-                       <span class="grid-item__sub--items">7 цветов</span>
+                   <div class="model__grid-card__content--list">
+                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
+                       <span class="model__grid-card__content--list-item">7 цветов</span>
+                       <span class="model__grid-card__content--list-item">2022</span>
+                   </div>
+                   <div class="model__grid-card__footer">
+                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
+                       <div class="model__grid-card__content--price">
+                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
+                       </div>
+                       <button class="button transparent w100">
+                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                       </button>
                    </div>
                </div>
            </div>
@@ -2984,6 +3024,13 @@ h2, .h2 a {
     height: 20px;
     margin-left: 2em;
 }
+.model__grid-card__content--list {
+    --margin-bottom: 2em;
+}
+.model__grid-card__content--list-item {
+    color: var(--yadarkgray);
+}
+
 .desktop {
     display: block;
 }

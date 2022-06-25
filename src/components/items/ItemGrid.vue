@@ -34,7 +34,7 @@
                 <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
                 <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>
             </div>
-            <button class="button transparent">
+            <button class="button transparent w100">
                 <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
             </button>
         </div>
