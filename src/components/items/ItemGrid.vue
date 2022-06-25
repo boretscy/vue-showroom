@@ -29,7 +29,10 @@
             </div>
         </div>
         <div class="model__grid-card__footer">
-            <div class="model__grid-card__content--status --in-stock">{{ item.status.name }}</div>
+            <div 
+                class="model__grid-card__content--status"
+                :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                >{{ item.status.name }}</div>
             <div class="model__grid-card__content--price">
                 <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
                 <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>

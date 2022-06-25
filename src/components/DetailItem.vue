@@ -239,36 +239,36 @@
                    </div>
                    <div class="tabs_content">
                        <div
-                               class="tabs_content-item"
-                               :class="{'--is-active': tabs.equipment.view}"
-                               v-if="tabs.equipment.view">
-                           <div
-                                   class="tabs_content-item__list"
-                                   v-for="(item, indx) in vehicle._additional"
-                                   :key="indx"
+                            class="tabs_content-item"
+                            :class="{'--is-active': tabs.equipment.view}"
+                            v-if="tabs.equipment.view">
+                            <div
+                                class="tabs_content-item__list"
+                                v-for="(item, indx) in vehicle._additional"
+                                :key="indx"
                                 >{{ item }}</div>
-                       </div>
-                       <div
-                               class="tabs_content-item"
-                               :class="{'--is-active': tabs.specifications.view}"
-                               v-if="tabs.specifications.view">
+                        </div>
+                        <div
+                            class="tabs_content-item"
+                            :class="{'--is-active': tabs.specifications.view}"
+                            v-if="tabs.specifications.view">
                            <div class="tabs_content-item__title">Характеристики</div>
                            <div class="settigns_items">
                                <div
-                                       class="tabs_content-item__title-settings"
-                                       v-for="(group, gindx) in vehicle._specifications"
-                                       :key="gindx"
+                                    class="tabs_content-item__title-settings"
+                                    v-for="(group, gindx) in vehicle._specifications"
+                                    :key="gindx"
                                     >
-                                   <div
-                                           class="settings_item"
-                                           v-for="(item, indx) in group"
-                                           :key="indx">
-                                       <div class="settings_item--category">{{ item.name }}</div>
-                                       <div class="settings_item--name">{{ item.value }}</div>
-                                   </div>
+                                    <div
+                                        class="settings_item"
+                                        v-for="(item, indx) in group"
+                                        :key="indx">
+                                        <div class="settings_item--category">{{ item.name }}</div>
+                                        <div class="settings_item--name">{{ item.value }}</div>
+                                    </div>
                                </div>
-                           </div>
-                           <div class="setting_accordion-content">
+                            </div>
+                            <div class="setting_accordion-content">
                                <div
                                        class="settings_accordion"
                                        :class="{'--accordion-open': group.view}"
@@ -309,125 +309,57 @@
            </div>
        </div>
 
-       <div class="flex__head">
-           <a href="#" class="flex__head-title h2">
-               Рекомендованные автомобили
-               <span class="flex__head-count">223</span>
-           </a>
-           <a href="#" class="flex__head-link">
-               Все модели LADA
-               <svg class="icon">
-                   <use xlink:href="assets/img/sprites.svg#arrow-rigth"></use>
-               </svg>
-           </a>
-       </div>
+        <div class="flex__head" v-if="vehicle.recomended">
+            <router-link 
+                :to="'/?minprice='+Math.trunc(vehicle.min_price-0.1*vehicle.min_price)+'&maxprice='+Math.trunc(vehicle.min_price+0.1*vehicle.min_price)" 
+                class="flex__head-title h2">
+                Рекомендованные автомобили
+                <!-- <span class="flex__head-count">223</span> -->
+            </router-link>
+            <router-link :to="'/'+vehicle._brand.alias" class="flex__head-link">
+                    Все модели {{ vehicle._brand.name }}
+                    <icon-base icon-name="corner" class="right"><icon-corner /></icon-base>
+            </router-link>
+        </div>
 
-       <div class="liner_model">
-           <div class="available__grid-item">
-               <div class="grid-item__head">
-                   <a href="#" class="grid-item__head-img">
-                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
-                   </a>
-               </div>
-               <div class="head_items-box">
-                   <div class="head_items">
-                       <a href="#" class="grid-item__title">Niva Travel</a>
-                   </div>
-                   <div class="model__grid-card__content--list">
-                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
-                       <span class="model__grid-card__content--list-item">7 цветов</span>
-                       <span class="model__grid-card__content--list-item">2022</span>
-                   </div>
-                   <div class="model__grid-card__footer">
-                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
-                       <div class="model__grid-card__content--price">
-                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
-                       </div>
-                       <button class="button transparent w100">
-                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                       </button>
-                   </div>
-               </div>
-           </div>
-           <div class="available__grid-item">
-               <div class="grid-item__head">
-                   <a href="#" class="grid-item__head-img">
-                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
-                   </a>
-               </div>
-               <div class="head_items-box">
-                   <div class="head_items">
-                       <a href="#" class="grid-item__title">Niva Travel</a>
-                   </div>
-                   <div class="model__grid-card__content--list">
-                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
-                       <span class="model__grid-card__content--list-item">7 цветов</span>
-                       <span class="model__grid-card__content--list-item">2022</span>
-                   </div>
-                   <div class="model__grid-card__footer">
-                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
-                       <div class="model__grid-card__content--price">
-                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
-                       </div>
-                       <button class="button transparent w100">
-                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                       </button>
-                   </div>
-               </div>
-           </div>
-           <div class="available__grid-item">
-               <div class="grid-item__head">
-                   <a href="#" class="grid-item__head-img">
-                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
-                   </a>
-               </div>
-               <div class="head_items-box">
-                   <div class="head_items">
-                       <a href="#" class="grid-item__title">Niva Travel</a>
-                   </div>
-                   <div class="model__grid-card__content--list">
-                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
-                       <span class="model__grid-card__content--list-item">7 цветов</span>
-                       <span class="model__grid-card__content--list-item">2022</span>
-                   </div>
-                   <div class="model__grid-card__footer">
-                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
-                       <div class="model__grid-card__content--price">
-                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
-                       </div>
-                       <button class="button transparent w100">
-                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                       </button>
-                   </div>
-               </div>
-           </div>
-           <div class="available__grid-item">
-               <div class="grid-item__head">
-                   <a href="#" class="grid-item__head-img">
-                       <img src="https://195004.selcdn.ru/ref/catalog/18674/4/c801b26093.png" alt="granta">
-                   </a>
-               </div>
-               <div class="head_items-box">
-                   <div class="head_items">
-                       <a href="#" class="grid-item__title">Niva Travel</a>
-                   </div>
-                   <div class="model__grid-card__content--list">
-                       <span class="model__grid-card__content--list-item">148 автомобилей</span>
-                       <span class="model__grid-card__content--list-item">7 цветов</span>
-                       <span class="model__grid-card__content--list-item">2022</span>
-                   </div>
-                   <div class="model__grid-card__footer">
-                       <div class="model__grid-card__content--status --in-stock">В наличии</div>
-                       <div class="model__grid-card__content--price">
-                           <div class="model__grid-card__content--price_curent">3 959 000 <span class="rub">₽</span></div>
-                       </div>
-                       <button class="button transparent w100">
-                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                       </button>
-                   </div>
-               </div>
-           </div>
-       </div>
+        <div class="liner_model"  v-if="vehicle.recomended">
+            
+            <div 
+                class="available__grid-item"
+                v-for="(item, indx) in vehicle.recomended"
+                :key="indx">
+                <div class="grid-item__head">
+                    <router-link :to="item.link" class="grid-item__head-img">
+                        <img :src="item.image" :alt="item.name" v-if="item.image">
+                        <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="item.name" v-else>
+                    </router-link>
+                </div>
+                <div class="head_items-box">
+                    <div class="head_items">
+                        <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
+                    </div>
+                    <div class="model__grid-card__content--list">
+                        <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
+                        <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
+                        <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
+                        <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                    </div>
+                    <div class="model__grid-card__footer">
+                        <div 
+                            class="model__grid-card__content--status"
+                            :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                            >{{ item.status.name }}</div>
+                        <div class="model__grid-card__content--price">
+                            <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
+                        </div>
+                        <button class="button transparent w100">
+                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
 
    </div>
 
@@ -569,7 +501,6 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             }
         }, 500);
-
         
     },
     methods: {
@@ -3020,8 +2951,8 @@ h2, .h2 a {
 }
 .flex__head-link svg {
     fill: var(--yayellow);
-    width: 10px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin-left: 2em;
 }
 .model__grid-card__content--list {

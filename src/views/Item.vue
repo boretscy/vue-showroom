@@ -25,13 +25,20 @@ export default {
 			return this.$store.state.viewMode
 		}
 	},
-	mounted: function() {
-		let url = this.$store.state.apiUrl+'item/'+this.$store.state.mode+'/'+this.$route.params.item+'?token='+this.$store.state.apiToken
-        for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+	watch: {
+		'$route.params': {
+            immediate: true,
+            handler(value) {
+                let url = this.$store.state.apiUrl+'item/'+this.$store.state.mode+'/'+value.item+'?token='+this.$store.state.apiToken
 
-        this.axios.get(url).then((response) => {
-			this.vehicle = response.data
-        })
+				this.axios.get(url).then((response) => {
+					this.vehicle = response.data
+					this.$cookies.set('CIS_DEALERSHIP', response.data.dealership.id)
+				})
+            }
+        },
+	},
+	mounted: function() {
 	},
 }
 </script>
