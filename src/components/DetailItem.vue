@@ -311,7 +311,7 @@
 
        <div class="flex__head">
            <a href="#" class="flex__head-title h2">
-               LADA
+               Рекомендованные автомобили
                <span class="flex__head-count">223</span>
            </a>
            <a href="#" class="flex__head-link">
