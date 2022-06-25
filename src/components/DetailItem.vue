@@ -309,6 +309,19 @@
            </div>
        </div>
 
+       <div class="flex__head">
+           <a href="#" class="flex__head-title h2">
+               LADA
+               <span class="flex__head-count">223</span>
+           </a>
+           <a href="#" class="flex__head-link">
+               Все модели LADA
+               <svg class="icon">
+                   <use xlink:href="assets/img/sprites.svg#arrow-rigth"></use>
+               </svg>
+           </a>
+       </div>
+
        <div class="liner_model">
            <div class="available__grid-item">
                <div class="grid-item__head">
@@ -2939,6 +2952,38 @@ h2, .h2 a {
 }
 .liner_model .grid-item__title {margin-bottom: 0;}
 .liner_model .grid-item__sub {margin-bottom: 1em;}
+
+.flex__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.flex__head-title {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    text-decoration: none;
+    color: var(--yablack);
+}
+.flex__head-count {
+    color: var(--yadarkgray);
+    margin-left: 1em;
+}
+.flex__head-link {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    text-decoration: none;
+    color: var(--yablack);
+}
+.flex__head-link svg {
+    fill: var(--yayellow);
+    width: 10px;
+    height: 20px;
+    margin-left: 2em;
+}
 .desktop {
     display: block;
 }
