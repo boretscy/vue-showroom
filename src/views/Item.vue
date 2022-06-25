@@ -26,7 +26,7 @@ export default {
 		}
 	},
 	mounted: function() {
-		let url = this.$store.state.apiUrl+'item/'+this.$route.params.item+'?token='+this.$store.state.apiToken
+		let url = this.$store.state.apiUrl+'item/'+this.$store.state.mode+'/'+this.$route.params.item+'?token='+this.$store.state.apiToken
         for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 
         this.axios.get(url).then((response) => {
