@@ -432,12 +432,12 @@ export default {
 				centerMode: true,
 				dots: false,
 				navButtons: false,
-				slidesToShow: 3,
+				slidesToShow: 2,
                 responsive: [
                     {
                         breakpoint: 600,
                         settings: {
-                            slidesToShow: 2
+                            slidesToShow: 3
                         }
                     },
                 ]
