@@ -418,13 +418,29 @@ export default {
 			asNavForMainThumbs: [],
 			optionsMainSlider: {
 				dots: false,
-				navButtons: true
+				navButtons: true,
+                responsive: [
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            navButtons: false
+                        }
+                    },
+                ]
 			},
 			optionsMainThumbs: {
 				centerMode: true,
 				dots: false,
 				navButtons: false,
-				slidesToShow: 3
+				slidesToShow: 3,
+                responsive: [
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                ]
 			},
 
             locstore: {
