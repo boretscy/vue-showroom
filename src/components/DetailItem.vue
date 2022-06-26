@@ -358,8 +358,73 @@
                     </div>
                 </div>
             </div>
-            
         </div>
+
+
+           <div class="car_grid-left">
+               <div class="car_grid-left__slider">
+                   <div class="swiper swiper__detail">
+                       <div class="swiper-wrapper">
+                           <div class="swiper-slide">
+                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                           </div>
+                           <div class="swiper-slide">
+                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                           </div>
+                           <div class="swiper-slide">
+                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                           </div>
+                           <div class="swiper-slide">
+                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                           </div>
+                           <div class="swiper-slide">
+                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                           </div>
+                           <div class="swiper-slide">
+                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                           </div>
+                       </div>
+                       <div class="swiper-button-next detail_next"></div>
+                       <div class="swiper-button-prev detail_prev"></div>
+                   </div>
+                   <div thumbsSlider="" class="swiper swiper__detail-thumb">
+                       <div class="swiper-wrapper">
+                           <div class="swiper-slide">
+                               <div class="detail-thumb">
+                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                               </div>
+                           </div>
+                           <div class="swiper-slide">
+                               <div class="detail-thumb">
+                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                               </div>
+                           </div>
+                           <div class="swiper-slide">
+                               <div class="detail-thumb">
+                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                               </div>
+                           </div>
+                           <div class="swiper-slide">
+                               <div class="detail-thumb">
+                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                               </div>
+                           </div>
+                           <div class="swiper-slide">
+                               <div class="detail-thumb">
+                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                               </div>
+                           </div>
+                           <div class="swiper-slide">
+                               <div class="detail-thumb">
+                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+
 
    </div>
 
@@ -378,11 +443,19 @@ import IconCorner from '@/components/icons/IconCorner.vue'
 
 import { VueAgile } from 'vue-agile'
 
+import Swiper, { Navigation, Pagination, Thumbs,  } from 'swiper';
+Swiper.use([Thumbs, Navigation, Pagination, ]);
+
+import 'swiper/swiper-bundle.css';
+
+
+
+
 
 export default {
     name: 'DetailItem',
     components: {
-        IconBase, IconCisfavorites, IconCiscompare, 
+        IconBase, IconCisfavorites, IconCiscompare,
         // IconShare, 
         IconCheck, IconQuestion, IconCorner,
         agile: VueAgile
@@ -517,7 +590,23 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             }
         }, 500);
-        
+
+        let swiperThumb = new Swiper(".swiper__detail-thumb", {
+            spaceBetween: 10,
+            slidesPerView: 3,
+            freeMode: true,
+            watchSlidesProgress: true,
+        });
+        let swiperDetail = new Swiper(".swiper__detail", {
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".detail_next",
+                prevEl: ".detail_prev",
+            },
+            thumbs: {
+                swiper: swiperThumb,
+            },
+        });
     },
     methods: {
         /* UI */
@@ -597,6 +686,7 @@ export default {
 </script>
 
 <style scoped>
+
 .drop {
     position: relative;
     z-index: 1;
@@ -2991,7 +3081,35 @@ h2, .h2 a {
 .model__grid-card__content--list-item {
     color: var(--yadarkgray);
 }
+.swiper__detail {
+    height: 500px;
+    width: 100%;
+}
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
+.swiper-slide {
+    background-size: cover;
+    background-position: center;
+}
+.swiper__detail-thumb {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+.swiper__detail-thumb .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+.swiper__detail-thumb .swiper-slide-thumb-active {
+    opacity: 1;
+}
 .desktop {
     display: block;
 }

@@ -10,9 +10,11 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.23.1",
+    "swiper": "^8.2.4",
     "vue": "^2.6.11",
     "vue-agile": "^2.0.0",
     "vue-axios": "^3.4.1",
+    "vue-client-only": "^2.1.0",
     "vue-cookies": "^1.8.1",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.2.0",
@@ -26,7 +28,7 @@
     "@vue/cli-plugin-vuex": "~4.5.13",
     "@vue/cli-service": "~4.5.13",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
     "vue-template-compiler": "^2.6.11"
   },
@@ -45,12 +47,26 @@
     "rules": {
       "vue/no-side-effects-in-computed-properties": "off",
       "vue/no-use-v-if-with-v-for": "off",
-      "vue/return-in-computed-property": "off"
+      "vue/return-in-computed-property": "off",
+      "no-unused-vars": "off"
     }
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "```\r npm install\r ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boretscy/vue-showroom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/boretscy/vue-showroom/issues"
+  },
+  "homepage": "https://github.com/boretscy/vue-showroom#readme"
 }
