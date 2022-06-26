@@ -418,12 +418,12 @@ export default {
 			asNavForMainThumbs: [],
 			optionsMainSlider: {
 				dots: false,
-				navButtons: true,
+				navButtons: false,
                 responsive: [
                     {
                         breakpoint: 600,
                         settings: {
-                            navButtons: false
+                            navButtons: true
                         }
                     },
                 ]
