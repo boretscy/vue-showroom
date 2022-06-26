@@ -151,5 +151,40 @@ export default {
 }
 </script>
 <style scoped>
-
+@media (max-width: 768px) {
+    .filter__sort-item:nth-last-child(1) {
+        gap: 0;
+    }
+}
+@media (max-width: 425px) {
+    .filter__sort {
+        display: block;
+    }
+    .filter__sort-item:nth-child(1) {
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    .filter__sort-item_box {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 1em;
+    }
+    .filter__sort-item__button {
+        width: 100%;
+        padding: 0;
+    }
+    .filter__sort-item__button span {
+        border: solid 1px var(--yagray) !important;
+    }
+    .filter__sort-item__button.active span {
+        border: solid 1px var(--yayellow) !important;
+    }
+    .filter__sort-item:nth-last-child(1) {
+        display: block;
+    }
+    .filter__sort-item__switch {
+        display: none;
+    }
+}
 </style>

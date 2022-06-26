@@ -379,4 +379,9 @@ export default {
         width: 100%;
     }
 }
+@media (max-width: 768px) {
+    .model__grid-card__head--img img {
+        object-fit: cover;
+    }
+}
 </style>

@@ -1042,4 +1042,10 @@ export default {
 .filter__sort-item__switch-radio input:checked + span {
     border: solid 1px var(--yayellow);
 }
+    
+@media (max-width: 768px) {
+    .filter__sort-item:nth-last-child(1) {
+        gap: 0;
+    }
+}
 </style>

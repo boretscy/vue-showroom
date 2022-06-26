@@ -194,6 +194,15 @@ h2, .h2 {
 .model__line {
     display: block;
 }
+@media (max-width: 1024px) {
+    .model__grid {
+        --grid-card: 250px;
+    }
+}
+@media (max-width: 768px) {
+
+}
+
 
 
 </style>
