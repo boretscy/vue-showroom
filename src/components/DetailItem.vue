@@ -127,7 +127,7 @@
                            </div>
                        </div>
                    </div>
-                   <div class="car__grid-box-profit --detail__bg desktop">
+                   <div class="car__grid-box-profit --detail__bg">
                        <div class="car__grid-box-profit__head">
                            <div class="profit__head-title">Выгода на авто</div>
                            <div class="profit__head-discount">
@@ -208,7 +208,7 @@
                            </div>
                        </div>
                    </div>
-                   <div class="profit_mobile" data-popup-trigger="profit">
+                   <!--<div class="profit_mobile" data-popup-trigger="profit">
                        <div class="profit_mobile-content">
                            <div class="profit_mobile-content__title">Выгода на авто</div>
                            <div class="profit_mobile-content__sub">Максимальная сумма выгод - {{ Format(maxDiscount) }} <span class="rub">₽</span></div>
@@ -216,7 +216,7 @@
                        <div class="profit_mobile-icon">
                            <icon-base icon-name="down"><icon-down /></icon-base>
                        </div>
-                   </div>
+                   </div>-->
                </div>
            </div>
            <div class="configuration" v-if="vehicle">
@@ -1557,13 +1557,18 @@ input[type=range]::-ms-fill-upper {
 .grid__icon-form .grid-item__sub {}
 .grid-item__head {
     position: relative;
-    min-height: 182.5px;
-    max-height: 182.5px;
     display: flex;
     align-items: center;
+    margin-bottom: 1em;
 }
 .grid-item__head-img {
-    display: block;
+    --heigth: 200px;
+    background: var(--yawhite);
+    min-height: var(--heigth);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 .grid-item__head-img img {
     width: 100%;
@@ -1582,15 +1587,20 @@ input[type=range]::-ms-fill-upper {
 }
 .grid-item__title {
     text-decoration: none;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     line-height: 1em;
     margin-bottom: 1em;
     display: block;
-    min-height: 50px;
-    max-height: 50px;
+    min-height: 35px;
+    max-height: 40px;
     text-transform: uppercase;
     color: var(--yablack);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .grid-item__sub {
     font-size: 14px;
@@ -2909,19 +2919,23 @@ h2, .h2 a {
     margin-left: 2em;
 }
 .liner_model {
+    --grid-card: 300px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-card), 1fr));
     gap: 20px;
     margin-bottom: 4rem;
 }
 .liner_model .available__grid-item {
-
-    padding: 1rem 1rem;
+    padding: 0 0;
+}
+.head_items-box {
+    padding: 1em 1em;
 }
 .liner_model .grid-item__head-img img {
-    object-fit: contain;
+    object-fit: unset;
+    max-height: var(--heigth);
 }
-.liner_model .grid-item__title {margin-bottom: 0;}
+.liner_model .grid-item__title {margin-bottom: 1em;}
 .liner_model .grid-item__sub {margin-bottom: 1em;}
 
 .flex__head {
