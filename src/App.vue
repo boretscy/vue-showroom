@@ -15,6 +15,7 @@ export default {
     },
     mounted: function() {
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
+        this.$cookies.set('CIS_DETAIL_PAGE', 0)
         // this.$store.state.global.filter = this.getDefaultFilter()
         // this.$store.state.global.brands = this.getDefaultBrands()
     },

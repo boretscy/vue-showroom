@@ -54,6 +54,7 @@ export default {
 		}
     },
 	mounted: function() {
+		this.$cookies.set('CIS_DETAIL_PAGE', 0)
 	},
 	methods: {
 		sortToggle(v) {

@@ -491,7 +491,7 @@ export default {
         this.initFilter().then(() => {
             setTimeout(() => {
                 this.getStartDropsValues()
-            }, 500);
+            }, 1000);
             
         })
     },
