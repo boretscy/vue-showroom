@@ -28,7 +28,7 @@
                     deselectLabel="Удалить"
                     ></multiselect>
             </div>
-            <div class="filter__head-item">
+            <div class="filter__head-item" v-show="!oneBrand">
                 <multiselect 
                     v-model="brandValue" 
                     tag-placeholder="Марка" 
@@ -74,7 +74,7 @@
                     ref="priceRange"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-show="viewFull">
+            <div class="filter__head-item" v-show="(viewFull && !oneBrand) || oneBrand">
                 <multiselect 
                     v-model="transmitionsValue" 
                     tag-placeholder="КПП" 
@@ -281,6 +281,7 @@ export default {
             curModel: null,
 
             brands: [],
+            oneBrand: false,
 
             filter: null,
             viewFull: false,
@@ -492,8 +493,9 @@ export default {
             setTimeout(() => {
                 console.log('getStartDropsValues', 500)
                 this.getStartDropsValues()
+                if ( this.$store.state.brand ) this.oneBrand = true
             }, 500);
-         })
+        })
     },
     methods: {
         // filter

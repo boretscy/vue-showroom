@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-// let mode = document.getElementById('YAppsShowroom').getAttribute('mode')
+let YAppsShowroomMode = document.getElementById('YAppsShowroom').getAttribute('mode')
+let YAppsShowroomBrand = document.getElementById('YAppsShowroom').getAttribute('brand')
 
 
 export default new Vuex.Store({
@@ -12,7 +13,8 @@ export default new Vuex.Store({
         apiToken: '34b5ac8b71018c0bc7e5c050ed90b243',
 
         viewMode: null,
-        mode: 'new',
+        mode: YAppsShowroomMode,
+        brand: YAppsShowroomBrand || null,
 
         global: {
             filter: null,

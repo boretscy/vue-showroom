@@ -24,7 +24,12 @@ export default {
                 this.list.sort((a, b) => a.name > b.name ? 1 : -1);
                 return this.list
             }
-        } 
+        },
+        count: function() {
+            let res = 18
+            if ( this.items.length < res ) res = this.items.length
+            return res
+        }
 
     }
 }

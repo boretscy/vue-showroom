@@ -18,6 +18,7 @@ export default {
         this.$cookies.set('CIS_DETAIL_PAGE', 0)
         // this.$store.state.global.filter = this.getDefaultFilter()
         // this.$store.state.global.brands = this.getDefaultBrands()
+        if ( this.$store.state.brand ) this.$router.push( this.$store.state.brand )
     },
     methods: {
 
