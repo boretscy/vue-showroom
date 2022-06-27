@@ -117,6 +117,13 @@ export default {
             this.$emit('sort', newValue.code)
         }
     },
+    mounted: function() {
+        // if ( this.$store.state.mode == 'used' ) {
+        //     this.sortList.puch({code: 'date_down',  name: 'Сначала новые' })
+        //     this.sortList.puch({code: 'date_up',  name: 'Сначала старые' })
+        // }
+        
+    },
     methods: {
         toggleViewMode() {
             let s =  (this.$store.state.viewMode=='grid') ? 'list' : 'grid'

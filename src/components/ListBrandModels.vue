@@ -5,10 +5,10 @@
                 {{ dataName }}
                 <span class="flex__head-count">{{ count }}</span>
             </router-link>
-            <router-link :to="dataLink" class="flex__head-link">
+            <!-- <router-link :to="dataLink" class="flex__head-link">
                 Все модели {{ dataName }}
                 <icon-base icon-name="corner" iconRotate="right"><icon-corner /></icon-base>
-            </router-link>
+            </router-link> -->
         </div>
 
         <div 
@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import IconBase from '@/components/IconBase.vue'
-import IconCorner from '@/components/icons/IconCorner.vue'
+// import IconBase from '@/components/IconBase.vue'
+// import IconCorner from '@/components/icons/IconCorner.vue'
 import ModelGrid from '@/components/brands/ModelGrid.vue'
 import ModelLine from '@/components/brands/ModelLine.vue'
 import CtaGrid from '@/components/cta/CtaGrid.vue'
@@ -68,7 +68,7 @@ import CtaGrid from '@/components/cta/CtaGrid.vue'
 export default {
     name: 'ListBrandModels',
     components: {
-        IconBase, IconCorner,
+        // IconBase, IconCorner,
         ModelGrid, ModelLine,
         CtaGrid, 
         // CtaLine

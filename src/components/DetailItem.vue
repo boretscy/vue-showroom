@@ -2,34 +2,6 @@
    <div>
        <div class="car__grid">
            <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
-           <!-- <div class="car_grid-left" v-if="vehicle">
-               <div class="car_grid-left__slider">
-                   <agile class="main" ref="main" :options="optionsMainSlider" :as-nav-for="asNavForMainSlider">
-                        <div 
-                            class="slide" 
-                            v-for="(slide, index) in vehicle._images" 
-                            :key="index" 
-                            :class="`slide--${index}`"
-                            >
-                            <img :src="slide.big"/>
-                        </div>
-                        <template slot="prevButton">
-                            <div class="agile__nav-button__inner-circle">
-                                <icon-base icon-name="corner" class="left"><icon-corner /></icon-base>
-                            </div>
-                        </template>
-                        <template slot="nextButton">
-                            <div class="agile__nav-button__inner-circle">
-                                <icon-base icon-name="corner" class="right"><icon-corner /></icon-base>
-                            </div>
-                        </template>
-                    </agile>
-                    <agile class="thumbnails" ref="thumbnails" :options="optionsMainThumbs" :as-nav-for="asNavForMainThumbs">
-                        <div class="slide slide--thumbniail" v-for="(slide, index) in vehicle._images" :key="index" :class="`slide--${index}`" @click="$refs.thumbnails.goTo(index)"><img :src="slide.thumb"/></div>
-                    </agile>
-
-               </div>
-           </div> -->
             <div class="car_grid-left">
                 <div class="car_grid-left__slider">
                     <div class="swiper swiper__detail">
@@ -68,7 +40,7 @@
             </div>
 
            <div class="car__grid-item" v-if="vehicle">
-               <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
+               <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+((vehicle.model_name)?vehicle.model_name:vehicle.ref_model_name)+' '+((vehicle.equipment)?vehicle.equipment:'') }}</div>
                <div class="car__grid-box">
                    <div class="car__grid-box__dc --detail__bg">
                        <div class="car__grid-box__dc-title detail_bg">{{ vehicle.dealership.name }}</div>
@@ -125,8 +97,8 @@
                            <div class="car__grid-box-stock__head-sub">Комплектация:</div>
                            <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
                            <div class="car__grid-box-stock__head-options">
-                               <span>{{ mainOptionsCount }} {{ getWorld(mainOptionsCount,'b') }} {{ getWorld(mainOptionsCount,'o') }}</span>
-                               <span v-if="vehicle.side_options">{{ vehicle._additional.length }} {{ getWorld(vehicle._additional.length,'d') }} {{ getWorld(vehicle._additional.length,'o') }}</span>
+                               <span v-if="mainOptionsCount">{{ mainOptionsCount }} {{ getWorld(mainOptionsCount,'b') }} {{ getWorld(mainOptionsCount,'o') }}</span>
+                               <span v-if="vehicle._additional.length">{{ vehicle._additional.length }} {{ getWorld(vehicle._additional.length,'d') }} {{ getWorld(vehicle._additional.length,'o') }}</span>
                            </div>
                        </div>
                        <div class="car__grid-box-stock__list">
@@ -260,17 +232,16 @@
                <div class="tabs">
                    <div class="tabs_head">
                        <button
-                               class="button hovered-t"
-                               :class="{'--is-active': tabs.equipment.view}"
-                               @click="toggleTabs"
-                            >
-                           <span>{{ tabs.equipment.text }}</span>
+                            class="button hovered-t"
+                            :class="{'--is-active': tabs.equipment.view}"
+                            @click="toggleTabs"
+                            v-if="vehicle._additional.length">
+                            <span>{{ tabs.equipment.text }}</span>
                        </button>
                        <button
-                               class="button hovered-t"
-                               :class="{'--is-active': tabs.specifications.view}"
-                               @click="toggleTabs"
-                            >
+                            class="button hovered-t"
+                            :class="{'--is-active': tabs.specifications.view}"
+                            @click="toggleTabs">
                            <span>{{ tabs.specifications.text }}</span>
                        </button>
                    </div>
@@ -278,7 +249,7 @@
                        <div
                             class="tabs_content-item"
                             :class="{'--is-active': tabs.equipment.view}"
-                            v-if="tabs.equipment.view">
+                            v-if="tabs.equipment.view && vehicle._additional.length">
                             <div
                                 class="tabs_content-item__list"
                                 v-for="(item, indx) in vehicle._additional"
@@ -305,7 +276,7 @@
                                     </div>
                                </div>
                             </div>
-                            <div class="setting_accordion-content">
+                            <div class="setting_accordion-content" v-if="vehicle.options && vehicle.options.length">
                                <div
                                        class="settings_accordion"
                                        :class="{'--accordion-open': group.view}"

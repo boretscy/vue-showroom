@@ -1,13 +1,13 @@
 <template>
-	<div class="yapps-cis">
+	<div class="yapps-cis" :key="iter" >
 		<search-filter @sort="sort"/>
 		<sort
 			:Discount="sortButtons.Discount"
 			:InStock="sortButtons.InStock"
 			:OnWay="sortButtons.OnWay"
-			:Mode="mode"
+			:Mode="viewSort"
 			@sort="sortToggle"/>
-		<div v-if="brands" :key="iter">
+		<div v-if="mode == 'new' && brands.length">
 			<list-brand-models
 				v-for="(brand, indx) in brands"
 				:key="indx"
@@ -17,8 +17,13 @@
 				:dataLink="brand.alias"
 				:dataSort="sortMode"
 				:viewMode="viewMode"/>
+		</div>
+		<div v-if="mode == 'used'" >
+			<used-items
+				:dataSort="sortMode"
+				></used-items>
 			<more
-				@more="moreBrands"
+				@more="more"
 				v-if="showMore"/>
 		</div>
 	</div>
@@ -32,6 +37,7 @@
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
 import ListBrandModels from '@/components/ListBrandModels.vue'
+import UsedItems from '@/components/UsedItems.vue'
 import More from '@/components/brands/More.vue'
 
 export default {
@@ -41,12 +47,14 @@ export default {
 		SearchFilter,
 		ListBrandModels,
 		Sort,
-		More
+		More,
+		UsedItems
 	},
 	data() {
 		return {
 			iter: 0,
 			brands: [],
+			vehicles: [],
 			brandsCount: 0,
 			showMore: false,
 			sortMode: 'name',
@@ -54,17 +62,22 @@ export default {
 				Discount: false,
 				InStock: false,
 				OnWay: false,
-			}
+			},
+			page: 1
 		}
 	},
 	computed: {
 		viewMode: function() {
 			return this.$store.state.viewMode
 		},
-		mode: function() {
+		viewSort: function() {
 			let res = 'all'
 			if ( this.$route.query.sort ) res = this.$route.query.sort
 			return res
+		},
+		mode: function() {
+			console.log(this.$store.state.mode)
+			return this.$store.state.mode
 		}
 	},
     watch: {
@@ -90,34 +103,32 @@ export default {
 	},
 	methods: {
 
-		moreBrands() {
-			let p = this.brandsCount+5
-			for ( this.brandsCount = this.brands.length; this.brandsCount<=p; this.brandsCount++ ) {
-				if ( this.brandsCount <= this.$store.state.brands.length-1 ) {
-					this.brands.push( this.$store.state.brands[this.brandsCount] )
-					this.showMore = true
-				} else {
-					this.showMore = false
-					break
-				}
-			}
+		more() {
+			this.page++
 		},
 		sortToggle(v) {
 			this.sortMode = v
 		},
 		sort(v) {
-			switch(v) {
-                case 'name':
-                    this.brands.sort((a, b) => a.name > b.name ? 1 : -1)
-                    break;
-                case 'price_up':
-                    this.brands.sort((a, b) => a.min > b.min ? 1 : -1)
-                    break;
-                case 'price_down':
-                    this.brands.sort((a, b) => a.max < b.max ? 1 : -1)
-                    break;
-            }
-			this.iter++
+			switch (this.$store.state.mod) {
+				case 'new':
+					switch(v) {
+						case 'name':
+							this.brands.sort((a, b) => a.name > b.name ? 1 : -1)
+							break;
+						case 'price_up':
+							this.brands.sort((a, b) => a.min > b.min ? 1 : -1)
+							break;
+						case 'price_down':
+							this.brands.sort((a, b) => a.max < b.max ? 1 : -1)
+							break;
+					}
+					this.iter++
+					break;
+				case 'used':
+					break;
+			}
+			
 		}
 	}
 }

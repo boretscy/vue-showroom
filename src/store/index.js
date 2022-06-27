@@ -13,7 +13,7 @@ export default new Vuex.Store({
         apiToken: '34b5ac8b71018c0bc7e5c050ed90b243',
 
         viewMode: null,
-        mode: YAppsShowroomMode,
+        mode: YAppsShowroomMode || 'new',
         brand: YAppsShowroomBrand || null,
 
         global: {

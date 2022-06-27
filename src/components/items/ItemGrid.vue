@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="model__grid-card__content">
-            <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__content--title">{{ item.brand_name+' '+item.model_name+' '+item.equipment }}</router-link>
+            <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__content--title">{{ item.brand_name+' '+item.ref_model_name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
                 <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>

@@ -3,25 +3,40 @@
         <list-item 
             v-for="(item, indx) in items"
             :key="indx"
-            v-if="item.vehicles"
+            v-show="item.vehicles && (viewFull || (items.length > 15 && indx < 14))"
             :itemName="item.name" 
             :itemCount="item.vehicles" 
             :itemLink="'/'+((item.brand)?item.brand+'/':'')+item.code+query" />
+        <div class="filter__list-item" @click="viewFull = !viewFull" v-if="items.length > 15">
+            <div class="filter__list-item__name">
+                {{ ( (viewFull) ? 'Скрыть' : 'Показать все' ) }}
+                <icon-base icon-name="corner" :class="{'up': viewFull}"><icon-corner /></icon-base>
+            </div>
+        </div>
     </div>
 </template>
 <script>
 import ListItem from '@/components/searchfilter/ListItem.vue'
+import IconBase from '@/components/IconBase.vue'
+import IconCorner from '@/components/icons/IconCorner.vue'
+
 
 export default {
     name: 'FilterList',
     components: {
-        ListItem
+        ListItem,
+        IconBase, IconCorner
     },
     props: ['list', 'query'],
+    data() {
+        return {
+            viewFull: false
+        }
+    },
     computed: {
         items: {
             get() {
-                this.list.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.list.sort((a, b) => a.vehicles < b.vehicles ? 1 : -1);
                 return this.list
             }
         },
@@ -52,5 +67,34 @@ export default {
     gap: 20px;
     align-items: center;
     margin-bottom: 2rem;
+}
+.filter__list-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.filter__list-item svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--yadarkblue);
+}
+.filter__list-item:hover .filter__list-item__name{
+    color: var(--yadarkblue);
+}
+.filter__list-item__name {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    color: var(--yadarkblue);
+    transition: 200ms;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
 }
 </style>
