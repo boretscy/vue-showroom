@@ -41,8 +41,16 @@
                                 <img :src="slide.big"/>
                             </div>
                         </div>
-                        <div class="swiper-button-next detail_next"></div>
-                        <div class="swiper-button-prev detail_prev"></div>
+                        <div class="swiper-button-next detail_next">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev detail_prev">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
+                            </div>
+                        </div>
                     </div>
                     <div thumbsSlider="" class="swiper swiper__detail-thumb">
                         <div class="swiper-wrapper">
@@ -341,7 +349,7 @@
         <div class="flex__head" v-if="vehicle.recomended">
             <router-link 
                 :to="'/?minprice='+Math.trunc(vehicle.min_price-0.1*vehicle.min_price)+'&maxprice='+Math.trunc(vehicle.min_price+0.1*vehicle.min_price)" 
-                class="flex__head-title h2">
+                class="flex__head-title h2 text-normal">
                 Рекомендованные автомобили
                 <!-- <span class="flex__head-count">223</span> -->
             </router-link>
@@ -351,8 +359,7 @@
             </router-link>
         </div>
 
-        <div class="liner_model"  v-if="vehicle.recomended">
-            
+      <!--  <div class="liner_model"  v-if="vehicle.recomended">
             <div 
                 class="available__grid-item"
                 v-for="(item, indx) in vehicle.recomended"
@@ -367,19 +374,19 @@
                     <div class="head_items">
                         <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
                     </div>
-                    <div class="model__grid-card__content--list">
-                        <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
-                        <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
-                        <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
-                        <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                    <div class="model__grid-card__content&#45;&#45;list">
+                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.general[4].value }}</span>
+                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.body_type }}</span>
+                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.general[1].value }}</span>
+                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.general[0].value }}</span>
                     </div>
                     <div class="model__grid-card__footer">
                         <div 
-                            class="model__grid-card__content--status"
-                            :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                            class="model__grid-card__content&#45;&#45;status"
+                            :class="{'&#45;&#45;in-stock': item.status.id == 1, '&#45;&#45;in-transit': item.status.id == 2}"
                             >{{ item.status.name }}</div>
-                        <div class="model__grid-card__content--price">
-                            <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
+                        <div class="model__grid-card__content&#45;&#45;price">
+                            <div class="model__grid-card__content&#45;&#45;price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
                         </div>
                         <button class="button transparent w100">
                             <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
@@ -387,7 +394,60 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
+
+       <div class="col position-relative">
+               <div class="swiper main-slider">
+                   <div class="swiper-wrapper">
+                       <div class="swiper-slide liner_model" v-for="(item, indx) in vehicle.recomended"
+                            :key="indx">
+                           <div class="available__grid-item">
+                               <div class="grid-item__head">
+                                   <router-link :to="item.link" class="grid-item__head-img">
+                                       <img :src="item.image" :alt="item.name" v-if="item.image">
+                                       <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="item.name" v-else>
+                                   </router-link>
+                               </div>
+                               <div class="head_items-box">
+                                   <div class="head_items">
+                                       <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
+                                   </div>
+                                   <div class="model__grid-card__content--list">
+                                       <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
+                                       <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
+                                       <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
+                                       <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                                   </div>
+                                   <div class="model__grid-card__footer">
+                                       <div
+                                               class="model__grid-card__content--status"
+                                               :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                                       >{{ item.status.name }}</div>
+                                       <div class="model__grid-card__content--price">
+                                           <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
+                                       </div>
+                                       <button class="button transparent w100">
+                                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                                       </button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="swiper-pagination"></div>
+               </div>
+           <div class="swiper-button-next next">
+               <div class="swiper-on-button">
+                   <div class="swiper-on-button__radius"></div>
+               </div>
+           </div>
+           <div class="swiper-button-prev prev">
+               <div class="swiper-on-button">
+                   <div class="swiper-on-button__radius"></div>
+               </div>
+           </div>
+
+       </div>
 
 
 
@@ -558,9 +618,47 @@ export default {
             }
         }, 500);
 
+        let swiper = new Swiper(".main-slider", {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            slidesPerGroup: 4,
+            loop: false,
+            loopFillGroupWithBlank: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".next",
+                prevEl: ".prev",
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                    slidesPerGroup: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                    slidesPerGroup: 6,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                    slidesPerGroup: 4,
+                },
+                1440: {
+                    slidesPerView: 4,
+                    spaceBetween: 10,
+                    slidesPerGroup: 6,
+                }
+            },
+        });
+
         let swiperThumb = new Swiper(".swiper__detail-thumb", {
-            spaceBetween: 10,
-            slidesPerView: 3,
+            spaceBetween: 5,
+            slidesPerView: 4,
             freeMode: true,
             watchSlidesProgress: true,
         });
@@ -1811,7 +1909,10 @@ input[type=range]::-ms-fill-upper {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain !important;
+}
+.main-slider .swiper-slide img {
+    object-fit: cover !important;
 }
 .slider_content {
     border: solid 1px var(--radio-grid-color);
@@ -1851,12 +1952,69 @@ input[type=range]::-ms-fill-upper {
     background: var(--yablack);
 }
 .position-relative .next {
-    right: 14%;
+    right: -4em;
 }
 .position-relative .prev {
-    left: 14%;
+    left: -4em;
 }
-/*Swiper*/
+.swiper-button-prev:after {
+     content: '';
+}
+.swiper-button-next:after {
+    content: '';
+}
+.swiper-button-next {
+    width: fit-content;
+}
+.swiper-button-prev {
+    width: fit-content;
+}
+.swiper-button-next:hover .swiper-on-button__radius{
+    background: var(--yalightyellow);
+    transition: 200ms;
+}
+.swiper-button-prev:hover .swiper-on-button__radius{
+    background: var(--yalightyellow);
+    transition: 200ms;
+}
+.swiper-on-button {
+    --size: 50px;
+    border: solid 1px var(--yablue);
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #fff;
+}
+.swiper-on-button__radius {
+    border: solid 1px var(--yalightyellow);
+    width: calc(var(--size) - 10px);
+    height: calc(var(--size) - 10px);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-on-button__radius:after {
+    font-family: swiper-icons;
+    font-size: var(--swiper-navigation-size);
+    text-transform: none !important;
+    letter-spacing: 0;
+    font-variant: initial;
+    line-height: 1;
+    font-size: 15px;
+}
+.swiper-button-next .swiper-on-button__radius:after {
+    content: 'next';
+}
+.swiper-button-prev .swiper-on-button__radius:after {
+    content: 'prev';
+}
+    /*Swiper*/
 .model__grid {
     --margin-bottom: 2em;
     display: grid;
@@ -2992,17 +3150,18 @@ h2, .h2 a {
     margin-left: 2em;
 }
 .liner_model {
-    --grid-card: 300px;
+  /*  --grid-card: 300px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(var(--grid-card), 1fr));
     gap: 20px;
-    margin-bottom: 4rem;
+    margin-bottom: 4rem;*/
 }
 .liner_model .available__grid-item {
     padding: 0 0;
 }
 .head_items-box {
     padding: 1em 1em;
+    text-align: left;
 }
 .liner_model .grid-item__head-img img {
     object-fit: unset;
@@ -3041,6 +3200,9 @@ h2, .h2 a {
     width: 30px;
     height: 30px;
     margin-left: 2em;
+}
+.text-normal {
+    text-transform: unset;
 }
 .model__grid-card__content--list {
     --margin-bottom: 2em;
@@ -3094,7 +3256,7 @@ span.rub {
 }
     .car__grid {
         --left-w: itherit;
-        grid-template-columns: 1fr;
+        display: block;
     }
     .car__grid-item {
         max-height: inherit;
@@ -3113,8 +3275,43 @@ span.rub {
     font-weight: 600;
     margin-bottom: 2rem;
     }
+    .car__grid {
+        --mb: 80px;
+    }
+    .position-relative .next {
+        right: -1.2em;
+    }
+    .position-relative .prev {
+        left: -1.2em;
+    }
+    .swiper-on-button {
+        --size: 35px;
+    }
 }
-@media (max-width: 500px) {
+@media (max-width: 768px) {
+    .position-relative .next {
+        right: -1.2em;
+    }
+    .position-relative .prev {
+        left: -1.2em;
+    }
+    .swiper-button-next, .swiper-rtl .swiper-button-prev {
+        right: 1em;
+    }
+    .swiper-button-prev, .swiper-rtl .swiper-button-next {
+        left: 1em;
+    }
+    .swiper-on-button {
+        --size: 35px;
+    }
+
+}
+@media (max-width: 600px) {
+    .flex__head {
+        display: block;
+    }
+}
+    @media (max-width: 500px) {
     .desktop {
         display: none;
     }
@@ -3127,6 +3324,18 @@ span.rub {
     .settigns_items {
         grid-template-columns: 1fr;
         gap: 0;
+    }
+    .position-relative .prev {
+        display: none;
+    }
+    .position-relative .next {
+        display: none;
+    }
+    .car_grid-left {
+        min-height: inherit;
+    }
+    .swiper__detail {
+        height: auto;
     }
 }
 @media (max-width: 350px) {
