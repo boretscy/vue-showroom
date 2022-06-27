@@ -3,7 +3,7 @@
         <list-item 
             v-for="(item, indx) in items"
             :key="indx"
-            v-show="item.vehicles && (viewFull || (items.length > 15 && indx < 14))"
+            v-show="viewFull || items.length <= 15"
             :itemName="item.name" 
             :itemCount="item.vehicles" 
             :itemLink="'/'+((item.brand)?item.brand+'/':'')+item.code+query" />
