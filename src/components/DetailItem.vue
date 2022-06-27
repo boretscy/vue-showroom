@@ -2,7 +2,7 @@
    <div>
        <div class="car__grid">
            <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
-           <div class="car_grid-left" v-if="vehicle">
+           <!-- <div class="car_grid-left" v-if="vehicle">
                <div class="car_grid-left__slider">
                    <agile class="main" ref="main" :options="optionsMainSlider" :as-nav-for="asNavForMainSlider">
                         <div 
@@ -29,7 +29,36 @@
                     </agile>
 
                </div>
-           </div>
+           </div> -->
+            <div class="car_grid-left">
+                <div class="car_grid-left__slider">
+                    <div class="swiper swiper__detail">
+                        <div class="swiper-wrapper">
+                            <div
+                                class="swiper-slide"
+                                v-for="(slide, index) in vehicle._images" 
+                                :key="index">
+                                <img :src="slide.big"/>
+                            </div>
+                        </div>
+                        <div class="swiper-button-next detail_next"></div>
+                        <div class="swiper-button-prev detail_prev"></div>
+                    </div>
+                    <div thumbsSlider="" class="swiper swiper__detail-thumb">
+                        <div class="swiper-wrapper">
+                            <div
+                                class="swiper-slide"
+                                v-for="(slide, index) in vehicle._images" 
+                                :key="index">
+                                <div class="detail-thumb">
+                                    <img :src="slide.thumb"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
            <div class="car__grid-item" v-if="vehicle">
                <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
                <div class="car__grid-box">
@@ -361,68 +390,6 @@
         </div>
 
 
-           <div class="car_grid-left">
-               <div class="car_grid-left__slider">
-                   <div class="swiper swiper__detail">
-                       <div class="swiper-wrapper">
-                           <div class="swiper-slide">
-                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                           </div>
-                           <div class="swiper-slide">
-                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                           </div>
-                           <div class="swiper-slide">
-                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                           </div>
-                           <div class="swiper-slide">
-                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                           </div>
-                           <div class="swiper-slide">
-                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                           </div>
-                           <div class="swiper-slide">
-                               <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                           </div>
-                       </div>
-                       <div class="swiper-button-next detail_next"></div>
-                       <div class="swiper-button-prev detail_prev"></div>
-                   </div>
-                   <div thumbsSlider="" class="swiper swiper__detail-thumb">
-                       <div class="swiper-wrapper">
-                           <div class="swiper-slide">
-                               <div class="detail-thumb">
-                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                               </div>
-                           </div>
-                           <div class="swiper-slide">
-                               <div class="detail-thumb">
-                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                               </div>
-                           </div>
-                           <div class="swiper-slide">
-                               <div class="detail-thumb">
-                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                               </div>
-                           </div>
-                           <div class="swiper-slide">
-                               <div class="detail-thumb">
-                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                               </div>
-                           </div>
-                           <div class="swiper-slide">
-                               <div class="detail-thumb">
-                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                               </div>
-                           </div>
-                           <div class="swiper-slide">
-                               <div class="detail-thumb">
-                                   <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" />
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
 
 
 
@@ -441,7 +408,7 @@ import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
 
-import { VueAgile } from 'vue-agile'
+// import { VueAgile } from 'vue-agile'
 
 import Swiper, { Navigation, Pagination, Thumbs,  } from 'swiper';
 Swiper.use([Thumbs, Navigation, Pagination, ]);
@@ -458,7 +425,7 @@ export default {
         IconBase, IconCisfavorites, IconCiscompare,
         // IconShare, 
         IconCheck, IconQuestion, IconCorner,
-        agile: VueAgile
+        // agile: VueAgile
     },
     props: ['vehicle'],
     data() {

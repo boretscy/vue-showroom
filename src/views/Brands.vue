@@ -77,6 +77,7 @@ export default {
 					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
 					// console.log(response.data)
 					this.brands = response.data
+					this.$cookies.set('CIS_DETAIL_PAGE', 0)
 				})
             }
         },
