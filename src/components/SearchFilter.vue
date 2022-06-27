@@ -490,10 +490,10 @@ export default {
 
         this.initFilter().then(() => {
             setTimeout(() => {
+                console.log('getStartDropsValues', 500)
                 this.getStartDropsValues()
-            }, 1000);
-            
-        })
+            }, 500);
+         })
     },
     methods: {
         // filter
