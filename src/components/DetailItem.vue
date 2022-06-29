@@ -34,6 +34,17 @@
                                     <img :src="slide.thumb"/>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="swiper-button-next detail_next">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev detail_prev">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -407,12 +418,12 @@
                    </div>
                    <div class="swiper-pagination"></div>
                </div>
-           <div class="swiper-button-next next">
+           <div class="swiper-button-next next next-prev">
                <div class="swiper-on-button">
                    <div class="swiper-on-button__radius"></div>
                </div>
            </div>
-           <div class="swiper-button-prev prev">
+           <div class="swiper-button-prev prev next-prev">
                <div class="swiper-on-button">
                    <div class="swiper-on-button__radius"></div>
                </div>
@@ -616,12 +627,12 @@ export default {
                 },
                 1024: {
                     slidesPerView: 3,
-                    spaceBetween: 10,
+                    spaceBetween: 20,
                     slidesPerGroup: 4,
                 },
                 1440: {
                     slidesPerView: 4,
-                    spaceBetween: 10,
+                    spaceBetween: 20,
                     slidesPerGroup: 6,
                 }
             },
@@ -632,6 +643,10 @@ export default {
             slidesPerView: 4,
             freeMode: true,
             watchSlidesProgress: true,
+            navigation: {
+                nextEl: ".detail_next",
+                prevEl: ".detail_prev",
+            },
         });
         let swiperDetail = new Swiper(".swiper__detail", {
             spaceBetween: 10,
@@ -1977,7 +1992,7 @@ input[type=range]::-ms-fill-upper {
     letter-spacing: 0;
     font-variant: initial;
     line-height: 1;
-    font-size: 15px;
+    font-size: calc(var(--size) / 3.3);
 }
 .swiper-button-next .swiper-on-button__radius:after {
     content: 'next';
@@ -2890,10 +2905,15 @@ input[type=range]::-ms-fill-upper {
     max-height: 150px;
 }
 .swiper__detail-thumb {
+    --position: 0px;
+    position: relative;
     --height-slider: 135px;
     height: var(--height-slider);
     border-radius: 3px;
 }
+.swiper__detail-thumb .swiper-on-button {--size: 35px;}
+.swiper__detail-thumb .swiper-button-next {right: var(--position)}
+.swiper__detail-thumb .swiper-button-prev {left: var(--position)}
 .swiper__detail-thumb .swiper-slide {
     cursor: pointer;
 }
@@ -3249,23 +3269,21 @@ span.rub {
     .car__grid {
         --mb: 80px;
     }
+    .next-prev {
+        --position: -1.2em;
+    }
     .position-relative .next {
-        right: -1.2em;
+        right: var(--position);
     }
     .position-relative .prev {
-        left: -1.2em;
+        left: var(--position);
     }
     .swiper-on-button {
         --size: 35px;
     }
 }
 @media (max-width: 768px) {
-    .position-relative .next {
-        right: -1.2em;
-    }
-    .position-relative .prev {
-        left: -1.2em;
-    }
+
     .swiper-button-next, .swiper-rtl .swiper-button-prev {
         right: 1em;
     }
