@@ -1872,6 +1872,8 @@ input[type=range]::-ms-fill-upper {
 .main-slider .swiper-wrapper {
     padding-bottom: 2rem;
 }
+.main-slider .swiper-slide {
+}
 .swiper-slide {
     text-align: center;
     font-size: 18px;
@@ -2168,6 +2170,7 @@ input[type=range]::-ms-fill-upper {
 }
 .model__grid-card__content--list {
     margin-bottom: var(--margin-bottom);
+    word-break: break-all;
 }
 .model__grid-card__content--list-item {
     font-size: 14px;
