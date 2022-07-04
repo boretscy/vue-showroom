@@ -25,7 +25,7 @@
             <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} {{ getWorld(Number(cis), 'a') }}</span>
             <span class="grid-item__sub--items">{{ Format( Number(colors) ) }} {{ getWorld(Number(colors), 'c') }}</span>
         </div>
-        <button class="button transparent w100">от {{ Format( Number(price) ) }} <span class="rub">₽</span></button>
+        <router-link :to="link" class="button transparent w100">от {{ Format( Number(price) ) }} <span class="rub">₽</span></router-link>
     </div>
 </template>
 

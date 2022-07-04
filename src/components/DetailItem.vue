@@ -179,7 +179,7 @@
                            </div>
                        </div>
                        <div class="box-profit__list">
-                            <div class="profit__list--grid_item" v-if="specDiscount">
+                            <div class="profit__list--grid_item profit__list--grid_item--no-click" v-if="specDiscount">
                                 <div class="box-profit__list-item__checkbox">
                                     <div class="item__checkbox">
                                         <icon-base icon-name="check"><icon-check /></icon-base>
@@ -2637,6 +2637,10 @@ input[type=range]::-ms-fill-upper {
     margin-bottom: 1em;
     align-items: center;
     justify-items: start;
+    cursor: pointer;
+}
+.profit__list--grid_item--no-click {
+    cursor: auto;
 }
 .box-profit__list-item__checkbox {
     --icon-size: 10px;
