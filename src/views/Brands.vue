@@ -7,7 +7,7 @@
 			:OnWay="sortButtons.OnWay"
 			:Mode="viewSort"
 			@sort="sortToggle"/>
-		<div v-if="mode == 'new' && brands.length">
+		<!-- <div v-if="mode == 'new' && brands.length">
 			<list-brand-models
 				v-for="(brand, indx) in brands"
 				:key="indx"
@@ -25,7 +25,7 @@
 			<more
 				@more="more"
 				v-if="showMore"/>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -36,19 +36,19 @@
 
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
-import ListBrandModels from '@/components/ListBrandModels.vue'
-import UsedItems from '@/components/UsedItems.vue'
-import More from '@/components/brands/More.vue'
+// import ListBrandModels from '@/components/ListBrandModels.vue'
+// import UsedItems from '@/components/UsedItems.vue'
+// import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Brands',
 	components: {
 		// IconBase, IconCorner,
 		SearchFilter,
-		ListBrandModels,
+		// ListBrandModels,
 		Sort,
-		More,
-		UsedItems
+		// More,
+		// UsedItems
 	},
 	data() {
 		return {
@@ -87,7 +87,7 @@ export default {
                 let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
 				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 				this.axios.get(url).then((response) => {
-					response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+					// response.data.sort((a, b) => a.name > b.name ? 1 : -1);
 					// console.log(response.data)
 					this.brands = response.data
 					this.$cookies.set('CIS_DETAIL_PAGE', 0)

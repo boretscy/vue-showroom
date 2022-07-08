@@ -16,8 +16,12 @@ export default {
     mounted: function() {
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
         this.$cookies.set('CIS_DETAIL_PAGE', 0)
-        // this.$store.state.global.filter = this.getDefaultFilter()
-        // this.$store.state.global.brands = this.getDefaultBrands()
+
+        let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+		this.axios.get(url).then((response) => {
+			this.$store.state.global.brands = response.data.dropLists.brands
+		})
+
         if ( this.$store.state.brand ) this.$router.push( this.$store.state.brand )
     },
     methods: {
@@ -33,13 +37,6 @@ export default {
                 response.data.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                 return response.data
             })
-        }, 
-        getDefaultBrands() {
-            let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-			this.axios.get(url).then((response) => {
-				response.data.sort((a, b) => a.name > b.name ? 1 : -1);
-				return response.data
-			})
         }
     }
 }

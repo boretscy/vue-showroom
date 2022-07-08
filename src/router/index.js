@@ -4,6 +4,8 @@ import Brands from '../views/Brands.vue'
 import Brand from '../views/Brand.vue'
 import Item from '../views/Item.vue'
 import Items from '../views/Items.vue'
+import Favorites from '../views/Favorites.vue'
+import Compare from '../views/Compare.vue'
 
 Vue.use(VueRouter)
 
@@ -12,6 +14,16 @@ const routes = [
         path: '/',
         name: 'Brands',
         component: Brands
+    },
+    {
+        path: '/compare',
+        name: 'Compare',
+        component: Compare
+    },
+    {
+        path: '/favorites',
+        name: 'Favorites',
+        component: Favorites
     },
     {
         path: '/filter',
