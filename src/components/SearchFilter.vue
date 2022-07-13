@@ -342,7 +342,7 @@ export default {
     computed: {
         filterList: {
             get() {
-                return ( this.$route.params.brand ) ? this.modelOptions : this.$store.state.global.brands
+                return ( this.$route.params.brand ) ? this.modelOptions : this.brands
             },
             set() {
             }
@@ -354,7 +354,7 @@ export default {
                 let q = '', s = []
                 if ( this.transmissionsValue.length ) {
                 this.transmissionsValue.forEach( function(i) { s.push(i.code) })
-                    q += '&transmition='+s.join(',')
+                    q += '&transmission='+s.join(',')
                 }
                 s = []
                 if ( this.engineValue.length ) {
@@ -561,17 +561,17 @@ export default {
         getStartDropsValues() {
 
             if ( this.$route.params.brand ) {
-                this.brands.forEach( (i) => {
-                    if ( i.alias == this.$route.params.brand ) {
-                        this.brandValue.push({code: i.alias, name: i.name})
+                this.$store.state.global.brands.forEach( (i) => {
+                    if ( i.code == this.$route.params.brand ) {
+                        this.brandValue.push(i)
                         this.curBrand = i.name
                     }
                 })
-            } else if ( typeof this.$route.query.brand == 'object' ) {
+            } else if ( typeof this.$route.query.brand == 'string' ) {
                 this.$route.query.brand.split(',').forEach( (qi) => {
-                    this.brands.forEach( (i) => {
-                        if ( i.alias == qi ) {
-                            this.brandValue.push({code: i.alias, name: i.name})
+                    this.$store.state.global.brands.forEach( (i) => {
+                        if ( i.code == qi ) {
+                            this.brandValue.push(i)
                         }
                     })
                 })

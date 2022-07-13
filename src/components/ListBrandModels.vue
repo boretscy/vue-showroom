@@ -108,6 +108,7 @@ export default {
         //     }
         // },
         '$parent.sortMode': function(newValue) {
+            console.log( this.brand._models )
             switch(newValue) {
                 case 'name':
                     this.brand._models.sort((a, b) => a.name > b.name ? 1 : -1)
@@ -122,6 +123,12 @@ export default {
         }
     },
     mounted: function() {
+
+        this.brand._models.forEach( (item) => {
+            if (item.Discount) this.$parent.sortButtons.Discount = true
+            if (item.InStock) this.$parent.sortButtons.InStock = true
+            if (item.OnWay) this.$parent.sortButtons.OnWay = true
+        })
     },
     methods: {
         buildLink(model) {
