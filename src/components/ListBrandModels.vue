@@ -110,13 +110,13 @@ export default {
         '$parent.sortMode': function(newValue) {
             switch(newValue) {
                 case 'name':
-                    this.models.sort((a, b) => a.name > b.name ? 1 : -1)
+                    this.brand._models.sort((a, b) => a.name > b.name ? 1 : -1)
                     break;
                 case 'price_up':
-                    this.models.sort((a, b) => a.min_price > b.min_price ? 1 : -1)
+                    this.brand._models.sort((a, b) => a.min_price > b.min_price ? 1 : -1)
                     break;
                 case 'price_down':
-                    this.models.sort((a, b) => a.min_price < b.min_price ? 1 : -1)
+                    this.brand._models.sort((a, b) => a.min_price < b.min_price ? 1 : -1)
                     break;
             }
         }

@@ -476,7 +476,7 @@ export default {
             console.log('$route.params.brand')
             this.$store.state.global.brands.forEach( (i) => {
                 if ( i.alias == this.$route.params.brand ) {
-                    this.brandValue.push({code: i.alias, name: i.name})
+                    this.brandValue.push(i)
                     this.curBrand = i.name
                 }
             })
@@ -491,8 +491,6 @@ export default {
         }
     },
     mounted: function() {
-
-        
 
         this.initFilter().then(() => {
             setTimeout(() => {
