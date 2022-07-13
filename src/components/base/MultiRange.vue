@@ -3,13 +3,15 @@
         <div class="multirange__item">
             <label class="input">
                 <input type="hidden" v-model="value[0]">
-                <input type="text" :value="String(value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')">
+                <input type="text" :value="String(value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
+                <input type="text" :value="value[0]" v-else>
                 <span class="price">{{ nameRange }} от</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
             <label class="input">
                 <input type="hidden" v-model="value[1]">
-                <input type="text" :value="String(value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')">
+                <input type="text" :value="String(value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
+                <input type="text" :value="value[1]" v-else>
                 <span  class="price">до</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
@@ -39,7 +41,8 @@ export default {
     props:[
         'descVal',
         'nameRange',
-        'range'
+        'range',
+        'delimiter'
     ],
     data() {
         return {

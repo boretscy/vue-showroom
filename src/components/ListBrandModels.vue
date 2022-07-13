@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="flex__head">
-            <router-link :to="dataLink" class="flex__head-title h2">
-                {{ dataName }}
-                <span class="flex__head-count">{{ count }}</span>
+            <router-link :to="brand.code" class="flex__head-title h2">
+                {{ brand.name }}
+                <span class="flex__head-count">{{ brand.vehicles }}</span>
             </router-link>
             <!-- <router-link :to="dataLink" class="flex__head-link">
                 Все модели {{ dataName }}
@@ -15,16 +15,16 @@
             class="available__grid" 
             v-if="viewMode == 'grid'">
             <model-grid 
-                v-for="model in models"
+                v-for="model in brand._models"
                 :key="model.id"
                 :discount="model.Discount"
                 :price="Number(model.min_price)"
                 :colors="model._colors"
-                :cis="model.statistics['1'].counter + model.statistics['2'].counter"
+                :cis="model.vehicles"
                 :name="model.name"
                 :picture="model.image || null"
                 :body="model.body.code"
-                :brand="dataLink"
+                :brand="brand.code"
                 :link="buildLink(model.alias)"/>
             <cta-grid 
                 title="Рассчитайте ежемесячный платеж"
@@ -37,16 +37,16 @@
             :class="{'available__line': viewMode == 'list'}"
             v-if="viewMode == 'list'">
             <model-line 
-                v-for="model in models"
+                v-for="model in brand._models"
                 :key="model.id"
                 :discount="model.has_discounts"
                 :price="Number(model.min_price)"
                 :colors="model._colors"
-                :cis="model.statistics['1'].counter + model.statistics['1'].counter"
+                :cis="model.vehicles"
                 :name="model.name"
                 :picture="model.image || null"
                 :body="model.body.code"
-                :brand="dataLink"
+                :brand="brand.code"
                 :link="buildLink(model.alias)"/>
             <!-- <cta-line 
                 title="Рассчитайте ежемесячный платеж"
@@ -73,7 +73,7 @@ export default {
         CtaGrid, 
         // CtaLine
     },
-    props: ['dataName', 'dataLink', 'viewMode', 'dataSort'],
+    props: ['dataName', 'dataLink', 'viewMode', 'dataSort', 'brand'],
     data() {
         return {
             models: [],
@@ -82,31 +82,31 @@ export default {
         }
     },
     watch: {
-        '$route.query': {
-            immediate: true,
-            handler() {
-                let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-                url += '&brand='+this.dataLink
-                for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
-                // console.log(url)
+        // '$route.query': {
+        //     immediate: true,
+        //     handler() {
+        //         let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+        //         url += '&brand='+this.dataLink
+        //         for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
+        //         // console.log(url)
 
-                this.axios.get(url).then((response) => {
+        //         this.axios.get(url).then((response) => {
 
-                    this.count = 0
-                    this.models = []
+        //             this.count = 0
+        //             this.models = []
                     
-                    this.models = response.data
-                    // console.log(this.models)
-                    this.models.forEach( (item) => {
-                        this.count += item.statistics[1].counter + item.statistics[2].counter
-                        if (item.Discount) this.$parent.sortButtons.Discount = true
-                        if (item.InStock) this.$parent.sortButtons.InStock = true
-                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
-                    })
-                    this.models.sort((a, b) => a.name > b.name ? 1 : -1)
-                })
-            }
-        },
+        //             this.models = response.data
+        //             // console.log(this.models)
+        //             this.models.forEach( (item) => {
+        //                 this.count += item.statistics[1].counter + item.statistics[2].counter
+        //                 if (item.Discount) this.$parent.sortButtons.Discount = true
+        //                 if (item.InStock) this.$parent.sortButtons.InStock = true
+        //                 if (item.OnWay) this.$parent.sortButtons.OnWay = true
+        //             })
+        //             this.models.sort((a, b) => a.name > b.name ? 1 : -1)
+        //         })
+        //     }
+        // },
         '$parent.sortMode': function(newValue) {
             switch(newValue) {
                 case 'name':

@@ -35,7 +35,7 @@
                     placeholder="Марка" 
                     label="name" 
                     track-by="code" 
-                    :options="brandOptions" 
+                    :options="$store.state.global.brands" 
                     :multiple="true" 
                     :searchable="false"
                     :close-on-select="false" 
@@ -74,6 +74,7 @@
                     desc-val="₽"
                     name-range="Цена"
                     ref="priceRange"
+                    :delimiter="true"
                     @range="setRangeValue"/>
             </div>
             <div class="filter__head-item" v-show="(viewFull && !oneBrand) || oneBrand">
@@ -102,6 +103,7 @@
                     desc-val="см3"
                     name-range="Объем"
                     ref="volumeRange"
+                    :delimiter="true"
                     @range="setRangeValue"/>
             </div>
             <div class="filter__head-item filter__head-item__range" v-show="viewFull">
@@ -110,6 +112,7 @@
                     desc-val="л.с."
                     name-range="Мощность"
                     ref="powerRange"
+                    :delimiter="true"
                     @range="setRangeValue"/>
             </div>
             <div class="filter__head-item" v-show="viewFull">
@@ -178,6 +181,7 @@
                     desc-val=""
                     name-range="Год выпуска"
                     ref="yearRange"
+                    :delimiter="false"
                     @range="setRangeValue"/>
             </div>
             <div class="filter__head-item" v-show="viewFull">
@@ -338,7 +342,7 @@ export default {
     computed: {
         filterList: {
             get() {
-                return ( this.$route.params.brand ) ? this.modelOptions : this.brands
+                return ( this.$route.params.brand ) ? this.modelOptions : this.$store.state.global.brands
             },
             set() {
             }
@@ -405,103 +409,93 @@ export default {
         
     },
     watch: {
-        // modeValue: function(newValue) {
-        //     window.location.href = newValue.code;
-        // },
+        modeValue: function(newValue) {
+            window.location.href = newValue.code;
+        },
 
-        // brandValue: function(newValue) {
-        //     if (newValue.length) {
-        //         this.modelValue = []
-        //         this.getModels(newValue).then(()=>{
-        //             this.resetDrops()
-        //             this.getFilter(this.buildQuery())
-        //         })
-        //     } else {
-        //         this.initFilter().then(() => {
-        //             this.resetDrops()
-        //         })
-        //     }
-        // },
-        // modelValue: function() {
-        //     this.resetDrops()
-        //     this.getFilter(this.buildQuery())
-        // },
-        // transmissionsValue: function(v, o) {
-        //     if ( v.length || (!v.length && o.length) ) {
-        //         this.link = this.buildLink(this.buildQuery())
-        //         this.getFilter(this.buildQuery())
-        //     }
-        // },
-        // engineValue: function(v,o) {
-        //     if ( v.length || (!v.length && o.length) ) {
-        //         this.link = this.buildLink(this.buildQuery())
-        //         this.getFilter(this.buildQuery())
-        //     }
-        // },
-        // dealershipValue: function(v,o) {
-        //     if ( v.length || (!v.length && o.length) ) {
-        //         this.link = this.buildLink(this.buildQuery())
-        //         this.getFilter(this.buildQuery())
-        //     }
-        // },
-        // colorValue: function(v,o) {
-        //     if ( v.length || (!v.length && o.length) ) {
-        //         this.link = this.buildLink(this.buildQuery())
-        //         this.getFilter(this.buildQuery())
-        //     }
-        // },
-        // bodyValue: function(v,o) {
-        //     if ( v.length || (!v.length && o.length) ) {
-        //         this.link = this.buildLink(this.buildQuery())
-        //         this.getFilter(this.buildQuery())
-        //     }
-        // },
-        // driveValue: function(v,o) {
-        //     if ( v.length || (!v.length && o.length) ) {
-        //         this.link = this.buildLink(this.buildQuery())
-        //         this.getFilter(this.buildQuery())
-        //     }
-        // },
-        // '$route.query': function() {
-        //     this.getFilter(this.buildQuery()).then(() => {
-        //         this.$parent.iter++
-        //     })
+        brandValue: function(newValue) {
+            if (newValue.length) {
+                this.modelValue = []
+                this.getModels(newValue).then(()=>{
+                    this.resetDrops()
+                    this.getFilter(this.buildQuery())
+                })
+            } else {
+                this.initFilter().then(() => {
+                    this.resetDrops()
+                })
+            }
+        },
+        modelValue: function() {
+            this.resetDrops()
+            this.getFilter(this.buildQuery())
+        },
+        transmissionsValue: function(v, o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
+        },
+        engineValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
+        },
+        dealershipValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
+        },
+        colorValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
+        },
+        bodyValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
+        },
+        driveValue: function(v,o) {
+            if ( v.length || (!v.length && o.length) ) {
+                this.link = this.buildLink(this.buildQuery())
+                this.getFilter(this.buildQuery())
+            }
+        },
+        '$route.query': function() {
+            this.getFilter(this.buildQuery()).then(() => {
+                this.$parent.iter++
+            })
             
-        // },
-        // '$route.params.brand': function() {
-        //     this.brands.forEach( (i) => {
-        //         if ( i.alias == this.$route.params.brand ) {
-        //             this.brandValue.push({code: i.alias, name: i.name})
-        //             this.curBrand = i.name
-        //         }
-        //     })
-        // },
-        // '$route.param.model': function() {
-        //     this.modelOptions.forEach( (i) => {
-        //         if ( i.code == this.$route.params.model ) {
-        //             this.modelValue.push(i)
-        //             this.curBrand = i.name
-        //         }
-        //     })
-        // }
+        },
+        '$route.params.brand': function() {
+            console.log('$route.params.brand')
+            this.$store.state.global.brands.forEach( (i) => {
+                if ( i.alias == this.$route.params.brand ) {
+                    this.brandValue.push({code: i.alias, name: i.name})
+                    this.curBrand = i.name
+                }
+            })
+        },
+        '$route.param.model': function() {
+            this.modelOptions.forEach( (i) => {
+                if ( i.code == this.$route.params.model ) {
+                    this.modelValue.push(i)
+                    this.curBrand = i.name
+                }
+            })
+        }
     },
     mounted: function() {
 
-
-        let url = this.$store.state.apiUrl+'filter-brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-		this.axios.get(url).then((response) => {
-			response.data.sort((a, b) => a.name > b.name ? 1 : -1);
-            this.brands = response.data
-            response.data.forEach( (i) => {
-                this.brands.push(
-                    {code: i.alias, name: i.name, vehicles: i.vehicles}
-                )
-            })
-		})
+        
 
         this.initFilter().then(() => {
             setTimeout(() => {
-                console.log('getStartDropsValues', 500)
                 this.getStartDropsValues()
                 if ( this.$store.state.brand ) this.oneBrand = true
             }, 500);
@@ -517,12 +511,6 @@ export default {
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
-                    this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.transmissions.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.totalCount = this.filter.totalCount
                     this.filterList = this.filter.dropLists.brands
                     this.brands = this.filter.dropLists.brands
@@ -539,13 +527,6 @@ export default {
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
-                    this.filter.dropLists.brands.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.transmissions.sort((a, b) => a.name > b.name ? 1 : -1);
-                    this.filter.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.totalCount = this.filter.totalCount
                     this.filterList = this.filter.dropLists.brands
                     this.link = this.buildLink(this.buildQuery())

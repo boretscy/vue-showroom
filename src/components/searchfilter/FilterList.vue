@@ -36,7 +36,7 @@ export default {
     computed: {
         items: {
             get() {
-                this.list.sort((a, b) => a.vehicles < b.vehicles ? 1 : -1);
+                // this.list.sort((a, b) => a.vehicles < b.vehicles ? 1 : -1);
                 return this.list
             }
         },

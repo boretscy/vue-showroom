@@ -26,18 +26,18 @@ export default {
     },
     methods: {
 
-        getDefaultFilter() {
-            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-            this.axios.get(url).then((response) => {
-                response.data.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
-                response.data.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
-                response.data.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
-                response.data.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
-                response.data.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
-                response.data.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
-                return response.data
-            })
-        }
+        // getDefaultFilter() {
+        //     let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+        //     this.axios.get(url).then((response) => {
+        //         response.data.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
+        //         response.data.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
+        //         response.data.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
+        //         response.data.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
+        //         response.data.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
+        //         response.data.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
+        //         return response.data
+        //     })
+        // }
     }
 }
 </script>
