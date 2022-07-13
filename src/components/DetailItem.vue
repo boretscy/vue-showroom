@@ -335,99 +335,58 @@
                 Рекомендованные автомобили
                 <!-- <span class="flex__head-count">223</span> -->
             </router-link>
-            <router-link :to="'/'+vehicle._brand.alias" class="flex__head-link">
-                    Все модели {{ vehicle._brand.name }}
-                    <icon-base icon-name="corner" class="right"><icon-corner /></icon-base>
-            </router-link>
         </div>
 
-      <!--  <div class="liner_model"  v-if="vehicle.recomended">
-            <div 
-                class="available__grid-item"
-                v-for="(item, indx) in vehicle.recomended"
-                :key="indx">
-                <div class="grid-item__head">
-                    <router-link :to="item.link" class="grid-item__head-img">
-                        <img :src="item.image" :alt="item.name" v-if="item.image">
-                        <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="item.name" v-else>
-                    </router-link>
-                </div>
-                <div class="head_items-box">
-                    <div class="head_items">
-                        <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
-                    </div>
-                    <div class="model__grid-card__content&#45;&#45;list">
-                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.general[4].value }}</span>
-                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.body_type }}</span>
-                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.general[1].value }}</span>
-                        <span class="model__grid-card__content&#45;&#45;list-item">{{ item.general[0].value }}</span>
-                    </div>
-                    <div class="model__grid-card__footer">
-                        <div 
-                            class="model__grid-card__content&#45;&#45;status"
-                            :class="{'&#45;&#45;in-stock': item.status.id == 1, '&#45;&#45;in-transit': item.status.id == 2}"
-                            >{{ item.status.name }}</div>
-                        <div class="model__grid-card__content&#45;&#45;price">
-                            <div class="model__grid-card__content&#45;&#45;price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
+        <div class="col position-relative">
+                <div class="swiper main-slider">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide liner_model" v-for="(item, indx) in vehicle.recomended"
+                                :key="indx">
+                            <div class="available__grid-item">
+                                <div class="grid-item__head">
+                                    <router-link :to="item.link" class="grid-item__head-img">
+                                        <img :src="item.image" :alt="item.name" v-if="item.image">
+                                        <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="item.name" v-else>
+                                    </router-link>
+                                </div>
+                                <div class="head_items-box">
+                                    <div class="head_items">
+                                        <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
+                                    </div>
+                                    <div class="model__grid-card__content--list">
+                                        <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
+                                        <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
+                                        <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
+                                        <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                                    </div>
+                                    <div class="model__grid-card__footer">
+                                        <div
+                                            class="model__grid-card__content--status"
+                                            :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                                        >{{ item.status.name }}</div>
+                                        <div class="model__grid-card__content--price">
+                                            <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
+                                        </div>
+                                        <button class="button transparent w100">
+                                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button class="button transparent w100">
-                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                        </button>
                     </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            <div class="swiper-button-next next next-prev">
+                <div class="swiper-on-button">
+                    <div class="swiper-on-button__radius"></div>
                 </div>
             </div>
-        </div>-->
-
-       <div class="col position-relative">
-               <div class="swiper main-slider">
-                   <div class="swiper-wrapper">
-                       <div class="swiper-slide liner_model" v-for="(item, indx) in vehicle.recomended"
-                            :key="indx">
-                           <div class="available__grid-item">
-                               <div class="grid-item__head">
-                                   <router-link :to="item.link" class="grid-item__head-img">
-                                       <img :src="item.image" :alt="item.name" v-if="item.image">
-                                       <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="item.name" v-else>
-                                   </router-link>
-                               </div>
-                               <div class="head_items-box">
-                                   <div class="head_items">
-                                       <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
-                                   </div>
-                                   <div class="model__grid-card__content--list">
-                                       <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
-                                       <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
-                                       <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
-                                       <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
-                                   </div>
-                                   <div class="model__grid-card__footer">
-                                       <div
-                                               class="model__grid-card__content--status"
-                                               :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
-                                       >{{ item.status.name }}</div>
-                                       <div class="model__grid-card__content--price">
-                                           <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
-                                       </div>
-                                       <button class="button transparent w100">
-                                           <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                                       </button>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="swiper-pagination"></div>
-               </div>
-           <div class="swiper-button-next next next-prev">
-               <div class="swiper-on-button">
-                   <div class="swiper-on-button__radius"></div>
-               </div>
-           </div>
-           <div class="swiper-button-prev prev next-prev">
-               <div class="swiper-on-button">
-                   <div class="swiper-on-button__radius"></div>
-               </div>
-           </div>
+            <div class="swiper-button-prev prev next-prev">
+                <div class="swiper-on-button">
+                    <div class="swiper-on-button__radius"></div>
+                </div>
+            </div>
 
        </div>
 

@@ -14,7 +14,7 @@
 				v-if="brand._models && brand.vehicles > 0"
 				:dataName="brand.name"
 				:dataCount="brand.vehicles"
-				:dataLink="brand.alias"
+				:dataLink="brand.code"
 				:dataSort="sortMode"
 				:viewMode="viewMode"
 				:brand="brand"/>

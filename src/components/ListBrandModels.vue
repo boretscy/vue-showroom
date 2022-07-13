@@ -25,7 +25,7 @@
                 :picture="model.image || null"
                 :body="model.body.code"
                 :brand="brand.code"
-                :link="buildLink(model.alias)"/>
+                :link="buildLink(model.code)"/>
             <cta-grid 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
@@ -47,7 +47,7 @@
                 :picture="model.image || null"
                 :body="model.body.code"
                 :brand="brand.code"
-                :link="buildLink(model.alias)"/>
+                :link="buildLink(model.code)"/>
             <!-- <cta-line 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
