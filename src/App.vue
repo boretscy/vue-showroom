@@ -52,6 +52,7 @@ export default {
 	--yadarkgray: #565b5d;
 	--yablackgray: #1c232c;
     --yalightblack: #5C5D5E;
+    --detail_bg: #F3F5F6;
 	
 	--yablack: #000000;
 	--yawhite: #ffffff;

@@ -2875,8 +2875,8 @@ input[type=range]::-ms-fill-upper {
     color: var(--yadarkgray);
 }
 .--accordion-open {
-    border-bottom: 0;
-}
+     border-bottom: 0;
+ }
 .--accordion-open svg.icon {
     transform: rotate(180deg);
 }
