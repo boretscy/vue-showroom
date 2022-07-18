@@ -14,23 +14,25 @@
         <div 
             class="available__grid" 
             v-if="viewMode == 'grid'">
-            <model-grid 
+            <div 
                 v-for="model in brand._models"
-                :key="model.id"
-                :discount="model.Discount"
-                :price="Number(model.min_price)"
-                :colors="model._colors"
-                :cis="model.vehicles"
-                :name="model.name"
-                :picture="model.image || null"
-                :body="model.body.code"
-                :brand="brand.code"
-                :link="buildLink(model.code)"/>
-            <cta-grid 
-                title="Рассчитайте ежемесячный платеж"
-                link="#"
-                button="Получить одобрение"
-                icon="credit"/>
+                :key="model.id">
+                <cta-grid 
+                    :cta="model"
+                    v-if="model.name == 'random_cta'"/>
+                <model-grid 
+                    :discount="model.Discount"
+                    :price="Number(model.min_price)"
+                    :colors="model._colors"
+                    :cis="model.vehicles"
+                    :name="model.name"
+                    :picture="model.image || null"
+                    :body="model.body.code"
+                    :brand="brand.code"
+                    :link="buildLink(model.code)"
+                    v-else/>
+            </div>
+            
         </div>
         <div 
             class="available__grid" 
