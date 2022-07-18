@@ -34,6 +34,7 @@ export default {
 				this.axios.get(url).then((response) => {
 					this.vehicle = response.data
 					this.$cookies.set('CIS_DEALERSHIP', response.data.dealership.id)
+					this.$cookies.set('CIS_VEHICLE_ID', this.vehicle.id)
 					this.$cookies.set('CIS_DETAIL_PAGE', 1)
 				})
             }

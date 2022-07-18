@@ -197,7 +197,7 @@
                                     <div class="item__checkbox">
                                         <icon-base icon-name="check" v-if="item.active"><icon-check /></icon-base>
                                     </div>
-                                    <div class="item">{{ item.name }}</div>
+                                    <div class="item">{{ item.description }}</div>
                                </div>
                                <div class="box-profit__list-item">до {{ Format(item.sum) }} <span class="rub">₽</span></div>
                             </div>
@@ -205,10 +205,10 @@
                        </div>
                        <div class="car__grid-foot">
                            <div class="profit__list--stock">
-                               <!-- <div class="profit__list--stock_item">
+                               <div class="profit__list--stock_item" v-if="vehicle.additional_equipment_price">
                                    <div class="list--stock_item-name">Доп оборудование</div>
-                                   <div class="list--stock_item-price">+ 150 000 <span class="rub">С</span></div>
-                               </div> -->
+                                   <div class="list--stock_item-price">+ {{ Format(vehicle.additional_equipment_price) }} <span class="rub">₽</span></div>
+                               </div>
                                <div class="profit__list--stock_item">
                                    <div class="list--stock_item-name">Цена без учета выгод</div>
                                    <div class="list--stock_item-price">{{ Format(vehicle.price) }}<span class="rub">₽</span></div>
