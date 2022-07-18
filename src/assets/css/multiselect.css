@@ -213,7 +213,7 @@ fieldset[disabled] .multiselect {
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: none;
   }
   .multiselect__select:before {
     position: relative;
