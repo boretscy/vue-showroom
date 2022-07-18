@@ -81,9 +81,9 @@ fieldset[disabled] .multiselect {
   }
   
   .multiselect--active .multiselect__select {
-    transform: rotateZ(180deg);
+    transform: none;
   }
-  
+
   .multiselect--above.multiselect--active .multiselect__current,
   .multiselect--above.multiselect--active .multiselect__input,
   .multiselect--above.multiselect--active .multiselect__tags {
