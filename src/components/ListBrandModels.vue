@@ -84,6 +84,8 @@ export default {
             random_cta : null
         }
     },
+
+    
     watch: {
         // '$route.query': {
         //     immediate: true,
