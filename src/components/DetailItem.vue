@@ -346,7 +346,17 @@
                                 <div class="grid-item__head">
                                     <router-link :to="item.link" class="grid-item__head-img">
                                         <img :src="item.image" :alt="item.name" v-if="item.image">
-                                        <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="item.name" v-else>
+                                        <icon-base icon-name="ciscrossover" v-if="!item.image && item.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
+                                        <icon-base icon-name="ciscupe" v-if="!item.image && item.body.code == 'cupe'"><icon-ciscupe /></icon-base>
+                                        <icon-base icon-name="cisliftback" v-if="!item.image && item.body.code == 'liftback'"><icon-cisliftback /></icon-base>
+                                        <icon-base icon-name="cishatchback" v-if="!item.image && item.body.code == 'hatchback'"><icon-cishatchback /></icon-base>
+                                        <icon-base icon-name="cismicrobus" v-if="!item.image && item.body.code == 'microbus'"><icon-cismicrobus /></icon-base>
+                                        <icon-base icon-name="cisminivan" v-if="!item.image && item.body.code == 'minivan'"><icon-cisminivan /></icon-base>
+                                        <icon-base icon-name="cispickup" v-if="!item.image && item.body.code == 'pickup'"><icon-cispickup /></icon-base>
+                                        <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'sedan'"><icon-cissedan /></icon-base>
+                                        <icon-base icon-name="cissuv" v-if="!item.image && item.body.code == 'suv'"><icon-cissuv /></icon-base>
+                                        <icon-base icon-name="cisvan" v-if="!item.image && item.body.code == 'van'"><icon-cisvan /></icon-base>
+                                        <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
                                     </router-link>
                                 </div>
                                 <div class="head_items-box">
@@ -409,6 +419,18 @@ import IconCheck from '@/components/icons/IconCheck.vue'
 import IconQuestion from '@/components/icons/IconQuestion.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
 
+import IconCiscrossover from '@/components/icons/IconCiscrossover.vue'
+import IconCiscupe from '@/components/icons/IconCiscupe.vue'
+import IconCisliftback from '@/components/icons/IconCisliftback.vue'
+import IconCishatchback from '@/components/icons/IconCishatchback.vue'
+import IconCismicrobus from '@/components/icons/IconCismicrobus.vue'
+import IconCisminivan from '@/components/icons/IconCisminivan.vue'
+import IconCispickup from '@/components/icons/IconCispickup.vue'
+import IconCissedan from '@/components/icons/IconCissedan.vue'
+import IconCissuv from '@/components/icons/IconCissuv.vue'
+import IconCisvan from '@/components/icons/IconCisvan.vue'
+import IconCiswagon from '@/components/icons/IconCiswagon.vue'
+
 // import { VueAgile } from 'vue-agile'
 
 import Swiper, { Navigation, Pagination, Thumbs,  } from 'swiper';
@@ -427,6 +449,9 @@ export default {
         // IconShare, 
         IconCheck, IconQuestion, IconCorner,
         // agile: VueAgile
+        IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
+        IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
+        IconCissuv, IconCisvan, IconCiswagon
     },
     props: ['vehicle'],
     data() {
@@ -1685,10 +1710,19 @@ input[type=range]::-ms-fill-upper {
     display: flex;
     align-items: center;
     width: 100%;
+    justify-content: space-around;
 }
 .grid-item__head-img img {
     width: 100%;
     object-fit: none;
+}
+.grid-item__head-img svg {
+    width: 176px;
+    height: 176px;
+    fill: var(--yamiddlegray);
+    object-fit: unset;
+    transform: scale(-1, 1);
+
 }
 .grid-item__head-discont {
     position: absolute;

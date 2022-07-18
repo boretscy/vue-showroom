@@ -3,7 +3,18 @@
         <div class="model__grid-card__head">
             <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__head--img">
                 <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name" v-if="item.images.length">
-                <img src="https://apps.yug-avto.ru/upload/Cis/default.png" :alt="brand.name+' '+model.name" v-else>
+                
+                <icon-base icon-name="ciscrossover" v-if="!item.images.length && body == 'crossover'"><icon-ciscrossover /></icon-base>
+                <icon-base icon-name="ciscupe" v-if="!item.images.length && body == 'cupe'"><icon-ciscupe /></icon-base>
+                <icon-base icon-name="cisliftback" v-if="!item.images.length && body == 'liftback'"><icon-cisliftback /></icon-base>
+                <icon-base icon-name="cishatchback" v-if="!item.images.length && body == 'hatchback'"><icon-cishatchback /></icon-base>
+                <icon-base icon-name="cismicrobus" v-if="!item.images.length && body == 'microbus'"><icon-cismicrobus /></icon-base>
+                <icon-base icon-name="cisminivan" v-if="!item.images.length && body == 'minivan'"><icon-cisminivan /></icon-base>
+                <icon-base icon-name="cispickup" v-if="!item.images.length && body == 'pickup'"><icon-cispickup /></icon-base>
+                <icon-base icon-name="cissedan" v-if="!item.images.length && body == 'sedan'"><icon-cissedan /></icon-base>
+                <icon-base icon-name="cissuv" v-if="!item.images.length && body == 'suv'"><icon-cissuv /></icon-base>
+                <icon-base icon-name="cisvan" v-if="!item.images.length && body == 'van'"><icon-cisvan /></icon-base>
+                <icon-base icon-name="ciswagon" v-if="!item.images.length && body == 'wagon'"><icon-ciswagon /></icon-base>
             </router-link>
             <div class="model__grid-card__head--top">
                 <div class="model__grid-card__head--top_discont" v-if="item.discounts">
@@ -48,11 +59,25 @@
 import IconBase from '@/components/IconBase.vue'
 import IconCisfavorites from '@/components/icons/IconCisfavorites.vue'
 import IconCiscompare from '@/components/icons/IconCiscompare.vue'
+import IconCiscrossover from '@/components/icons/IconCiscrossover.vue'
+import IconCiscupe from '@/components/icons/IconCiscupe.vue'
+import IconCisliftback from '@/components/icons/IconCisliftback.vue'
+import IconCishatchback from '@/components/icons/IconCishatchback.vue'
+import IconCismicrobus from '@/components/icons/IconCismicrobus.vue'
+import IconCisminivan from '@/components/icons/IconCisminivan.vue'
+import IconCispickup from '@/components/icons/IconCispickup.vue'
+import IconCissedan from '@/components/icons/IconCissedan.vue'
+import IconCissuv from '@/components/icons/IconCissuv.vue'
+import IconCisvan from '@/components/icons/IconCisvan.vue'
+import IconCiswagon from '@/components/icons/IconCiswagon.vue'
 
 export default {
     name: 'ItemGrid',
     components: {
-        IconBase, IconCiscompare, IconCisfavorites
+        IconBase, IconCiscompare, IconCisfavorites,
+        IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
+        IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
+        IconCissuv, IconCisvan, IconCiswagon
     },
     props: ['brand', 'model', 'item'],
     data() {
