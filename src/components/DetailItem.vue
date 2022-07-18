@@ -2299,7 +2299,7 @@ input[type=range]::-ms-fill-upper {
 .configuration {
     max-width: var(--left-w);
     width: 100%;
-    margin-top: -40px;
+    /* margin-top: -40px; */
 }
 .sticky_box {}
 .car__grid-item .car__grid-item_title {
