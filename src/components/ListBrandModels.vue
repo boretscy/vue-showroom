@@ -78,7 +78,8 @@ export default {
         return {
             models: [],
             count: 0,
-            sortMode: this.$parent.sortMode
+            sortMode: this.$parent.sortMode,
+            random_cta : null
         }
     },
     watch: {
@@ -129,6 +130,9 @@ export default {
             if (item.InStock) this.$parent.sortButtons.InStock = true
             if (item.OnWay) this.$parent.sortButtons.OnWay = true
         })
+
+        this.random_cta = this.$store.state.global.cta[this.randomInteger(0, 3)]
+        this.brand._models.splice(this.randomInteger(2, this.brand._models.length), 0, this.random_cta)
     },
     methods: {
         buildLink(model) {
@@ -147,6 +151,11 @@ export default {
         },
         sort(v) {
             this.$emit('sort', v)
+        },
+        randomInteger(min, max) {
+        // получить случайное число от (min-0.5) до (max+0.5)
+            let rand = min - 0.5 + Math.random() * (max - min + 1);
+            return Math.round(rand);
         }
         
     }

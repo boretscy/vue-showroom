@@ -2,25 +2,34 @@
     <a :href="link" class="available__grid-item grid__icon-form">
         <div class="grid-item__head">
             <div class="grid-item__head-img">
-                <icon-base icon-name="ctacredit" v-if="icon == 'credit'"><icon-ctacredit /></icon-base>
+                <icon-base icon-name="ctacredit" v-if="cta.code == 'credit'"><icon-ctacredit /></icon-base>
+                <icon-base icon-name="ctatradein" v-if="cta.code == 'trade-in'"><icon-ctatradein /></icon-base>
+                <icon-base icon-name="ctasell" v-if="cta.code == 'sell'"><icon-ctasell /></icon-base>
+                <icon-base icon-name="ctaselect" v-if="cta.code == 'select'"><icon-ctaselect /></icon-base>
             </div>
         </div>
         <div class="head_items">
-            <div class="grid-item__title">{{ title }}</div>
+            <div class="grid-item__title">{{ cta.title }}</div>
         </div>
-        <div class="button transparent">{{ button }}</div>
+        <div class="button transparent">{{ cta.button }}</div>
     </a>
 </template>
 
 <script>
 import IconBase from '@/components/IconBase.vue'
 import IconCtacredit from '@/components/icons/IconCtacredit.vue'
+import IconCtatradein from '@/components/icons/IconCtatradein.vue'
+import IconCtasell from '@/components/icons/IconCtasell.vue'
+import IconCtaselect from '@/components/icons/IconCtaselect.vue'
 
 export default {
     name: 'ModelItem',
-    props: ['title', 'link', 'button', 'icon'],
+    props: ['cta'],
     components: {
-        IconBase, IconCtacredit
+        IconBase, IconCtacredit, IconCtatradein, IconCtasell,IconCtaselect
+    },
+    mounted: function() {
+        console.log(this.cta)
     }
 }
 </script>
@@ -34,6 +43,8 @@ export default {
     user-select: none;
     transition: 200ms;
     border-radius: 3px;
+    background: var(--yalightgray);
+    min-height: 400px;
 }
 .available__grid-item:hover {
     border: solid 1px var(--yayellow);

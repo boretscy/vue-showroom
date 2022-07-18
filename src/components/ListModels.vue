@@ -8,39 +8,45 @@
         </div>
 
         <div class="available__grid" v-if="models && viewMode=='grid'">
-            <model-grid 
+            <div 
                 v-for="model in models"
-                :key="model.id"
-                :discount="model.Discount"
-                :price="Number(model.min_price)"
-                :colors="model._colors"
-                :cis="model.statistics['1'].counter + model.statistics['2'].counter"
-                :name="model.name"
-                :picture="model.image || null"
-                :body="model.body.code"
-                :brand="$route.params.brand"
-                :link="buildLink(model.alias)"/>
-            <cta-grid 
-                title="Рассчитайте ежемесячный платеж"
-                link="#"
-                button="Получить одобрение"
-                icon="credit"/>
+                :key="model.id">
+                <cta-grid 
+                    :cta="model"
+                    v-if="model.name == 'random_cta'"/>
+                <model-grid 
+                    :discount="model.Discount"
+                    :price="Number(model.min_price)"
+                    :colors="model._colors"
+                    :cis="model.statistics['1'].counter + model.statistics['2'].counter"
+                    :name="model.name"
+                    :picture="model.image || null"
+                    :body="model.body.code"
+                    :brand="$route.params.brand"
+                    :link="buildLink(model.alias)"
+                    v-else/>
+            </div>
+            
         </div>
         <div 
             class="available__grid" 
             :class="{'available__line': viewMode == 'list'}"
             v-if="models && viewMode=='list'">
-            <model-line 
+            <div 
                 v-for="model in models"
-                :key="model.id"
-                :discount="model.has_discounts"
-                :price="Number(model.min_price)"
-                :colors="model._colors"
-                :cis="model.statistics['1'].counter + model.statistics['1'].counter"
-                :name="model.name"
-                :picture="model.image"
-                :brand="$route.params.brand"
-                :alias="model.alias"/>
+                :key="model.id">
+                <model-line 
+                    :discount="model.Discount"
+                    :price="Number(model.min_price)"
+                    :colors="model._colors"
+                    :cis="model.statistics['1'].counter + model.statistics['2'].counter"
+                    :name="model.name"
+                    :picture="model.image || null"
+                    :body="model.body.code"
+                    :brand="$route.params.brand"
+                    :link="buildLink(model.alias)"
+                    />
+            </div>
             <!-- <cta-line 
                 title="Рассчитайте ежемесячный платеж"
                 link="#"
@@ -68,7 +74,8 @@ export default {
         return {
             brand: null,
             models: null,
-            count: 0
+            count: 0,
+            random_cta: null
         }
     },
     watch: {
@@ -89,6 +96,9 @@ export default {
                         if (item.OnWay) this.$parent.sortButtons.OnWay = true
                     })
                     this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                    this.random_cta = this.$store.state.global.cta[this.randomInteger(0, 3)]
+                    this.models.splice(this.randomInteger(2, this.models.length), 0, this.random_cta)
+                    console.log(this.models)
                     window.scrollTo(0,0);
                 })
                 url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken
@@ -127,6 +137,11 @@ export default {
             }
             return l+((q.length)?'?':'')+q.slice(0, -1)
         },
+        randomInteger(min, max) {
+        // получить случайное число от (min-0.5) до (max+0.5)
+            let rand = min - 0.5 + Math.random() * (max - min + 1);
+            return Math.round(rand);
+        }
     }
 }
 </script>
