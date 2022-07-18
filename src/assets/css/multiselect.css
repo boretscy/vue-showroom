@@ -79,11 +79,9 @@ fieldset[disabled] .multiselect {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
-  
   .multiselect--active .multiselect__select {
-    transform: none;
+    transform: rotateZ(180deg);
   }
-  
   .multiselect--above.multiselect--active .multiselect__current,
   .multiselect--above.multiselect--active .multiselect__input,
   .multiselect--above.multiselect--active .multiselect__tags {
@@ -213,7 +211,7 @@ fieldset[disabled] .multiselect {
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    transition: none;
+    transition: transform 0.2s ease;
   }
   .multiselect__select:before {
     position: relative;
