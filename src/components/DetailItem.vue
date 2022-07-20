@@ -57,7 +57,7 @@
                        <div class="car__grid-box__dc-title detail_bg">{{ vehicle.dealership.name }}</div>
                        <div class="car__grid-box__dc-item">
                            <span class="car__grid-box__dc-item_status --in-stock">{{ vehicle.status.name }}</span>
-                           <span class="car__grid-box__dc-item_update">Обновлено {{ vehicle.updated }}</span>
+                           <span class="car__grid-box__dc-item_update">Обновлено {{ vehicle._updated }}</span>
                        </div>
                        <a :href="'tel:+'+FormatPhoneIn(vehicle.dealership.phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(vehicle.dealership.phone) }}</a>
                        <div class="car__grid-box__status-links">

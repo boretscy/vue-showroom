@@ -1,90 +1,53 @@
 <template>
     <div class="yapps-cis">
-        <div class="close_box">
+        <router-link to="/" class="close_box">
             <div class="close"></div>
-        </div>
+        </router-link>
         <div class="tab">
             <div class="tab_head">
-                <button
-                        class="button --is-active">
+                <button class="button --is-active">
                     <span>Избранное</span>
                     <span class="count">7</span>
                 </button>
-                <button class="button">
+                <!-- <button class="button">
                     <span>Просмотренное</span>
                     <span class="count">27</span>
-                </button>
+                </button> -->
             </div>
             <div class="tab_content">
                 <div class="tab_content-item --is-active" id="equipment">
                     <div class="model__grid">
-                        <div class="model__grid-card">
-                            <div class="model__grid-card__head">
-                                <div class="model__grid-card__head--img">
-                                    <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" alt="vesta">
-                                </div>
-                                <div class="model__grid-card__head--top">
-                                    <div class="model__grid-card__head--top_discont">
-                                        до 153 000 <span class="rub">₽</span>
-                                    </div>
-                                    <div class="model__grid-card__head--top_icons">
-                                        <a href="#">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#favorites"></use>
-                                            </svg>
-                                        </a>
-                                        <a href="#">
-                                            <svg class="icon">
-                                                <use xlink:href="assets/img/sprites.svg#compare"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="model__grid-card__content">
-                                <div class="model__grid-card__content--title">Vesta Luxe EnjoY Pro</div>
-                                <div class="model__grid-card__content--list">
-                                    <span class="model__grid-card__content--list-item">2022</span>
-                                    <span class="model__grid-card__content--list-item">Седан </span>
-                                    <span class="model__grid-card__content--list-item">МКПП-5 Передний привод</span>
-                                    <span class="model__grid-card__content--list-item">1,6 л / 106 л.с.</span>
-                                </div>
-                            </div>
-                            <div class="model__grid-card__footer">
-                                <div class="model__grid-card__content--status --in-transit">В пути</div>
-                                <div class="model__grid-card__content--price">
-                                    <div class="model__grid-card__content--price_curent">1 500 000 <span class="rub">₽</span></div>
-                                    <div class="model__grid-card__content--price_discont">1 800 000 <span class="rub">₽</span></div>
-                                </div>
-                                <button class="button w100 transparent">
-                                    <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                                </button>
-                            </div>
-                        </div>
+                        <item-grid 
+                            v-for="item in items"
+                            :key="item.id"
+                            :brand="item.brand"
+                            :model="item.model"
+                            :item="item"
+                            />
                     </div>
                 </div>
-                <div class="tab_content-item">
+                <!-- <div class="tab_content-item">
                     <div class="tabs_content-item__list">Установка автосигнализации с обратной связью</div>
                     <div class="tabs_content-item__list">Обработка антрикоррозийная</div>
                     <div class="tabs_content-item__list">Тонирование стекол</div>
-                </div>
+                </div> -->
             </div>
         </div>
 	</div>
 </template>
 
 <script>
-import IconBase from '@/components/IconBase.vue'
-import IconCisfavorites from '@/components/icons/IconCisfavorites.vue'
-import IconCiscompare from '@/components/icons/IconCiscompare.vue'
+import ItemGrid from '@/components/items/ItemGrid.vue'
 
 export default {
 	name: 'Favorites',
 	components: {
-        
+        ItemGrid
 	},
 	data() {
 		return {
+            items: null,
+            favorites: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
 		}
 	},
 	computed: {
@@ -92,6 +55,13 @@ export default {
 	watch: {
 	},
 	mounted: function() {
+
+
+        let url = this.$store.state.apiUrl+'vehicles/all/?token='+this.$store.state.apiToken+'&id='+this.favorites.join(',')
+        this.axios.get(url).then((response) => {
+            this.items = response.data.items
+        })
+
 	},
 }
 </script>
@@ -497,6 +467,7 @@ export default {
     }
     .close_box {
         position: relative;
+        display: block;
     }
     .close {
         --width: 1em;

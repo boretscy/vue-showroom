@@ -1,7 +1,7 @@
 <template>
     <div class="model__grid-card">
         <div class="model__grid-card__head">
-            <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__head--img">
+            <router-link :to="'/'+brand.code+'/'+model.code+'/'+item.id" class="model__grid-card__head--img">
                 <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name" v-if="item.images.length">
                 
                 <icon-base icon-name="ciscrossover" v-if="!item.images.length && body == 'crossover'"><icon-ciscrossover /></icon-base>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="model__grid-card__content">
-            <router-link :to="'/'+brand.alias+'/'+model.alias+'/'+item.id" class="model__grid-card__content--title">{{ item.brand_name+' '+item.ref_model_name+' '+((item.equipment)?item.equipment:'') }}</router-link>
+            <router-link :to="'/'+brand.code+'/'+model.code+'/'+item.id" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
                 <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
@@ -101,6 +101,7 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             }
         }, 500);
+        console.log(this.item)
     },
     methods: {
         toggleLocstore(elem, id = this.item.id) {

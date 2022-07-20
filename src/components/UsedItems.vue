@@ -17,13 +17,6 @@
                 :model="item.model"
                 :item="item"
                 />
-            <cta-grid 
-                title="Рассчитайте ежемесячный платеж"
-                link="#"
-                button="Получить одобрение"
-                icon="credit"
-                v-if="viewMode == 'grid'"
-                />
         </div>
         <div 
             class="model__grid"
@@ -44,12 +37,11 @@
 <script>
 import ItemGrid from '@/components/items/ItemGrid.vue'
 import ItemLine from '@/components/items/ItemLine.vue'
-import CtaGrid from '@/components/cta/CtaGrid.vue'
 
 export default {
 	name: 'ListItems',
 	components: {
-        ItemGrid, ItemLine, CtaGrid
+        ItemGrid, ItemLine
 	},
 	data() {
 		return {
