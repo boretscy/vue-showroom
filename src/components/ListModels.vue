@@ -98,7 +98,6 @@ export default {
                     this.models.sort((a, b) => a.name > b.name ? 1 : -1);
                     this.random_cta = this.$store.state.global.cta[this.randomInteger(0, 3)]
                     this.models.splice(this.randomInteger(2, this.models.length), 0, this.random_cta)
-                    console.log(this.models)
                     window.scrollTo(0,0);
                 })
                 url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken

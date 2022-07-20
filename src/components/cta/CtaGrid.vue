@@ -1,5 +1,5 @@
 <template>
-    <a :href="link" class="available__grid-item grid__icon-form">
+    <a :href="cta.link" class="available__grid-item grid__icon-form">
         <div class="grid-item__head">
             <div class="grid-item__head-img">
                 <icon-base icon-name="ctacredit" v-if="cta.code == 'credit'"><icon-ctacredit /></icon-base>
@@ -29,7 +29,6 @@ export default {
         IconBase, IconCtacredit, IconCtatradein, IconCtasell,IconCtaselect
     },
     mounted: function() {
-        console.log(this.cta)
     }
 }
 </script>

@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="model__grid-card__content">
-            <router-link :to="'/'+brand.code+'/'+model.code+'/'+item.id" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
+            <router-link :to="'/'+brand.code+'/'+model.code+'/'+item.id" class="model__grid-card__content--title">{{ brand.name+' '+model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
                 <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>

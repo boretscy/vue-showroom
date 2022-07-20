@@ -18,13 +18,6 @@
                 :model="model"
                 :item="item"
                 />
-            <cta-grid 
-                title="Рассчитайте ежемесячный платеж"
-                link="#"
-                button="Получить одобрение"
-                icon="credit"
-                v-if="viewMode == 'grid'"
-                />
         </div>
         <div 
             class="model__grid"
@@ -45,12 +38,11 @@
 <script>
 import ItemGrid from '@/components/items/ItemGrid.vue'
 import ItemLine from '@/components/items/ItemLine.vue'
-import CtaGrid from '@/components/cta/CtaGrid.vue'
 
 export default {
 	name: 'ListItems',
 	components: {
-        ItemGrid, ItemLine, CtaGrid
+        ItemGrid, ItemLine
 	},
 	data() {
 		return {
@@ -58,7 +50,8 @@ export default {
 			brand: null,
             model: null,
 			showMore: false,
-			count: 0
+			count: 0,
+            random_cta: null
 		}
 	},
 	computed: {
@@ -127,6 +120,12 @@ export default {
         })
 	},
     methods: {
+        
+        randomInteger(min, max) {
+        // получить случайное число от (min-0.5) до (max+0.5)
+            let rand = min - 0.5 + Math.random() * (max - min + 1);
+            return Math.round(rand);
+        }
     }
 }
 </script>
