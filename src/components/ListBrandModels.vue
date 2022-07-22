@@ -21,13 +21,8 @@
                     :cta="model"
                     v-if="model.name == 'random_cta'"/>
                 <model-grid 
-                    :discount="model.Discount"
-                    :price="Number(model.min_price)"
-                    :colors="model._colors"
-                    :cis="model.vehicles"
-                    :name="model.name"
+                    :model="model"
                     :picture="model.image || null"
-                    :body="model.body.code"
                     :brand="brand.code"
                     :link="buildLink(model.code)"
                     v-else/>
@@ -41,13 +36,8 @@
             <model-line 
                 v-for="model in brand._models"
                 :key="model.id"
-                :discount="model.has_discounts"
-                :price="Number(model.min_price)"
-                :colors="model._colors"
-                :cis="model.vehicles"
-                :name="model.name"
+                :model="model"
                 :picture="model.image || null"
-                :body="model.body.code"
                 :brand="brand.code"
                 :link="buildLink(model.code)"/>
             <!-- <cta-line 

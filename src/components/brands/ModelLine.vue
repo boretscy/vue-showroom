@@ -1,33 +1,31 @@
 <template>
-    <div class="available__grid available__line">
-        <div class="available__grid-item">
-            <div class="grid-item__head">
-                <router-link :to="link" class="grid-item__head-img">
-                    <img :src="picture" :alt="brand + ' ' + name" v-if="picture">
-                    <icon-base icon-name="ciscrossover" v-if="!picture && body == 'crossover'"><icon-ciscrossover /></icon-base>
-                    <icon-base icon-name="ciscupe" v-if="!picture && body == 'cupe'"><icon-ciscupe /></icon-base>
-                    <icon-base icon-name="cisliftback" v-if="!picture && body == 'liftback'"><icon-cisliftback /></icon-base>
-                    <icon-base icon-name="cishatchback" v-if="!picture && body == 'hatchback'"><icon-cishatchback /></icon-base>
-                    <icon-base icon-name="cismicrobus" v-if="!picture && body == 'microbus'"><icon-cismicrobus /></icon-base>
-                    <icon-base icon-name="cisminivan" v-if="!picture && body == 'minivan'"><icon-cisminivan /></icon-base>
-                    <icon-base icon-name="cispickup" v-if="!picture && body == 'pickup'"><icon-cispickup /></icon-base>
-                    <icon-base icon-name="cissedan" v-if="!picture && body == 'sedan'"><icon-cissedan /></icon-base>
-                    <icon-base icon-name="cissuv" v-if="!picture && body == 'suv'"><icon-cissuv /></icon-base>
-                    <icon-base icon-name="cisvan" v-if="!picture && body == 'van'"><icon-cisvan /></icon-base>
-                    <icon-base icon-name="ciswagon" v-if="!picture && body == 'wagon'"><icon-ciswagon /></icon-base>
-                </router-link>
-                <div class="grid-item__head-discont" v-if="discount">Выгода</div>
-            </div>
-            <div class="head_items">
-                <div class="grid-item__head-discont--grid_line" v-if="discount">Выгода</div>
-                <router-link :to="link" class="grid-item__title">{{ name }}</router-link>
-            </div>
-            <div class="grid-item__sub">
-                <span class="grid-item__sub--items">{{ Format( Number(cis) ) }} автомобилей</span>
-                <span class="grid-item__sub--items">{{ Format( Number(colors) ) }} цветов</span>
-            </div>
-            <button class="button transparent w100">от {{ Format( Number(price) ) }} <span class="rub">₽</span></button>
+    <div class="available__grid-item">
+        <div class="grid-item__head">
+            <router-link :to="link" class="grid-item__head-img">
+                <img :src="picture" :alt="brand + ' ' + model.name" v-if="picture">
+                <icon-base icon-name="ciscrossover" v-if="!picture && model.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
+                <icon-base icon-name="ciscupe" v-if="!picture && model.body.code == 'cupe'"><icon-ciscupe /></icon-base>
+                <icon-base icon-name="cisliftback" v-if="!picture && model.body.code == 'liftback'"><icon-cisliftback /></icon-base>
+                <icon-base icon-name="cishatchback" v-if="!picture && model.body.code == 'hatchback'"><icon-cishatchback /></icon-base>
+                <icon-base icon-name="cismicrobus" v-if="!picture && model.body.code == 'microbus'"><icon-cismicrobus /></icon-base>
+                <icon-base icon-name="cisminivan" v-if="!picture && model.body.code == 'minivan'"><icon-cisminivan /></icon-base>
+                <icon-base icon-name="cispickup" v-if="!picture && model.body.code == 'pickup'"><icon-cispickup /></icon-base>
+                <icon-base icon-name="cissedan" v-if="!picture && model.body.code == 'sedan'"><icon-cissedan /></icon-base>
+                <icon-base icon-name="cissuv" v-if="!picture && model.body.code == 'suv'"><icon-cissuv /></icon-base>
+                <icon-base icon-name="cisvan" v-if="!picture && model.body.code == 'van'"><icon-cisvan /></icon-base>
+                <icon-base icon-name="ciswagon" v-if="!picture && body.code == 'wagon'"><icon-ciswagon /></icon-base>
+            </router-link>
+            <div class="grid-item__head-discont" v-if="model.Discount">Выгода</div>
         </div>
+        <div class="head_items">
+            <div class="grid-item__head-discont--grid_line" v-if="model.Discount">Выгода</div>
+            <router-link :to="link" class="grid-item__title">{{ model.name }}</router-link>
+        </div>
+        <div class="grid-item__sub">
+            <span class="grid-item__sub--items">{{ Format( Number(model.vehicles) ) }} {{ getWorld(Number(model.vehicles), 'a') }}</span>
+            <span class="grid-item__sub--items">{{ Format( Number(model._colors) ) }} {{ getWorld(Number(model._colors), 'c') }}</span>
+        </div>
+        <button class="button transparent w100">от {{ Format( Number(model.min_price) ) }} <span class="rub">₽</span></button>
     </div>
 </template>
 
@@ -53,7 +51,7 @@ export default {
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
         IconCissuv, IconCisvan, IconCiswagon
     },
-    props: ['discount', 'price', 'colors', 'cis', 'picture', 'name', 'brand', 'link', 'body'],
+    props: ['picture', 'brand', 'link', 'model'],
     methods: {
         Format(q) {
 			
