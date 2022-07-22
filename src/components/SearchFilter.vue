@@ -303,7 +303,7 @@ export default {
             brandValue: [],
             brandOptions: this.$store.state.global.brands,
 
-            modelValue: this.$store.state.modeOptions[this.$store.state.mode],
+            modelValue: [],
             modelOptions: [],
 
             transmissionsValue: [],
