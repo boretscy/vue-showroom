@@ -10,7 +10,7 @@
                     <span class="count">{{ favorites.length }}</span>
                 </button>
                 <button class="button" @click.prevent="clear">
-                    <span>Очистить избранное</span>
+                    <span>Очистить</span>
                 </button>
             </div>
             <div class="tab_content">
