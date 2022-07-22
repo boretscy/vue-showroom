@@ -7,12 +7,11 @@
             <div class="tab_head">
                 <button class="button --is-active">
                     <span>Избранное</span>
-                    <span class="count">7</span>
+                    <span class="count">{{ favorites.length }}</span>
                 </button>
-                <!-- <button class="button">
-                    <span>Просмотренное</span>
-                    <span class="count">27</span>
-                </button> -->
+                <button class="button" @click.prevent="clear">
+                    <span>Очистить избранное</span>
+                </button>
             </div>
             <div class="tab_content">
                 <div class="tab_content-item --is-active" id="equipment">
@@ -63,6 +62,13 @@ export default {
         })
 
 	},
+    methods: {
+        clear() {
+            this.items = []
+            this.favorites = []
+            localStorage.setItem('CIS_FAVORITES', JSON.stringify([]))
+        }
+    }
 }
 </script>
 
