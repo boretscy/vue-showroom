@@ -101,7 +101,6 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             }
         }, 500);
-        console.log(this.item)
     },
     methods: {
         toggleLocstore(elem, id = this.item.id) {

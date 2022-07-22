@@ -61,6 +61,14 @@ export default {
             this.items = response.data.items
         })
 
+        setInterval(() => {
+            
+            this.favorites = JSON.parse(localStorage.getItem('CIS_FAVORITES')) || []
+            this.items.forEach((i, k) => {
+                if ( !this.favorites.includes(i.id) ) this.items.splice(k, 1)
+            })
+        }, 500);
+
 	},
     methods: {
         clear() {
