@@ -1,23 +1,23 @@
 <template>
     <div class="model__grid-card">
         <div class="model__grid-card__head">
-            <router-link :to="'/'+brand.code+'/'+model.code+'/'+item.id" class="model__grid-card__head--img">
-                <img :src="item.images[0].preview_large" :alt="brand.name+' '+model.name" v-if="item.images.length">
+            <router-link :to="link" class="model__grid-card__head--img">
+                <img :src="item._images[0].big" :alt="brand.name+' '+model.name" v-if="item._images.length">
                 
-                <icon-base icon-name="ciscrossover" v-if="!item.images.length && body == 'crossover'"><icon-ciscrossover /></icon-base>
-                <icon-base icon-name="ciscupe" v-if="!item.images.length && body == 'cupe'"><icon-ciscupe /></icon-base>
-                <icon-base icon-name="cisliftback" v-if="!item.images.length && body == 'liftback'"><icon-cisliftback /></icon-base>
-                <icon-base icon-name="cishatchback" v-if="!item.images.length && body == 'hatchback'"><icon-cishatchback /></icon-base>
-                <icon-base icon-name="cismicrobus" v-if="!item.images.length && body == 'microbus'"><icon-cismicrobus /></icon-base>
-                <icon-base icon-name="cisminivan" v-if="!item.images.length && body == 'minivan'"><icon-cisminivan /></icon-base>
-                <icon-base icon-name="cispickup" v-if="!item.images.length && body == 'pickup'"><icon-cispickup /></icon-base>
-                <icon-base icon-name="cissedan" v-if="!item.images.length && body == 'sedan'"><icon-cissedan /></icon-base>
-                <icon-base icon-name="cissuv" v-if="!item.images.length && body == 'suv'"><icon-cissuv /></icon-base>
-                <icon-base icon-name="cisvan" v-if="!item.images.length && body == 'van'"><icon-cisvan /></icon-base>
-                <icon-base icon-name="ciswagon" v-if="!item.images.length && body == 'wagon'"><icon-ciswagon /></icon-base>
+                <icon-base icon-name="ciscrossover" v-if="!item._images.length && body == 'crossover'"><icon-ciscrossover /></icon-base>
+                <icon-base icon-name="ciscupe" v-if="!item._images.length && body == 'cupe'"><icon-ciscupe /></icon-base>
+                <icon-base icon-name="cisliftback" v-if="!item._images.length && body == 'liftback'"><icon-cisliftback /></icon-base>
+                <icon-base icon-name="cishatchback" v-if="!item._images.length && body == 'hatchback'"><icon-cishatchback /></icon-base>
+                <icon-base icon-name="cismicrobus" v-if="!item._images.length && body == 'microbus'"><icon-cismicrobus /></icon-base>
+                <icon-base icon-name="cisminivan" v-if="!item._images.length && body == 'minivan'"><icon-cisminivan /></icon-base>
+                <icon-base icon-name="cispickup" v-if="!item._images.length && body == 'pickup'"><icon-cispickup /></icon-base>
+                <icon-base icon-name="cissedan" v-if="!item._images.length && body == 'sedan'"><icon-cissedan /></icon-base>
+                <icon-base icon-name="cissuv" v-if="!item._images.length && body == 'suv'"><icon-cissuv /></icon-base>
+                <icon-base icon-name="cisvan" v-if="!item._images.length && body == 'van'"><icon-cisvan /></icon-base>
+                <icon-base icon-name="ciswagon" v-if="!item._images.length && body == 'wagon'"><icon-ciswagon /></icon-base>
             </router-link>
             <div class="model__grid-card__head--top">
-                <div class="model__grid-card__head--top_discont" v-if="item.discounts">
+                <div class="model__grid-card__head--top_discont" v-if="item.Discount">
                     до {{ Format(discount) }} <span class="rub">₽</span>
                 </div>
                 <div class="model__grid-card__head--top_icons">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="model__grid-card__content">
-            <router-link :to="'/'+brand.code+'/'+model.code+'/'+item.id" class="model__grid-card__content--title">{{ brand.name+' '+model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
+            <router-link :to="link" class="model__grid-card__content--title">{{ brand.name+' '+model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
                 <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
@@ -85,16 +85,28 @@ export default {
             locstore: {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
-            }
+            },
+            link: '/'
         }
     },
     computed: {
         discount: function() {
 
             return this.item.price - this.item.min_price
-        }
+        },
+
     },
     mounted: function() {
+        this.link = '/'
+        this.link += this.item.brand.code
+        this.link += '/'
+        this.link += this.item.model.code || ' '
+        this.link += '/'
+        this.link += this.item.id
+
+            console.log( this.link )
+
+
         setInterval(() => {
             this.locstore = {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
@@ -144,7 +156,7 @@ export default {
     position: relative;
 }
 .model__grid-card__head--img {
-    --heigth: 200px;
+    --heigth: 240px;
     background: var(--yawhite);
     min-height: var(--heigth);
     height: 100%;

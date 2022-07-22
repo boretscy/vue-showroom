@@ -303,7 +303,7 @@ export default {
             brandValue: [],
             brandOptions: this.$store.state.global.brands,
 
-            modelValue: [],
+            modelValue: this.$store.state.modeOptions[this.$store.state.mode],
             modelOptions: [],
 
             transmissionsValue: [],
@@ -409,8 +409,23 @@ export default {
         
     },
     watch: {
-        modeValue: function(newValue) {
-            window.location.href = newValue.code;
+        modeValue: function(n, o) {
+            if ( o.code ) {
+                this.$store.state.mode = n.code;
+                this.initFilter()
+            }
+            
+            // let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            //     for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+            //     if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
+            //     if ( this.$route.params.model ) url += '&model='+this.$route.params.model
+            //     this.axios.get(url).then((response) => {
+            //         this.filter = response.data
+            //         this.totalCount = this.filter.totalCount
+            //         this.filterList = this.filter.dropLists.brands
+            //         this.brands = this.filter.dropLists.brands
+            //         this.link = this.buildLink(this.buildQuery())
+            //     })
         },
 
         brandValue: function(newValue) {
@@ -559,6 +574,8 @@ export default {
 
         // drops
         getStartDropsValues() {
+
+            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode]
 
             if ( this.$route.params.brand ) {
                 this.$store.state.global.brands.forEach( (i) => {
@@ -785,8 +802,6 @@ export default {
                 l += '&minyear='+this.filter.ranges.year.value[0]
                 l += '&maxyear='+this.filter.ranges.year.value[1]
             }
-
-            console.log(l)
 
             return l
         },

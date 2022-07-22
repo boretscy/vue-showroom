@@ -2,10 +2,10 @@
     <div class="yapps-cis">
         <div class="tab">
             <div class="tab_head">
-                <button class="button --is-active">
+                <router-link to="/favorites" class="button --is-active">
                     <span>Избранное</span>
                     <span class="count">{{ favorites.length }}</span>
-                </button>
+                </router-link >
                 <button class="button" @click.prevent="clear">
                     <span>Очистить</span>
                 </button>
