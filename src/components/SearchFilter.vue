@@ -327,7 +327,7 @@ export default {
                 brand: null,
                 model: null,
                 price: null,
-                transmition: null,
+                transmission: null,
                 volume: null,
                 power: null,
                 engine: null,
@@ -577,8 +577,8 @@ export default {
                 })
             }
              
-            if ( this.$route.query.transmition ) {
-                this.$route.query.transmition.split(',').forEach( (qi) => {
+            if ( this.$route.query.transmission ) {
+                this.$route.query.transmission.split(',').forEach( (qi) => {
                     this.filter.dropLists.transmissions.forEach( (i) => {
                         if ( i.code == qi ) {
                             this.transmissionsValue.push(i)
@@ -723,46 +723,50 @@ export default {
         
         // link
         buildQuery() {
-            let  s = [], l = '?'
+            let  s = [], a = [], l = '?'
 
             if ( this.brandValue.length ) {
-                this.brandValue.forEach( function(i) { s.push(i.code) })
+                this.brandValue.forEach((i) => { s.push(i.code) })
                 l += 'brand='+s.join(',')
             }
             s = []
             if ( this.modelValue.length ) {
-                this.modelValue.forEach( function(i) { s.push(i.code) })
+                this.modelValue.forEach( (i) => { s.push(i.code) })
                 l += '&model='+s.join(',')
             }
             s = []
             if ( this.transmissionsValue.length ) {
-                this.transmissionsValue.forEach( function(i) { s.push(i.code) })
-                l += '&transmition='+s.join(',')
+                this.transmissionsValue.forEach((i) => { s.push(i.code) })
+                l += '&transmission='+s.join(',')
             }
             s = []
             if ( this.engineValue.length ) {
-                this.engineValue.forEach( function(i) { s.push(i.code) })
+                this.engineValue.forEach((i) => { s.push(i.code) })
                 l += '&engine='+s.join(',')
             }
             s = []
             if ( this.colorValue.length ) {
-                this.colorValue.forEach( function(i) { s.push(i.code) })
+                this.colorValue.forEach((i) => { s.push(i.code) })
                 l += '&color='+s.join(',')
             }
             s = []
             if ( this.bodyValue.length ) {
-                this.bodyValue.forEach( function(i) { s.push(i.code) })
+                this.bodyValue.forEach((i) => { s.push(i.code) })
                 l += '&body='+s.join(',')
             }
             s = []
             if ( this.driveValue.length ) {
-                this.driveValue.forEach( function(i) { s.push(i.code) })
+                this.driveValue.forEach((i) => { s.push(i.code) })
                 l += '&drive='+s.join(',')
             }
             s = []
             if ( this.dealershipValue.length ) {
-                this.dealershipValue.forEach( function(i) { s.push(i.code) })
+                this.dealershipValue.forEach((i) => { 
+                    s.push(i.code)
+                    if ( !this.brandValue.length ) a.push(i.brand)
+                })
                 l += '&dealership='+s.join(',')
+                if ( a.length ) l += this.buildPartQuery(a, 'brand')
             }
 
             if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
@@ -781,6 +785,8 @@ export default {
                 l += '&minyear='+this.filter.ranges.year.value[0]
                 l += '&maxyear='+this.filter.ranges.year.value[1]
             }
+
+            console.log(l)
 
             return l
         },
@@ -812,6 +818,18 @@ export default {
             }
 
             return l+((q.length)?'?':'')+q.slice(0, -1)
+        },
+        buildPartQuery( data = [], name, ampersand = true ) {
+            
+            let res = ''
+
+            if ( ampersand ) res += '&'
+            res += name+'='
+            res += data.join(',')
+
+            console.log(res);
+
+            return res
         },
 
         getModels(brands) {
