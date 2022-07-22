@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex__head">
-            <router-link :to="brand.alias" class="flex__head-title h2" v-if="brand">
+            <router-link :to="brand.code" class="flex__head-title h2" v-if="brand">
                 {{ brand.name }}
                 <span class="flex__head-count">{{ count }}</span>
             </router-link>
@@ -15,14 +15,9 @@
                     :cta="model"
                     v-if="model.name == 'random_cta'"/>
                 <model-grid 
-                    :discount="model.Discount"
-                    :price="Number(model.min_price)"
-                    :colors="model._colors"
-                    :cis="model.statistics['1'].counter + model.statistics['2'].counter"
-                    :name="model.name"
                     :picture="model.image || null"
-                    :body="model.body.code"
                     :brand="$route.params.brand"
+                    :model="model"
                     :link="buildLink(model.alias)"
                     v-else/>
             </div>
@@ -36,9 +31,6 @@
                 v-for="model in models"
                 :key="model.id">
                 <model-line 
-                    :discount="model.Discount"
-                    :price="Number(model.min_price)"
-                    :colors="model._colors"
                     :cis="model.statistics['1'].counter + model.statistics['2'].counter"
                     :name="model.name"
                     :picture="model.image || null"

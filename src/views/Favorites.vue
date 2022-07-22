@@ -1,8 +1,5 @@
 <template>
     <div class="yapps-cis">
-        <router-link to="/" class="close_box">
-            <div class="close"></div>
-        </router-link>
         <div class="tab">
             <div class="tab_head">
                 <button class="button --is-active">
@@ -32,6 +29,14 @@
                 </div> -->
             </div>
         </div>
+        <div class="tab" v-if="!favorites.length">
+            <div class="tab_head">
+                <h3>Вы не добавили автомобили в "Избранное"</h3>
+            </div>
+            <div class="tab_content">
+                <router-link to="/">Перейти к выбору авто &rarr;</router-link>
+            </div>
+        </div>
 	</div>
 </template>
 
@@ -55,11 +60,12 @@ export default {
 	},
 	mounted: function() {
 
-
-        let url = this.$store.state.apiUrl+'vehicles/all/?token='+this.$store.state.apiToken+'&id='+this.favorites.join(',')
-        this.axios.get(url).then((response) => {
-            this.items = response.data.items
-        })
+        if ( this.favorites.length ) {
+            let url = this.$store.state.apiUrl+'vehicles/all/?token='+this.$store.state.apiToken+'&id='+this.favorites.join(',')
+            this.axios.get(url).then((response) => {
+                this.items = response.data.items
+            })
+        }
 
         setInterval(() => {
             
