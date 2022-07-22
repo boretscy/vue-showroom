@@ -767,10 +767,11 @@ export default {
             if ( this.dealershipValue.length ) {
                 this.dealershipValue.forEach((i) => { 
                     s.push(i.code)
-                    if ( !this.brandValue.length ) a.push(i.brand)
+                    if ( !this.brandValue.length && i.code == 1309 ) a.push(i.brand)
                 })
                 l += '&dealership='+s.join(',')
                 if ( a.length ) l += this.buildPartQuery(a, 'brand')
+                console.log(l)
             }
 
             if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
