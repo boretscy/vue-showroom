@@ -411,7 +411,6 @@ export default {
     watch: {
         modeValue: function(n, o) {
             if ( o.code ) {
-                this.$store.state.mode = n.code;
                 window.location.href = '/cars/'+n.code;
             }
         },
