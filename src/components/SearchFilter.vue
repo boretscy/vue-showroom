@@ -412,20 +412,8 @@ export default {
         modeValue: function(n, o) {
             if ( o.code ) {
                 this.$store.state.mode = n.code;
-                this.initFilter()
+                window.location.href = '/cars/'+n.code;
             }
-            
-            // let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-            //     for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-            //     if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
-            //     if ( this.$route.params.model ) url += '&model='+this.$route.params.model
-            //     this.axios.get(url).then((response) => {
-            //         this.filter = response.data
-            //         this.totalCount = this.filter.totalCount
-            //         this.filterList = this.filter.dropLists.brands
-            //         this.brands = this.filter.dropLists.brands
-            //         this.link = this.buildLink(this.buildQuery())
-            //     })
         },
 
         brandValue: function(newValue) {
