@@ -11,6 +11,7 @@
                 <icon-base icon-name="cisminivan" v-if="!picture && model.body.code == 'minivan'"><icon-cisminivan /></icon-base>
                 <icon-base icon-name="cispickup" v-if="!picture && model.body.code == 'pickup'"><icon-cispickup /></icon-base>
                 <icon-base icon-name="cissedan" v-if="!picture && model.body.code == 'sedan'"><icon-cissedan /></icon-base>
+                <icon-base icon-name="cissedan" v-if="!picture && model.body.code == 'none'"><icon-cissedan /></icon-base>
                 <icon-base icon-name="cissuv" v-if="!picture && model.body.code == 'suv'"><icon-cissuv /></icon-base>
                 <icon-base icon-name="cisvan" v-if="!picture && model.body.code == 'van'"><icon-cisvan /></icon-base>
                 <icon-base icon-name="ciswagon" v-if="!picture && model.body.code == 'wagon'"><icon-ciswagon /></icon-base>
