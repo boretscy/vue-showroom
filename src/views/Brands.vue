@@ -84,6 +84,7 @@ export default {
             immediate: true,
             handler() {
                 let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+				if (this.$store.state.city) url += '&city='+this.$store.state.city
 				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 				this.axios.get(url).then((response) => {
 					this.brands = response.data
@@ -93,7 +94,16 @@ export default {
         },
 		sortMode: function(v) {
 			this.sort(v)
-		}
+		},
+        '$store.state.city': function() {
+            let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            this.axios.get(url).then((response) => {
+                this.axios.get(url).then((response) => {
+					this.brands = response.data
+				})
+            })
+        }
     },
 	mounted: function() {
 		

@@ -3,7 +3,7 @@
         <div class="flex__head">
             <router-link :to="brand.code" class="flex__head-title h2" v-if="brand">
                 {{ brand.name }}
-                <span class="flex__head-count">{{ count }}</span>
+                <span class="flex__head-count">{{ brand.vehicles }}</span>
             </router-link>
         </div>
 
@@ -18,7 +18,7 @@
                     :picture="model.image || null"
                     :brand="$route.params.brand"
                     :model="model"
-                    :link="buildLink(model.alias)"
+                    :link="buildLink(model.code)"
                     v-else/>
             </div>
             
@@ -36,7 +36,7 @@
                     :picture="model.image || null"
                     :body="model.body.code"
                     :brand="$route.params.brand"
-                    :link="buildLink(model.alias)"
+                    :link="buildLink(model.code)"
                     />
             </div>
             <!-- <cta-line 
@@ -77,12 +77,12 @@ export default {
             handler(value) {
                 let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 url += '&brand='+value
+                if (this.$store.state.city) url += '&city='+this.$store.state.city
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
                 this.axios.get(url).then((response) => {
                     this.models = response.data
                     this.models.forEach( (item) => {
-                        this.count += item.statistics[1].counter + item.statistics[2].counter
                         if (item.Discount) this.$parent.sortButtons.Discount = true
                         if (item.InStock) this.$parent.sortButtons.InStock = true
                         if (item.OnWay) this.$parent.sortButtons.OnWay = true
@@ -93,6 +93,7 @@ export default {
                     window.scrollTo(0,0);
                 })
                 url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken
+                if (this.$store.state.city) url += '&city='+this.$store.state.city
                 this.axios.get(url).then((response) => {
                     this.brand = response.data
                 })
@@ -111,6 +112,32 @@ export default {
                     this.models.sort((a, b) => a.min_price < b.min_price ? 1 : -1)
                     break;
             }
+        },
+
+        '$store.state.city': function() {
+            let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            url += '&brand='+this.$route.params.brand
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
+
+            this.axios.get(url).then((response) => {
+                this.models = response.data
+                this.models.forEach( (item) => {
+                    this.count += item.statistics[1].counter + item.statistics[2].counter
+                    if (item.Discount) this.$parent.sortButtons.Discount = true
+                    if (item.InStock) this.$parent.sortButtons.InStock = true
+                    if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                })
+                this.models.sort((a, b) => a.name > b.name ? 1 : -1);
+                this.random_cta = this.$store.state.global.cta[this.randomInteger(0, 3)]
+                this.models.splice(this.randomInteger(2, this.models.length), 0, this.random_cta)
+                window.scrollTo(0,0);
+            })
+            url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+this.$route.params.brand+'/?token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            this.axios.get(url).then((response) => {
+                this.brand = response.data
+            })
         }
     },
     methods: {

@@ -104,9 +104,6 @@ export default {
         this.link += '/'
         this.link += this.item.id
 
-            console.log( this.link )
-
-
         setInterval(() => {
             this.locstore = {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],

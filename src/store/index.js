@@ -55,7 +55,10 @@ export default new Vuex.Store({
                     button: 'Подберите автомобиль'
                 }
             ]
-        }
+        },
+        
+        city: localStorage.getItem('YAPP_SELECTED_CITY') || null,
+        inCity: null
     },
     mutations: {
     },

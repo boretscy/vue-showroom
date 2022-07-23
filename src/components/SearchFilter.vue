@@ -9,7 +9,7 @@
                     {{ curModel+' ' }}
                 </span>
                 <span v-if="curBrand"> - </span>
-                {{ Format(totalCount) }} авто
+                {{ Format(totalCount) }} авто <a :href="'/dealerships/?city='+$store.state.city" v-if="$store.state.inCity" role="top-menu-show-list-city">в {{ $store.state.inCity }}</a>
             </router-link>
 		</div>
         <div class="filter__head" v-if="filter">
@@ -475,20 +475,32 @@ export default {
             
         },
         '$route.params.brand': function() {
-            console.log('$route.params.brand')
             this.$store.state.global.brands.forEach( (i) => {
                 if ( i.alias == this.$route.params.brand ) {
                     this.brandValue.push(i)
-                    this.curBrand = i.name
                 }
             })
+            if ( this.brandValue.length == 1 ) this.curModel = this.brandValue[0].name
         },
         '$route.param.model': function() {
             this.modelOptions.forEach( (i) => {
                 if ( i.code == this.$route.params.model ) {
                     this.modelValue.push(i)
-                    this.curBrand = i.name
                 }
+            })
+            if ( this.modelValue.length == 1 ) this.curModel = this.modelValue[0].name
+        },
+        '$store.state.city': function() {
+            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
+            if ( this.$route.params.model ) url += '&model='+this.$route.params.model
+            this.axios.get(url).then((response) => {
+                this.filter = response.data
+                this.totalCount = this.filter.totalCount
+                this.filterList = this.filter.dropLists.brands
+                this.brands = this.filter.dropLists.brands
+                this.link = this.buildLink(this.buildQuery())
             })
         }
     },
@@ -506,6 +518,7 @@ export default {
         initFilter() {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+                if (this.$store.state.city) url += '&city='+this.$store.state.city
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
@@ -522,6 +535,7 @@ export default {
         getFilter(link) {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
+                if (this.$store.state.city) url += '&city='+this.$store.state.city
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
@@ -537,6 +551,7 @@ export default {
         getRangeCount(link) {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
+                if (this.$store.state.city) url += '&city='+this.$store.state.city
                 this.axios.get(url).then((response) => {
                     this.totalCount = response.data.totalCount
                     this.filter.totalCount = response.data.totalCount

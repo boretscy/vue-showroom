@@ -13,31 +13,39 @@ export default {
             GlobalIter: 0
         }
     },
+    watch: {
+        "$store.state.city": function() {
+            let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            this.axios.get(url).then((response) => {
+                this.$store.state.global.brands = response.data.dropLists.brands
+                if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
+            })
+        }
+    },
     mounted: function() {
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
         this.$cookies.set('CIS_DETAIL_PAGE', 0)
 
         let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+        if (this.$store.state.city) url += '&city='+this.$store.state.city
 		this.axios.get(url).then((response) => {
 			this.$store.state.global.brands = response.data.dropLists.brands
+            if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
 		})
 
         if ( this.$store.state.brand ) this.$router.push( this.$store.state.brand )
+
+        setInterval(() => {
+            
+            if ( localStorage.getItem('YAPP_SELECTED_CITY') != this.$store.state.city ) {
+                this.$store.state.city = localStorage.getItem('YAPP_SELECTED_CITY')
+
+            }
+            
+        }, 500);
     },
     methods: {
-
-        // getDefaultFilter() {
-        //     let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-        //     this.axios.get(url).then((response) => {
-        //         response.data.dropLists.bodies.sort((a, b) => a.name > b.name ? 1 : -1);
-        //         response.data.dropLists.dealerships.sort((a, b) => a.name > b.name ? 1 : -1);
-        //         response.data.dropLists.colors.sort((a, b) => a.name > b.name ? 1 : -1);
-        //         response.data.dropLists.engines.sort((a, b) => a.name > b.name ? 1 : -1);
-        //         response.data.dropLists.transmitions.sort((a, b) => a.name > b.name ? 1 : -1);
-        //         response.data.dropLists.drives.sort((a, b) => a.name > b.name ? 1 : -1);
-        //         return response.data
-        //     })
-        // }
     }
 }
 </script>
