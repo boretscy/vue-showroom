@@ -1,13 +1,18 @@
 <template>
     <div id="app" :key="GlobalIter">
         <router-view/>
+        <forms />
     </div>
 </template>
 
 <script>
+import Forms from '@/components/Forms.vue'
 
 export default {
     name: 'App',
+    components: {
+        Forms
+    },
     data() {
         return {
             GlobalIter: 0
@@ -64,6 +69,12 @@ export default {
 	
 	--yablack: #000000;
 	--yawhite: #ffffff;
+
+    --yalightred: #ee9999;
+    --yared: #cc0000;
+
+    --yalightgreen: #99eea0;
+    --yargreen: #1bcc00;
 	
 	--yalightblue: #87cefa;
 	--yablue: #0048a9;

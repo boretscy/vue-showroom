@@ -140,6 +140,10 @@ export default {
             })
         }
     },
+    mounted: function() {
+        this.$store.state.global.selectedVehicle = null
+        this.$store.state.global.selectedVehicleName = ''
+    },
     methods: {
         buildLink(model) {
             let l = '/'+this.$route.params.brand+'/'+model, q = ''

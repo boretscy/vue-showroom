@@ -99,7 +99,7 @@
                             v-if="maxDiscount">
                            {{ Format(vehicle.price) }}<span class="rub">₽</span>
                        </div>
-                       <button class="button hovered-t w100">
+                       <button class="button hovered-t w100" @click="show('offer')">
                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
                        </button>
                    </div>
@@ -219,10 +219,10 @@
                                </div>
                            </div>
                            <div class="car__grid-box-profit__footer">
-                               <button class="button hovered-t w100">
+                               <button class="button hovered-t w100" @click="show('evaluation')">
                                    <span>ОЦЕНИТЬ АВТОМОБИЛЬ</span>
                                </button>
-                               <button class="button hovered-t w100">
+                               <button class="button hovered-t w100" @click="show('credit')">
                                    <span>РАССЧИТАТЬ КРЕДИТ</span>
                                </button>
                            </div>
@@ -642,6 +642,8 @@ export default {
                 swiper: swiperThumb,
             },
         });
+        
+        this.$store.state.global.selectedVehicleName = this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
     },
     methods: {
         /* UI */
@@ -679,6 +681,11 @@ export default {
                 this.locstore[elem].splice(this.locstore[elem].indexOf(id), 1)
             }
             localStorage.setItem('CIS_'+elem, JSON.stringify(this.locstore[elem]))
+        },
+
+        show(modal) {
+            this.$modal.show('form-'+modal)
+            this.$store.state.global.selectedVehicle = this.vehicle.id
         },
 
 

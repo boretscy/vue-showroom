@@ -48,7 +48,7 @@
                 <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
                 <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>
             </div>
-            <button class="button transparent w100">
+            <button class="button transparent w100" @click="show(item.ext_id, brand.name+' '+model.name+' '+((item.equipment)?item.equipment:''))">
                 <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
             </button>
         </div>
@@ -112,6 +112,11 @@ export default {
         }, 500);
     },
     methods: {
+        show(id, name) {
+            this.$modal.show('form-offer')
+            this.$store.state.global.selectedVehicle = id
+            this.$store.state.global.selectedVehicleName = name
+        },
         toggleLocstore(elem, id = this.item.id) {
             
             if ( this.locstore[elem].indexOf(id) < 0) {

@@ -5,9 +5,11 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueCookies from 'vue-cookies'
-// import Vue2TouchEvents from 'vue2-touch-events'
+import vmodal from 'vue-js-modal'
+import VueMask from 'v-mask'
 
-// Vue.use(Vue2TouchEvents)
+Vue.use(VueMask);
+Vue.use(vmodal)
 Vue.use(VueAxios, axios)
 Vue.use(VueCookies, { expire: ''})
 

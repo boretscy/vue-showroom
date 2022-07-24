@@ -5,13 +5,13 @@
                 <icon-base icon-name="ctacredit" v-if="cta.code == 'credit'"><icon-ctacredit /></icon-base>
                 <icon-base icon-name="ctatradein" v-if="cta.code == 'trade-in'"><icon-ctatradein /></icon-base>
                 <icon-base icon-name="ctasell" v-if="cta.code == 'sell'"><icon-ctasell /></icon-base>
-                <icon-base icon-name="ctaselect" v-if="cta.code == 'select'"><icon-ctaselect /></icon-base>
+                <icon-base icon-name="ctaselect" v-if="cta.code == 'offer'"><icon-ctaselect /></icon-base>
             </div>
         </div>
         <div class="head_items">
             <div class="grid-item__title">{{ cta.title }}</div>
         </div>
-        <div class="button transparent">{{ cta.button }}</div>
+        <div class="button transparent" @click="show(cta.code)">{{ cta.button }}</div>
     </a>
 </template>
 
@@ -29,6 +29,11 @@ export default {
         IconBase, IconCtacredit, IconCtatradein, IconCtasell,IconCtaselect
     },
     mounted: function() {
+    },
+    methods: {
+        show(modal) {
+            this.$modal.show('form-'+modal)
+        }
     }
 }
 </script>

@@ -127,6 +127,10 @@ export default {
 
         this.random_cta = this.$store.state.global.cta[this.randomInteger(0, 3)]
         this.brand._models.splice(this.randomInteger(2, this.brand._models.length), 0, this.random_cta)
+
+
+        this.$store.state.global.selectedVehicle = null
+        this.$store.state.global.selectedVehicleName = ''
     },
     methods: {
         buildLink(model) {
