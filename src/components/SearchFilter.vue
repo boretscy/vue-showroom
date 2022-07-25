@@ -506,6 +506,7 @@ export default {
                 this.getModels(newValue).then(()=>{
                     this.resetDrops()
                     this.getFilter(this.buildQuery())
+                    // if ( this.$ ) 
                 })
             } else {
                 this.initFilter().then(() => {
@@ -565,7 +566,8 @@ export default {
                     this.brandValue.push(i)
                 }
             })
-            if ( this.brandValue.length == 1 ) this.curModel = this.brandValue[0].name
+            if ( this.brandValue.length == 1 ) this.curBrand = this.brandValue[0].name
+            if ( this.modelValue.length == 1 ) this.curModel = this.modelValue[0].name
         },
         '$route.param.model': function() {
             this.modelOptions.forEach( (i) => {
@@ -663,6 +665,8 @@ export default {
         getStartDropsValues() {
 
             this.modeValue = this.$store.state.modeOptions[this.$store.state.mode]
+
+            if ( this.modelValue.length == 1 ) this.curModel = this.modelValue[0].name
 
             if ( this.$route.params.brand ) {
                 this.$store.state.global.brands.forEach( (i) => {
@@ -946,6 +950,7 @@ export default {
                 
                 if ( s.length ) {
                     let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken+'&brand='+s.join(',')
+                    if (this.$store.state.city) url += '&city='+this.$store.state.city
                     for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                     this.modelOptions = []
                     let p = this.filter.ranges.price
@@ -956,13 +961,11 @@ export default {
                         response.data.forEach((item) => {
                             pi = {
                                 name: item.name,
-                                code: item.alias,
-                                brand: item.brand,
+                                code: item.code,
+                                brand: item.brand.code,
                                 vehicles: 0
                             }
-                            for ( let i in item.statistics ) {
-                                pi.vehicles += item.statistics[i].counter
-                            }
+                            pi.vehicles += item.vehicles
                             this.modelOptions.push(pi)
                             if ( item.min < p.min ) p.min = item.min
                             if ( item.max > p.max ) p.max = item.max
