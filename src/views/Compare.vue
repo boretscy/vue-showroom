@@ -2,9 +2,6 @@
     <div class="yapps-cis">
         <div class="container">
             <div class="h1">Сравнение автомобилей
-                <div class="close_box">
-                    <div class="close"></div>
-                </div>
             </div>
 
             <div class="tab">
@@ -12,15 +9,15 @@
                     <div class="config_head">
                         <div class="tabs_head">
                             <button class="button transparent --is-active" data-role="tab" data-target="#img">
-                                <span>Только различия</span>
+                                <span>Сравнение</span>
                             </button>
                             <button class="button transparent" data-role="tab" data-target="#movie">
-                                <span>Все параметры</span>
+                                <span>Очистить</span>
                             </button>
                         </div>
                     </div>
                     <div class="config_head-items">
-                        <div class="config_head-items__title">Выбрано 5 автомобилей</div>
+                        <div class="config_head-items__title">Выбрано {{ this.compare.length }} {{ getWorld(this.compare.length, 'a') }}</div>
                         <div class="config_head-items__arrow">
                             <div class="swiper-button-prev compare-prev next-prev-buttons"></div>
                             <div class="swiper-button-next compare-next next-prev-buttons"></div>
@@ -28,14 +25,14 @@
 
                     </div>
                 </div>
-                <div class="tabs_content">
+                <div class="tabs_content"  v-if="compare.length > 0">
                     <div class="tabs_content-item --is-active" id="img">
                         <div class="tabs_content-box">
                             <div class="compare --detail__bg">
                                 <div class="compare-settings">
                                     <a class="compare-settings__item settings__add">
                                         <div class="settings__add-icon"></div>
-                                        <div class="settings__add-text">Добавить авто</div>
+                                        <router-link to="/" class="settings__add-text">Добавить авто</router-link>
                                     </a>
                                     <div class="compare-settings__item settings__head">
                                         <div class="settings__head-item">Бренд, модель, комплектация</div>
@@ -43,32 +40,40 @@
                                     </div>
                                     <div class="compare-settings__item settings__body">
                                         <div class="settings__body-item">
-                                            <div class="settings_accordion --accordion-open">
-                                                <div class="settings_accordion--head">
+                                            <div class="settings_accordion" :class="{'--accordion-open': accordions.main}">
+                                                <div class="settings_accordion--head" @click="accordions.main = !accordions.main">
                                                     <div class="settings_accordion--head__title">Технические параметры</div>
                                                     <div class="tabs_content-item__sub">
                                                         <div class="tabs_content-item__sub-drop">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
+                                                            <icon-base
+                                                                icon-name="corner"
+                                                                :class="{'up': accordions.main, 'down': !accordions.main}"
+                                                                ><icon-corner />
+                                                            </icon-base>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="settings_accordion--body">
                                                     <div class="settings_accordion--body_list">Кузов</div>
-                                                    <div class="settings_accordion--body_list">Цвет</div>
+                                                    <div class="settings_accordion--body_list">Цвет кузова</div>
+                                                    <div class="settings_accordion--body_list">Масса</div>
                                                     <div class="settings_accordion--body_list">Мощность</div>
                                                     <div class="settings_accordion--body_list">Тип двигателя</div>
+                                                    <div class="settings_accordion--body_list">Расход топлива</div>
+                                                    <div class="settings_accordion--body_list">Максимальная скорость</div>
+                                                    <div class="settings_accordion--body_list">Год выпуска</div>
                                                 </div>
                                             </div>
-                                            <div class="settings_accordion">
-                                                <div class="settings_accordion--head">
+                                            <div class="settings_accordion" :class="{'--accordion-open': accordions.sizes}">
+                                                <div class="settings_accordion--head" @click="accordions.sizes = !accordions.sizes">
                                                     <div class="settings_accordion--head__title">Размеры</div>
                                                     <div class="tabs_content-item__sub">
                                                         <div class="tabs_content-item__sub-drop">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
+                                                            <icon-base
+                                                                icon-name="corner"
+                                                                :class="{'up': accordions.sizes, 'down': !accordions.maisizesn}"
+                                                                ><icon-corner />
+                                                            </icon-base>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -85,229 +90,85 @@
                             <div class="compare-slider">
                                 <div class="swiper com-slide">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
+                                        <div 
+                                            class="swiper-slide"
+                                            v-for="(item, indx) in items"
+                                            :key="indx">
                                             <div class="compare-card">
                                                 <div class="compare-card__img">
-                                                    <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" alt="">
-                                                    <div class="compare-card__img-icon" title="Удалить автомобиль">
-                                                        <svg class="icon">
-                                                            <use xlink:href="assets/img/sprites.svg#trash-can"></use>
-                                                        </svg>
+                                                    <img :src="item._images[0].big" alt="">
+                                                    <div class="compare-card__img-icon" title="Удалить автомобиль" @click="deleteItem(indx)">
+                                                        <icon-base icon-name="trash"><icon-trash /></icon-base>
                                                     </div>
                                                 </div>
                                                 <div class="compare-card__head">
-                                                    <div class="compare-card__head-title">Haval Jolion PREMIUM</div>
-                                                    <div class="compare-card__head-price">2 239 000 <span class="rub">₽</span></div>
+                                                    <div class="compare-card__head-title">{{ item.brand.name }} {{ item.model.name }} {{ ((item.equipment)?item.equipment:'') }}</div>
+                                                    <div class="compare-card__head-price">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
                                                 </div>
-                                                <div class="compare-card__body --accordion-open">
+                                                <div class="compare-card__body" :class="{'--accordion-open': accordions.main}">
                                                     <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">14 параметров</div>
+                                                        <div class="compare-card__body-head__title">Технические параметры</div>
                                                         <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
+                                                            <icon-base
+                                                                icon-name="corner"
+                                                                :class="{'up': accordions.main, 'down': !accordions.main}"
+                                                                ><icon-corner />
+                                                            </icon-base>
                                                         </div>
                                                     </div>
                                                     <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">Лифтбэк</div>
-                                                        <div class="compare-card__body-content__list">Серебряный</div>
-                                                        <div class="compare-card__body-content__list">90 л.с.</div>
-                                                        <div class="compare-card__body-content__list">Бензин</div>
+                                                        <div class="compare-card__body-content__list">{{ item.body.name }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.general[2].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[7].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.power }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.engine.name }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[3].value }} - {{ item.specifications[2].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[0].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.general[4].value }}</div>
                                                     </div>
                                                 </div>
-                                                <div class="compare-card__body">
+                                                <div class="compare-card__body" :class="{'--accordion-open': accordions.sizes}">
                                                     <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">3 параметра</div>
+                                                        <div class="compare-card__body-head__title">Размеры</div>
                                                         <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
+                                                            <icon-base
+                                                                icon-name="corner"
+                                                                :class="{'up': accordions.sizes, 'down': !accordions.maisizesn}"
+                                                                ><icon-corner />
+                                                            </icon-base>
                                                         </div>
                                                     </div>
                                                     <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">1500 мм</div>
-                                                        <div class="compare-card__body-content__list">4250 мм</div>
-                                                        <div class="compare-card__body-content__list">1700 мм</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[10].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[8].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[9].value }}</div>
                                                     </div>
                                                 </div>
                                                 <div class="compare-card__footer">
-                                                    <button class="button w100 hovered-t">
+                                                    <button class="button w100 hovered-t" @click="show(item.id, item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:''))">
                                                         <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="swiper-slide">
-                                            <div class="compare-card">
-                                                <div class="compare-card__img">
-                                                    <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" alt="">
-                                                    <div class="compare-card__img-icon" title="Удалить автомобиль">
-                                                        <svg class="icon">
-                                                            <use xlink:href="assets/img/sprites.svg#trash-can"></use>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__head">
-                                                    <div class="compare-card__head-title">Haval Jolion PREMIUM</div>
-                                                    <div class="compare-card__head-price">2 239 000 <span class="rub">₽</span></div>
-                                                </div>
-                                                <div class="compare-card__body --accordion-open">
-                                                    <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">14 параметров</div>
-                                                        <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">Лифтбэк</div>
-                                                        <div class="compare-card__body-content__list">Серебряный</div>
-                                                        <div class="compare-card__body-content__list">90 л.с.</div>
-                                                        <div class="compare-card__body-content__list">Бензин</div>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__body">
-                                                    <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">3 параметра</div>
-                                                        <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">1500 мм</div>
-                                                        <div class="compare-card__body-content__list">4250 мм</div>
-                                                        <div class="compare-card__body-content__list">1700 мм</div>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__footer">
-                                                    <button class="button w100 hovered-t">
-                                                        <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="compare-card">
-                                                <div class="compare-card__img">
-                                                    <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" alt="">
-                                                    <div class="compare-card__img-icon" title="Удалить автомобиль">
-                                                        <svg class="icon">
-                                                            <use xlink:href="assets/img/sprites.svg#trash-can"></use>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__head">
-                                                    <div class="compare-card__head-title">Haval Jolion PREMIUM</div>
-                                                    <div class="compare-card__head-price">2 239 000 <span class="rub">₽</span></div>
-                                                </div>
-                                                <div class="compare-card__body --accordion-open">
-                                                    <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">14 параметров</div>
-                                                        <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">Лифтбэк</div>
-                                                        <div class="compare-card__body-content__list">Серебряный</div>
-                                                        <div class="compare-card__body-content__list">90 л.с.</div>
-                                                        <div class="compare-card__body-content__list">Бензин</div>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__body">
-                                                    <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">3 параметра</div>
-                                                        <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">1500 мм</div>
-                                                        <div class="compare-card__body-content__list">4250 мм</div>
-                                                        <div class="compare-card__body-content__list">1700 мм</div>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__footer">
-                                                    <button class="button w100 hovered-t">
-                                                        <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="compare-card">
-                                                <div class="compare-card__img">
-                                                    <img src="https://195004.selcdn.ru/ref/vehicle/702440_78f3e3e24e_l.jpeg" alt="">
-                                                    <div class="compare-card__img-icon" title="Удалить автомобиль">
-                                                        <svg class="icon">
-                                                            <use xlink:href="assets/img/sprites.svg#trash-can"></use>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__head">
-                                                    <div class="compare-card__head-title">Haval Jolion PREMIUM</div>
-                                                    <div class="compare-card__head-price">2 239 000 <span class="rub">₽</span></div>
-                                                </div>
-                                                <div class="compare-card__body --accordion-open">
-                                                    <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">14 параметров</div>
-                                                        <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">Лифтбэк</div>
-                                                        <div class="compare-card__body-content__list">Серебряный</div>
-                                                        <div class="compare-card__body-content__list">90 л.с.</div>
-                                                        <div class="compare-card__body-content__list">Бензин</div>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__body">
-                                                    <div class="compare-card__body-head">
-                                                        <div class="compare-card__body-head__title">3 параметра</div>
-                                                        <div class="compare-card__body-head__icon">
-                                                            <svg class="icon">
-                                                                <use xlink:href="assets/img/sprites.svg#down"></use>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                    <div class="compare-card__body-content">
-                                                        <div class="compare-card__body-content__list">1500 мм</div>
-                                                        <div class="compare-card__body-content__list">4250 мм</div>
-                                                        <div class="compare-card__body-content__list">1700 мм</div>
-                                                    </div>
-                                                </div>
-                                                <div class="compare-card__footer">
-                                                    <button class="button w100 hovered-t">
-                                                        <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tabs_content-item" id="movie">
-                        <div class="tabs_content-box">
-                            <a href="#" class="tabs_items">
-                                <img src="https://ya.boretscy.space/upload/iblock/0bf/7lww3pfnv1slqomcbcecxzy55svva0ac.jpg" alt="">
-                            </a>
-                        </div>
-                    </div>
                 </div>
 
+            </div>
+
+            <div class="tab" v-if="compare.length == 0" style="padding-top: 100px;">
+                <div class="tab_head">
+                    <h3>Вы не добавили автомобили к сравнению</h3>
+                </div>
+                <div class="tab_content">
+                    <router-link to="/">Перейти к выбору авто &rarr;</router-link>
+                </div>
             </div>
 
 
@@ -316,6 +177,10 @@
 </template>
 
 <script>
+import IconBase from '@/components/IconBase.vue'
+import IconCorner from '@/components/icons/IconCorner.vue'
+import IconTrash from '@/components/icons/IconTrash.vue'
+
 
 import Swiper, { Navigation, Pagination, Thumbs,  } from 'swiper';
 Swiper.use([Thumbs, Navigation, Pagination, ]);
@@ -323,12 +188,18 @@ Swiper.use([Thumbs, Navigation, Pagination, ]);
 import 'swiper/swiper-bundle.css';
 
 export default {
-	name: 'Favorites',
+	name: 'Compare',
 	components: {
-        
+        IconBase, IconTrash, IconCorner
 	},
 	data() {
 		return {
+            items: null,
+            compare: JSON.parse(localStorage.getItem('CIS_COMPARE')) || [],
+            accordions: {
+                main: true,
+                sizes: false
+            }
 		}
 	},
 	computed: {
@@ -336,6 +207,20 @@ export default {
 	watch: {
 	},
 	mounted: function() {
+        
+        if ( this.compare.length ) {
+            let url = this.$store.state.apiUrl+'vehicles/all/?token='+this.$store.state.apiToken+'&id='+this.compare.join(',')
+            this.axios.get(url).then((response) => {
+                this.items = response.data.items || []
+            })
+            setInterval(() => {
+            
+                this.compare = JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+                this.items.forEach((i, k) => {
+                    if ( !this.compare.includes(i.id) ) this.items.splice(k, 1)
+                })
+            }, 500);
+        }
 
         var swiper = new Swiper(".com-slide", {
             slidesPerView: 3.5,
@@ -366,6 +251,55 @@ export default {
             }
         });
 	},
+    methods: {
+        getWorld( q = 1, f = 'a' ) {
+
+            let res = {
+                'c': ['цвет', 'цвета', 'цветов'],
+                'o': ['опция', 'опции', 'опций'],
+                'a': ['автомобиль', 'автомобиля', 'автомобилей']
+            }
+            let t = [
+                [1],
+                [2,3,4]
+            ]
+            for (let i=2; i<=300; i++) {
+                t[0].push(i*10+1)
+                t[1].push(i*10+2)
+                t[1].push(i*10+3)
+                t[1].push(i*10+4)
+            }
+
+            if ( t[0].indexOf(Number(q)) >= 0 ) return res[f][0]
+            if ( t[1].indexOf(Number(q)) >= 0 ) return res[f][1]
+            return res[f][2]
+        },
+
+        show(id, name) {
+            this.$modal.show('form-offer')
+            this.$store.state.global.selectedVehicle = id
+            this.$store.state.global.selectedVehicleName = name
+        },
+
+        clear() {
+            this.items = []
+            this.compare = []
+            localStorage.setItem('CIS_COMPARE', JSON.stringify([]))
+        },
+
+        deleteItem(indx) {
+
+            this.compare.splice(indx, 1)
+            localStorage.setItem('CIS_COMPARE', JSON.stringify(this.compare))
+        },
+
+
+        Format(q) {
+			
+            var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });
+            return Price.format(q);	
+        }
+    }
 }
 </script>
 
