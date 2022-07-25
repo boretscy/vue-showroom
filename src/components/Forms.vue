@@ -61,6 +61,9 @@ export default {
             let send = true
             if ( !this.$store.state.global.forms[indx].rulesCheck ) send = false 
             let sendData = []
+            sendData.push({name: 'src', value: window.location.href})
+            sendData.push({name: 'AppName', value: 'Cis'})
+            sendData.push({name: 'form', value: this.$store.state.global.forms[indx].title})
             this.$store.state.global.forms[indx].fields.forEach((i) => {
                 if (i.required && !i.value) {
                     i.error = true
@@ -68,11 +71,9 @@ export default {
                 }
                 sendData.push({name: i.name, value: i.value})
             })
-            sendData.push({name: 'src', value: window.location.href})
+            
             if (this.$store.state.global.selectedVehicle) sendData.push({name: 'vehicle', value: this.$store.state.global.selectedVehicle})
-            sendData.push({name: 'AppName', value: 'Cis'})
-            sendData.push({name: 'form', value: this.$store.state.global.forms[indx].title})
-
+            
             if ( send ) {
 
                 this.axios.post(
