@@ -8,7 +8,7 @@
                 <div class="radio_head">
                     <div class="config_head">
                         <div class="tabs_head">
-                            <button class="button transparent --is-active" data-role="tab" data-target="#img">
+                            <button class="button transparent --is-active" data-role="tab" data-target="#img" @click="clear">
                                 <span>Сравнение</span>
                             </button>
                             <button class="button transparent" data-role="tab" data-target="#movie">
@@ -620,7 +620,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 160px;
+        min-height: 180px;
         cursor: pointer;
         text-decoration: none;
     }
@@ -741,7 +741,7 @@ export default {
     }
     .compare-card__img {
         position: relative;
-        min-height: 180px;
+        min-height: 190px;
         margin-bottom: 0.58em;
     }
     .compare-card__img-icon {

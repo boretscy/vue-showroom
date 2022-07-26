@@ -312,7 +312,9 @@ export default new Vuex.Store({
         },
         
         city: localStorage.getItem('YAPP_SELECTED_CITY') || null,
-        inCity: null
+        inCity: null,
+
+        dealership: null
     },
     mutations: {
     },

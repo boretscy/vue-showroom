@@ -377,7 +377,7 @@
                                         <div class="model__grid-card__content--price">
                                             <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
                                         </div>
-                                        <button class="button transparent w100" @click="_show(item.ext_id, item.name)">
+                                        <button class="button transparent w100" @click="_show(item.ext_id, item.name, item.dealership.name)">
                                             <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
                                         </button>
                                     </div>
@@ -684,10 +684,11 @@ export default {
             this.$store.state.global.selectedVehicle = this.vehicle.id
         },
 
-        _show(id, name) {
+        _show(id, name, ds) {
             this.$modal.show('form-offer')
             this.$store.state.global.selectedVehicle = id
             this.$store.state.global.selectedVehicleName = name
+            this.$store.state.dealership = ds
         },
 
 

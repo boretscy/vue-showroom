@@ -64,6 +64,7 @@ export default {
             sendData.push({name: 'src', value: window.location.href})
             sendData.push({name: 'AppName', value: 'Cis'})
             sendData.push({name: 'form', value: this.$store.state.global.forms[indx].title})
+            if ( this.$store.state.dealership ) sendData.push({name: 'dealership', value: this.$store.state.dealership})
             this.$store.state.global.forms[indx].fields.forEach((i) => {
                 if (i.required && !i.value) {
                     i.error = true
@@ -74,6 +75,8 @@ export default {
             
             if (this.$store.state.global.selectedVehicle) sendData.push({name: 'vehicle', value: this.$store.state.global.selectedVehicle})
             
+            console.log( sendData )
+
             if ( send ) {
 
                 this.axios.post(
