@@ -162,12 +162,13 @@
 
             </div>
 
-            <div class="tab" v-if="compare.length == 0" style="padding-top: 100px;">
+            <div class="tab" v-if="compare.length == 0" style="padding-top: 100px; text-align: center">
                 <div class="tab_head">
-                    <h3>Вы не добавили автомобили к сравнению</h3>
+                    <h3 style="margin-bottom: 1em">Вы еще не добавили к сравнению ни одного автомобиля</h3>
+                    <p style="color: var(--yagray); margin-bottom: 1rem">Здесь будут отображаться автомобили, которые вы добавили к сравнению</p>
                 </div>
                 <div class="tab_content">
-                    <router-link to="/">Перейти к выбору авто &rarr;</router-link>
+                    <router-link to="/" class="button hovered-t">К СПИСКУ МОДЕЛЕЙ</router-link>
                 </div>
             </div>
 
@@ -180,6 +181,7 @@
 import IconBase from '@/components/IconBase.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
 import IconTrash from '@/components/icons/IconTrash.vue'
+
 
 
 import Swiper, { Navigation, Pagination, Thumbs,  } from 'swiper';
@@ -304,6 +306,9 @@ export default {
 </script>
 
 <style scoped>
+    .--gray__bg {
+        background: var(--yalightgray);
+    }
     .close_box {
         position: relative;
     }
