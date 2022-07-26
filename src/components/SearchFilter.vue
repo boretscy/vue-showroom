@@ -77,6 +77,15 @@
                     :delimiter="true"
                     @range="setRangeValue"/>
             </div>
+            <div   
+                class="filter__head-item"
+                >
+                <button-apply 
+                    :filterLink="link"
+                    :carCount="filter.totalCount"
+                    :viewFull="viewFull"
+                    @toggle="toggleFilter"/>
+            </div>
             <div class="filter__head-item" v-show="(viewFull && !oneBrand) || oneBrand">
                 <multiselect 
                     v-model="transmissionsValue" 
@@ -134,6 +143,12 @@
                     >
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
+            </div>
+            <div   
+                class="filter__head-item"
+                v-show="viewFull"
+                >
+                <button-cancel @reset="resetFilter"/>
             </div>
             <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
@@ -224,22 +239,8 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div   
-                class="filter__head-item"
-                v-show="viewFull"
-                >
-                <button-cancel @reset="resetFilter"/>
-            </div>
             
-            <div   
-                class="filter__head-item"
-                >
-                <button-apply 
-                    :filterLink="link"
-                    :carCount="filter.totalCount"
-                    :viewFull="viewFull"
-                    @toggle="toggleFilter"/>
-            </div>
+            
         </div>
         <div class="filter__head" v-else>
             <div class="filter__head-item__empty"></div>
