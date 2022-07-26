@@ -389,20 +389,16 @@ export default {
                 }
 
                 if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
-                    q += '&minprice='+this.filter.ranges.price.value[0]
-                    q += '&maxprice='+this.filter.ranges.price.value[1]
+                    q += '&minprice='+this.filter.ranges.price.value.join(',')
                 }
                 if ( this.filter.ranges.volume.value[0] != this.filter.ranges.volume.min || this.filter.ranges.volume.value[1] != this.filter.ranges.volume.max ) {
-                    q += '&minvolume='+this.filter.ranges.volume.value[0]
-                    q += '&maxvolume='+this.filter.ranges.volume.value[1]
+                    q += '&volume='+this.filter.ranges.volume.value.join(',')
                 }
                 if ( this.filter.ranges.power.value[0] != this.filter.ranges.power.min || this.filter.ranges.power.value[1] != this.filter.ranges.power.max ) {
-                    q += '&minpower='+this.filter.ranges.power.value[0]
-                    q += '&maxpower='+this.filter.ranges.power.value[1]
+                    q += '&power='+this.filter.ranges.power.value.join(',')
                 }
                 if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
-                    q += '&minyear='+this.filter.ranges.year.value[0]
-                    q += '&maxyear='+this.filter.ranges.year.value[1]
+                    q += '&year='+this.filter.ranges.year.value.join(',')
                 }
 
                 return ((q.length)?'?':'') + q
