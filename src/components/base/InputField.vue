@@ -1,8 +1,7 @@
 <template>
     <div class="form-field">
-        <p>{{ label }} <span v-if="required"><sup>*</sup></span></p>
         <input type="phone" :class="{'error': error && !$store.state.global.forms[form].fields[field].value}" v-model="$store.state.global.forms[form].fields[field].value" :placeholder="placeholder" v-mask="'+7 (###) ###-##-##'" v-if="type=='phone'" />
-        <input :type="type" :class="{'error': error && !$store.state.global.forms[form].fields[field].value}" v-model="$store.state.global.forms[form].fields[field].value" :placeholder="placeholder" v-else />
+        <input :type="type" :class="{'error': error && !$store.state.global.forms[form].fields[field].value}" v-model="$store.state.global.forms[form].fields[field].value" :placeholder="placeholder+((required)?' *':'')" v-else />
     </div>
 </template>
 
@@ -28,7 +27,7 @@ export default {
     padding: 8px 16px;
     border-radius: 5px;
     border: 1px solid var(--yagray);
-    color: var(--yablack);
+    color: var(--yamiddlegray);
     width: 100%;
 }
 .form-field input.error {

@@ -169,7 +169,7 @@ export default new Vuex.Store({
                             label: 'Год выпуска',
                             required: true,
                             placeholder: 'Год выпуска',
-                            type: 'text',
+                            type: 'number',
                             error: false,
                             value: null
                         },
@@ -228,7 +228,7 @@ export default new Vuex.Store({
                             label: 'Год выпуска',
                             required: true,
                             placeholder: 'Год выпуска',
-                            type: 'text',
+                            type: 'number',
                             error: false,
                             value: null
                         },
@@ -287,7 +287,7 @@ export default new Vuex.Store({
                             label: 'Год выпуска',
                             required: true,
                             placeholder: 'Год выпуска',
-                            type: 'text',
+                            type: 'number',
                             error: false,
                             value: null
                         },
@@ -309,8 +309,6 @@ export default new Vuex.Store({
                     }
                 }
             ],
-
-            sendedADVForms: []
 
         },
         
