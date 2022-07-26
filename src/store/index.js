@@ -308,7 +308,10 @@ export default new Vuex.Store({
                         success: false
                     }
                 }
-            ]
+            ],
+
+            sendedADVForms: []
+
         },
         
         city: localStorage.getItem('YAPP_SELECTED_CITY') || null,

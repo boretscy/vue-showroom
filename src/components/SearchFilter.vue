@@ -880,20 +880,16 @@ export default {
             }
 
             if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
-                l += '&minprice='+this.filter.ranges.price.value[0]
-                l += '&maxprice='+this.filter.ranges.price.value[1]
+                l += '&price='+this.filter.ranges.price.value.join(',')
             }
             if ( this.filter.ranges.volume.value[0] != this.filter.ranges.volume.min || this.filter.ranges.volume.value[1] != this.filter.ranges.volume.max ) {
-                l += '&minvolume='+this.filter.ranges.volume.value[0]
-                l += '&maxvolume='+this.filter.ranges.volume.value[1]
+                l += '&volume='+this.filter.ranges.volume.value.join(',')
             }
             if ( this.filter.ranges.power.value[0] != this.filter.ranges.power.min || this.filter.ranges.power.value[1] != this.filter.ranges.power.max ) {
-                l += '&minpower='+this.filter.ranges.power.value[0]
-                l += '&maxpower='+this.filter.ranges.power.value[1]
+                l += '&power='+this.filter.ranges.power.value.join(',')
             }
             if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
-                l += '&minyear='+this.filter.ranges.year.value[0]
-                l += '&maxyear='+this.filter.ranges.year.value[1]
+                l += '&year='+this.filter.ranges.year.value.join(',')
             }
 
             return l
@@ -1144,7 +1140,7 @@ export default {
     margin-right: 0;
 }
 .filter__sort-item__button.active span{
-    padding: 10px 15px;
+    padding: 17px 17px;
     background: transparent;
     border: solid 1px var(--yayellow) !important;
     border-radius: 3px !important;
@@ -1164,7 +1160,7 @@ export default {
     display: none;
 }
 .filter__sort-item__switch-radio span {
-    padding: 10px;
+    padding: 14px;
     border: solid 1px var(--radio-grid-color);
     border-radius: 3px;
     cursor: pointer;
