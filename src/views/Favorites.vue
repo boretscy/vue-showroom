@@ -29,12 +29,12 @@
                 </div> -->
             </div>
         </div>
-        <div class="tab" v-if="!favorites.length">
+        <div class="tab" v-if="!favorites.length" style="padding-top: 100px; text-align: center">
             <div class="tab_head">
-                <h3>Вы не добавили автомобили в "Избранное"</h3>
+                <h3 style="margin-bottom: 1em">Вы не добавили автомобили в "Избранное"</h3>
             </div>
             <div class="tab_content">
-                <router-link to="/">Перейти к выбору авто &rarr;</router-link>
+                <router-link to="/" class="button hovered-t">Перейти к выбору авто &rarr;</router-link>
             </div>
         </div>
 	</div>
