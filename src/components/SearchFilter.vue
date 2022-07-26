@@ -1160,7 +1160,7 @@ export default {
     display: none;
 }
 .filter__sort-item__switch-radio span {
-    padding: 14px;
+    padding: 12px;
     border: solid 1px var(--radio-grid-color);
     border-radius: 3px;
     cursor: pointer;
