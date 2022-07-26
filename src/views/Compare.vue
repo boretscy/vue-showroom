@@ -739,6 +739,9 @@ export default {
         text-align: left;
         cursor: pointer;
     }
+    .compare-card .button span {
+        margin: 0;
+    }
     .compare-card__img {
         position: relative;
         min-height: 190px;
@@ -768,20 +771,31 @@ export default {
         height: var(--icon-size);
         fill: #5C5D5E;
     }
-    .compare-card__head {}
+    .compare-card__head {
+        /*max-height: 71px;
+        min-height: 70px;*/
+        border-bottom: solid 1px var(--border-c);
+        padding: 5px 0;
+    }
     .compare-card__head-title {
         font-size: 14px;
         font-weight: 600;
         line-height: 1em;
-        padding: 0.5em 0;
-        border-bottom: solid 1px var(--border-c);
+        margin-bottom: 1em;
+        /*padding: 0.5em 0;
+        border-bottom: solid 1px var(--border-c);*/
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .compare-card__head-price {
         font-size: 14px;
         font-weight: 600;
         line-height: 1em;
-        padding: 0.5em 0;
-        border-bottom: solid 1px var(--border-c);
+        margin-bottom: 1em;
+        /*border-bottom: solid 1px var(--border-c);*/
     }
     .compare-card__body {
         border-bottom: solid 1px var(--border-c);
@@ -789,7 +803,10 @@ export default {
     .compare-card__body-head {
         display: flex;
         justify-content: space-between;
-        padding: 0.79em 0;
+        padding: 14px 0;
+    }
+    .--accordion-open .compare-card__body-head {
+        padding: 16.5px 0;
     }
     .compare-card__body-head__title {
         font-size: 14px;
@@ -813,17 +830,27 @@ export default {
         overflow: hidden;
     }
     .--accordion-open .compare-card__body-content {
+        --ptb: 1em;
         overflow: visible;
         opacity: 1;
         height: fit-content;
-        padding: 0.76em 0px;
+        padding-top: calc(var(--ptb) * 1);
+        padding-bottom: calc(var(--ptb) * 1);
     }
     .compare-card__body-content__list {
         font-size: 14px;
         font-weight: 300;
-        line-height: 1em;
+        line-height: 1.5em;
         margin-bottom: 1em;
         color: var(--yalightblack);
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .compare-card__body-content__list:nth-last-child(1) {
+        margin-bottom: 9px;
     }
     .compare-card__footer {
         margin-top: 1em;
