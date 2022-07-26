@@ -589,6 +589,7 @@ export default {
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
+                type: "fraction",
             },
             navigation: {
                 nextEl: ".next",
@@ -2297,6 +2298,7 @@ input[type=range]::-ms-fill-upper {
     top: 0;
     min-height: 580px;
     max-width: var(--left-w);
+    border-bottom: solid 1px var(--yalightgray);
 }
 
 .car__grid-item {
@@ -2304,7 +2306,7 @@ input[type=range]::-ms-fill-upper {
     position: sticky;
     max-height: 800px;
     top: 1em;
-    margin-bottom: var(--mb);
+   /* margin-bottom: var(--mb);*/
 }
 .configuration {
     max-width: var(--left-w);
@@ -2570,6 +2572,9 @@ input[type=range]::-ms-fill-upper {
     padding: 10px 0;
     border-bottom: dotted 1px var(--yagray);
 }
+.car__grid-box-stock__list-items:nth-last-child(1) {
+    border-bottom: 0;
+}
 .car__grid-box-profit {
     padding: var(--padding);
     display: grid !important;
@@ -2628,6 +2633,7 @@ input[type=range]::-ms-fill-upper {
 }
 .box-profit__list {
     margin-bottom: 2em;
+    min-height: 71px;
 }
 .profit__list--grid_item {
     display: grid;
@@ -2896,7 +2902,10 @@ input[type=range]::-ms-fill-upper {
     margin: 1em 0;
 }
 .car_grid-left__slider {
-    overflow: visible;
+    /*overflow: visible;*/
+    min-height: 680px;
+    max-height: 680px;
+    overflow: hidden;
 }
 .car_grid-left__slider .swiper-container {
     position: relative;
@@ -2930,10 +2939,6 @@ input[type=range]::-ms-fill-upper {
 .swiper__detail-thumb .swiper-slide img {
     height: var(--height-slider);
 }
-.swiper__detail {
-    height: 500px;
-    width: 100%;
-}
 .swiper-slide img {
     display: block;
     width: 100%;
@@ -2955,7 +2960,6 @@ input[type=range]::-ms-fill-upper {
     height: 100%;
     opacity: 0.4;
 }
-
 .swiper__detail-thumb .swiper-slide-thumb-active {
     opacity: 1;
 }
@@ -3212,7 +3216,9 @@ h2, .h2 a {
     color: var(--yadarkgray);
 }
 .swiper__detail {
-    height: 500px;
+    height: 540px;
+    max-height: 540px;
+    min-height: 540px;
     width: 100%;
 }
 .swiper-slide img {
@@ -3262,6 +3268,7 @@ span.rub {
     .car__grid-item {
         max-height: inherit;
         position: inherit;
+        margin-bottom: 40px;
     }
     .car__grid-box__price {
         display: flex;
@@ -3335,6 +3342,17 @@ span.rub {
     }
     .swiper__detail {
         height: auto;
+    }
+    .car_grid-left__slider {
+        min-height: revert;
+        max-height: revert;
+    }
+    .swiper__detail {
+        min-height: revert;
+        max-height: revert;
+    }
+    .swiper__detail-thumb {
+        --height-slider: auto;
     }
 }
 @media (max-width: 350px) {

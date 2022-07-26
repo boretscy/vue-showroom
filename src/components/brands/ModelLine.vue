@@ -25,7 +25,7 @@
             <span class="grid-item__sub--items">{{ Format( Number(model.vehicles) ) }} {{ getWorld(Number(model.vehicles), 'a') }}</span>
             <span class="grid-item__sub--items">{{ Format( Number(model._colors) ) }} {{ getWorld(Number(model._colors), 'c') }}</span>
         </div>
-        <button class="button transparent w100">от {{ Format( Number(model.min_price) ) }} <span class="rub">₽</span></button>
+        <button class="button transparent w100"><span style="z-index: 50;">от {{ Format( Number(model.min_price) ) }} </span><span class="rub">₽</span></button>
     </div>
 </template>
 

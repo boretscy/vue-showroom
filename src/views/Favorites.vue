@@ -1,5 +1,6 @@
 <template>
     <div class="yapps-cis">
+        <div class="h1">Избранные автомобили</div>
         <div class="tab">
             <div class="tab_head">
                 <router-link to="/favorites" class="button --is-active">

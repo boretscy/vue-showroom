@@ -11,7 +11,7 @@
         <div class="head_items">
             <div class="grid-item__title">{{ cta.title }}</div>
         </div>
-        <div class="button transparent" @click="show(cta.code)">{{ cta.button }}</div>
+        <div class="button transparent" @click="show(cta.code)"><span style="z-index: 50;">{{ cta.button }}</span></div>
     </a>
 </template>
 
