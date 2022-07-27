@@ -1950,6 +1950,13 @@ input[type=range]::-ms-fill-upper {
 .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet, .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
     background: var(--yablack);
 }
+.swiper-pagination {
+  font-size: 12.8px;
+}
+.swiper-pagination-current {
+  color: var(--yablue);
+  font-size: 16px;
+}
 .position-relative .next {
     right: -4em;
 }
