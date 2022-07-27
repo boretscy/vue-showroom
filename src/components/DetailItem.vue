@@ -332,7 +332,7 @@
             <router-link 
                 :to="'/?minprice='+Math.trunc(vehicle.min_price-0.1*vehicle.min_price)+'&maxprice='+Math.trunc(vehicle.min_price+0.1*vehicle.min_price)" 
                 class="flex__head-title h2 text-normal">
-                Рекомендованные автомобили
+                Рекомендованные автомобили:
                 <!-- <span class="flex__head-count">223</span> -->
             </router-link>
         </div>
@@ -732,6 +732,12 @@ export default {
 </script>
 
 <style scoped>
+    :root {
+        --h1: 32px;
+        --h2: 24px;
+        --h3: 18px;
+        --h4: 16px;
+    }
 
 .drop {
     position: relative;
@@ -1569,6 +1575,7 @@ input[type=range]::-ms-fill-upper {
     margin-bottom: 0;
     text-decoration: none;
     color: var(--yablack);
+    font-size: 28px;
 }
 .flex__head-count {
     color: var(--yagray);
@@ -2175,6 +2182,7 @@ input[type=range]::-ms-fill-upper {
 .model__grid-card__content--list {
     margin-bottom: var(--margin-bottom);
     word-break: break-all;
+    min-height: 55px;
 }
 .model__grid-card__content--list-item {
     font-size: 14px;
@@ -2633,7 +2641,7 @@ input[type=range]::-ms-fill-upper {
 }
 .box-profit__list {
     margin-bottom: 2em;
-    min-height: 71px;
+    min-height: 83px;
 }
 .profit__list--grid_item {
     display: grid;
@@ -2780,6 +2788,7 @@ input[type=range]::-ms-fill-upper {
 }
 .tabs_head .--is-active {
     border: solid 1px var(--yayellow) !important;
+    z-index: 1;
 }
 .tabs_content-item__list {
     font-size: 14px;
@@ -2903,9 +2912,9 @@ input[type=range]::-ms-fill-upper {
 }
 .car_grid-left__slider {
     /*overflow: visible;*/
-    min-height: 680px;
-    max-height: 680px;
-    overflow: hidden;
+    min-height: fit-content;
+    max-height: fit-content;
+    position: relative;
 }
 .car_grid-left__slider .swiper-container {
     position: relative;
@@ -2929,6 +2938,8 @@ input[type=range]::-ms-fill-upper {
     --height-slider: 135px;
     height: var(--height-slider);
     border-radius: 3px;
+    position: relative;
+    bottom: -40px;
 }
 .swiper__detail-thumb .swiper-on-button {--size: 35px;}
 .swiper__detail-thumb .swiper-button-next {right: var(--position)}
@@ -3216,9 +3227,9 @@ h2, .h2 a {
     color: var(--yadarkgray);
 }
 .swiper__detail {
-    height: 540px;
-    max-height: 540px;
-    min-height: 540px;
+    height: 500px;
+    max-height: 500px;
+    min-height: 500px;
     width: 100%;
 }
 .swiper-slide img {

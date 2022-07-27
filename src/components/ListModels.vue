@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex__head">
-            <router-link :to="brand.code" class="flex__head-title h2" v-if="brand">
+            <router-link :to="brand.code" class="flex__head-title h3" v-if="brand">
                 {{ brand.name }}
                 <span class="flex__head-count">{{ brand.vehicles }}</span>
             </router-link>
@@ -171,6 +171,12 @@ export default {
 <style scoped>
 h2, .h2 {
     font-size: var(--h2);
+    font-weight: 400;
+    line-height: 1em;
+    margin-bottom: 1rem;
+}
+h3, .h3 {
+    font-size: var(--h3);
     font-weight: 400;
     line-height: 1em;
     margin-bottom: 1rem;

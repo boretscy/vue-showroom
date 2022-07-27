@@ -88,9 +88,9 @@ export default {
     font-size: 14px;
 
     --h1: 32px;
-    --h2: 24px;
-    --h3: 18px;
-    --h4: 16px;
+    --h2: 28px;
+    --h3: 24px;
+    --h4: 20px;
     --p: 14px
 }
 </style>
