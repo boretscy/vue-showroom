@@ -22,6 +22,7 @@
 		<div v-if="mode == 'used'" >
 			<used-items
 				:dataSort="sortMode"
+				ref="used"
 				></used-items>
 			<more
 				@more="more"
@@ -63,7 +64,6 @@ export default {
 				InStock: false,
 				OnWay: false,
 			},
-			page: 1
 		}
 	},
 	computed: {
@@ -99,9 +99,7 @@ export default {
             let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             this.axios.get(url).then((response) => {
-                this.axios.get(url).then((response) => {
-					this.brands = response.data
-				})
+				this.brands = response.data
             })
         }
     },
@@ -111,7 +109,8 @@ export default {
 	methods: {
 
 		more() {
-			this.page++
+
+			this.$refs.used.getData()
 		},
 		sortToggle(v) {
 			this.sortMode = v

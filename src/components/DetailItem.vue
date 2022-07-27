@@ -328,66 +328,67 @@
            </div>
        </div>
 
-        <div class="flex__head" v-if="vehicle.recomended">
+        <div class="flex__head" v-if="vehicle.recomended.length > 0">
             <router-link 
-                :to="'/?minprice='+Math.trunc(vehicle.min_price-0.1*vehicle.min_price)+'&maxprice='+Math.trunc(vehicle.min_price+0.1*vehicle.min_price)" 
+                :to="'/?price='+Math.trunc(vehicle.min_price-0.1*vehicle.min_price)+','+Math.trunc(vehicle.min_price+0.1*vehicle.min_price)" 
                 class="flex__head-title h2 text-normal">
                 Рекомендованные автомобили:
                 <!-- <span class="flex__head-count">223</span> -->
             </router-link>
         </div>
 
-        <div class="col position-relative">
-                <div class="swiper main-slider">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide liner_model" v-for="(item, indx) in vehicle.recomended"
-                                :key="indx">
-                            <div class="available__grid-item">
-                                <div class="grid-item__head">
-                                    <router-link :to="item.link" class="grid-item__head-img">
-                                        <img :src="item.image" :alt="item.name" v-if="item.image">
-                                        <icon-base icon-name="ciscrossover" v-if="!item.image && item.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
-                                        <icon-base icon-name="ciscupe" v-if="!item.image && item.body.code == 'cupe'"><icon-ciscupe /></icon-base>
-                                        <icon-base icon-name="cisliftback" v-if="!item.image && item.body.code == 'liftback'"><icon-cisliftback /></icon-base>
-                                        <icon-base icon-name="cishatchback" v-if="!item.image && item.body.code == 'hatchback'"><icon-cishatchback /></icon-base>
-                                        <icon-base icon-name="cismicrobus" v-if="!item.image && item.body.code == 'microbus'"><icon-cismicrobus /></icon-base>
-                                        <icon-base icon-name="cisminivan" v-if="!item.image && item.body.code == 'minivan'"><icon-cisminivan /></icon-base>
-                                        <icon-base icon-name="cispickup" v-if="!item.image && item.body.code == 'pickup'"><icon-cispickup /></icon-base>
-                                        <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'sedan'"><icon-cissedan /></icon-base>
-                                        <icon-base icon-name="cissuv" v-if="!item.image && item.body.code == 'suv'"><icon-cissuv /></icon-base>
-                                        <icon-base icon-name="cisvan" v-if="!item.image && item.body.code == 'van'"><icon-cisvan /></icon-base>
-                                        <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
-                                    </router-link>
+        <div class="col position-relative" v-if="vehicle.recomended.length > 0">
+            <div class="swiper main-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide liner_model"
+                        v-for="(item, indx) in vehicle.recomended" 
+                        :key="indx">
+                        <div class="available__grid-item">
+                            <div class="grid-item__head">
+                                <router-link :to="item.link" class="grid-item__head-img">
+                                    <img :src="item.image" :alt="item.name" v-if="item.image">
+                                    <icon-base icon-name="ciscrossover" v-if="!item.image && item.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
+                                    <icon-base icon-name="ciscupe" v-if="!item.image && item.body.code == 'cupe'"><icon-ciscupe /></icon-base>
+                                    <icon-base icon-name="cisliftback" v-if="!item.image && item.body.code == 'liftback'"><icon-cisliftback /></icon-base>
+                                    <icon-base icon-name="cishatchback" v-if="!item.image && item.body.code == 'hatchback'"><icon-cishatchback /></icon-base>
+                                    <icon-base icon-name="cismicrobus" v-if="!item.image && item.body.code == 'microbus'"><icon-cismicrobus /></icon-base>
+                                    <icon-base icon-name="cisminivan" v-if="!item.image && item.body.code == 'minivan'"><icon-cisminivan /></icon-base>
+                                    <icon-base icon-name="cispickup" v-if="!item.image && item.body.code == 'pickup'"><icon-cispickup /></icon-base>
+                                    <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'sedan'"><icon-cissedan /></icon-base>
+                                    <icon-base icon-name="cissuv" v-if="!item.image && item.body.code == 'suv'"><icon-cissuv /></icon-base>
+                                    <icon-base icon-name="cisvan" v-if="!item.image && item.body.code == 'van'"><icon-cisvan /></icon-base>
+                                    <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
+                                </router-link>
+                            </div>
+                            <div class="head_items-box">
+                                <div class="head_items">
+                                    <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
                                 </div>
-                                <div class="head_items-box">
-                                    <div class="head_items">
-                                        <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
+                                <div class="model__grid-card__content--list">
+                                    <span 
+                                        class="model__grid-card__content--list-item"
+                                        v-for="(i, k) in item.general"
+                                        :key="k"
+                                        >{{ i }}</span>
+                                </div>
+                                <div class="model__grid-card__footer">
+                                    <div
+                                        class="model__grid-card__content--status"
+                                        :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                                    >{{ item.status.name }}</div>
+                                    <div class="model__grid-card__content--price">
+                                        <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
                                     </div>
-                                    <div class="model__grid-card__content--list">
-                                        <span 
-                                            class="model__grid-card__content--list-item"
-                                            v-for="(i, k) in item.general"
-                                            :key="k"
-                                            >{{ i.value }}</span>
-                                    </div>
-                                    <div class="model__grid-card__footer">
-                                        <div
-                                            class="model__grid-card__content--status"
-                                            :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
-                                        >{{ item.status.name }}</div>
-                                        <div class="model__grid-card__content--price">
-                                            <div class="model__grid-card__content--price_curent">{{ Format(item.price) }} <span class="rub">₽</span></div>
-                                        </div>
-                                        <button class="button transparent w100" @click="_show(item.ext_id, item.name, item.dealership.name)">
-                                            <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-                                        </button>
-                                    </div>
+                                    <button class="button transparent w100" @click="_show(item.ext_id, item.name, item.dealership.name)">
+                                        <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="swiper-pagination"></div>
                 </div>
+                <div class="swiper-pagination"></div>
+            </div>
             <div class="swiper-button-next next next-prev">
                 <div class="swiper-on-button">
                     <div class="swiper-on-button__radius"></div>

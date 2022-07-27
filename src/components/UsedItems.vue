@@ -48,6 +48,7 @@ export default {
 			items: [],
 			showMore: false,
 			count: 0,
+            page: 1
 		}
 	},
 	computed: {
@@ -56,28 +57,6 @@ export default {
 		}
 	},
     watch: {
-
-        '$parent.page': {
-            immediate: true,
-            handler(v) {
-                let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
-                if (this.$store.state.city) url += '&city='+this.$store.state.city
-                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-                url += '&page='+v
-                this.axios.get(url).then((response) => {
-                    let newitems = this.items.concat(response.data.items)
-                    this.items = newitems
-                    this.count = response.data.totalCount
-                    this.$parent.showMore = response.data.next_page
-
-                    this.items.forEach( (item) => {
-                        if (item.Discount) this.$parent.sortButtons.Discount = true
-                        if (item.InStock) this.$parent.sortButtons.InStock = true
-                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
-                    })
-                })
-            }
-        },
 
         '$route.query': {
             immediate: true,
@@ -141,10 +120,17 @@ export default {
 		
 	},
     methods: {
-        getData( url ) {
+        getData() {
             
+            this.page++
+
+            let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+            url += '&page='+this.page
             this.axios.get(url).then((response) => {
-                this.items = response.data.items
+                let newitems = this.items.concat(response.data.items)
+                this.items = newitems
                 this.count = response.data.totalCount
                 this.$parent.showMore = response.data.next_page
 
@@ -153,7 +139,6 @@ export default {
                     if (item.InStock) this.$parent.sortButtons.InStock = true
                     if (item.OnWay) this.$parent.sortButtons.OnWay = true
                 })
-                window.scrollTo(0,0);
             })
         }
     }
