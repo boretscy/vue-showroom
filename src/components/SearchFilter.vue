@@ -28,7 +28,7 @@
                     deselectLabel="Удалить"
                     ></multiselect>
             </div>
-            <div class="filter__head-item" v-show="!oneBrand">
+            <div class="filter__head-item">
                 <multiselect 
                     v-model="brandValue" 
                     tag-placeholder="Марка" 
@@ -86,7 +86,7 @@
                     :viewFull="viewFull"
                     @toggle="toggleFilter"/>
             </div>
-            <div class="filter__head-item" v-show="(viewFull && !oneBrand) || oneBrand">
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-model="transmissionsValue" 
                     tag-placeholder="КПП" 
