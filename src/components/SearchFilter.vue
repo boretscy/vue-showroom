@@ -892,7 +892,7 @@ export default {
         },
         buildLink( query ) {
             let str = query || ''
-            let l = '', q = ''
+            let l = '', q = '', res
             if ( str.length ) {
                 let get = {}
                 str.split('?')[1].split('&').forEach( (param) => {
@@ -917,7 +917,10 @@ export default {
                 }
             }
 
-            return l+((q.length)?'?':'')+q.slice(0, -1)
+            res = l+((q.length)?'?':'')+q.slice(0, -1)
+            // this.$router.push( res )
+
+            return res
         },
         buildPartQuery( data = [], name, ampersand = true ) {
             
