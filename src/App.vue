@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :key="GlobalIter">
+    <div id="app" :key="GlobalIter" :style="YAppsShowroomStyles">
         <router-view/>
         <forms />
     </div>
@@ -26,6 +26,48 @@ export default {
                 this.$store.state.global.brands = response.data.dropLists.brands
                 if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
             })
+        }
+    },
+    computed: {
+        YAppsShowroomStyles: function() {
+            let res = {
+                '--yalightgray': '#f3f5f6',
+                '--yagray': '#bdc0c2',
+                '--yamiddlegray': '#7b8284',
+                '--yadarkgray': '#565b5d',
+                '--yablackgray': '#1c232c',
+                '--yalightblack': '#5C5D5E',
+                '--detail_bg': '#F3F5F6',
+                
+                '--yablack': '#000000',
+                '--yawhite': '#ffffff',
+
+                '--yalightred': '#ee9999',
+                '--yared': '#cc0000',
+
+                '--yalightgreen': '#99eea0',
+                '--yargreen': '#1bcc00',
+                
+                '--yalightblue': '#87cefa',
+                '--yablue': '#0048a9',
+                '--yadarkblue': '#003375',
+                
+                '--yalightyellow': '#fce0b2',
+                '--yayellow': '#fdba4d',
+                '--yadarkyellow': '#fdaa25',
+
+                'font-family': "'Roboto', Helvetica, sans-serif",
+                'font-size': '14px',
+
+                '--h1': '32px',
+                '--h2': '28px',
+                '--h3': '24px',
+                '--h4': '20px',
+                '--p': '14px'
+            }
+
+            if ( window.YAppsShowroomStyles ) res = window.YAppsShowroomStyles
+            return res
         }
     },
     mounted: function() {
@@ -58,39 +100,4 @@ export default {
 
 <style scoped>
 @import '/assets/fonts/font.css';
-#app {
-    --yalightgray: #f3f5f6;
-	--yagray: #bdc0c2;
-	--yamiddlegray: #7b8284;
-	--yadarkgray: #565b5d;
-	--yablackgray: #1c232c;
-    --yalightblack: #5C5D5E;
-    --detail_bg: #F3F5F6;
-	
-	--yablack: #000000;
-	--yawhite: #ffffff;
-
-    --yalightred: #ee9999;
-    --yared: #cc0000;
-
-    --yalightgreen: #99eea0;
-    --yargreen: #1bcc00;
-	
-	--yalightblue: #87cefa;
-	--yablue: #0048a9;
-	--yadarkblue: #003375;
-	
-	--yalightyellow: #fce0b2;
-	--yayellow: #fdba4d;
-	--yadarkyellow: #fdaa25;
-
-    font-family: 'Roboto', Helvetica, sans-serif;
-    font-size: 14px;
-
-    --h1: 32px;
-    --h2: 28px;
-    --h3: 24px;
-    --h4: 20px;
-    --p: 14px
-}
 </style>

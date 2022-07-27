@@ -364,10 +364,11 @@
                                         <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
                                     </div>
                                     <div class="model__grid-card__content--list">
-                                        <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
-                                        <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
-                                        <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
-                                        <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                                        <span 
+                                            class="model__grid-card__content--list-item"
+                                            v-for="(i, k) in item.general"
+                                            :key="k"
+                                            >{{ i.value }}</span>
                                     </div>
                                     <div class="model__grid-card__footer">
                                         <div
@@ -2187,9 +2188,16 @@ input[type=range]::-ms-fill-upper {
     margin-bottom: var(--margin-bottom);
 }
 .model__grid-card__content--list {
+    --margin-bottom: 2em;
     margin-bottom: var(--margin-bottom);
     word-break: break-all;
-    min-height: 55px;
+    min-height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4rem;
 }
 .model__grid-card__content--list-item {
     font-size: 14px;
@@ -2200,8 +2208,8 @@ input[type=range]::-ms-fill-upper {
 .model__grid-card__content--list-item::before {
     content: '\2022';
     color: var(--yadarkblue);
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;
+    margin-right: 0.3rem;
+    margin-left: 0.3rem;
     font-size: 20px;
     vertical-align: middle;
 }
