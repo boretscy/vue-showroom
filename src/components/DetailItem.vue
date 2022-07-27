@@ -1761,12 +1761,12 @@ input[type=range]::-ms-fill-upper {
     line-height: 1em;
     margin-bottom: 1em;
     display: block;
-    min-height: 35px;
-    max-height: 40px;
+    min-height: 37px;
+    max-height: 37px;
     text-transform: uppercase;
     color: var(--yablack);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2191,16 +2191,16 @@ input[type=range]::-ms-fill-upper {
     --margin-bottom: 2em;
     margin-bottom: var(--margin-bottom);
     word-break: break-all;
-    min-height: 40px;
+    min-height: 70px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.4rem;
 }
 .model__grid-card__content--list-item {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 300;
     line-height: 1em;
     color: var(--yagray);
