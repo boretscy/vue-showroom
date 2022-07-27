@@ -2204,6 +2204,7 @@ input[type=range]::-ms-fill-upper {
     font-weight: 300;
     line-height: 1em;
     color: var(--yagray);
+    display: inline-block;
 }
 .model__grid-card__content--list-item::before {
     content: '\2022';
