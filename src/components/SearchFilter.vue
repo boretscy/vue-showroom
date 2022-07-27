@@ -240,7 +240,6 @@
                     </multiselect>
             </div>
             
-            
         </div>
         <div class="filter__head" v-else>
             <div class="filter__head-item__empty"></div>
@@ -1092,7 +1091,7 @@ export default {
     width: 205px;
     border-radius: 3px;
     color: var(--yablack) !important;
-    height: 42px;
+    height: 45px;
 }
 .filter__sort-item:nth-last-child(1) {
     display: flex;
@@ -1139,7 +1138,7 @@ export default {
     margin-right: 0;
 }
 .filter__sort-item__button.active span{
-    padding: 17px 17px;
+    padding: 14.5px 20px;
     background: transparent;
     border: solid 1px var(--yayellow) !important;
     border-radius: 3px !important;
@@ -1159,7 +1158,7 @@ export default {
     display: none;
 }
 .filter__sort-item__switch-radio span {
-    padding: 12px;
+    padding: 11.5px;
     border: solid 1px var(--radio-grid-color);
     border-radius: 3px;
     cursor: pointer;

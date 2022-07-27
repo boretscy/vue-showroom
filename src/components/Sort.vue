@@ -180,6 +180,7 @@ export default {
     .filter__sort-item__button {
         width: 100%;
         padding: 0;
+        height: 45px;
     }
     .filter__sort-item__button span {
         border: solid 1px var(--yagray) !important;
