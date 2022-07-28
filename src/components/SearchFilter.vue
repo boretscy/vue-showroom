@@ -1147,7 +1147,7 @@ export default {
     margin-right: 0;
 }
 .filter__sort-item__button.active span{
-   /* padding: 14.5px 20px;*/
+    padding: 14.5px 20px;
     background: transparent;
     border: solid 1px var(--yayellow) !important;
     border-radius: 3px !important;

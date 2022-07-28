@@ -2015,6 +2015,7 @@ input[type=range]::-ms-fill-upper {
     font-variant: initial;
     line-height: 1;
     font-size: calc(var(--size) / 3.3);
+    color: var(--yadarkblue);
 }
 .swiper-button-next .swiper-on-button__radius:after {
     content: 'next';
