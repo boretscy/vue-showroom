@@ -78,7 +78,7 @@
                     @range="setRangeValue"/>
             </div>
             <div   
-                class="filter__head-item"
+                class="filter__head-item pos-1"
                 >
                 <button-apply 
                     :filterLink="link"
