@@ -1191,8 +1191,8 @@ export default {
     border: solid 1px var(--yayellow);
 }
 @media (max-width: 1024px) {
-    .pos-1 {grid-area: revert}
-    .pos-2 {grid-area: revert}
+    .pos-1 {grid-area: 1}
+    .pos-2 {grid-area: 2}
 }
 @media (max-width: 768px) {
     .filter__sort-item:nth-last-child(1) {
