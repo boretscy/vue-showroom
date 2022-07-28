@@ -13,7 +13,7 @@
             <a :href="'/dealerships/?city='+$store.state.city" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</div>
         <div class="filter__head" v-if="filter">
-            <div class="filter__head-item">
+            <div class="filter__head-item" v-if="!$store.state.brand">
                 <multiselect 
                     v-if="!$store.state.brand"
                     v-model="modeValue" 
@@ -29,7 +29,7 @@
                     deselectLabel="Удалить"
                     ></multiselect>
             </div>
-            <div class="filter__head-item">
+            <div class="filter__head-item" v-if="!$store.state.brand">
                 <multiselect 
                     v-if="!$store.state.brand"
                     v-model="brandValue" 
@@ -192,7 +192,7 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item filter__head-item__range" v-show="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-show="viewFull" v-if="!$store.state.brand">
                 <multi-range
                     v-if="!$store.state.brand"
                     range="year"
@@ -202,7 +202,7 @@
                     :delimiter="false"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-show="viewFull">
+            <div class="filter__head-item" v-show="viewFull" v-if="!$store.state.brand">
                 <multiselect 
                     v-if="!$store.state.brand"
                     v-model="dealershipValue" 
