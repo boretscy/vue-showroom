@@ -97,4 +97,9 @@ export default {
     text-decoration: none;
     cursor: pointer;
 }
+@media (max-width: 425px) {
+    .filter__list {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
 </style>

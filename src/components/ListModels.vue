@@ -229,4 +229,9 @@ h3, .h3 {
 .available__line {
     display: block;
 }
+@media (max-width: 320px) {
+    .available__grid {
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    }
+}
 </style>

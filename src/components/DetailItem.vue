@@ -3298,6 +3298,7 @@ span.rub {
         max-height: inherit;
         position: inherit;
         margin-bottom: 40px;
+        margin-top: 40px;
     }
     .car__grid-box__price {
         display: flex;
@@ -3386,7 +3387,10 @@ span.rub {
 }
 @media (max-width: 350px) {
     .tabs_head .button span {
-        font-size: 12px;
+        font-size: 11px;
+    }
+    .tabs_content-item__sub {
+        column-gap: 1em;
     }
 }
 

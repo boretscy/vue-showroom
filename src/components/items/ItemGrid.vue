@@ -306,6 +306,9 @@ export default {
 }
 .model__grid-card__content--list {
     margin-bottom: var(--margin-bottom);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 .model__grid-card__content--list-item {
     font-size: 14px;
