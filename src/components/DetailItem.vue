@@ -2463,7 +2463,7 @@ input[type=range]::-ms-fill-upper {
     z-index: 1;
 }
 .car__grid-box__price button.button span {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     margin: 0;
     z-index: 100;
