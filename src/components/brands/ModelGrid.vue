@@ -235,7 +235,7 @@ export default {
     justify-content: center;
 }
 .grid-item__head-img {
-    display: block;
+    /*display: block;*/
 }
 .grid-item__head-img img {
     width: 100%;

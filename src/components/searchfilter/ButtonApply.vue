@@ -127,9 +127,15 @@ export default {
     margin: 0;
     padding: var(--padding-top-bottom) var(--padding-left-right);
     border-right: solid 1px var(--yawhite);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
 }
 .grid span:nth-last-child(1) {
     justify-self: center;
+    border-right: 0;
 }
 .grid svg {
     --background-color: var(--yawhite);

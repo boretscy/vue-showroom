@@ -162,7 +162,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
-    min-height: 433px;
+    height: 100%;
 }
 .grid__icon-form .grid-item__title {
     line-height: 1.3em;
