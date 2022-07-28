@@ -58,6 +58,8 @@ export default {
     position: relative;
     overflow: hidden;
     transition: 300ms;
+    margin-top: 33px;
+    background: var(--yawhite);
 }
 .available__grid-item .button::before {
     content: "";
@@ -188,6 +190,7 @@ export default {
 }
 .grid-item__head-img {
     display: block;
+    background-color: unset;
 }
 .grid-item__head-img img {
     width: 100%;
