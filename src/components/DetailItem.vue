@@ -2192,7 +2192,7 @@ input[type=range]::-ms-fill-upper {
 .model__grid-card__content--list {
     --margin-bottom: 2em;
     margin-bottom: var(--margin-bottom);
-    word-break: break-all;
+    word-break: break-word;
     min-height: 70px;
     display: -webkit-box;
     -webkit-line-clamp: 4;
