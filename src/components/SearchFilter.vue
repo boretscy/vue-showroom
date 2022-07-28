@@ -13,9 +13,8 @@
             <a :href="'/dealerships/?city='+$store.state.city" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</div>
         <div class="filter__head" v-if="filter">
-            <div class="filter__head-item" v-if="!$store.state.brand">
+            <div class="filter__head-item" v-show="!$store.state.brand">
                 <multiselect 
-                    v-if="!$store.state.brand"
                     v-model="modeValue" 
                     tag-placeholder="Выбрать автомобиль" 
                     placeholder="Выбрать автомобиль" 
@@ -29,9 +28,8 @@
                     deselectLabel="Удалить"
                     ></multiselect>
             </div>
-            <div class="filter__head-item" v-if="!$store.state.brand">
+            <div class="filter__head-item" v-show="!$store.state.brand">
                 <multiselect 
-                    v-if="!$store.state.brand"
                     v-model="brandValue" 
                     tag-placeholder="Марка" 
                     placeholder="Марка" 
@@ -88,7 +86,7 @@
                     :viewFull="viewFull"
                     @toggle="toggleFilter"/>
             </div>
-            <div class="filter__head-item" v-show="viewFull">
+            <div class="filter__head-item" v-show="viewFull || $store.state.brand">
                 <multiselect 
                     v-model="transmissionsValue" 
                     tag-placeholder="КПП" 
@@ -108,7 +106,7 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item filter__head-item__range" v-show="viewFull">
+            <div class="filter__head-item filter__head-item__range" v-show="viewFull || $store.state.brand">
                 <multi-range
                     range="volume"
                     desc-val="см3"
@@ -192,9 +190,8 @@
                     <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} выбрано</span></template>
                     </multiselect>
             </div>
-            <div class="filter__head-item filter__head-item__range" v-show="viewFull" v-if="!$store.state.brand">
+            <div class="filter__head-item filter__head-item__range" v-show="viewFull && filter.ranges.year.value[0] < filter.ranges.year.value[1]">
                 <multi-range
-                    v-if="!$store.state.brand"
                     range="year"
                     desc-val=""
                     name-range="Год выпуска"
@@ -202,7 +199,7 @@
                     :delimiter="false"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-show="viewFull" v-if="!$store.state.brand">
+            <div class="filter__head-item" v-show="viewFull && filter.dropLists.dealerships.length > 1">
                 <multiselect 
                     v-if="!$store.state.brand"
                     v-model="dealershipValue" 

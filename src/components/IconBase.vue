@@ -37,10 +37,21 @@ export default {
             type: String,
             default: 'currentColor'
         },
+        darkColor: {
+            type: String,
+            default: ''
+        },
+        lightColor: {
+            type: String,
+            default: ''
+        },
         iconRotate: {
             type: String,
             default: 'down'
         }
+    },
+    mounted: function() {
+        // console.log( this.darkColor, this.lightColor )
     }
 }
 </script>

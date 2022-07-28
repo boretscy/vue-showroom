@@ -27,6 +27,7 @@ export default new Vuex.Store({
         },
         brand: YAppsShowroomBrand || null,
         dealership: YAppsShowroomDealership || null,
+        styles: null,
 
         global: {
             filter: null,

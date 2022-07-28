@@ -30,7 +30,8 @@ export default {
 
         '$route.params': function(v) {
             
-            if ( typeof v.brand == 'undefined' && this.$store.state.brand )  console.log(this.$store.state.brand) // this.$router.push( '/'+this.$store.state.brand )
+            if ( this.$store.state.brand && typeof v.brand == 'undefined')  this.$router.push( '/'+this.$store.state.brand )
+            if ( this.$store.state.brand && typeof v.brand != 'undefined' && v.brand != this.$store.state.brand ) this.$router.push( '/'+this.$store.state.brand )
         }
     },
     computed: {
@@ -72,12 +73,14 @@ export default {
             }
 
             if ( window.YAppsShowroomStyles ) res = window.YAppsShowroomStyles
+            this.$store.state.styles = res
+            
             return res
         }
     },
     mounted: function() {
 
-        if (this.$store.state.brand) this.$router.push( '/'+this.$store.state.brand )
+        // if (this.$store.state.brand) this.$router.push( '/'+this.$store.state.brand )
 
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
         this.$cookies.set('CIS_DETAIL_PAGE', 0)

@@ -2,10 +2,10 @@
     <a :href="cta.link" class="available__grid-item grid__icon-form">
         <div class="grid-item__head">
             <div class="grid-item__head-img">
-                <icon-base icon-name="ctacredit" v-if="cta.code == 'credit'"><icon-ctacredit /></icon-base>
-                <icon-base icon-name="ctatradein" v-if="cta.code == 'trade-in'"><icon-ctatradein /></icon-base>
-                <icon-base icon-name="ctasell" v-if="cta.code == 'sell'"><icon-ctasell /></icon-base>
-                <icon-base icon-name="ctaselect" v-if="cta.code == 'offer'"><icon-ctaselect /></icon-base>
+                <icon-base icon-name="ctacredit" v-if="cta.code == 'credit'" ><icon-ctacredit :dark-color="$store.state.styles['--yadarkblue']"  :light-color="$store.state.styles['--yalightyellow']" /></icon-base>
+                <icon-base icon-name="ctatradein" v-if="cta.code == 'trade-in'"><icon-ctatradein :dark-color="$store.state.styles['--yadarkblue']"  :light-color="$store.state.styles['--yalightyellow']" /></icon-base>
+                <icon-base icon-name="ctasell" v-if="cta.code == 'sell'"><icon-ctasell :dark-color="$store.state.styles['--yadarkblue']"  :light-color="$store.state.styles['--yalightyellow']" /></icon-base>
+                <icon-base icon-name="ctaselect" v-if="cta.code == 'offer'"><icon-ctaselect :dark-color="$store.state.styles['--yadarkblue']"  :light-color="$store.state.styles['--yalightyellow']" /></icon-base>
             </div>
         </div>
         <div class="head_items">
