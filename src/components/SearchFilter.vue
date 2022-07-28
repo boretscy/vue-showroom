@@ -645,14 +645,16 @@ export default {
             })
         },
         resetFilter() {
-            if (this.$route.path == '/') {
+            let startPath = '/'
+            if ( this.$store.state.brand ) startPath += this.$store.state.brand 
+            if (this.$route.path == startPath) {
                 this.initFilter().then(() => {
                     this.$router.replace({'query': null})
                     this.brandValue = []
                     this.resetDrops()
                 })
             } else {
-                this.$router.push('/').catch(() => {})
+                this.$router.push(startPath).catch(() => {})
             }
             this.$parent.iter++
         },
