@@ -52,9 +52,6 @@
 </template>
 <script>
 export default {
-    props: ['darkColor', 'lightColor'],
-    mounted: function() {
-        console.log(this.darkColor, this.lightColor)
-    }
+    props: ['darkColor', 'lightColor']
 }
 </script>

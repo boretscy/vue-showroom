@@ -80,7 +80,8 @@ export default {
     },
     mounted: function() {
 
-        // if (this.$store.state.brand) this.$router.push( '/'+this.$store.state.brand )
+        if ( this.$store.state.brand && typeof this.$route.params.brand == 'undefined')  this.$router.push( '/'+this.$store.state.brand )
+        if ( this.$store.state.brand && typeof this.$route.params.brand != 'undefined' && this.$route.params.brand != this.$store.state.brand ) this.$router.push( '/'+this.$store.state.brand )
 
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
         this.$cookies.set('CIS_DETAIL_PAGE', 0)
