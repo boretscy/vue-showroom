@@ -80,6 +80,7 @@ export default {
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
+                if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
 
                 this.axios.get(url).then((response) => {
                     this.models = response.data
@@ -96,6 +97,7 @@ export default {
                 url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+                if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
                 this.axios.get(url).then((response) => {
                     this.brand = response.data
                 })
@@ -122,6 +124,7 @@ export default {
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
+            if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
 
             this.axios.get(url).then((response) => {
                 this.models = response.data
@@ -139,6 +142,7 @@ export default {
             url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+this.$route.params.brand+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+            if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
             this.axios.get(url).then((response) => {
                 this.brand = response.data
             })

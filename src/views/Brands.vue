@@ -86,6 +86,7 @@ export default {
                 let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
 				if (this.$store.state.city) url += '&city='+this.$store.state.city
 				if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+				if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
 				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
 				this.axios.get(url).then((response) => {
 					this.brands = response.data
@@ -100,6 +101,7 @@ export default {
             let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
 			if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+			if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
             this.axios.get(url).then((response) => {
 				this.brands = response.data
             })

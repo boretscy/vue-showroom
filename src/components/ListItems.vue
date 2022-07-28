@@ -71,6 +71,7 @@ export default {
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
+                if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
                 this.axios.get(url).then((response) => {
                     this.items = response.data.items
                     this.brand = response.data.brand
@@ -131,6 +132,7 @@ export default {
         if (this.$store.state.city) url += '&city='+this.$store.state.city
         if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
         for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
+        if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
         this.axios.get(url).then((response) => {
 			this.items = response.data.items
             this.brand = response.data.brand

@@ -26,6 +26,11 @@ export default {
                 this.$store.state.global.brands = response.data.dropLists.brands
                 if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
             })
+        },
+
+        '$route.params': function(v) {
+            
+            if ( typeof v.brand == 'undefined' && this.$store.state.brand )  console.log(this.$store.state.brand) // this.$router.push( '/'+this.$store.state.brand )
         }
     },
     computed: {
@@ -71,6 +76,9 @@ export default {
         }
     },
     mounted: function() {
+
+        if (this.$store.state.brand) this.$router.push( '/'+this.$store.state.brand )
+
         this.$store.state.viewMode = this.$cookies.get('CIS_VIEW_MODE') || 'grid'
         this.$cookies.set('CIS_DETAIL_PAGE', 0)
 
@@ -80,8 +88,6 @@ export default {
 			this.$store.state.global.brands = response.data.dropLists.brands
             if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
 		})
-
-        if ( this.$store.state.brand ) this.$router.push( this.$store.state.brand )
 
         setInterval(() => {
             
