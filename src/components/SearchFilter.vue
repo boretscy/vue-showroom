@@ -388,7 +388,7 @@ export default {
                 }
 
                 if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {
-                    q += '&minprice='+this.filter.ranges.price.value.join(',')
+                    q += '&price='+this.filter.ranges.price.value.join(',')
                 }
                 if ( this.filter.ranges.volume.value[0] != this.filter.ranges.volume.min || this.filter.ranges.volume.value[1] != this.filter.ranges.volume.max ) {
                     q += '&volume='+this.filter.ranges.volume.value.join(',')
@@ -576,6 +576,7 @@ export default {
         '$store.state.city': function() {
             let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
             if ( this.$route.params.model ) url += '&model='+this.$route.params.model
             this.axios.get(url).then((response) => {
@@ -602,6 +603,7 @@ export default {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
@@ -619,6 +621,7 @@ export default {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
                 if ( this.$route.params.model ) url += '&model='+this.$route.params.model
@@ -635,6 +638,7 @@ export default {
             return new Promise((resolve) => {
                 let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 this.axios.get(url).then((response) => {
                     this.totalCount = response.data.totalCount
                     this.filter.totalCount = response.data.totalCount
@@ -948,6 +952,7 @@ export default {
                 if ( s.length ) {
                     let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken+'&brand='+s.join(',')
                     if (this.$store.state.city) url += '&city='+this.$store.state.city
+                    if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                     for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                     this.modelOptions = []
                     let p = this.filter.ranges.price

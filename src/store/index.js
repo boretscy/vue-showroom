@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 let YAppsShowroomMode = document.getElementById('YAppsShowroom').getAttribute('mode')
 let YAppsShowroomBrand = document.getElementById('YAppsShowroom').getAttribute('brand')
+let YAppsShowroomDealership = document.getElementById('YAppsShowroom').getAttribute('dealership')
 
 
 export default new Vuex.Store({
@@ -25,6 +26,7 @@ export default new Vuex.Store({
             }
         },
         brand: YAppsShowroomBrand || null,
+        dealership: YAppsShowroomDealership || null,
 
         global: {
             filter: null,
@@ -314,8 +316,6 @@ export default new Vuex.Store({
         
         city: localStorage.getItem('YAPP_SELECTED_CITY') || null,
         inCity: null,
-
-        dealership: null
     },
     mutations: {
     },

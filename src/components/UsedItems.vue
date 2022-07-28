@@ -63,6 +63,7 @@ export default {
             handler() {
                 let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
                 url += '&page=1'
                 this.axios.get(url).then((response) => {
@@ -99,6 +100,7 @@ export default {
             url += '&brand='+this.$route.params.brand
             url += '&model='+this.$route.params.model
             if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
             this.axios.get(url).then((response) => {
                 this.items = response.data.items
@@ -126,6 +128,7 @@ export default {
 
             let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
             url += '&page='+this.page
             this.axios.get(url).then((response) => {

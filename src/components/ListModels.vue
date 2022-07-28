@@ -78,6 +78,7 @@ export default {
                 let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
                 url += '&brand='+value
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
                 this.axios.get(url).then((response) => {
@@ -94,6 +95,7 @@ export default {
                 })
                 url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 this.axios.get(url).then((response) => {
                     this.brand = response.data
                 })
@@ -118,6 +120,7 @@ export default {
             let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             url += '&brand='+this.$route.params.brand
             if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
 
             this.axios.get(url).then((response) => {
@@ -135,6 +138,7 @@ export default {
             })
             url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+this.$route.params.brand+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             this.axios.get(url).then((response) => {
                 this.brand = response.data
             })
