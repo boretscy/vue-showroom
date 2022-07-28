@@ -15,6 +15,7 @@
         <div class="filter__head" v-if="filter">
             <div class="filter__head-item">
                 <multiselect 
+                    v-if="!$store.state.brand"
                     v-model="modeValue" 
                     tag-placeholder="Выбрать автомобиль" 
                     placeholder="Выбрать автомобиль" 
@@ -30,6 +31,7 @@
             </div>
             <div class="filter__head-item">
                 <multiselect 
+                    v-if="!$store.state.brand"
                     v-model="brandValue" 
                     tag-placeholder="Марка" 
                     placeholder="Марка" 
@@ -192,6 +194,7 @@
             </div>
             <div class="filter__head-item filter__head-item__range" v-show="viewFull">
                 <multi-range
+                    v-if="!$store.state.brand"
                     range="year"
                     desc-val=""
                     name-range="Год выпуска"
@@ -201,6 +204,7 @@
             </div>
             <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
+                    v-if="!$store.state.brand"
                     v-model="dealershipValue" 
                     tag-placeholder="Автосалон" 
                     placeholder="Автосалон" 
