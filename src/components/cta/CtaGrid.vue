@@ -189,8 +189,14 @@ export default {
     position: relative;
 }
 .grid-item__head-img {
-    display: block;
     background-color: unset;
+    --heigth: 100px;
+    min-height: var(--heigth);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: flex-start;
 }
 .grid-item__head-img img {
     width: 100%;
@@ -209,6 +215,7 @@ export default {
 }
 .grid-item__title {
     text-decoration: none;
+    text-transform: none;
     font-size: 22px;
     font-weight: 600;
     line-height: 1em;
