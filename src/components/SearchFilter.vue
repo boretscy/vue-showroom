@@ -147,7 +147,7 @@
                     </multiselect>
             </div>
             <div   
-                class="filter__head-item"
+                class="filter__head-item pos-2"
                 v-show="viewFull"
                 >
                 <button-cancel @reset="resetFilter"/>
@@ -1044,7 +1044,8 @@ export default {
 
 <style>
 @import '../assets/css/multiselect.css';
-
+.pos-1 {grid-area: 1 / 5}
+.pos-2 {grid-area: 2 / 5}
 .title {
     font-size: var(--h1);
     font-weight: 400;
