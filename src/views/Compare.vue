@@ -96,7 +96,7 @@
                                             :key="indx">
                                             <div class="compare-card">
                                                 <div class="compare-card__img">
-                                                    <img :src="item._images[0].big" alt="">
+                                                    <img :src="item.image" alt="">
                                                     <div class="compare-card__img-icon" title="Удалить автомобиль" @click="deleteItem(indx)">
                                                         <icon-base icon-name="trash"><icon-trash /></icon-base>
                                                     </div>
