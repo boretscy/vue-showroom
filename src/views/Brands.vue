@@ -120,7 +120,7 @@ export default {
 			this.sortMode = v
 		},
 		sort(v) {
-			switch (this.$store.state.mod) {
+			switch (this.$store.state.mode) {
 				case 'new':
 					switch(v) {
 						case 'name':
@@ -133,7 +133,7 @@ export default {
 							this.brands.sort((a, b) => a.max < b.max ? 1 : -1)
 							break;
 					}
-					this.iter++
+					// this.iter++
 					break;
 				case 'used':
 					break;
