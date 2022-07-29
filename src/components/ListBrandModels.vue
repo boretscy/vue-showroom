@@ -103,7 +103,7 @@ export default {
         //     }
         // },
         '$parent.sortMode': function(newValue) {
-            console.log( this.brand._models )
+            // console.log( this.brand._models )
             switch(newValue) {
                 case 'name':
                     this.brand._models.sort((a, b) => a.name > b.name ? 1 : -1)

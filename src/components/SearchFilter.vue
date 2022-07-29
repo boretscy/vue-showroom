@@ -503,7 +503,7 @@ export default {
                 this.getModels(newValue).then(()=>{
                     this.resetDrops()
                     this.getFilter(this.buildQuery())
-                    // if ( this.$ ) 
+                    this.link = this.buildLink(this.buildQuery())
                 })
             } else {
                 this.initFilter().then(() => {
@@ -514,6 +514,7 @@ export default {
         modelValue: function() {
             this.resetDrops()
             this.getFilter(this.buildQuery())
+            this.link = this.buildLink(this.buildQuery())
         },
         transmissionsValue: function(v, o) {
             if ( v.length || (!v.length && o.length) ) {
@@ -898,7 +899,7 @@ export default {
         },
         buildLink( query ) {
             let str = query || ''
-            let l = '', q = '', res
+            let l = '/', q = '', res
             if ( str.length ) {
                 let get = {}
                 str.split('?')[1].split('&').forEach( (param) => {
@@ -908,7 +909,7 @@ export default {
                 // path
                 if (typeof get.brand == 'object') {
                     if (get.brand.length == 1) {
-                        l += '/'+get.brand[0]
+                        l += get.brand[0]
                         if (typeof get.model == 'object') {
                             if (get.model.length == 1) l += '/'+get.model[0]
                         }
