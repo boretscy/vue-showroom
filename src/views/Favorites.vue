@@ -89,6 +89,10 @@ export default {
 </script>
 
 <style scoped>
+
+.h1 {
+    font-weight: 400;
+}
     .button {
         --ui-color: var(--yadarkblue);
         --border-color: var(--ui-color);

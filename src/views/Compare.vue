@@ -306,6 +306,9 @@ export default {
 </script>
 
 <style scoped>
+.h1 {
+    font-weight: 400;
+}
     .--gray__bg {
         background: var(--yalightgray);
     }
