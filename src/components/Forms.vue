@@ -74,8 +74,6 @@ export default {
             })
             
             if (this.$store.state.global.selectedVehicle) sendData.push({name: 'vehicle', value: this.$store.state.global.selectedVehicle})
-            
-            console.log( sendData )
 
             if ( send ) {
 
@@ -88,6 +86,13 @@ export default {
                     if (response.data.status) {
                         this.$store.state.global.forms[indx].statuses.sended = true
                         this.$store.state.global.forms[indx].statuses.success = true
+                        setTimeout(() => {
+                            this.$store.state.global.forms[indx].statuses.sended = false
+                            this.$store.state.global.forms[indx].statuses.success = false
+                            this.$store.state.global.forms[indx].fields.forEach( (i) => {
+                                i.value = null
+                            })
+                        }, 5000);
                     }
                 })
             }
