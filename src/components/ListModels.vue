@@ -95,6 +95,7 @@ export default {
                     window.scrollTo(0,0);
                 })
                 url = this.$store.state.apiUrl+'brand/'+this.$store.state.mode+'/'+value+'/?token='+this.$store.state.apiToken
+                for (let k in this.$route.query) if (k!=='brand') url += '&'+k+'='+this.$route.query[k]
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 if (this.$store.state.brand) url += '&brand='+this.$store.state.brand

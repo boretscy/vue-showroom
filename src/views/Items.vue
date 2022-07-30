@@ -12,6 +12,9 @@
 			:viewMode="viewMode"
 			:dataSort="sortMode"
             ></list-items>
+		<more
+			@more="more"
+			v-if="showMore"/>
 	</div>
 </template>
 
@@ -19,12 +22,14 @@
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
 import ListItems from '@/components/ListItems.vue'
+import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Items',
 	components: {
 		SearchFilter, Sort,
-        ListItems
+        ListItems,
+		More
 	},
 	data() {
 		return {

@@ -1,6 +1,6 @@
 <template>
     <div class="filter">
-        <div class="title">
+        <div class="title" v-if="totalCount">
             <router-link to="/">
                 {{ Format(totalCount) }} {{ getWorld(totalCount, 'a') }} 
                 <span v-if="curBrand">
@@ -12,6 +12,9 @@
             </router-link>
             <a :href="'/dealerships/?city='+$store.state.city" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</div>
+        <div class="title" v-else>
+            <div class="title-empty"></div>
+        </div>
         <div class="filter__head" v-if="filter">
             <div class="filter__head-item" v-show="!$store.state.brand">
                 <multiselect 
@@ -293,8 +296,6 @@ export default {
     data() {
         return {
             totalCount: 0,
-            curBrand: null,
-            curModel: null,
 
             brands: [],
             oneBrand: false,
@@ -345,6 +346,18 @@ export default {
         }
     },
     computed: {
+        curModel: {
+            get() {
+                return ( this.modelValue.length == 1 ) ? this.modelValue[0].name : null
+            },
+            set() {}
+        },
+        curBrand: {
+            get() {
+                return ( this.brandValue.length == 1 ) ? this.brandValue[0].name : null
+            },
+            set() {}
+        },
         filterList: {
             get() {
                 // console.log(this.modelOptions)
@@ -564,8 +577,6 @@ export default {
                     this.brandValue.push(i)
                 }
             })
-            if ( this.brandValue.length == 1 ) this.curBrand = this.brandValue[0].name
-            if ( this.modelValue.length == 1 ) this.curModel = this.modelValue[0].name
         },
         '$route.param.model': function() {
             this.modelOptions.forEach( (i) => {
@@ -573,7 +584,6 @@ export default {
                     this.modelValue.push(i)
                 }
             })
-            if ( this.modelValue.length == 1 ) this.curModel = this.modelValue[0].name
         },
         '$store.state.city': function() {
             let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
@@ -625,8 +635,6 @@ export default {
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-                if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
-                if ( this.$route.params.model ) url += '&model='+this.$route.params.model
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
                     this.totalCount = this.filter.totalCount
@@ -670,13 +678,10 @@ export default {
 
             this.modeValue = this.$store.state.modeOptions[this.$store.state.mode]
 
-            if ( this.modelValue.length == 1 ) this.curModel = this.modelValue[0].name
-
             if ( this.$route.params.brand ) {
                 this.$store.state.global.brands.forEach( (i) => {
                     if ( i.code == this.$route.params.brand ) {
                         this.brandValue.push(i)
-                        this.curBrand = i.name
                     }
                 })
             } else if ( typeof this.$route.query.brand == 'string' ) {
@@ -894,7 +899,6 @@ export default {
             if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
                 l += '&year='+this.filter.ranges.year.value.join(',')
             }
-
             return l
         },
         buildLink( query ) {
@@ -906,12 +910,18 @@ export default {
                     if ( param !== '' ) get[param.split('=')[0]] = param.split('=')[1].split(',')
                 })
 
+                console.log(get)
+
                 // path
                 if (typeof get.brand == 'object') {
                     if (get.brand.length == 1) {
                         l += get.brand[0]
                         if (typeof get.model == 'object') {
-                            if (get.model.length == 1) l += '/'+get.model[0]
+                            if (get.model.length == 1) {
+                                l += '/'+get.model[0]
+                            } else {
+                                q += 'model='+get.model.join(',')+'&'
+                            }
                         }
                     } else {
                         q += 'brand='+get.brand.join(',')+'&'
@@ -926,6 +936,8 @@ export default {
 
             res = l+((q.length)?'?':'')+q.slice(0, -1)
             // this.$router.push( res )
+
+            console.log(res)
 
             return res
         },
@@ -1051,6 +1063,10 @@ export default {
     margin-bottom: 2rem;
 	position: relative;
 	user-select: none;
+}
+.title .title-empty {
+    height: 32px;
+    background-color: var(--yalightgray);
 }
 .title a, .title a:visited {
     color: var(--yablack);

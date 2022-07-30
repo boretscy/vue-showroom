@@ -16,7 +16,7 @@ export default {
 .form-field {
     margin-bottom: 15px;
     padding: 15px;
-    background-color: var(--yalightgreen);
+    background-color: var(--yalightgray);
     text-align: center;
 }
 </style>

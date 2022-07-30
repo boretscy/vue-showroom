@@ -1,11 +1,5 @@
 <template>
     <div>
-        <div class="flex__head">
-            <router-link :to="'/'" class="flex__head-title h2">
-                <span class="flex__head-count">{{ items.count }}</span>
-            </router-link>
-        </div>
-
         <div 
             class="model__grid"
             v-if="viewMode == 'grid'"
