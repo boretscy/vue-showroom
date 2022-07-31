@@ -23,7 +23,7 @@
                     placeholder="Выбрать автомобиль" 
                     label="name" 
                     track-by="code" 
-                    :options="filter.dropLists.mode" 
+                    :options="$store.state.modeOptions[$store.state.mode]" 
                     :searchable="false"
                     :multiple="false"
                     selectLabel="Выбрать"
@@ -506,7 +506,14 @@ export default {
     watch: {
         modeValue: function(n, o) {
             if ( o.code ) {
-                window.location.href = '/cars/'+n.code;
+                let l = '/'
+                if (this.$store.state.mode == 'new') {
+                    l += 'cars/'+n.code
+                } else {
+                    l += 'cars/used/'
+                    if ( n.code == 'comm' ) l += '#/?dealership=1489'
+                }
+                window.location.href = l;
             }
         },
 
@@ -676,7 +683,7 @@ export default {
         // drops
         getStartDropsValues() {
 
-            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode]
+            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489')?1:0)]
 
             if ( this.$route.params.brand ) {
                 this.$store.state.global.brands.forEach( (i) => {

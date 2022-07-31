@@ -16,14 +16,26 @@ export default new Vuex.Store({
         viewMode: null,
         mode: YAppsShowroomMode || 'new',
         modeOptions: {
-            new: {
-                code: 'new',
-                name: 'Новые автомобили'
-            },
-            used: {
-                code: 'used',
-                name: 'Автомобили с пробегом'
-            }
+            new: [
+                {
+                    code: 'new',
+                    name: 'Новые автомобили'
+                },
+                {
+                    code: 'used',
+                    name: 'Автомобили с пробегом'
+                }
+            ],
+            used: [
+                {
+                    code: 'pass',
+                    name: 'Легковые автомобили'
+                },
+                {
+                    code: 'comm',
+                    name: 'Коммерческие авто'
+                }
+            ]
         },
         brand: YAppsShowroomBrand || null,
         dealership: YAppsShowroomDealership || null,
