@@ -7,7 +7,9 @@
             </router-link>
         </div>
 
-        <div class="available__grid" v-if="models && viewMode=='grid'">
+        <div 
+            class="available__grid" 
+            v-if="models && viewMode=='grid'">
             <div 
                 v-for="model in models"
                 :key="model.id">
@@ -26,24 +28,15 @@
         <div 
             class="available__grid" 
             :class="{'available__line': viewMode == 'list'}"
-            v-if="models && viewMode=='list'">
-            <div 
+            v-if="viewMode=='list'">
+            <model-line 
                 v-for="model in models"
-                :key="model.id">
-                <model-line 
-                    :cis="model.statistics['1'].counter + model.statistics['2'].counter"
-                    :name="model.name"
-                    :picture="model.image || null"
-                    :body="model.body.code"
-                    :brand="$route.params.brand"
-                    :link="buildLink(model.code)"
-                    />
-            </div>
-            <!-- <cta-line 
-                title="Рассчитайте ежемесячный платеж"
-                link="#"
-                button="Получить одобрение"
-                icon="credit"/> -->
+                :key="model.id"
+                :model="model"
+                :picture="model.image || null"
+                :brand="$route.params.brand"
+                :link="buildLink(model.code)"
+                />
         </div>
     </div>
 </template>
@@ -101,6 +94,7 @@ export default {
                 if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
                 this.axios.get(url).then((response) => {
                     this.brand = response.data
+                    if ( !this.brand ) this.$router.push('/404') 
                 })
             }
         },

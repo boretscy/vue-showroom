@@ -11,9 +11,10 @@
                 <icon-base icon-name="cisminivan" v-if="!picture && model.body.code == 'minivan'"><icon-cisminivan /></icon-base>
                 <icon-base icon-name="cispickup" v-if="!picture && model.body.code == 'pickup'"><icon-cispickup /></icon-base>
                 <icon-base icon-name="cissedan" v-if="!picture && model.body.code == 'sedan'"><icon-cissedan /></icon-base>
+                <icon-base icon-name="cissedan" v-if="!picture && model.body.code == 'none'"><icon-cissedan /></icon-base>
                 <icon-base icon-name="cissuv" v-if="!picture && model.body.code == 'suv'"><icon-cissuv /></icon-base>
                 <icon-base icon-name="cisvan" v-if="!picture && model.body.code == 'van'"><icon-cisvan /></icon-base>
-                <icon-base icon-name="ciswagon" v-if="!picture && body.code == 'wagon'"><icon-ciswagon /></icon-base>
+                <icon-base icon-name="ciswagon" v-if="!picture && model.body.code == 'wagon'"><icon-ciswagon /></icon-base>
             </router-link>
             <div class="grid-item__head-discont" v-if="model.Discount">Выгода</div>
         </div>
@@ -25,7 +26,7 @@
             <span class="grid-item__sub--items">{{ Format( Number(model.vehicles) ) }} {{ getWorld(Number(model.vehicles), 'a') }}</span>
             <span class="grid-item__sub--items">{{ Format( Number(model._colors) ) }} {{ getWorld(Number(model._colors), 'c') }}</span>
         </div>
-        <button class="button transparent w100"><span style="z-index: 50;">от {{ Format( Number(model.min_price) ) }} </span><span class="rub">₽</span></button>
+        <router-link :to="link" class="button transparent w100"><span style="z-index: 50;">от {{ Format( Number(model.min_price) ) }}</span> <span class="rub">₽</span></router-link>
     </div>
 </template>
 
@@ -44,7 +45,7 @@ import IconCisvan from '@/components/icons/IconCisvan.vue'
 import IconCiswagon from '@/components/icons/IconCiswagon.vue'
 
 export default {
-    name: 'ModelItem',
+    name: 'ModelLine',
     components: {
         IconBase,
         IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
@@ -53,6 +54,22 @@ export default {
     },
     props: ['picture', 'brand', 'link', 'model'],
     methods: {
+        getWorld( q = 1, f = 'a' ) {
+
+            let res = {
+                'c': ['цвет', 'цвета', 'цветов'],
+                'a': ['автомобиль', 'автомобиля', 'автомобилей']
+            }
+            let t = [
+				[1, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 131, 141, 151, 161, 171, 181, 191],
+				[2,3,4,22,23,24,32,33,34,42,43,44,52,53,54,62,63,64,72,73,74,82,83,84,92,93,94,102,103,104,122,123,124,132,133,134,142,143,144,152,153,154,162,163,164,172,173,174,182,183,184,192,193,194]
+			]
+
+            if ( t[0].indexOf(q) >= 0 ) return res[f][0]
+            if ( t[1].indexOf(q) >= 0 ) return res[f][1]
+            return res[f][2]
+        },
+        
         Format(q) {
 			
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' });

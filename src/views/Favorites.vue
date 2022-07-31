@@ -72,7 +72,7 @@ export default {
                 this.items.forEach((i, k) => {
                     if ( !this.favorites.includes(i.id) ) this.items.splice(k, 1)
                 })
-            }, 500);
+            }, 100);
         }
 
         

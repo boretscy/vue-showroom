@@ -8,10 +8,7 @@
                 <div class="radio_head">
                     <div class="config_head">
                         <div class="tabs_head">
-                            <button class="button transparent --is-active" data-role="tab" data-target="#img" @click="clear">
-                                <span>Сравнение</span>
-                            </button>
-                            <button class="button transparent" data-role="tab" data-target="#movie">
+                            <button class="button transparent" data-role="tab" data-target="#movie" @click="clear">
                                 <span>Очистить</span>
                             </button>
                         </div>
@@ -221,7 +218,7 @@ export default {
                 this.items.forEach((i, k) => {
                     if ( !this.compare.includes(i.id) ) this.items.splice(k, 1)
                 })
-            }, 500);
+            }, 100);
         }
 
         var swiper = new Swiper(".com-slide", {
@@ -290,7 +287,7 @@ export default {
         },
 
         deleteItem(indx) {
-
+            console.log(indx)
             this.compare.splice(indx, 1)
             localStorage.setItem('CIS_COMPARE', JSON.stringify(this.compare))
         },

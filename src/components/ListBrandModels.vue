@@ -5,10 +5,6 @@
                 {{ brand.name }}
                 <span class="flex__head-count">{{ brand.vehicles }}</span>
             </router-link>
-            <!-- <router-link :to="dataLink" class="flex__head-link">
-                Все модели {{ dataName }}
-                <icon-base icon-name="corner" iconRotate="right"><icon-corner /></icon-base>
-            </router-link> -->
         </div>
 
         <div 
@@ -39,12 +35,8 @@
                 :model="model"
                 :picture="model.image || null"
                 :brand="brand.code"
-                :link="buildLink(model.code)"/>
-            <!-- <cta-line 
-                title="Рассчитайте ежемесячный платеж"
-                link="#"
-                button="Получить одобрение"
-                icon="credit"/> -->
+                :link="buildLink(model.code)"
+                />
         </div>
     </div>
 </template>

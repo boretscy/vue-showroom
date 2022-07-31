@@ -53,10 +53,7 @@ export default {
         IconCissuv, IconCisvan, IconCiswagon
     },
     props: ['picture', 'brand', 'link', 'model'],
-    mounted: function() {
-    },
     methods: {
-
         getWorld( q = 1, f = 'a' ) {
 
             let res = {

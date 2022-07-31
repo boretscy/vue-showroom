@@ -7,7 +7,7 @@ import Items from '../views/Items.vue'
 import Favorites from '../views/Favorites.vue'
 import Compare from '../views/Compare.vue'
 import Test from '../views/Test.vue'
-// import Notfound from '../views/Notfound.vue'
+import Notfound from '../views/Notfound.vue'
 
 Vue.use(VueRouter)
 
@@ -38,6 +38,10 @@ const routes = [
         component: Items
     },
     {
+        path: '/404',
+        component: Notfound
+    },
+    {
         path: '/:brand',
         name: 'Brand',
         component: Brand
@@ -52,11 +56,6 @@ const routes = [
         name: 'Item',
         component: Item
     },
-    // {
-    //     path: '*',
-    //     name: 'Notfound',
-    //     component: Notfound
-    // }
 ]
 
 const router = new VueRouter({
