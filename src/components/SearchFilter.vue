@@ -910,8 +910,6 @@ export default {
                     if ( param !== '' ) get[param.split('=')[0]] = param.split('=')[1].split(',')
                 })
 
-                console.log(get)
-
                 // path
                 if (typeof get.brand == 'object') {
                     if (get.brand.length == 1) {
@@ -936,8 +934,6 @@ export default {
 
             res = l+((q.length)?'?':'')+q.slice(0, -1)
             // this.$router.push( res )
-
-            console.log(res)
 
             return res
         },
