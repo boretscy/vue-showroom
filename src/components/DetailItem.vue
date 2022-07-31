@@ -105,8 +105,8 @@
                    </div>
                    <div class="car__grid-box-stock --detail__bg">
                        <div class="car__grid-box-stock__head">
-                           <div class="car__grid-box-stock__head-sub">Комплектация:</div>
-                           <div class="car__grid-box-stock__head-title">{{ vehicle.equipment }}</div>
+                           <div class="car__grid-box-stock__head-sub" v-if="vehicle.equipment">Комплектация:</div>
+                           <div class="car__grid-box-stock__head-title" v-if="vehicle.equipment">{{ vehicle.equipment }}</div>
                            <div class="car__grid-box-stock__head-options">
                                <span v-if="mainOptionsCount">{{ mainOptionsCount }} {{ getWorld(mainOptionsCount,'b') }} {{ getWorld(mainOptionsCount,'o') }}</span>
                                <span v-if="vehicle._additional.length">{{ vehicle._additional.length }} {{ getWorld(vehicle._additional.length,'d') }} {{ getWorld(vehicle._additional.length,'o') }}</span>
@@ -133,17 +133,21 @@
                                <div class="stock__list-items__category">Топливо:</div>
                                <div class="stock__list-items__name">{{ vehicle.engine.name }}</div>
                            </div>
-                           <!-- <div class="car__grid-box-stock__list-items">
+                           <div class="car__grid-box-stock__list-items">
                                <div class="stock__list-items__category">Привод:</div>
-                               <div class="stock__list-items__name">Передний</div>
-                           </div> -->
+                               <div class="stock__list-items__name">{{ vehicle.specifications[11].value }}</div>
+                           </div>
                            <div class="car__grid-box-stock__list-items">
                                <div class="stock__list-items__category">Двигатель:</div>
-                               <div class="stock__list-items__name">{{ vehicle.general[5].value }}</div>
+                               <div class="stock__list-items__name">{{ (($store.state.mode=='new')?vehicle.general[5].value:vehicle.general[8].value) }}</div>
                            </div>
                            <div class="car__grid-box-stock__list-items">
                                <div class="stock__list-items__category">Расход л/100км:</div>
                                <div class="stock__list-items__name">{{ vehicle.specifications[3].value }} - {{ vehicle.specifications[2].value }}</div>
+                           </div>
+                           <div class="car__grid-box-stock__list-items" v-if="$store.state.mode=='used'">
+                               <div class="stock__list-items__category">Пробег:</div>
+                               <div class="stock__list-items__name">{{ Format(vehicle.general[5].value) }} км</div>
                            </div>
                        </div>
                    </div>
@@ -709,7 +713,7 @@ export default {
         Format(q) {
 
             var Price = new Intl.NumberFormat('ru', { currency: 'RUR' })
-            return Price.format(q)
+            return Price.format(Number(q))
         },
 
         getWorld( q = 1, f = 'o' ) {
