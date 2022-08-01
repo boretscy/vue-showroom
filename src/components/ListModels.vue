@@ -63,6 +63,8 @@ export default {
             random_cta: null
         }
     },
+    computed: {
+    },
     watch: {
 
         '$route.params.brand': {
@@ -140,6 +142,7 @@ export default {
             if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
             this.axios.get(url).then((response) => {
                 this.brand = response.data
+                if ( !this.brand ) this.$router.push('/404') 
             })
         }
     },

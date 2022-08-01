@@ -19,7 +19,7 @@
                     </multiselect>
             </div>
             <div class="filter__sort-item">
-                <div class="filter__sort-item_box">
+                <div class="filter__sort-item_box" v-if="$store.state.mode == 'new'">
                     <button class="filter__sort-item__button" :class="{'active': Mode == 'all'}" @click="$router.push(allLink)">
                         <span>Все</span>
                     </button>

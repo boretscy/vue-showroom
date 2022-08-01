@@ -1,5 +1,9 @@
 <template>
 	<div class="yapps-cis" :key="iter" >
+		<vue-headful
+            :title="metaTitle"
+            :description="metaDescription"
+        />
 		<search-filter @sort="sort"/>
 		<sort
 			:Discount="sortButtons.Discount"
@@ -77,7 +81,19 @@ export default {
 		},
 		mode: function() {
 			return this.$store.state.mode
-		}
+		},
+
+        metaTitle: function() {
+            let d = new Date()
+            let res = 'Купить новый автомобиль '+d.getFullYear()+' года выпуска в '+this.$store.state.inCity+' | Официальный дилер — Юг-Авто'
+            return res
+        },
+        metaDescription: function() {
+            let d = new Date()
+            let res = 'Продажа новых автомобилей '+d.getFullYear()-1+'-'+d.getFullYear()+' года выпуска от официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Актуальный модельный ряд *Выгодные цены *Тест-драйв перед покупкой'
+            if (this.$store.state.mode == 'used') res = 'Продажа подержанных б/у автомобилей у официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Обмен по Trade-in *Выкуп *Кредит *Подбор'
+            return res
+        }
 	},
     watch: {
         '$route.query': {

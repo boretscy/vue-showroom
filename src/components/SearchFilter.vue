@@ -1,5 +1,9 @@
 <template>
     <div class="filter">
+        <vue-headful
+            :title="metaTitle"
+            :description="metaDescription"
+        />
         <div class="title" v-if="totalCount">
             <router-link to="/">
                 {{ Format(totalCount) }} {{ getWorld(totalCount, 'a') }} 
@@ -500,6 +504,19 @@ export default {
                 
             },
             set() {}
+        },
+
+
+
+        metaTitle: function() {
+            let res = 'Купить '+((this.$store.state.mode=='new')?'новый':'б/у')+' '+((this.curBrand)?this.curBrand+' ':'автомобиль ')+((this.curModel)?this.curModel+' ':'')+'в '+this.$store.state.inCity+' | Официальный дилер — Юг-Авто'
+            return res
+        },
+        metaDescription: function() {
+            let d = new Date()
+            let res = 'Продажа новых автомобилей '+d.getFullYear()-1+'-'+d.getFullYear()+' года выпуска от официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Актуальный модельный ряд *Выгодные цены *Тест-драйв перед покупкой'
+            if (this.$store.state.mode == 'used') res = 'Продажа подержанных б/у автомобилей у официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Обмен по Trade-in *Выкуп *Кредит *Подбор'
+            return res
         }
         
     },

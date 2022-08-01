@@ -46,7 +46,7 @@ export default {
 			let res = 'all'
 			if ( this.$route.query.sort ) res = this.$route.query.sort
 			return res
-		}
+		},
 	},
 	watch: {
         '$route.params.brand': {

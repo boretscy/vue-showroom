@@ -7,6 +7,9 @@ import VueAxios from 'vue-axios'
 import VueCookies from 'vue-cookies'
 import vmodal from 'vue-js-modal'
 import VueMask from 'v-mask'
+import vueHeadful from 'vue-headful';
+
+Vue.component('vue-headful', vueHeadful);
 
 Vue.use(VueMask);
 Vue.use(vmodal)
