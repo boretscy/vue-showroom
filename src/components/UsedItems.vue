@@ -1,29 +1,31 @@
 <template>
-    <div>
-        <div 
-            class="model__grid"
-            v-if="viewMode == 'grid'"
-            >
-            <item-grid 
-                v-for="item in items"
-                :key="item.id"
-                :brand="item.brand"
-                :model="item.model"
-                :item="item"
-                />
-        </div>
-        <div 
-            class="model__grid"
-            v-if="viewMode == 'list'"
-            :class="{'model__line': viewMode == 'list'}"
-            >
-            <item-line 
-                v-for="item in items"
-                :key="item.id"
-                :brand="item.brand"
-                :model="item.model"
-                :item="item"
-                />
+    <div :key="iter">
+        <div v-if="items">
+            <div 
+                class="model__grid"
+                v-if="viewMode == 'grid'"
+                >
+                <item-grid 
+                    v-for="item in items"
+                    :key="item.id"
+                    :brand="item.brand"
+                    :model="item.model"
+                    :item="item"
+                    />
+            </div>
+            <div 
+                class="model__grid"
+                v-if="viewMode == 'list'"
+                :class="{'model__line': viewMode == 'list'}"
+                >
+                <item-line 
+                    v-for="item in items"
+                    :key="item.id"
+                    :brand="item.brand"
+                    :model="item.model"
+                    :item="item"
+                    />
+            </div>
         </div>
     </div>
 </template>
@@ -42,7 +44,8 @@ export default {
 			items: [],
 			showMore: false,
 			count: 0,
-            page: 1
+            page: 1,
+            iter: 1
 		}
 	},
 	computed: {
@@ -65,6 +68,7 @@ export default {
                     this.items = newitems
                     this.count = response.data.totalCount
                     this.$parent.showMore = response.data.next_page
+                    
 
                     this.items.forEach( (item) => {
                         if (item.Discount) this.$parent.sortButtons.Discount = true
@@ -90,16 +94,18 @@ export default {
         },
 
         '$store.state.city': function() {
-            let url = this.$store.state.apiUrl+'model/'+this.$store.state.mode+'/'+this.$route.params.model+'?token='+this.$store.state.apiToken
-            url += '&brand='+this.$route.params.brand
-            url += '&model='+this.$route.params.model
+            this.items = []
+            let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-            for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
+            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+            url += '&page=1'
             this.axios.get(url).then((response) => {
-                this.items = response.data.items
-                this.brand = response.data.brand
-                this.model = response.data.model
+                let newitems = this.items.concat(response.data.items)
+                this.items = newitems
+                this.count = response.data.totalCount
+                this.$parent.showMore = response.data.next_page
+                this.iter++
 
                 this.items.forEach( (item) => {
                     if (item.Discount) this.$parent.sortButtons.Discount = true
