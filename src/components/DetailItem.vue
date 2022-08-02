@@ -63,7 +63,7 @@
                             <span class="car__grid-box__dc-item_status --in-stock">{{ vehicle.status.name }}</span>
                             <span class="car__grid-box__dc-item_update">Обновлено {{ vehicle._updated }}</span>
                         </div>
-                        <a :href="'tel:+'+FormatPhoneIn(vehicle.dealership.phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(vehicle.dealership.phone) }}</a>
+                        <a :href="'tel:+'+FormatPhoneIn(phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(phone) }}</a>
                         <div class="car__grid-box__status-links">
                             <a href="#" :class="{'--is-active': locstore.FAVORITES.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
                                 <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
@@ -519,6 +519,8 @@ export default {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             },
+
+            phone: (window.calltouch_phone) ? window.calltouch_phone : this.vehicle.dealership.phone
             
         }
     },
