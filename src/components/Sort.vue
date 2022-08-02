@@ -118,10 +118,19 @@ export default {
         }
     },
     mounted: function() {
-        // if ( this.$store.state.mode == 'used' ) {
-        //     this.sortList.puch({code: 'date_down',  name: 'Сначала новые' })
-        //     this.sortList.puch({code: 'date_up',  name: 'Сначала старые' })
-        // }
+        if ( this.$store.state.mode == 'used' && !this.$route.params.brand ) {
+            this.sortValue = []
+            this.sortList = [
+                {
+                    code: 'price_up',
+                    name: 'По возрастанию цены'
+                },
+                {
+                    code: 'price_down',
+                    name: 'По убыванию цены'
+                }
+            ]
+        }
         
     },
     methods: {

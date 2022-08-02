@@ -60,17 +60,19 @@ export default {
            
             let send = true
             if ( !this.$store.state.global.forms[indx].rulesCheck ) send = false 
-            let sendData = []
+            let sendData = [], phone = '', name = ''
             sendData.push({name: 'src', value: window.location.href})
             sendData.push({name: 'AppName', value: 'Cis'})
             sendData.push({name: 'form', value: this.$store.state.global.forms[indx].title})
-            if ( this.$store.state.dealership ) sendData.push({name: 'dealership', value: this.$store.state.dealership})
+            if ( this.$store.state.form_dealership ) sendData.push({name: 'dealership', value: this.$store.state.form_dealership})
             this.$store.state.global.forms[indx].fields.forEach((i) => {
                 if (i.required && !i.value) {
                     i.error = true
                     send = false
                 }
                 sendData.push({name: i.name, value: i.value})
+                if ( i.name == 'phone' ) phone = i.value.replace(/[^\d;]/g, '')
+                if ( i.name == 'name' ) name = i.value
             })
             
             if (this.$store.state.global.selectedVehicle) sendData.push({name: 'vehicle', value: this.$store.state.global.selectedVehicle})
@@ -93,6 +95,17 @@ export default {
                                 i.value = null
                             })
                         }, 5000);
+
+                        if ( this.$store.state.global.CTId ) {
+                            let CallTouchURL = 'https://api.calltouch.ru/calls-service/RestAPI/requests/'+this.$store.state.global.CTId+'/register/'
+                            CallTouchURL += '?subject='+encodeURIComponent(this.$store.state.global.forms[indx].title)
+                            CallTouchURL += '&sessionId='+this.$store.state.global.CTSess;
+                            CallTouchURL += '&phoneNumber='+phone;
+                            CallTouchURL += '&fio='+encodeURIComponent(name);
+                            CallTouchURL += '&requestUrl='+window.location.href;
+
+                            this.axios.get(CallTouchURL)
+                        }
                     }
                 })
             }

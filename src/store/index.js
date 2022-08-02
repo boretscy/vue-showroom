@@ -39,6 +39,7 @@ export default new Vuex.Store({
         },
         brand: YAppsShowroomBrand || null,
         dealership: YAppsShowroomDealership || null,
+        form_dealership: null,
         styles: null,
 
         global: {
@@ -324,6 +325,9 @@ export default new Vuex.Store({
                     }
                 }
             ],
+
+            CTId: window.CTId || null,
+            CTSess: window.CTSess || null
 
         },
         

@@ -27,6 +27,7 @@ export default {
     methods: {
         clearTag(tag) {
             this.$parent[tag.list].splice(tag.indx, 1)
+            if (this.tags.length == 0) this.$emit('reset')
         }
     }
 

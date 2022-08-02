@@ -1,12 +1,12 @@
 <template>
     <div class="yapps-cis">
-		<search-filter />
+		<search-filter ref="searchfilter" />
 		<sort
 			:Discount="sortButtons.Discount"
 			:InStock="sortButtons.InStock"
 			:OnWay="sortButtons.OnWay"
 			:Mode="mode"
-			@sort="sortToggle"/>
+			@sort="sortToggle" />
         <list-items
             data="modelItems"
 			:viewMode="viewMode"

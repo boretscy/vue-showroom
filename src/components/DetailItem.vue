@@ -589,7 +589,6 @@ export default {
         }
     },
     mounted: function() {
-        // window.scrollTo(0,0);
 
         this.accordion = this.vehicle.options
 
@@ -712,7 +711,7 @@ export default {
             this.$modal.show('form-offer')
             this.$store.state.global.selectedVehicle = id
             this.$store.state.global.selectedVehicleName = name
-            this.$store.state.dealership = ds
+            this.$store.state.form_dealership = ds
         },
 
 
