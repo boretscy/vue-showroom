@@ -34,8 +34,9 @@
         <div class="model__grid-card__content">
             <router-link :to="link" class="model__grid-card__content--title">{{ brand.name+' '+model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
-                <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
-                <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
+                <span class="model__grid-card__content--list-item">{{ item.general[4].value }} г.в.</span>
+                <span class="model__grid-card__content--list-item" v-if="$store.state.mode=='used'">{{ Format(item.general[5].value) }} км</span>
+                <span class="model__grid-card__content--list-item" v-if="item.body_type">{{ item.body_type }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
             </div>
