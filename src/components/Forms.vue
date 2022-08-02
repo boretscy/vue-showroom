@@ -95,11 +95,12 @@ export default {
                                 i.value = null
                             })
                         }, 5000);
+                        console.log(this.$store.state.global.CTId)
 
                         if ( this.$store.state.global.CTId ) {
                             let CallTouchURL = 'https://api.calltouch.ru/calls-service/RestAPI/requests/'+this.$store.state.global.CTId+'/register/'
                             CallTouchURL += '?subject='+encodeURIComponent(this.$store.state.global.forms[indx].title)
-                            CallTouchURL += '&sessionId='+this.$store.state.global.CTSess;
+                            CallTouchURL += '&sessionId='+window['call_value_'+this.$store.state.global.CTSess];
                             CallTouchURL += '&phoneNumber='+phone;
                             CallTouchURL += '&fio='+encodeURIComponent(name);
                             CallTouchURL += '&requestUrl='+window.location.href;
