@@ -169,7 +169,7 @@ export default {
 </script>
 <style scoped>
 hr {
-    margin: 30px 0;
+    margin: 0 0 2rem 0;
     color: inherit;
     border: 0;
     border-top: 1px solid var(--yagray);

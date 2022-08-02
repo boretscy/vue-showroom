@@ -1102,7 +1102,7 @@ export default {
 }
 
 .filter {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     user-select: none;
 }
 .filter__head {
