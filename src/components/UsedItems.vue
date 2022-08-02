@@ -81,7 +81,31 @@ export default {
 
         '$parent.sortMode': function(newValue) {
 
-            switch(newValue) {
+            this.items = []
+            if ( this.$store.state.mode == 'used' && !this.$route.params.brand && typeof newValue != 'undefined' ) {
+
+                let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
+                if (this.$store.state.city) url += '&city='+this.$store.state.city
+                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                url += '&page=1'
+                url += '&sort='+newValue
+                this.axios.get(url).then((response) => {
+                    let newitems = this.items.concat(response.data.items)
+                    this.items = newitems
+                    this.count = response.data.totalCount
+                    this.$parent.showMore = response.data.next_page
+                    
+
+                    this.items.forEach( (item) => {
+                        if (item.Discount) this.$parent.sortButtons.Discount = true
+                        if (item.InStock) this.$parent.sortButtons.InStock = true
+                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                    })
+                })
+
+            } else {
+                switch(newValue) {
                     case 'name':
                         this.items.sort((a, b) => a.name > b.name ? 1 : -1)
                         break;
@@ -92,6 +116,7 @@ export default {
                         this.items.sort((a, b) => a.price < b.price ? 1 : -1)
                         break;
                 }
+            }
         },
 
         '$store.state.city': function() {

@@ -206,7 +206,7 @@
                     :delimiter="false"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-show="viewFull && filter.dropLists.dealerships.length > 1">
+            <div class="filter__head-item" v-show="viewFull">
                 <multiselect 
                     v-if="!$store.state.brand"
                     v-model="dealershipValue" 
@@ -685,16 +685,18 @@ export default {
         resetFilter() {
             let startPath = '/'
             if ( this.$store.state.brand ) startPath += this.$store.state.brand 
-            if (this.$route.path == startPath) {
-                this.initFilter().then(() => {
-                    this.$router.replace({'query': null})
-                    this.brandValue = []
-                    this.resetDrops()
-                })
-            } else {
-                this.$router.push(startPath).catch(() => {})
-            }
-            this.$parent.iter++
+            // if (this.$route.path == startPath) {
+            //     this.initFilter().then(() => {
+            //         this.$router.replace({'query': null})
+            //         this.brandValue = []
+            //         this.resetDrops()
+            //     })
+            // } else {
+            //     this.$router.push(startPath).catch(() => {})
+            // }
+            // this.$parent.iter++
+
+            this.$router.push(startPath).catch(() => {})
         },
 
         // drops
@@ -908,7 +910,6 @@ export default {
                 })
                 l += '&dealership='+s.join(',')
                 if ( a.length ) l += this.buildPartQuery(a, 'brand')
-                console.log(l)
             }
 
             if ( this.filter.ranges.price.value[0] != this.filter.ranges.price.min || this.filter.ranges.price.value[1] != this.filter.ranges.price.max ) {

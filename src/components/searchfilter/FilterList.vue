@@ -36,7 +36,7 @@ export default {
     computed: {
         items: {
             get() {
-                // this.list.sort((a, b) => a.vehicles < b.vehicles ? 1 : -1);
+                if ( this.$store.state.mode == 'used' ) this.list.sort((a, b) => a.vehicles < b.vehicles ? 1 : -1);
                 return this.list
             }
         },
@@ -64,7 +64,7 @@ export default {
 .filter__list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
-    gap: 20px;
+    gap: 5px 20px;
     align-items: center;
     margin-bottom: 2rem;
 }
@@ -77,8 +77,8 @@ export default {
     cursor: pointer;
 }
 .filter__list-item svg {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     fill: var(--yadarkblue);
 }
 .filter__list-item:hover .filter__list-item__name{

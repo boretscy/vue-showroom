@@ -1,5 +1,6 @@
 <template>
     <div class="filter">
+        <hr />
         <div class="filter__sort">
             <div class="filter__sort-item">
                 <multiselect 
@@ -167,6 +168,13 @@ export default {
 }
 </script>
 <style scoped>
+hr {
+    margin: 30px 0;
+    color: inherit;
+    border: 0;
+    border-top: 1px solid var(--yagray);
+    opacity: unset;
+}
 @media (max-width: 768px) {
     .filter__sort-item:nth-last-child(1) {
         gap: 0;
