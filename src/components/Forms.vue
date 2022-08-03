@@ -82,7 +82,7 @@ export default {
                 console.log(sendData)
 
                 this.axios.post(
-                    'https://apps.yug-avto.ru/API/get/cis/test/?token=34b5ac8b71018c0bc7e5c050ed90b243',
+                    'https://apps.yug-avto.ru/API/get/cis/send/?token=34b5ac8b71018c0bc7e5c050ed90b243',
                     sendData,
                     {headers: this.$store.state.global.headers}
                 )

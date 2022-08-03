@@ -1,6 +1,5 @@
 <template>
     <div class="filter">
-        <hr />
         <div class="filter__sort">
             <div class="filter__sort-item">
                 <multiselect 
