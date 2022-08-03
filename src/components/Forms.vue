@@ -64,6 +64,7 @@ export default {
             sendData.push({name: 'src', value: window.location.href})
             sendData.push({name: 'AppName', value: 'Cis'})
             sendData.push({name: 'form', value: this.$store.state.global.forms[indx].title})
+            sendData.push({name: 'mode', value: this.$store.state.mode})
             if ( this.$store.state.form_dealership ) sendData.push({name: 'dealership', value: this.$store.state.form_dealership})
             this.$store.state.global.forms[indx].fields.forEach((i) => {
                 if (i.required && !i.value) {
