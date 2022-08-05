@@ -126,26 +126,7 @@ export default {
     },
 	mounted: function() {
 
-		let url = this.$store.state.apiUrl+'model/'+this.$store.state.mode+'/'+this.$route.params.model+'?token='+this.$store.state.apiToken
-        url += '&brand='+this.$route.params.brand
-        url += '&model='+this.$route.params.model
-        if (this.$store.state.city) url += '&city='+this.$store.state.city
-        if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-        for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
-        if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
-        this.axios.get(url).then((response) => {
-			this.items = response.data.items
-            this.brand = response.data.brand
-            this.model = response.data.model
-
-            this.items.forEach( (item) => {
-                if (item.Discount) this.$parent.sortButtons.Discount = true
-                if (item.InStock) this.$parent.sortButtons.InStock = true
-                if (item.OnWay) this.$parent.sortButtons.OnWay = true
-            })
-
-            window.scrollTo(0,0);
-        })
+		
 	},
     methods: {
         

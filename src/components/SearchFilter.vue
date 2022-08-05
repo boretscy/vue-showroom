@@ -546,10 +546,12 @@ export default {
                 })
             }
         },
-        modelValue: function() {
-            this.resetDrops()
-            this.getFilter(this.buildQuery())
-            this.link = this.buildLink(this.buildQuery())
+        modelValue: function(n, o) {
+            if ( o.length > 0 ) {
+                this.resetDrops()
+                this.getFilter(this.buildQuery())
+                this.link = this.buildLink(this.buildQuery())
+            }
         },
         transmissionsValue: function(v, o) {
             if ( v.length || (!v.length && o.length) ) {
@@ -591,7 +593,6 @@ export default {
             this.getFilter(this.buildQuery()).then(() => {
                 this.$parent.iter++
             })
-            
         },
         '$route.params.brand': function() {
             this.$store.state.global.brands.forEach( (i) => {
@@ -600,7 +601,8 @@ export default {
                 }
             })
         },
-        '$route.param.model': function() {
+        '$route.params.model': function() {
+            this.modelValue = []
             this.modelOptions.forEach( (i) => {
                 if ( i.code == this.$route.params.model ) {
                     this.modelValue.push(i)
@@ -623,13 +625,13 @@ export default {
         }
     },
     mounted: function() {
-
         this.initFilter().then(() => {
             setTimeout(() => {
                 this.getStartDropsValues()
                 if ( this.$store.state.brand ) this.oneBrand = true
             }, 500);
         })
+       
     },
     methods: {
         // filter
@@ -657,10 +659,13 @@ export default {
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+                if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
+                if ( this.$route.params.model ) url += '&model='+this.$route.params.model
                 this.axios.get(url).then((response) => {
                     this.filter = response.data
                     this.totalCount = this.filter.totalCount
                     this.filterList = this.filter.dropLists.brands
+                    this.brands = this.filter.dropLists.brands
                     this.link = this.buildLink(this.buildQuery())
                     resolve(true)
                 })
@@ -871,7 +876,7 @@ export default {
                 l += 'brand='+s.join(',')
             }
             s = []
-            if ( this.modelValue.length ) {
+            if ( this.modelValue.length > 0 ) {
                 this.modelValue.forEach( (i) => { s.push(i.code) })
                 l += '&model='+s.join(',')
             }
