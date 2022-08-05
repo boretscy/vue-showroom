@@ -1,6 +1,6 @@
 <template>
     <div class="button-centered">
-        <button class="button" @click="more">Показать ещё</button>
+        <button class="button " @click="more">Показать ещё</button>
     </div>
 </template>
 
