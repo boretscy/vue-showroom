@@ -4,9 +4,8 @@
             v-for="(item, indx) in items"
             :key="indx"
             v-show="item.vehicles && ( (viewFull || (items.length > 15 && indx < 14)) || (viewFull || items.length <= 15))"
-            :itemName="item.name" 
-            :itemCount="item.vehicles" 
-            :itemLink="'/'+((item.brand)?item.brand+'/':'')+item.code+query" />
+            :item="item"
+            :query="query" />
         <div class="filter__list-item" @click="viewFull = !viewFull" v-if="items.length > 15">
             <div class="filter__list-item__name">
                 {{ ( (viewFull) ? 'Скрыть' : 'Показать все' ) }}
@@ -45,7 +44,6 @@ export default {
             if ( this.items.length < res ) res = this.items.length
             return res
         }
-
     }
 }
 </script>

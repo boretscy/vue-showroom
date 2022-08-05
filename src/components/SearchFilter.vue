@@ -365,7 +365,7 @@ export default {
         filterList: {
             get() {
                 // console.log(this.modelOptions)
-                return ( this.$route.params.brand ) ? this.modelOptions : this.brands
+                return ( this.$route.params.brand || ( this.$route.query.brand && this.$route.query.brand.split(',').length == 1 ) ) ? this.modelOptions : this.brands
             },
             set() {
             }

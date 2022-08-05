@@ -1,15 +1,30 @@
 <template>
-    <router-link :to="itemLink" class="filter__list-item">
-        <div class="filter__list-item__name">{{ itemName }}</div>
-        <div class="filter__list-item__count">{{ itemCount }}</div>
+    <router-link :to="link" class="filter__list-item">
+        <div class="filter__list-item__name">{{ item.name }}</div>
+        <div class="filter__list-item__count">{{ item.vehicles }}</div>
     </router-link>
 </template>
 
 <script>
 export default {
     name: 'ListItem',
-    props: ['itemName', 'itemCount', 'itemLink'],
-    
+    props: ['item'],
+    computed: {
+        link: function() {
+            let res = '/'
+            if ( this.$store.state.mode == 'used' ) {
+                res += '?'
+                res += 'brand='+((this.item.brand)?this.item.brand:this.item.code)
+                if ( this.item.brand ) res += '&model='+this.item.code
+                if (this.query) res += this.query.slice(1)
+            } else {
+                res += 'brand='+((this.item.brand)?this.item.brand:this.item.code)
+                if ( this.item.brand ) res += '/'+this.item.code
+                if (this.query) res += this.query
+            }
+            return res
+        }
+    }
 }
 </script>
 
