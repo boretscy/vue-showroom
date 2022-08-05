@@ -14,7 +14,7 @@
                     {{ curModel+' ' }}
                 </span>
             </router-link>
-            <a :href="'/dealerships/?city='+$store.state.city" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
+            <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</div>
         <div class="title" v-else>
             <div class="title-empty"></div>
@@ -505,7 +505,7 @@ export default {
             },
             set() {}
         },
-        
+
         metaTitle: function() {
             let res = 'Купить '+((this.$store.state.mode=='new')?'новый':'б/у')+' '+((this.curBrand)?this.curBrand+' ':'автомобиль ')+((this.curModel)?this.curModel+' ':'')+'в '+this.$store.state.inCity+' | Официальный дилер — Юг-Авто'
             return res

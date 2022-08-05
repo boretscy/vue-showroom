@@ -67,6 +67,7 @@ export default {
                     let newitems = this.items.concat(response.data.items)
                     this.items = newitems
                     this.count = response.data.totalCount
+                    this.$store.state.inCity = response.data.in_city
                     this.$parent.showMore = response.data.next_page
                     
 
@@ -95,7 +96,7 @@ export default {
                     this.items = newitems
                     this.count = response.data.totalCount
                     this.$parent.showMore = response.data.next_page
-                    
+                    this.$store.state.inCity = response.data.in_city
 
                     this.items.forEach( (item) => {
                         if (item.Discount) this.$parent.sortButtons.Discount = true
@@ -131,6 +132,7 @@ export default {
                 this.items = newitems
                 this.count = response.data.totalCount
                 this.$parent.showMore = response.data.next_page
+                this.$store.state.inCity = response.data.in_city
                 this.iter++
 
                 this.items.forEach( (item) => {
