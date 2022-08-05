@@ -18,7 +18,7 @@ export default {
                 if ( this.item.brand ) res += '&model='+this.item.code
                 if (this.query) res += this.query.slice(1)
             } else {
-                res += 'brand='+((this.item.brand)?this.item.brand:this.item.code)
+                res += ((this.item.brand)?this.item.brand:this.item.code)
                 if ( this.item.brand ) res += '/'+this.item.code
                 if (this.query) res += this.query
             }
