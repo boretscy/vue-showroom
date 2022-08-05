@@ -610,16 +610,9 @@ export default {
             })
         },
         '$store.state.city': function() {
-            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-            if (this.$store.state.city) url += '&city='+this.$store.state.city
-            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-            if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
-            if ( this.$route.params.model ) url += '&model='+this.$route.params.model
-            this.axios.get(url).then((response) => {
-                this.filter = response.data
-                this.totalCount = this.filter.totalCount
-                this.filterList = this.filter.dropLists.brands
-                this.brands = this.filter.dropLists.brands
+            this.getModels(this.brandValue).then(()=>{
+                this.resetDrops()
+                this.getFilter(this.buildQuery())
                 this.link = this.buildLink(this.buildQuery())
             })
         }
