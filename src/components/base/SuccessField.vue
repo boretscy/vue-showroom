@@ -14,9 +14,11 @@ export default {
 
 <style scoped>
 .form-field {
-    margin-bottom: 15px;
+    margin-bottom: 80px;
+    margin-top: 20px;
     padding: 15px;
-    background-color: var(--yalightgray);
+    background-color: var(--yalightyellow);
     text-align: center;
+    border-radius: 5px;
 }
 </style>

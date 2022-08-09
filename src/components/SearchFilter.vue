@@ -533,6 +533,7 @@ export default {
         },
 
         brandValue: function(newValue) {
+            // this.$router.push(this.buildLink(this.buildQuery()))
             if (newValue.length) {
                 this.modelValue = []
                 this.getModels(newValue).then(()=>{
@@ -547,11 +548,10 @@ export default {
             }
         },
         modelValue: function(n, o) {
-            if ( o.length > 0 ) {
+                console.log( n, o )
                 this.resetDrops()
                 this.getFilter(this.buildQuery())
                 this.link = this.buildLink(this.buildQuery())
-            }
         },
         transmissionsValue: function(v, o) {
             if ( v.length || (!v.length && o.length) ) {

@@ -10,22 +10,25 @@
                 <div class="form-container">
                     <close-field :modal="'form-'+form.name" />
                     <h4>{{form.title}} <span v-if="form.use_vehicle && $store.state.global.selectedVehicle">на {{ $store.state.global.selectedVehicleName }}</span></h4>
-                    <p>{{form.description}}</p>
+                    <p v-if="!form.statuses.sended && !form.statuses.success">{{form.description}}</p>
                     <success-field v-if="form.statuses.sended && form.statuses.success" />
                     <error-field v-if="form.statuses.sended && !form.statuses.success" />
-                    <input-field 
-                        v-for="(field, indx2) in form.fields"
-                        :key="indx2"
-                        :label="field.label"
-                        :placeholder="field.placeholder"
-                        :required="field.required"
-                        :error="field.error"
-                        :type="field.type"
-                        :form="indx1"
-                        :field="indx2"
-                        @setval="setValue(indx1, indx2)"/>
-                    <button-field :button="form.button" @send="send(indx1)" />
-                    <rules-field :check="form.rulesCheck" @check="toggleCheck(indx1)" />
+                    <div v-if="!form.statuses.sended && !form.statuses.success">
+                        <input-field 
+                            v-for="(field, indx2) in form.fields"
+                            :key="indx2"
+                            :label="field.label"
+                            :placeholder="field.placeholder"
+                            :required="field.required"
+                            :error="field.error"
+                            :type="field.type"
+                            :form="indx1"
+                            :field="indx2"
+                            @setval="setValue(indx1, indx2)"/>
+                        <button-field :button="form.button" @send="send(indx1)" />
+                        <rules-field :check="form.rulesCheck" @check="toggleCheck(indx1)" />
+                    </div>
+                    
                 </div>
             </div>
         </modal>
@@ -113,23 +116,6 @@ export default {
                     }
                 })
             }
-            
-
-
-
-
-
-            // let CallTouchURL = 'https://api.calltouch.ru/calls-service/RestAPI/requests/'+GoalData.CallTouch.CTSiteID+'/register/';
-            // CallTouchURL += '?subject='+encodeURIComponent(GoalData.Name)+' '+encodeURIComponent(GoalData.Action);
-            // CallTouchURL += '&sessionId='+window['call_value_'+GoalData.CallTouch.CTSession];
-            // CallTouchURL += '&phoneNumber='+GoalData.CallTouch.Phone.replace(/[^\d;]/g, '');
-            // if ( GoalData.CallTouch.Name ) CallTouchURL += '&fio='+encodeURIComponent(GoalData.CallTouch.Name);
-            // CallTouchURL += '&requestUrl='+location.href;
-                    
-            // let request = new XMLHttpRequest();
-            // request.open('GET', CallTouchURL, true);
-            // request.send();
-            
         }
     }
 }
