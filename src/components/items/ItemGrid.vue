@@ -22,12 +22,16 @@
                     до {{ Format(discount) }} <span class="rub">₽</span>
                 </div>
                 <div class="model__grid-card__head--top_icons">
-                    <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
-                        <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
-                    </a>
-                    <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
-                        <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
-                    </a>
+                    <VueCustomTooltip label="Избранное">
+                        <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
+                            <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
+                        </a>
+                    </VueCustomTooltip>
+                    <VueCustomTooltip label="Сравнение">
+                        <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
+                            <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
+                        </a>
+                    </VueCustomTooltip>
                 </div>
             </div>
         </div>
@@ -215,6 +219,7 @@ export default {
     gap: 0.5em;
     position: absolute;
     right: 2em;
+    align-items: center;
 }
 .model__grid-card__head--top_icons a {
     background: var(--yawhite);
@@ -254,6 +259,7 @@ export default {
     height: var(--icon-size);
     fill: var(--yadarkgray);
     transition: 200ms;
+    vertical-align: middle;
 }
 .model__grid-card__head--top_icons a:hover svg {
     fill: var(--yadarkblue);

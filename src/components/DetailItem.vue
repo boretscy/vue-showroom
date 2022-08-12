@@ -62,14 +62,18 @@
                             <span class="car__grid-box__dc-item_status --in-stock">{{ vehicle.status.name }}</span>
                             <span class="car__grid-box__dc-item_update">Обновлено {{ vehicle._updated }}</span>
                         </div>
-                        <a :href="'tel:+'+FormatPhoneIn(phone)" class="car__grid-box__status-phone">{{ FormatPhoneOut(phone) }}</a>
+                        <a :href="'tel:+'+FormatPhoneIn(phone)" class="car__grid-box__status-phone ">{{ FormatPhoneOut(phone) }}</a>
                         <div class="car__grid-box__status-links">
-                            <a href="#" :class="{'--is-active': locstore.FAVORITES.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
-                                <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
-                            </a>
-                            <a href="#" :class="{'--is-active': locstore.COMPARE.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
-                                <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
-                            </a>
+                            <VueCustomTooltip label="Избранное">
+                                <a href="#" :class="{'--is-active': locstore.FAVORITES.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
+                                    <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
+                                </a>
+                            </VueCustomTooltip>
+                            <VueCustomTooltip label="Сравнение">
+                                <a href="#" :class="{'--is-active': locstore.COMPARE.indexOf(vehicle.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
+                                    <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
+                                </a>
+                            </VueCustomTooltip>
                             <!-- <a href="#">
                                 <icon-base icon-name="share"><icon-share /></icon-base>
                             </a> -->
@@ -2473,7 +2477,7 @@ input[type=range]::-ms-fill-upper {
     fill: var(--yadarkgray);
     transition: 200ms;
 }
-.car__grid-box__status-links span {
+/* .car__grid-box__status-links span {
     position: absolute;
     top: -8px;
     right: -5px;
@@ -2486,7 +2490,7 @@ input[type=range]::-ms-fill-upper {
     align-items: center;
     justify-content: center;
     display: none;
-}
+} */
 .car__grid-box__status-links .--is-active span{
     display: flex;
 }
@@ -3436,7 +3440,6 @@ span.rub {
         column-gap: 1em;
     }
 }
-
 
 
 
