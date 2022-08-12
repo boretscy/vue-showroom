@@ -5,57 +5,56 @@
             :description="metaDescription"
         />
         <div class="car__grid">
-            <div class="h2 car__grid-item_title mobile">{{ vehicle.brand_name+' '+vehicle.ref_model_name+' '+vehicle.equipment }}</div>
-                <div class="car_grid-left">
-                    <div class="car_grid-left__slider">
-                        <div class="swiper swiper__detail">
-                            <div class="swiper-wrapper">
-                                <div
-                                    class="swiper-slide"
-                                    v-for="(slide, index) in vehicle._images" 
-                                    :key="index">
-                                    <img :src="slide.big"/>
-                                </div>
+
+            <div class="car_grid-left">
+                <div class="car_grid-left__slider">
+                    <div class="swiper swiper__detail">
+                        <div class="swiper-wrapper">
+                            <div
+                                class="swiper-slide"
+                                v-for="(slide, index) in vehicle._images" 
+                                :key="index">
+                                <img :src="slide.big"/>
                             </div>
-                            <div class="swiper-button-next detail_next">
-                                <div class="swiper-on-button">
-                                    <div class="swiper-on-button__radius"></div>
-                                </div>
+                        </div>
+                        <div class="swiper-button-next detail_next">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
                             </div>
-                            <div class="swiper-button-prev detail_prev">
-                                <div class="swiper-on-button">
-                                    <div class="swiper-on-button__radius"></div>
+                        </div>
+                        <div class="swiper-button-prev detail_prev">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div thumbsSlider="" class="swiper swiper__detail-thumb">
+                        <div class="swiper-wrapper">
+                            <div
+                                class="swiper-slide"
+                                v-for="(slide, index) in vehicle._images" 
+                                :key="index">
+                                <div class="detail-thumb">
+                                    <img :src="slide.thumb"/>
                                 </div>
                             </div>
                         </div>
-                        <div thumbsSlider="" class="swiper swiper__detail-thumb">
-                            <div class="swiper-wrapper">
-                                <div
-                                    class="swiper-slide"
-                                    v-for="(slide, index) in vehicle._images" 
-                                    :key="index">
-                                    <div class="detail-thumb">
-                                        <img :src="slide.thumb"/>
-                                    </div>
-                                </div>
-
+                        <div class="swiper-button-next detail_next">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
                             </div>
-                            <div class="swiper-button-next detail_next">
-                                <div class="swiper-on-button">
-                                    <div class="swiper-on-button__radius"></div>
-                                </div>
-                            </div>
-                            <div class="swiper-button-prev detail_prev">
-                                <div class="swiper-on-button">
-                                    <div class="swiper-on-button__radius"></div>
-                                </div>
+                        </div>
+                        <div class="swiper-button-prev detail_prev">
+                            <div class="swiper-on-button">
+                                <div class="swiper-on-button__radius"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
             <div class="car__grid-item" v-if="vehicle">
-                <div class="h2 car__grid-item_title">{{ vehicle.brand_name+' '+((vehicle.ref_model_name)?vehicle.ref_model_name:vehicle.model_name)+' '+((vehicle.equipment)?vehicle.equipment:'') }}</div>
+                <h1 class="h2 car__grid-item_title">{{ metaH1 }}</h1>
                 <div class="car__grid-box">
                     <div class="car__grid-box__dc --detail__bg">
                         <div class="car__grid-box__dc-title detail_bg">{{ vehicle.dealership.name }}</div>
@@ -577,16 +576,38 @@ export default {
             return res
         },
         metaTitle: function() {
-            let res = 'Купить '+((this.$store.state.mode=='new')?'новый':'б/у')+' автомобиль '
-            res += this.vehicle.brand_name+' '+this.vehicle.ref_model_name+((this.vehicle.equipment)?' '+this.vehicle.equipment:'')+' '
-            res += this.vehicle.general[2].value+', '+this.vehicle.transmition.name+', '+((this.$store.state.mode=='new')?this.vehicle.general[5].value:this.vehicle.general[8].value)+', '+this.vehicle.general[4].value+' г.в.'
-            res += ' | в '+this.vehicle.dealership.in_city+' у официального дилера — Юг-Авто'
+            let res = ''
+            res = 'Купить '
+            res += ( this.$store.state.mode == 'new' ) ? 'новый ' : 'б/у '
+            res += this.vehicle.brand_name+' '
+            res += ( this.vehicle.ref_model_name ) ? this.vehicle.ref_model_name+' ' : this.vehicle.model_name+' '
+            res += this.vehicle.general[2].value+' '
+            res += ( this.vehicle.modification_name ) ? this.vehicle.modification_name+' ' : ''
+            res += this.vehicle.general[4].value+' '
+            res += 'года по цене '+this.curPrice+' рублей '
+            res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
+            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            res += '| Дилерский центр — Юг-Авто'
             return res
         },
         metaDescription: function() {
-            let d = new Date()
-            let res = 'Продажа новых автомобилей '+d.getFullYear()-1+'-'+d.getFullYear()+' года выпуска от официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Актуальный модельный ряд *Выгодные цены *Тест-драйв перед покупкой'
-            if (this.$store.state.mode == 'used') res = 'Продажа подержанных б/у автомобилей у официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Обмен по Trade-in *Выкуп *Кредит *Подбор'
+            let res = ''
+            res = 'Объявление о продаже  '
+            res += ( this.$store.state.mode == 'new' ) ? 'нового ' : 'подержанного '
+            res += this.vehicle.brand_name+' '
+            res += ( this.vehicle.ref_model_name ) ? this.vehicle.ref_model_name+' ' : this.vehicle.model_name+' '
+            res += this.vehicle.general[2].value+' '
+            res += ( this.vehicle.modification_name ) ? this.vehicle.modification_name+' ' : ''
+            res += this.vehicle.general[4].value+' '
+            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            res += '.'
+            res += ( this.$store.state.mode == 'new' ) ? 'Выгодная цена ' : 'Цена  '
+            res += this.curPrice+' рублей от дилерского центра "Юг-Авто" — ✔Кредит ✔Рассрочка ✔Трейд-ин'
+            return res
+        },
+        metaH1: function() {
+            let res = ''
+            res += this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+this.vehicle.general[4].value+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
             return res
         }
     },

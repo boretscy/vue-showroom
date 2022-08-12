@@ -5,15 +5,7 @@
             :description="metaDescription"
         />
         <h1 class="title" v-if="totalCount">
-            <router-link to="/">
-                {{ Format(totalCount) }} {{ getWorld(totalCount, 'a') }} 
-                <span v-if="curBrand">
-                    {{ curBrand+' ' }}
-                </span>
-                <span v-if="curBrand && curModel">
-                    {{ curModel+' ' }}
-                </span>
-            </router-link>
+            <router-link to="/">{{ metaH1 }}</router-link>
             <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</h1>
         <div class="title" v-else>
@@ -352,20 +344,20 @@ export default {
     computed: {
         curModel: {
             get() {
-                return ( this.modelValue.length == 1 ) ? this.modelValue[0].name : null
+                return ( this.modelValue.length == 1 ) ? this.modelValue[0] : null
             },
             set() {}
         },
         curBrand: {
             get() {
-                return ( this.brandValue.length == 1 ) ? this.brandValue[0].name : null
+                return ( this.brandValue.length == 1 ) ? this.brandValue[0] : null
             },
             set() {}
         },
         filterList: {
             get() {
                 // console.log(this.modelOptions)
-                return ( this.$route.params.brand || ( this.$route.query.brand && this.$route.query.brand.split(',').length == 1 ) ) ? this.modelOptions : this.brands
+                return ( this.$route.params.brand || this.$route.query.brand ) ? this.modelOptions : this.$store.state.global.brands
             },
             set() {
             }
@@ -507,13 +499,46 @@ export default {
         },
 
         metaTitle: function() {
-            let res = 'Купить '+((this.$store.state.mode=='new')?'новый':'б/у')+' '+((this.curBrand)?this.curBrand+' ':'автомобиль ')+((this.curModel)?this.curModel+' ':'')+'в '+this.$store.state.inCity+' | Официальный дилер — Юг-Авто'
+            let res = '', d = new Date()
+            res = 'Купить '
+            res += ( this.$store.state.mode == 'new' ) ? 'новый ' : ''
+            res += ( this.curBrand ) ? this.curBrand.name+' ' : 'автомобиль '
+            res += ( this.curModel ) ? this.curModel.name+' ' : ''
+            res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
+            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            res += ' - Автосалон '
+            res += ( this.curBrand ) ? this.curBrand.ru_name+' ' : ''
+            res += ( this.curModel ) ? this.curModel.ru_name+' ' : ''
+            res += d.getFullYear()+' года по выгодным ценам | Дилерский центр — Юг-Авто'
             return res
         },
         metaDescription: function() {
-            let d = new Date()
-            let res = 'Продажа новых автомобилей '+d.getFullYear()-1+'-'+d.getFullYear()+' года выпуска от официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Актуальный модельный ряд *Выгодные цены *Тест-драйв перед покупкой'
-            if (this.$store.state.mode == 'used') res = 'Продажа подержанных б/у автомобилей у официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Обмен по Trade-in *Выкуп *Кредит *Подбор'
+            let res
+            res = 'Продажа '
+            res += ( this.$store.state.mode == 'new' ) ? 'новых' : 'подержанных' +'авто '
+            res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+            res += ( this.curModel ) ? this.curModel.name+' ' : ''
+            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            res += 'Все машины '
+            res += ( this.curBrand ) ? this.curBrand.ru_name+' ' : ''
+            res += ( this.curModel ) ? this.curModel.ru_name+' ' : ''
+            res += 'в наличии недорого, возможно купить в кредит на выгодных условиях. Телефон: {%tel%}.'
+            res += ( window.calltouch_phone ) ? 'Телефон: '+this.FormatPhoneOut(window.calltouch_phone)+'.' : ''
+            return res
+        },
+        metaH1: function() {
+            let res = ''
+            if ( this.$store.state.mode == 'new' ) {
+                res = '('+this.totalCount+') '+this.getWorld(this.totalCount, 'a')+' '
+                res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+            }
+            if ( this.$store.state.mode == 'used' ) {
+                res = 'Продажа '
+                res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+                res += ( this.curModel ) ? this.curModel.name+' ' : ''
+                res += 'с пробегом '
+            }
+            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
             return res
         }
         
@@ -532,20 +557,15 @@ export default {
             }
         },
 
-        brandValue: function(newValue) {
-            // this.$router.push(this.buildLink(this.buildQuery()))
-            if (newValue.length) {
+        brandValue: function(n) {
+            
+            if (n.length) {
                 this.modelValue = []
-                this.getModels(newValue).then(()=>{
+                this.getModels(n).then(()=>{
                     this.resetDrops()
                     this.getFilter(this.buildQuery())
                     this.link = this.buildLink(this.buildQuery())
                 })
-                // this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                //     if (error.name != "NavigationDuplicated") {
-                //         throw error;
-                //     }
-                // })
             } else {
                 this.initFilter().then(() => {
                     this.resetDrops()
@@ -554,23 +574,28 @@ export default {
 
             // let link = false, s = []
 
-            // if ( newValue.length == 1 ) {
-            //     if ( this.$route.params.brand != newValue[0].code ) link = true
+            // if ( n.length == 1 ) {
+            //     if ( this.$route.params.brand != n[0].code ) link = true
             // } else {
-            //     newValue.forEach((i) => {
+            //     n.forEach((i) => {
             //         s.push(i.code)
             //     })
             //     if ( this.$route.query.brand != s.join(',') ) link = true
             // }
 
             // if ( link ) {
-            //     this.$router.push('/').catch(error => {
+            //      this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
             //         if (error.name != "NavigationDuplicated") {
             //             throw error;
             //         }
             //     })
             // } else {
-
+            //     this.modelValue = []
+            //     this.getModels(n).then(()=>{
+            //         this.resetDrops()
+            //         this.getFilter(this.buildQuery())
+            //         this.link = this.buildLink(this.buildQuery())
+            //     })
             // }
         },
         modelValue: function(n, o) {
@@ -1022,7 +1047,8 @@ export default {
                                 name: item.name,
                                 code: item.code,
                                 brand: item.brand.code,
-                                vehicles: 0
+                                vehicles: 0,
+                                ru_name: item.ru_name
                             }
                             pi.vehicles += item.vehicles
                             this.modelOptions.push(pi)
@@ -1089,6 +1115,16 @@ export default {
             if ( t[0].indexOf(Number(q)) >= 0 ) return res[f][0]
             if ( t[1].indexOf(Number(q)) >= 0 ) return res[f][1]
             return res[f][2]
+        },
+        FormatPhoneOut(q) {
+            q = this.FormatPhoneIn(q);
+            return '+' + '7' + ' (' + q[1] + q[2] + q[3] + ') ' + q[4] + q[5] + q[6] + '-' + q[7] + q[8] + '-' + q[9] + q[10];
+        },
+        FormatPhoneIn(q) {
+            q = String(q).replace(/[^\d;]/g, '')
+            if ( q.length == 10 ) q = '7'+q
+            if ( q.length == 7 ) q = '7861'+q
+            return '7'+q.slice(1);
         },
     }
 }
