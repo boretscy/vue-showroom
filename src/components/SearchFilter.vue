@@ -4,7 +4,7 @@
             :title="metaTitle"
             :description="metaDescription"
         />
-        <div class="title" v-if="totalCount">
+        <h1 class="title" v-if="totalCount">
             <router-link to="/">
                 {{ Format(totalCount) }} {{ getWorld(totalCount, 'a') }} 
                 <span v-if="curBrand">
@@ -15,7 +15,7 @@
                 </span>
             </router-link>
             <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
-		</div>
+		</h1>
         <div class="title" v-else>
             <div class="title-empty"></div>
         </div>
@@ -541,11 +541,37 @@ export default {
                     this.getFilter(this.buildQuery())
                     this.link = this.buildLink(this.buildQuery())
                 })
+                // this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                //     if (error.name != "NavigationDuplicated") {
+                //         throw error;
+                //     }
+                // })
             } else {
                 this.initFilter().then(() => {
                     this.resetDrops()
                 })
             }
+
+            // let link = false, s = []
+
+            // if ( newValue.length == 1 ) {
+            //     if ( this.$route.params.brand != newValue[0].code ) link = true
+            // } else {
+            //     newValue.forEach((i) => {
+            //         s.push(i.code)
+            //     })
+            //     if ( this.$route.query.brand != s.join(',') ) link = true
+            // }
+
+            // if ( link ) {
+            //     this.$router.push('/').catch(error => {
+            //         if (error.name != "NavigationDuplicated") {
+            //             throw error;
+            //         }
+            //     })
+            // } else {
+
+            // }
         },
         modelValue: function(n, o) {
                 console.log( n, o )
