@@ -529,8 +529,7 @@ export default {
         metaH1: function() {
             let res = ''
             if ( this.$store.state.mode == 'new' ) {
-                res = '('+this.totalCount+') '+this.getWorld(this.totalCount, 'a')+' '
-                res += 'новых автомобилей '
+                res = '('+this.totalCount+') '+this.getWorld(this.totalCount, 'n')+' '+this.getWorld(this.totalCount, 'a')+' '
                 res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
             }
             if ( this.$store.state.mode == 'used' ) {
@@ -1099,7 +1098,8 @@ export default {
 
             let res = {
                 'c': ['цвет', 'цвета', 'цветов'],
-                'a': ['автомобиль', 'автомобиля', 'автомобилей']
+                'a': ['автомобиль', 'автомобиля', 'автомобилей'],
+                'n': ['новый', 'новых', 'новых']
             }
             let t = [
                 [1],
