@@ -530,11 +530,12 @@ export default {
             let res = ''
             if ( this.$store.state.mode == 'new' ) {
                 res = '('+this.totalCount+') '+this.getWorld(this.totalCount, 'a')+' '
+                res += 'новых автомобилей '
                 res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
             }
             if ( this.$store.state.mode == 'used' ) {
                 res = 'Продажа '
-                res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+                res += ( this.curBrand ) ? this.curBrand.name+' ' : 'автомобилей '
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
                 res += 'с пробегом '
             }
