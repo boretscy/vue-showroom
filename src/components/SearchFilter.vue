@@ -515,7 +515,7 @@ export default {
         metaDescription: function() {
             let res
             res = 'Продажа '
-            res += ( this.$store.state.mode == 'new' ) ? 'новых' : 'подержанных' +'авто '
+            res += (( this.$store.state.mode == 'new' ) ? 'новых' : 'подержанных') +'авто '
             res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
             res += ( this.curModel ) ? this.curModel.name+' ' : ''
             res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
