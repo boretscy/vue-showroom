@@ -86,6 +86,7 @@ export default {
             if ( this.$store.state.mode == 'used' && !this.$route.params.brand && typeof newValue != 'undefined' ) {
 
                 let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
+                if (this.$route.params.brand) url += '&brand='+this.$route.params.brand
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
@@ -123,6 +124,7 @@ export default {
         '$store.state.city': function() {
             this.items = []
             let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
+            if (this.$route.params.brand) url += '&brand='+this.$route.params.brand
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
@@ -153,6 +155,7 @@ export default {
             this.page++
 
             let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
+            if (this.$route.params.brand) url += '&brand='+this.$route.params.brand
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]

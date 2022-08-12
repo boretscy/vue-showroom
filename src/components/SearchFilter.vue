@@ -538,7 +538,6 @@ export default {
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
                 res += 'с пробегом '
             }
-            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
             return res
         }
         
