@@ -2437,8 +2437,8 @@ input[type=range]::-ms-fill-upper {
     color: var(--yablackgray);
 }
 .car__grid-box__status-phone {
-    font-size: 16px;
-    font-weight: 300;
+    font-size: 24px;
+    font-weight: 500;
     line-height: 1em;
     margin-bottom: 2em;
     display: block;
