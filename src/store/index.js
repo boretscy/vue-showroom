@@ -113,7 +113,8 @@ export default new Vuex.Store({
                     statuses: {
                         sended: false,
                         success: false
-                    }
+                    },
+                    goal: 'cis_form_offer'
                 },
                 {
                     name: 'credit',
@@ -145,7 +146,8 @@ export default new Vuex.Store({
                     statuses: {
                         sended: false,
                         success: false
-                    }
+                    },
+                    goal: 'cis_form_credit'
                 },
                 {
                     name: 'trade-in',
@@ -204,7 +206,8 @@ export default new Vuex.Store({
                     statuses: {
                         sended: false,
                         success: false
-                    }
+                    },
+                    goal: 'cis_form_tradein'
                 },
                 {
                     name: 'sell',
@@ -263,7 +266,8 @@ export default new Vuex.Store({
                     statuses: {
                         sended: false,
                         success: false
-                    }
+                    },
+                    goal: 'cis_form_sell'
                 },
                 {
                     name: 'evaluation',
@@ -322,13 +326,14 @@ export default new Vuex.Store({
                     statuses: {
                         sended: false,
                         success: false
-                    }
+                    },
+                    goal: 'cis_form_evaluation'
                 }
             ],
 
             CTId: window.CTId || null,
-            CTSess: window.CTSess || null
-
+            CTSess: window.CTSess || null,
+            YandexID: window.YandexID || null
         },
         
         city: localStorage.getItem('YAPP_SELECTED_CITY') || null,

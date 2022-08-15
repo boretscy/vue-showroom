@@ -1,5 +1,5 @@
 <template>
-    <div class="model__grid-card">
+    <div class="model__grid-card" v-if="item.general || item.status">
         <div class="model__grid-card__head">
             <router-link :to="link" class="model__grid-card__head--img">
                 <img :src="item.image" :alt="brand.name+' '+model.name" v-if="item.image">
@@ -38,16 +38,17 @@
         <div class="model__grid-card__content">
             <router-link :to="link" class="model__grid-card__content--title">{{ brand.name+' '+model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
-                <span class="model__grid-card__content--list-item">{{ item.general[4].value }} г.в.</span>
-                <span class="model__grid-card__content--list-item" v-if="$store.state.mode=='used'">{{ Format(item.general[5].value) }} км</span>
+                <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[4].value }} г.в.</span>
+                <span class="model__grid-card__content--list-item" v-if="$store.state.mode=='used' && item.general">{{ Format(item.general[5].value) }} км</span>
                 <span class="model__grid-card__content--list-item" v-if="item.body_type">{{ item.body_type }}</span>
-                <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
-                <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[1].value }}</span>
+                <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[0].value }}</span>
             </div>
         </div>
         <div class="model__grid-card__footer">
             <div 
                 class="model__grid-card__content--status"
+                 v-if="item.status"
                 :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
                 >{{ item.status.name }}</div>
             <div class="model__grid-card__content--price">

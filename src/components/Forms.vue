@@ -54,6 +54,7 @@ export default {
         ErrorField
     },
     mounted: function() {
+        console.log(this.$store.state.global.YandexID )
     },
     methods: {
         toggleCheck( indx ) {
@@ -83,7 +84,7 @@ export default {
 
             if ( send ) {
 
-                console.log(sendData)
+                // console.log(sendData)
 
                 this.axios.post(
                     'https://apps.yug-avto.ru/API/get/cis/send/?token=34b5ac8b71018c0bc7e5c050ed90b243',
@@ -101,7 +102,7 @@ export default {
                                 i.value = null
                             })
                         }, 5000);
-                        console.log(this.$store.state.global.CTId)
+                        // console.log(this.$store.state.global.CTId)
 
                         if ( this.$store.state.global.CTId ) {
                             let CallTouchURL = 'https://api.calltouch.ru/calls-service/RestAPI/requests/'+this.$store.state.global.CTId+'/register/'
@@ -113,6 +114,7 @@ export default {
 
                             this.axios.get(CallTouchURL)
                         }
+                        if ( this.$store.state.global.YandexID ) window.ym(this.$store.state.global.YandexID,'reachGoal',this.$store.state.global.forms[indx].goal)
                     }
                 })
             }

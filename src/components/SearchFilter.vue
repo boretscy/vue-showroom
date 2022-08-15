@@ -507,8 +507,8 @@ export default {
             res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
             res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
             res += ' - Автосалон '
-            res += ( this.curBrand ) ? this.curBrand.ru_name+' ' : ''
-            res += ( this.curModel ) ? this.curModel.ru_name+' ' : ''
+            res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
+            res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
             res += d.getFullYear()+' года по выгодным ценам | Дилерский центр — Юг-Авто'
             return res
         },
@@ -520,8 +520,8 @@ export default {
             res += ( this.curModel ) ? this.curModel.name+' ' : ''
             res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
             res += 'Все машины '
-            res += ( this.curBrand ) ? this.curBrand.ru_name+' ' : ''
-            res += ( this.curModel ) ? this.curModel.ru_name+' ' : ''
+            res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
+            res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
             res += 'в наличии недорого, возможно купить в кредит на выгодных условиях. Телефон: {%tel%}.'
             res += ( window.calltouch_phone ) ? 'Телефон: '+this.FormatPhoneOut(window.calltouch_phone)+'.' : ''
             return res
@@ -529,8 +529,9 @@ export default {
         metaH1: function() {
             let res = ''
             if ( this.$store.state.mode == 'new' ) {
-                res = '('+this.totalCount+') '+this.getWorld(this.totalCount, 'n')+' '+this.getWorld(this.totalCount, 'a')+' '
+                res = this.totalCount+/*' '+this.getWorld(this.totalCount, 'n')+*/' '+this.getWorld(this.totalCount, 'a')+' '
                 res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+                res += ( this.curModel ) ? this.curModel.name+' ' : ''
             }
             if ( this.$store.state.mode == 'used' ) {
                 res = 'Продажа '
