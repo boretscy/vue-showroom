@@ -8,13 +8,11 @@
         role="presentation"
         :class="iconRotate"
     >
-        <title
+        <!-- <title
             :id="iconName"
             lang="en"
-            >{{ iconName }} icon</title>
-        <g>
-            <slot />
-        </g>
+            >{{ iconName }} icon</title> -->
+        <slot />
     </svg>
 </template>
 
