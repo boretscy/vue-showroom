@@ -40,10 +40,6 @@ const routes = [
         component: Items
     },
     {
-        path: '/404',
-        component: Notfound
-    },
-    {
         path: '/:brand',
         name: 'Brand',
         component: Brand
@@ -57,6 +53,11 @@ const routes = [
         path: '/:brand/:model/:item',
         name: 'Item',
         component: Item
+    },
+    {
+        path: '/404',
+        alias: '*',
+        component: Notfound
     },
 ]
 

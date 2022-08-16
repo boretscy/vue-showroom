@@ -55,6 +55,7 @@ export default {
 }
 .form-field a {
     color: var(--yadarkblue);
+    text-decoration: underline;
 }
 
 </style>
