@@ -53,9 +53,9 @@ export default {
         SuccessField,
         ErrorField
     },
-    mounted: function() {
-        console.log(this.$store.state.global.YandexID )
-    },
+    // mounted: function() {
+    //     console.log(this.$store.state.global.YandexID )
+    // },
     methods: {
         toggleCheck( indx ) {
             this.$store.state.global.forms[indx].rulesCheck = !this.$store.state.global.forms[indx].rulesCheck

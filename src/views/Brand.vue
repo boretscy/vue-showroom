@@ -6,30 +6,37 @@
 			:InStock="sortButtons.InStock"
 			:OnWay="sortButtons.OnWay"
 			:Mode="mode"
-			@sort="sortToggle"/>
-		<list-models
+			@sort="sortToggle" />
+		<list-brand-items
+            data="modelItems"
 			:viewMode="viewMode"
 			:dataSort="sortMode"
-			:key="iter"/>
+			ref="items"
+            ></list-brand-items>
+		<more
+			@more="more"
+			v-if="showMore" />
 	</div>
 </template>
 
 <script>
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
-import ListModels from '@/components/ListModels.vue'
+import ListBrandItems from '@/components/ListBrandItems.vue'
+import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Brand',
 	components: {
-		SearchFilter, Sort,
-		ListModels
+		SearchFilter, Sort, 
+        ListBrandItems, More
 	},
 	data() {
 		return {
 			brand: null,
-			sortMode: 'name',
 			iter: 0,
+			showMore: false,
+			sortMode: 'name',
 
 			sortButtons: {
 				Discount: false,
@@ -55,9 +62,6 @@ export default {
                 this.iter++
             }
         },
-		sortMode: function(v) {
-			this.sort(v)
-		}
     },
 	mounted: function() {
 		localStorage.setItem(
@@ -72,9 +76,12 @@ export default {
 		this.$cookies.set('CIS_DETAIL_PAGE', 0)
 	},
 	methods: {
+		more() {
+			this.$refs.items.getData()
+		},
 		sortToggle(v) {
 			this.sortMode = v
-		}
+		},
 	}
 }
 </script>

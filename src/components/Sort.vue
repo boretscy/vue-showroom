@@ -77,10 +77,10 @@ export default {
 
             },
             sortValue: [
-                {
-                    code: 'name',
-                    name: 'По названию'
-                }
+                // {
+                //     code: 'name',
+                //     name: 'По названию'
+                // }
             ],
             sortList: [
                 {
@@ -91,10 +91,10 @@ export default {
                     code: 'price_down',
                     name: 'По убыванию цены'
                 },
-                {
-                    code: 'name',
-                    name: 'По названию'
-                },
+                // {
+                //     code: 'name',
+                //     name: 'По названию'
+                // },
             ]
         }
     },
@@ -118,20 +118,6 @@ export default {
         }
     },
     mounted: function() {
-        if ( this.$store.state.mode == 'used' && !this.$route.params.brand ) {
-            this.sortValue = []
-            this.sortList = [
-                {
-                    code: 'price_up',
-                    name: 'По возрастанию цены'
-                },
-                {
-                    code: 'price_down',
-                    name: 'По убыванию цены'
-                }
-            ]
-        }
-        
     },
     methods: {
         toggleViewMode() {

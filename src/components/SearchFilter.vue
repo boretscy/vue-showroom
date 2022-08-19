@@ -598,8 +598,8 @@ export default {
             //     })
             // }
         },
-        modelValue: function(n, o) {
-                console.log( n, o )
+        modelValue: function() {
+                // console.log( n, o )
                 this.resetDrops()
                 this.getFilter(this.buildQuery())
                 this.link = this.buildLink(this.buildQuery())

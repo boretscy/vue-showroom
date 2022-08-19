@@ -127,9 +127,7 @@ export default {
 		
 	},
 	methods: {
-
 		more() {
-
 			this.$refs.used.getData()
 		},
 		sortToggle(v) {
