@@ -27,11 +27,13 @@ export default {
                 this.$store.state.inCity = response.data.in_city 
             })
         },
-
         '$route.params': function(v) {
             
             if ( this.$store.state.brand && typeof v.brand == 'undefined')  this.$router.push( '/'+this.$store.state.brand )
             if ( this.$store.state.brand && typeof v.brand != 'undefined' && v.brand != this.$store.state.brand ) this.$router.push( '/'+this.$store.state.brand )
+        },
+        '$store.state.nav': function(v) {
+            localStorage.setItem('CIS_NAV', JSON.stringify(v))
         }
     },
     computed: {

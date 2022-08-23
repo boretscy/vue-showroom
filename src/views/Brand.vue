@@ -64,15 +64,6 @@ export default {
         },
     },
 	mounted: function() {
-		localStorage.setItem(
-			'CIS_NAV',
-			JSON.stringify([
-				{
-					path: '/'+this.$route.params.brand+'/',
-					name: this.$route.params.brand
-				}
-			])
-		)
 		this.$cookies.set('CIS_DETAIL_PAGE', 0)
 	},
 	methods: {
