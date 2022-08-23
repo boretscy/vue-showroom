@@ -12,16 +12,26 @@ export default {
     computed: {
         link: function() {
             let res = '/'
-            if ( this.$store.state.mode == 'used' ) {
-                res += '?'
-                res += 'brand='+((this.item.brand)?this.item.brand:this.item.code)
+            // if ( this.$store.state.mode == 'used' ) {
+            //     res += '?'
+            //     res += 'brand='+((this.item.brand)?this.item.brand:this.item.code)
+            //     if ( this.item.brand ) res += '&model='+this.item.code
+            //     if (this.query) res += this.query.slice(1)
+            // } else {
+            //     res += ((this.item.brand)?this.item.brand.code:this.item.code)
+            //     if ( this.item.brand ) res += '/'+this.item.code
+            //     if (this.query) res += this.query
+            // }
+            if ( this.$route.query.brand ) {
+                res += '?brand='+this.$route.query.brand
                 if ( this.item.brand ) res += '&model='+this.item.code
-                if (this.query) res += this.query.slice(1)
+                if (this.query) res += this.query
             } else {
-                res += ((this.item.brand)?this.item.brand:this.item.code)
+                res += ((this.item.brand)?this.item.brand.code:this.item.code)
                 if ( this.item.brand ) res += '/'+this.item.code
                 if (this.query) res += this.query
             }
+            
             return res
         }
     }

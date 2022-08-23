@@ -1,11 +1,11 @@
 <template>
-    <div class="filter">
+    <div class="filter" :key="iter">
         <vue-headful
             :title="metaTitle"
             :description="metaDescription"
         />
-        <h1 class="title" v-if="totalCount">
-            <router-link to="/">{{ metaH1 }}</router-link>
+        <h1 class="title" v-if="filter">
+            <a href="#" @click="resetFilter">{{ metaH1 }}</a>
             <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</h1>
         <div class="title" v-else>
@@ -54,7 +54,7 @@
                     placeholder="Модель" 
                     label="name" 
                     track-by="code" 
-                    :options="modelOptions" 
+                    :options="filter.dropLists.models" 
                     :multiple="true" 
                     :searchable="false"
                     :close-on-select="false" 
@@ -291,7 +291,6 @@ export default {
     },
     data() {
         return {
-            totalCount: 0,
 
             brands: [],
             oneBrand: false,
@@ -338,7 +337,9 @@ export default {
                 dealership: null,
                 color: null,
             },
-            tags: []
+            tags: [],
+
+            iter: 0
         }
     },
     computed: {
@@ -350,14 +351,19 @@ export default {
         },
         curBrand: {
             get() {
-                return ( this.brandValue.length == 1 ) ? this.brandValue[0] : null
+                let res = null
+                if (this.brandValue.length == 1) {
+                    res = this.brandValue[0]
+                } else if (this.brandValue.length > 1 && this.modelValue.length == 1) {
+                    res = this.modelValue[0].brand
+                }
+                return res
             },
             set() {}
         },
         filterList: {
             get() {
-                // console.log(this.modelOptions)
-                return ( this.$route.params.brand || this.$route.query.brand ) ? this.modelOptions : this.$store.state.global.brands
+                return ( this.$route.params.brand || this.$route.query.brand ) ? this.filter.dropLists.models : this.$store.state.global.brands
             },
             set() {
             }
@@ -529,7 +535,7 @@ export default {
         metaH1: function() {
             let res = ''
             if ( this.$store.state.mode == 'new' ) {
-                res = this.totalCount+/*' '+this.getWorld(this.totalCount, 'n')+*/' '+this.getWorld(this.totalCount, 'a')+' '
+                res = this.filter.totalCount+/*' '+this.getWorld(this.totalCount, 'n')+*/' '+this.getWorld(this.filter.totalCount, 'a')+' '
                 res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
             }
@@ -551,168 +557,198 @@ export default {
                     l += 'cars/'+n.code
                 } else {
                     l += 'cars/used/'
-                    if ( n.code == 'comm' ) l += '#/?dealership=1489'
+                    if ( n.code == 'comm' ) l += '?dealership=1489'
                 }
                 window.location.href = l;
             }
         },
 
         brandValue: function(n) {
-            
-            if (n.length) {
-                this.modelValue = []
-                this.getModels(n).then(()=>{
-                    this.resetDrops()
-                    this.getFilter(this.buildQuery())
-                    this.link = this.buildLink(this.buildQuery())
+            let s = []
+            switch (n.length) {
+                case 0:
+                    if ( this.$route.params.brand || this.$route.query.brand ) {
+                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
+
+                    }
+                    break;
+                case 1:
+                    if ( this.$route.params.brand != n[0].code ) {
+                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
+                    }
+                    break;
+                default:
+                    n.forEach( (i) => {
+                        s.push(i.code)
+                    })
+                    if ( this.$route.query.brand != s.join(',') ) {
+                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
+                    }
+                    this.iter++
+                    break;
+            }
+        },
+        modelValue: function(n) {
+            let s = []
+            switch (n.length) {
+                case 0:
+                    if ( this.$route.params.model || this.$route.query.model ) {
+                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
+                    }
+                    break;
+                case 1:
+                    console.log(n)
+                    if ( this.$route.params.model != n[0].code || this.$route.query.model != n[0].code) {
+                        console.log(this.buildLink(this.buildQuery()))
+                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
+                    }
+                    break;
+                default:
+                    n.forEach( (i) => {
+                        s.push(i.code)
+                    })
+                    if ( this.$route.query.model != s.join(',') ) {
+                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
+                    }
+                    break;
+            }
+        },
+        transmissionsValue: function(n) {
+            let s = []
+            n.forEach( (i) => {
+                s.push(i.code)
+            })
+            if ( this.$route.query.transmission != s.join(',') ) {
+                this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
                 })
-            } else {
-                this.initFilter().then(() => {
-                    this.resetDrops()
+            }
+        },
+        engineValue: function(n){
+            let s = []
+            n.forEach( (i) => {
+                s.push(i.code)
+            })
+            if ( this.$route.query.engine != s.join(',') ) {
+                this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
                 })
             }
-
-            // let link = false, s = []
-
-            // if ( n.length == 1 ) {
-            //     if ( this.$route.params.brand != n[0].code ) link = true
-            // } else {
-            //     n.forEach((i) => {
-            //         s.push(i.code)
-            //     })
-            //     if ( this.$route.query.brand != s.join(',') ) link = true
-            // }
-
-            // if ( link ) {
-            //      this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-            //         if (error.name != "NavigationDuplicated") {
-            //             throw error;
-            //         }
-            //     })
-            // } else {
-            //     this.modelValue = []
-            //     this.getModels(n).then(()=>{
-            //         this.resetDrops()
-            //         this.getFilter(this.buildQuery())
-            //         this.link = this.buildLink(this.buildQuery())
-            //     })
-            // }
         },
-        modelValue: function() {
-                // console.log( n, o )
-                this.resetDrops()
-                this.getFilter(this.buildQuery())
-                this.link = this.buildLink(this.buildQuery())
-        },
-        transmissionsValue: function(v, o) {
-            if ( v.length || (!v.length && o.length) ) {
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-            }
-        },
-        engineValue: function(v,o) {
-            if ( v.length || (!v.length && o.length) ) {
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-            }
-        },
-        dealershipValue: function(v,o) {
-            if ( v.length || (!v.length && o.length) ) {
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-            }
-        },
-        colorValue: function(v,o) {
-            if ( v.length || (!v.length && o.length) ) {
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-            }
-        },
-        bodyValue: function(v,o) {
-            if ( v.length || (!v.length && o.length) ) {
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-            }
-        },
-        driveValue: function(v,o) {
-            if ( v.length || (!v.length && o.length) ) {
-                this.link = this.buildLink(this.buildQuery())
-                this.getFilter(this.buildQuery())
-            }
-        },
-        '$route.query': function() {
-            this.getFilter(this.buildQuery()).then(() => {
-                this.$parent.iter++
+        dealershipValue: function(n){
+            let s = []
+            n.forEach( (i) => {
+                s.push(i.code)
             })
+            if ( this.$route.query.dealership != s.join(',') ) {
+                this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
+                })
+            }
         },
-        '$route.params.brand': function() {
-            this.$store.state.global.brands.forEach( (i) => {
-                if ( i.alias == this.$route.params.brand ) {
-                    this.brandValue.push(i)
-                }
+        colorValue: function(n){
+            let s = []
+            n.forEach( (i) => {
+                s.push(i.code)
             })
+            if ( this.$route.query.color != s.join(',') ) {
+                this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
+                })
+            }
         },
-        '$route.params.model': function() {
-            this.modelValue = []
-            this.modelOptions.forEach( (i) => {
-                if ( i.code == this.$route.params.model ) {
-                    this.modelValue.push(i)
-                }
+        bodyValue: function(n){
+            let s = []
+            n.forEach( (i) => {
+                s.push(i.code)
             })
+            if ( this.$route.query.body != s.join(',') ) {
+                this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
+                })
+            }
+        },
+        driveValue: function(n){
+            let s = []
+            n.forEach( (i) => {
+                s.push(i.code)
+            })
+            if ( this.$route.query.drive != s.join(',') ) {
+                this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
+                })
+            }
         },
         '$store.state.city': function() {
-            this.getModels(this.brandValue).then(()=>{
-                this.resetDrops()
-                this.getFilter(this.buildQuery())
-                this.link = this.buildLink(this.buildQuery())
-            })
-        }
+            this.initFilter()
+        },
+        '$route.params': {
+            immediate: true,
+            handler() {
+                this.initFilter()
+            }
+        },
+        '$route.query': {
+            immediate: true,
+            handler() {
+                this.initFilter()
+            }
+        },
     },
     mounted: function() {
-        this.initFilter().then(() => {
-            setTimeout(() => {
-                this.getStartDropsValues()
-                if ( this.$store.state.brand ) this.oneBrand = true
-            }, 500);
-        })
-       
     },
     methods: {
-        // filter
+        
         initFilter() {
-            return new Promise((resolve) => {
-                let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-                if (this.$store.state.city) url += '&city='+this.$store.state.city
-                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-                if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
-                if ( this.$route.params.model ) url += '&model='+this.$route.params.model
-                this.axios.get(url).then((response) => {
-                    this.filter = response.data
-                    this.totalCount = this.filter.totalCount
-                    this.filterList = this.filter.dropLists.brands
-                    this.brands = this.filter.dropLists.brands
-                    this.link = this.buildLink(this.buildQuery())
-                    resolve(true)
-                })
-            })
-        },
-        getFilter(link) {
-            return new Promise((resolve) => {
-                let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
-                if (this.$store.state.city) url += '&city='+this.$store.state.city
-                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-                for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-                if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
-                if ( this.$route.params.model ) url += '&model='+this.$route.params.model
-                this.axios.get(url).then((response) => {
-                    this.filter = response.data
-                    this.totalCount = this.filter.totalCount
-                    this.filterList = this.filter.dropLists.brands
-                    this.brands = this.filter.dropLists.brands
-                    this.link = this.buildLink(this.buildQuery())
-                    resolve(true)
-                })
+            let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+            if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
+            if ( this.$route.params.model ) url += '&model='+this.$route.params.model
+            this.axios.get(url).then((response) => {
+                this.filter = response.data
+                this.filterList = this.filter.dropLists.brands
+                this.brands = this.filter.dropLists.brands
+                this.modelOptions = this.filter.dropLists.models
+                this.link = this.buildLink(this.buildQuery())
+                this.getStartDropsValues()
             })
         },
         getRangeCount(link) {
@@ -721,7 +757,6 @@ export default {
                 if (this.$store.state.city) url += '&city='+this.$store.state.city
                 if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
                 this.axios.get(url).then((response) => {
-                    this.totalCount = response.data.totalCount
                     this.filter.totalCount = response.data.totalCount
                     this.filterList = response.data.dropLists
                     this.link = this.buildLink(this.buildQuery())
@@ -730,20 +765,20 @@ export default {
             })
         },
         resetFilter() {
+            // this.resetDrops()
+            // let startPath = '/'
+            // if ( this.$store.state.brand ) startPath += this.$store.state.brand 
+            this.$router.replace({'query': null});
+            this.initFilter()
+            this.resetDrops()
             let startPath = '/'
             if ( this.$store.state.brand ) startPath += this.$store.state.brand 
-            // if (this.$route.path == startPath) {
-            //     this.initFilter().then(() => {
-            //         this.$router.replace({'query': null})
-            //         this.brandValue = []
-            //         this.resetDrops()
-            //     })
-            // } else {
-            //     this.$router.push(startPath).catch(() => {})
-            // }
-            // this.$parent.iter++
-
-            this.$router.push(startPath).catch(() => {})
+            this.$router.push(startPath ).catch(error => {
+                if (error.name != "NavigationDuplicated") {
+                    throw error;
+                }
+            })
+            // this.brandValue = []
         },
 
         // drops
@@ -751,156 +786,99 @@ export default {
 
             this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489')?1:0)]
 
+            let v = []
             if ( this.$route.params.brand ) {
                 this.$store.state.global.brands.forEach( (i) => {
-                    if ( i.code == this.$route.params.brand ) {
-                        this.brandValue.push(i)
-                    }
+                    if ( i.code == this.$route.params.brand ) v.push(i)
                 })
-            } else if ( typeof this.$route.query.brand == 'string' ) {
+            } else if ( this.$route.query.brand ) {
                 this.$route.query.brand.split(',').forEach( (qi) => {
                     this.$store.state.global.brands.forEach( (i) => {
-                        if ( i.code == qi ) {
-                            this.brandValue.push(i)
-                        }
+                        if ( i.code == qi ) v.push(i)
                     })
                 })
             }
-             
+            this.brandValue = v
+            
+            v = []
+            if ( this.$route.params.model ) {
+                this.filter.dropLists.models.forEach( (i) => {
+                    if ( i.code == this.$route.params.model ) v.push(i)
+                })
+            } else if ( this.$route.query.model ) {
+                console.log(this.$route.query.model)
+                this.$route.query.model.split(',').forEach( (qi) => {
+                    this.filter.dropLists.models.forEach( (i) => {
+                        if ( i.code == qi ) v.push(i)
+                    })
+                })
+            }
+            this.modelValue = v
+            
+            v = []
             if ( this.$route.query.transmission ) {
                 this.$route.query.transmission.split(',').forEach( (qi) => {
                     this.filter.dropLists.transmissions.forEach( (i) => {
-                        if ( i.code == qi ) {
-                            this.transmissionsValue.push(i)
-                        }
+                        if ( i.code == qi ) v.push(i)
                     })
                 })
             }
+            this.transmissionsValue = v
+            v = []
             if ( this.$route.query.engine ) {
                 this.$route.query.engine.split(',').forEach( (qi) => {
                     this.filter.dropLists.engines.forEach( (i) => {
-                        if ( i.code == qi ) {
-                            this.engineValue.push({name: i.name, code: i.code})
-                        }
+                        if ( i.code == qi ) v.push({name: i.name, code: i.code})
                     })
                 })
             }
+            this.engineValue = v
+            v = []
             if ( this.$route.query.drive ) {
                 this.$route.query.drive.split(',').forEach( (qi) => {
                     this.filter.dropLists.drives.forEach( (i) => {
-                        if ( i.code == qi ) this.driveValue.push(i)
+                        if ( i.code == qi ) v.push(i)
                     })
                 })
             }
+            this.driveValue = v
+            v = []
             if ( this.$route.query.body ) {
                 this.$route.query.body.split(',').forEach( (qi) => {
                     this.filter.dropLists.bodies.forEach( (i) => {
-                        if ( i.code == qi ) this.bodyValue.push(i)
+                        if ( i.code == qi ) v.push(i)
                     })
                 })
             }
+            this.bodyValue = v
+            v = []
             if ( this.$route.query.dealership ) {
                 this.$route.query.dealership.split(',').forEach( (qi) => {
                     this.filter.dropLists.dealerships.forEach( (i) => {
-                        if ( i.code == qi ) this.dealershipValue.push(i)
+                        if ( i.code == qi ) v.push(i)
                     })
                 })
             }
+            this.dealershipValue = v
+            v = []
             if ( this.$route.query.color ) {
                 this.$route.query.color.split(',').forEach( (qi) => {
                     this.filter.dropLists.colors.forEach( (i) => {
-                        if ( i.code == qi ) this.colorValue.push(i)
+                        if ( i.code == qi ) v.push(i)
                     })
                 })
             }
-        },
-        setDrops(drops) {
-            let q = []
-            this.blockFilter = true
-
-            if ( !drops.includes('transmissions') ) {
-                q = []
-                if ( this.transmissionsValue.length ) {
-                    this.filter.dropLists.transmissions.forEach((o) => {
-                        this.transmissionsValue.forEach((i) => {
-                            if ( i.code == o.code ) q.push(i)
-                        })
-                    })
-                }
-                this.transmissionsValue = q
-            }
-
-            if ( !drops.includes('engines') ) {
-                q = []
-                if ( this.engineValue.length ) {
-                    this.filter.dropLists.engines.forEach((o) => {
-                        this.engineValue.forEach((i) => {
-                            if ( i.code == o.code ) q.push(i)
-                        })
-                    })
-                }
-                this.engineValue = q
-            }
-            
-            if ( !drops.includes('drives') ) {
-                q = []
-                if ( this.driveValue.length ) {
-                    this.filter.dropLists.drives.forEach((o) => {
-                        this.driveValue.forEach((i) => {
-                            if ( i.code == o.code ) q.push(i)
-                        })
-                    })
-                }
-                this.driveValue = q
-            }
-
-            if ( !drops.includes('bodies') ) {
-                q = []
-                if ( this.bodyValue.length ) {
-                    this.filter.dropLists.bodies.forEach((o) => {
-                        this.bodyValue.forEach((i) => {
-                            if ( i.code == o.code ) q.push(i)
-                        })
-                    })
-                }
-                this.bodyValue = q
-            }
-            
-            if ( !drops.includes('dealerships') ) {
-                q = []
-                if ( this.dealershipValue.length ) {
-                    this.filter.dropLists.dealerships.forEach((o) => {
-                        this.dealershipValue.forEach((i) => {
-                            if ( i.code == o.code ) q.push(i)
-                        })
-                    })
-                }
-                this.dealershipValue = q
-            }
-
-            if ( !drops.includes('colors') ) {
-                q = []
-                if ( this.colorValue.length ) {
-                    this.filter.dropLists.colors.forEach((o) => {
-                        this.colorValue.forEach((i) => {
-                            if ( i.code == o.code ) q.push(i)
-                        })
-                    })
-                }
-                this.colorValue = q
-            }
-
-            this.blockFilter = false
+            this.colorValue = v
         },
         resetDrops() {
-            this.blockFilter = true
-                this.transmissionsValue = []
-                this.engineValue = []
-                this.dealershipValue = []
-                this.colorValue = []
-                this.driveValue = []
-                this.bodyValue = []
-            this.blockFilter = false
+            this.brandValue = []
+            this.modelValue = []
+            this.transmissionsValue = []
+            this.engineValue = []
+            this.dealershipValue = []
+            this.colorValue = []
+            this.driveValue = []
+            this.bodyValue = []
         },
 
         // ranges
