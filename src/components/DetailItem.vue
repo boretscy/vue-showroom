@@ -629,6 +629,12 @@ export default {
             }
         }, 500);
 
+        this.$store.state.nav = {
+            brand: this.vehicle.brand,
+            model: this.vehicle.model,
+            item: this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+this.vehicle.general[4].value+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
+        }
+
         let swiper = new Swiper(".main-slider", {
             slidesPerView: 4,
             spaceBetween: 20,

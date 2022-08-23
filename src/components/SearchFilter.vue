@@ -613,9 +613,7 @@ export default {
                     }
                     break;
                 case 1:
-                    console.log(n)
                     if ( this.$route.params.model != n[0].code || this.$route.query.model != n[0].code) {
-                        console.log(this.buildLink(this.buildQuery()))
                         this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
                             if (error.name != "NavigationDuplicated") {
                                 throw error;
@@ -785,11 +783,15 @@ export default {
         getStartDropsValues() {
 
             this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489')?1:0)]
+            this.$store.state.nav = {}
 
             let v = []
             if ( this.$route.params.brand ) {
                 this.$store.state.global.brands.forEach( (i) => {
-                    if ( i.code == this.$route.params.brand ) v.push(i)
+                    if ( i.code == this.$route.params.brand ) {
+                        v.push(i)
+                        this.$store.state.nav.brand = i
+                    }
                 })
             } else if ( this.$route.query.brand ) {
                 this.$route.query.brand.split(',').forEach( (qi) => {
@@ -803,10 +805,12 @@ export default {
             v = []
             if ( this.$route.params.model ) {
                 this.filter.dropLists.models.forEach( (i) => {
-                    if ( i.code == this.$route.params.model ) v.push(i)
+                    if ( i.code == this.$route.params.model ) {
+                        v.push(i)
+                        this.$store.state.nav.model = i
+                    }
                 })
             } else if ( this.$route.query.model ) {
-                console.log(this.$route.query.model)
                 this.$route.query.model.split(',').forEach( (qi) => {
                     this.filter.dropLists.models.forEach( (i) => {
                         if ( i.code == qi ) v.push(i)
@@ -994,8 +998,6 @@ export default {
             if ( ampersand ) res += '&'
             res += name+'='
             res += data.join(',')
-
-            console.log(res);
 
             return res
         },
