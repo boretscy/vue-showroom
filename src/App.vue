@@ -24,7 +24,7 @@ export default {
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             this.axios.get(url).then((response) => {
                 this.$store.state.global.brands = response.data.dropLists.brands
-                if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
+                this.$store.state.inCity = response.data.in_city 
             })
         },
 
@@ -94,13 +94,11 @@ export default {
 		})
 
         setInterval(() => {
-            
             if ( localStorage.getItem('YAPP_SELECTED_CITY') != this.$store.state.city ) {
+                console.log(this.$store.state.city)
                 this.$store.state.city = localStorage.getItem('YAPP_SELECTED_CITY')
-
             }
-            
-        }, 500);
+        }, 100);
     },
     methods: {
     }
