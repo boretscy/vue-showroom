@@ -5,7 +5,7 @@
             :description="metaDescription"
         />
         <h1 class="title" v-if="filter">
-            <a href="#" @click="resetFilter">{{ metaH1 }}</a>
+            <router-link to="/">{{ metaH1 }}</router-link>
             <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
 		</h1>
         <div class="title" v-else>
