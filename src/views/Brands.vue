@@ -96,35 +96,18 @@ export default {
         }
 	},
     watch: {
-        '$route.query': {
-            immediate: true,
-            handler() {
-                let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-				if (this.$store.state.city) url += '&city='+this.$store.state.city
-				if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-				if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
-				for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-				this.axios.get(url).then((response) => {
-					this.brands = response.data
-					this.$cookies.set('CIS_DETAIL_PAGE', 0)
-				})
-            }
-        },
+        '$route.query': function() {
+			this.getData()
+		},
 		sortMode: function(v) {
 			this.sort(v)
 		},
         '$store.state.city': function() {
-            let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
-            if (this.$store.state.city) url += '&city='+this.$store.state.city
-			if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-			if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
-            this.axios.get(url).then((response) => {
-				this.brands = response.data
-            })
+            this.getData() 
         }
     },
 	mounted: function() {
-		
+		this.getData()
 	},
 	methods: {
 		more() {
@@ -154,6 +137,17 @@ export default {
 					break;
 			}
 			
+		},
+		getData() {
+			let url = this.$store.state.apiUrl+'brandsmodels/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
+			if (this.$store.state.city) url += '&city='+this.$store.state.city
+			if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+			if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
+			for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+			this.axios.get(url).then((response) => {
+				this.brands = response.data
+				this.$cookies.set('CIS_DETAIL_PAGE', 0)
+			})
 		}
 	}
 }

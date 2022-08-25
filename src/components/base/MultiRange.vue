@@ -66,14 +66,14 @@ export default {
     },
     methods: {
         cc() {
-            this.$emit('range', { range: this.range, value: this.value})
+            this.$emit('range', { range: this.range, value: this.$parent.filter.ranges[this.range].value})
         },
-        reset() {
+        // reset() {
 
-            this.min = 0
-            this.max = 99999999
-            this.value = [0,99999999]
-        },
+        //     this.min = 0
+        //     this.max = 99999999
+        //     this.value = [0,99999999]
+        // },
 
         // helpers
         Format(q) {

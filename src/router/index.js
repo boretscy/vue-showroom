@@ -62,8 +62,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    base: '/cars/'+YAppsShowroomMode+'/',
-    mode: 'history',
+    // base: '/cars/'+YAppsShowroomMode+'/',
+    // mode: 'history',
     routes,
     scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 }

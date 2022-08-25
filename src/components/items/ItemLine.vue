@@ -2,7 +2,7 @@
     <div class="model__grid-card">
         <div class="model__grid-card__head">
             <router-link :to="link" class="model__grid-card__head--img">
-                <img :src="item.image" :alt="brand.name+' '+model.name" v-if="item.image">
+                <img :src="item.image" :alt="item.brand.name+' '+item.model.name" v-if="item.image">
                 
                 <icon-base icon-name="ciscrossover" v-if="!item.image && item.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
                 <icon-base icon-name="ciscupe" v-if="!item.image && item.body.code == 'cupe'"><icon-ciscupe /></icon-base>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="model__grid-card__content">
-            <router-link :to="link" class="model__grid-card__content--title">{{ brand.name+' '+model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
+            <router-link :to="link" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
                 <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
                 <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
@@ -49,7 +49,7 @@
                 <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
                 <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>
             </div>
-            <button class="button transparent w100" @click="show(item.id, brand.name+' '+model.name+' '+((item.equipment)?item.equipment:''), item.dealership.name)">
+            <button class="button transparent w100" @click="show(item.id, item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:''), item.dealership.name)">
                 <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
             </button>
         </div>
@@ -80,7 +80,7 @@ export default {
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
         IconCissuv, IconCisvan, IconCiswagon
     },
-    props: ['brand', 'model', 'item'],
+    props: ['item'],
     data() {
         return {
             locstore: {

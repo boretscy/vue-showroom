@@ -136,16 +136,20 @@ export default {
             this.$emit('sort', v)
         },
         buildLink( but ) {
-            let l = '/'
+            let l = '/', s = []
+
             if (this.$route.params.brand) l += this.$route.params.brand
             if (this.$route.params.model) l += '/'+this.$route.params.model
             l += '?'
+            
             if (this.$route.query) {
                 for ( let key in this.$route.query ) {
-                    if (key != 'sort') l += key+'='+this.$route.query[key]+'&'
+                    if (key != 'sort') s.push(key+'='+this.$route.query[key])
                 }
             } 
-            if ( but != 'all' ) l += 'sort='+but
+            if ( but != 'all' ) s.push('sort='+but)
+
+            l += s.join('&')
             
             return l
         }

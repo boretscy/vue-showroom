@@ -564,6 +564,7 @@ export default {
         },
 
         brandValue: function(n) {
+            
             let s = []
             switch (n.length) {
                 case 0:
@@ -716,20 +717,12 @@ export default {
         '$store.state.city': function() {
             this.initFilter()
         },
-        '$route.params': {
-            immediate: true,
-            handler() {
-                this.initFilter()
-            }
-        },
-        '$route.query': {
-            immediate: true,
-            handler() {
-                this.initFilter()
-            }
-        },
+        '$route.query': function() {
+            this.initFilter()
+        }
     },
     mounted: function() {
+        this.initFilter()
     },
     methods: {
         
@@ -742,30 +735,21 @@ export default {
             if ( this.$route.params.model ) url += '&model='+this.$route.params.model
             this.axios.get(url).then((response) => {
                 this.filter = response.data
-                this.filterList = this.filter.dropLists.brands
                 this.brands = this.filter.dropLists.brands
-                this.modelOptions = this.filter.dropLists.models
                 this.link = this.buildLink(this.buildQuery())
                 this.getStartDropsValues()
             })
         },
         getRangeCount(link) {
-            return new Promise((resolve) => {
-                let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
-                if (this.$store.state.city) url += '&city='+this.$store.state.city
-                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-                this.axios.get(url).then((response) => {
-                    this.filter.totalCount = response.data.totalCount
-                    this.filterList = response.data.dropLists
-                    this.link = this.buildLink(this.buildQuery())
-                    resolve(true)
-                })
+            let url = this.$store.state.apiUrl+'count/'+this.$store.state.mode+'/'+link+'&token='+this.$store.state.apiToken
+            if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+            this.axios.get(url).then((response) => {
+                this.filter.totalCount = Number(response.data)
+                this.link = this.buildLink(this.buildQuery())
             })
         },
         resetFilter() {
-            // this.resetDrops()
-            // let startPath = '/'
-            // if ( this.$store.state.brand ) startPath += this.$store.state.brand 
             this.$router.replace({'query': null});
             this.initFilter()
             this.resetDrops()
@@ -776,7 +760,6 @@ export default {
                     throw error;
                 }
             })
-            // this.brandValue = []
         },
 
         // drops
@@ -886,11 +869,8 @@ export default {
         },
 
         // ranges
-        setRangeValue(v) {
-            this.filter.ranges[v.range].value = v.value
-            this.link = this.buildLink(this.buildQuery())
+        setRangeValue() {
             this.getRangeCount(this.buildQuery())
-
         },
         
         // link
@@ -953,6 +933,8 @@ export default {
             if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
                 l += '&year='+this.filter.ranges.year.value.join(',')
             }
+            if ( this.$route.query.sort ) l += '&sort='+this.$route.query.sort
+            
             return l
         },
         buildLink( query ) {

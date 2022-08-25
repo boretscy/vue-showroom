@@ -8,8 +8,6 @@
                 <item-grid 
                     v-for="(item, indx) in items"
                     :key="indx"
-                    :brand="item.brand"
-                    :model="item.model"
                     :item="item"
                     />
             </div>
@@ -21,8 +19,6 @@
                 <item-line 
                     v-for="(item, indx) in items"
                     :key="indx"
-                    :brand="item.brand"
-                    :model="item.model"
                     :item="item"
                     />
             </div>
@@ -71,7 +67,6 @@ export default {
                     this.count = response.data.totalCount
                     this.$store.state.inCity = response.data.in_city
                     this.$parent.showMore = response.data.next_page
-                    
 
                     this.items.forEach( (item) => {
                         if (item.Discount) this.$parent.sortButtons.Discount = true
@@ -142,6 +137,7 @@ export default {
     methods: {
         getData() {
             
+            if ( !this.page ) this.items = []
             this.page++
             
             let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
