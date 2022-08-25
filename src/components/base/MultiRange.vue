@@ -2,25 +2,25 @@
     <div class="multirange">
         <div class="multirange__item">
             <label class="input">
-                <input type="hidden" v-model="value[0]">
-                <input type="text" :value="String(value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
-                <input type="text" :value="value[0]" v-else>
+                <input type="hidden" v-model="$parent.filter.ranges[range].value[0]">
+                <input type="text" :value="String($parent.filter.ranges[range].value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
+                <input type="text" :value="$parent.filter.ranges[range].value[0]" v-else>
                 <span class="price">{{ nameRange }} от</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
             <label class="input">
-                <input type="hidden" v-model="value[1]">
-                <input type="text" :value="String(value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
-                <input type="text" :value="value[1]" v-else>
+                <input type="hidden" v-model="$parent.filter.ranges[range].value[1]">
+                <input type="text" :value="String($parent.filter.ranges[range].value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
+                <input type="text" :value="$parent.filter.ranges[range].value[1]" v-else>
                 <span  class="price">до</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
         </div>
         <div class="price_slider slider-styled">
             <vue-slider 
-                v-model="value"
-                :min="min"
-                :max="max"
+                v-model="$parent.filter.ranges[range].value"
+                :min="$parent.filter.ranges[range].min"
+                :max="$parent.filter.ranges[range].max"
                 :interval="step"
                 tooltip="none"
                 @drag-end="cc"
@@ -56,60 +56,13 @@ export default {
         indxRange: function() {
             return this.range
         },
-        tow: function() {
-            return [
-                this.$parent.filter.ranges[this.indxRange].min,
-                this.$parent.filter.ranges[this.indxRange].max,
-            ]
-        }
     },
     watch: {
-        tow: function(v) {
-            this.reset()
-            
-
-            // if ( this.value[0] < v.min ) {
-            //     this.value[0] = v.min
-            //     this.min = v.min
-            // } else {
-            //     this.min = v.min
-            //     this.value[0] = v.min
-            // }
-            // if ( this.value[1] > v.max ) {
-            //     this.value[1] = v.max
-            //     this.max = v.max
-            // } else {
-            //     this.max = v.max
-            //     this.value[1] = v.max
-            // }
-
-            if ( this.value[0] < v[0] ) this.value[0] = v[0]
-            if ( this.value[1] > v[1] ) this.value[1] = v[1]
-            this.min = v[0]
-            this.max = v[1]
-
-
-            // if ( this.value[0] < v.min ) this.value[0] = v.min
-            // if ( this.value[1] > v.max ) this.value[1] = v.max
-            // this.min = v.min
-            // this.max = v.max
-
-
-            // this.value = [
-            //     this.$parent.filter.ranges[this.indxRange].min,
-            //     this.$parent.filter.ranges[this.indxRange].max
-            // ]
-            // this.min = this.$parent.filter.ranges[this.indxRange].min
-            // this.max = this.$parent.filter.ranges[this.indxRange].max
-        }
     },
     mounted: function() {
-        this.value = [
-            this.$parent.filter.ranges[this.indxRange].min,
-            this.$parent.filter.ranges[this.indxRange].max
-        ]
-        this.min = this.$parent.filter.ranges[this.indxRange].min
-        this.max = this.$parent.filter.ranges[this.indxRange].max
+        // this.value = this.$parent.filter.ranges[this.range].value
+        // this.min = this.$parent.filter.ranges[this.range].min
+        // this.max = this.$parent.filter.ranges[this.range].max
     },
     methods: {
         cc() {

@@ -1002,58 +1002,6 @@ export default {
             return res
         },
 
-        getModels(brands) {
-            
-            return new Promise((resolve) => {
-
-                let s = []
-                brands.forEach( function(item) {
-                    s.push(item.code)
-                })
-                
-                if ( s.length ) {
-                    let url = this.$store.state.apiUrl+'models/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken+'&brand='+s.join(',')
-                    if (this.$store.state.city) url += '&city='+this.$store.state.city
-                    if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-                    for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
-                    this.modelOptions = []
-                    let p = this.filter.ranges.price
-                    this.axios.get(url).then((response) => {
-                        p.min = 1000000000
-                        p.max = 0
-                        let pi
-                        response.data.forEach((item) => {
-                            pi = {
-                                name: item.name,
-                                code: item.code,
-                                brand: item.brand.code,
-                                vehicles: 0,
-                                ru_name: item.ru_name
-                            }
-                            pi.vehicles += item.vehicles
-                            this.modelOptions.push(pi)
-                            if ( item.min < p.min ) p.min = item.min
-                            if ( item.max > p.max ) p.max = item.max
-                        })
-
-                        if ( this.$route.params.model ) {
-                            this.modelOptions.forEach( (i) => {
-                                if ( i.code == this.$route.params.model ) this.modelValue.push(i)
-                            })
-                        } else if ( this.$route.query.model ) {
-                            this.$route.query.model.split(',').forEach( (qi) => {
-                                this.modelOptions.forEach( (i) => {
-                                    if ( i.code == qi ) this.modelValue.push(i)
-                                })
-                            })
-                        }
-                        // this.setRanges()
-                    })
-                }
-                resolve(true)
-            })
-        },
-
         
 
 
