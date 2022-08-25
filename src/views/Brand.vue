@@ -36,7 +36,7 @@ export default {
 			brand: null,
 			iter: 0,
 			showMore: false,
-			sortMode: 'name',
+			sortMode: null,
 
 			sortButtons: {
 				Discount: false,

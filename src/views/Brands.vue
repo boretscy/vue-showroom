@@ -62,7 +62,7 @@ export default {
 			vehicles: [],
 			brandsCount: 0,
 			showMore: false,
-			sortMode: 'name',
+			sortMode: null,
 			sortButtons: {
 				Discount: false,
 				InStock: false,
