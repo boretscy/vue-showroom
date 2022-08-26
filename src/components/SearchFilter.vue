@@ -568,7 +568,6 @@ export default {
                                 throw error;
                             }
                         })
-
                     }
                     break;
                 case 1:
@@ -864,7 +863,12 @@ export default {
 
         // ranges
         setRangeValue() {
-            this.getRangeCount(this.buildQuery())
+            // this.getRangeCount(this.buildQuery())
+            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                            if (error.name != "NavigationDuplicated") {
+                                throw error;
+                            }
+                        })
         },
         
         // link
@@ -1098,7 +1102,7 @@ export default {
     margin-bottom: 2rem;
 }
 .filter__sort-item:nth-child(1) {
-    width: 205px;
+    width: 243.2px;
     border-radius: 3px;
     color: var(--yablack) !important;
     height: 45px;

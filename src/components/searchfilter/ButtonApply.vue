@@ -1,8 +1,8 @@
 <template>
     <div class="button grid">
-        <span>
-            <router-link :to="filterLink">Показать {{ Format( Number(carCount) ) }} авто</router-link>
-            </span>
+        <span @click="$emit('toggle')">
+            Все параметры
+        </span>
         <span
             @click="$emit('toggle')">
             <icon-base icon-name="filter" v-if="!viewFull"><icon-filter /></icon-base>
