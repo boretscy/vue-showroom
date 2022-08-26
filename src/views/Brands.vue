@@ -6,12 +6,19 @@
         />
 		<search-filter @sort="sort"/>
 		<sort
-			:Discount="sortButtons.Discount"
-			:InStock="sortButtons.InStock"
-			:OnWay="sortButtons.OnWay"
-			:Mode="viewSort"
+			:Discount="TagButtons.Discount"
+			:InStock="TagButtons.InStock"
+			:OnWay="TagButtons.OnWay"
+			:Mode="viewTag"
 			@sort="sortToggle"/>
-		<div v-if="mode == 'new' && brands.length">
+		<items
+			:dataSort="sortMode"
+			ref="items"
+			></items>
+		<more
+			@more="more"
+			v-if="showMore"/>
+		<!-- <div v-if="mode == 'new' && brands.length">
 			<list-brand-models
 				v-for="(brand, indx) in brands"
 				:key="indx"
@@ -24,14 +31,14 @@
 				:brand="brand"/>
 		</div>
 		<div v-if="mode == 'used'" >
-			<used-items
+			<items
 				:dataSort="sortMode"
 				ref="used"
-				></used-items>
+				></items>
 			<more
 				@more="more"
 				v-if="showMore"/>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -41,8 +48,8 @@
 
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
-import ListBrandModels from '@/components/ListBrandModels.vue'
-import UsedItems from '@/components/UsedItems.vue'
+// import ListBrandModels from '@/components/ListBrandModels.vue'
+import Items from '@/components/Items.vue'
 import More from '@/components/brands/More.vue'
 
 export default {
@@ -50,10 +57,10 @@ export default {
 	components: {
 		// IconBase, IconCorner,
 		SearchFilter,
-		ListBrandModels,
+		// ListBrandModels,
 		Sort,
 		More,
-		UsedItems
+		Items
 	},
 	data() {
 		return {
@@ -63,7 +70,7 @@ export default {
 			brandsCount: 0,
 			showMore: false,
 			sortMode: null,
-			sortButtons: {
+			TagButtons: {
 				Discount: false,
 				InStock: false,
 				OnWay: false,
@@ -74,9 +81,9 @@ export default {
 		viewMode: function() {
 			return this.$store.state.viewMode
 		},
-		viewSort: function() {
+		viewTag: function() {
 			let res = 'all'
-			if ( this.$route.query.sort ) res = this.$route.query.sort
+			if ( this.$route.query.tag ) res = this.$route.query.tag
 			return res
 		},
 		mode: function() {
@@ -112,7 +119,7 @@ export default {
 	methods: {
 		more() {
 			this.$refs.page++
-			this.$refs.used.getData()
+			this.$refs.items.getData()
 		},
 		sortToggle(v) {
 			this.sortMode = v

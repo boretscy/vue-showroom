@@ -78,9 +78,9 @@ export default {
                     this.model = response.data.model
 
                     this.items.forEach( (item) => {
-                        if (item.Discount) this.$parent.sortButtons.Discount = true
-                        if (item.InStock) this.$parent.sortButtons.InStock = true
-                        if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                        if (item.Discount) this.$parent.TagButtons.Discount = true
+                        if (item.InStock) this.$parent.TagButtons.InStock = true
+                        if (item.OnWay) this.$parent.TagButtons.OnWay = true
                     })
 
                     window.scrollTo(0,0);
@@ -115,9 +115,9 @@ export default {
                 this.model = response.data.model
 
                 this.items.forEach( (item) => {
-                    if (item.Discount) this.$parent.sortButtons.Discount = true
-                    if (item.InStock) this.$parent.sortButtons.InStock = true
-                    if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                    if (item.Discount) this.$parent.TagButtons.Discount = true
+                    if (item.InStock) this.$parent.TagButtons.InStock = true
+                    if (item.OnWay) this.$parent.TagButtons.OnWay = true
                 })
 
                 window.scrollTo(0,0);

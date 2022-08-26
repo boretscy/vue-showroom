@@ -93,9 +93,9 @@ export default {
                 this.$parent.showMore = response.data.next_page
 
                 this.items.forEach( (item) => {
-                    if (item.Discount) this.$parent.sortButtons.Discount = true
-                    if (item.InStock) this.$parent.sortButtons.InStock = true
-                    if (item.OnWay) this.$parent.sortButtons.OnWay = true
+                    if (item.Discount) this.$parent.TagButtons.Discount = true
+                    if (item.InStock) this.$parent.TagButtons.InStock = true
+                    if (item.OnWay) this.$parent.TagButtons.OnWay = true
                 })
             })
         }

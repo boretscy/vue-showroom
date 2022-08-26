@@ -70,18 +70,13 @@ export default {
     props: {Discount: Boolean, InStock: Boolean, OnWay: Boolean, Mode: String},
     data() {
         return {
-            SortButtons: {
+            TagButtons: {
                 Discount: false,
                 InStock: false,
                 OnWay: false
 
             },
-            sortValue: [
-                // {
-                //     code: 'name',
-                //     name: 'По названию'
-                // }
-            ],
+            sortValue: [],
             sortList: [
                 {
                     code: 'price_up',
@@ -126,13 +121,13 @@ export default {
             this.$cookies.set('CIS_VIEW_MODE', s)
         },
         sort(v) {
-            this.SortButtons = {
+            this.TagButtons = {
                 Discount: false,
                 InStock: false,
                 OnWay: false
 
             }
-            this.SortButtons[v] = true
+            this.TagButtons[v] = true
             this.$emit('sort', v)
         },
         buildLink( but ) {
@@ -144,10 +139,10 @@ export default {
             
             if (this.$route.query) {
                 for ( let key in this.$route.query ) {
-                    if (key != 'sort') s.push(key+'='+this.$route.query[key])
+                    if (key != 'tag') s.push(key+'='+this.$route.query[key])
                 }
             } 
-            if ( but != 'all' ) s.push('sort='+but)
+            if ( but != 'all' ) s.push('tag='+but)
 
             l += s.join('&')
             

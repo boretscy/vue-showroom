@@ -2,9 +2,9 @@
 	<div class="yapps-cis">
 		<search-filter />
 		<sort
-			:Discount="sortButtons.Discount"
-			:InStock="sortButtons.InStock"
-			:OnWay="sortButtons.OnWay"
+			:Discount="TagButtons.Discount"
+			:InStock="TagButtons.InStock"
+			:OnWay="TagButtons.OnWay"
 			:Mode="mode"
 			@sort="sortToggle" />
 		<list-brand-items
@@ -38,7 +38,7 @@ export default {
 			showMore: false,
 			sortMode: null,
 
-			sortButtons: {
+			TagButtons: {
 				Discount: false,
 				InStock: false,
 				OnWay: false,
@@ -51,7 +51,7 @@ export default {
 		},
 		mode: function() {
 			let res = 'all'
-			if ( this.$route.query.sort ) res = this.$route.query.sort
+			if ( this.$route.query.tag ) res = this.$route.query.tag
 			return res
 		},
 	},

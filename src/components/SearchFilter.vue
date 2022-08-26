@@ -317,12 +317,6 @@ export default {
 
             link: '',
 
-            sortbuttons: {
-                discount: false,
-                instock: false,
-                inpath: false
-            },
-
             query: {
                 brand: null,
                 model: null,
@@ -933,7 +927,7 @@ export default {
             if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
                 l += '&year='+this.filter.ranges.year.value.join(',')
             }
-            if ( this.$route.query.sort ) l += '&sort='+this.$route.query.sort
+            if ( this.$route.query.tag ) l += '&tag='+this.$route.query.tag
             
             return l
         },

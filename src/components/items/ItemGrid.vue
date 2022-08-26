@@ -168,7 +168,7 @@ export default {
     position: relative;
 }
 .model__grid-card__head--img {
-    --heigth: 236px;
+    --heigth: 230px;
     background: var(--yawhite);
     min-height: var(--heigth);
     height: 100%;
