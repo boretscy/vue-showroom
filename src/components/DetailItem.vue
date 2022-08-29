@@ -1143,7 +1143,7 @@ a.drop-item:hover {
     left: -240px;
 }
 .question {
-    --icon-size: 14px;
+    --icon-size: 15px;
     --padding-top-bottom: 0;
     --padding-left-right: 0;
     --ui-color: var(--yagray);
@@ -1152,16 +1152,17 @@ a.drop-item:hover {
     height: calc(var(--icon-size) * 2);
     background: var(--ui-color);
     border: solid 1px var(--ui-color);
+    color: #000;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--icon-size);
 }
 .question:hover {
     background: var(--yadarkblue);
     border: solid 1px var(--yadarkblue);
-    color: var(--yawhite);
+    color: var(--yawhite) !important;
 }
 .input {
     --size: 1em;
@@ -2611,7 +2612,8 @@ input[type=range]::-ms-fill-upper {
 }
 .profit__head-discount__item .question {
     --icon-size: 10px;
-    font-size: 10px;
+    font-size: var(--icon-size);
+    color: #000;
 }
 .car__grid-box-profit__head {
     margin-bottom: 2em;
