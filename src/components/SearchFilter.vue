@@ -534,7 +534,7 @@ export default {
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
             }
             if ( this.$store.state.mode == 'used' ) {
-                res = this.filter.totalCount+' автомобилей '
+                res = this.filter.totalCount+' '+this.getWorld(this.filter.totalCount, 'a')+' '
                 res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
                 res += 'с пробегом '
