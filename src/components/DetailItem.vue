@@ -87,9 +87,7 @@
                                 :class="{'--open': drops.title}"
                                 v-if="vehicle.discounts">
                                     <div class="drop-btn">
-                                        <button class="question" @click="drops.title = !drops.title">
-                                            <icon-base icon-name="question"><icon-question /></icon-base>
-                                        </button>
+                                        <button class="question" @click="drops.title = !drops.title">?</button>
                                     </div>
                                     <div class="drop-container">
                                         <div class="drop-content">
@@ -173,9 +171,7 @@
                                             :class="{'--open': drops.description}"
                                             v-if="vehicle.discounts">
                                             <div class="drop-btn" @click="drops.description = !drops.description">
-                                                <button class="question">
-                                                    <icon-base icon-name="question"><icon-question /></icon-base>
-                                                </button>
+                                                <button class="question">?</button>
                                             </div>
                                             <div class="drop-container">
                                                 <div class="drop-content">
@@ -425,7 +421,6 @@ import IconCisfavorites from '@/components/icons/IconCisfavorites.vue'
 import IconCiscompare from '@/components/icons/IconCiscompare.vue'
 // import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
-import IconQuestion from '@/components/icons/IconQuestion.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
 
 import IconCiscrossover from '@/components/icons/IconCiscrossover.vue'
@@ -456,7 +451,7 @@ export default {
     components: {
         IconBase, IconCisfavorites, IconCiscompare,
         // IconShare, 
-        IconCheck, IconQuestion, IconCorner,
+        IconCheck, IconCorner,
         // agile: VueAgile
         IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
@@ -1161,75 +1156,13 @@ a.drop-item:hover {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-size: 14px;
 }
 .question:hover {
     background: var(--yadarkblue);
     border: solid 1px var(--yadarkblue);
-}
-.question svg {
-    fill: var(--yablack);
-    width: var(--icon-size);
-    height: var(--icon-size);
-}
-/*.btn {
-    --ui-color: var(--yadarkblue);
-    --border-color: var(--ui-color);
     color: var(--yawhite);
-    border: 1px solid var(--yadarkblue);
-    background: var(--ui-color);
-    padding: 19px 40px 18px;
-    border-radius: 10px;
-    font-size: 20px;
-    text-decoration: none;
-    display: inline-flex;
-    cursor: pointer;
-    transition: 200ms;
-    font-weight: 500;
 }
-.btn:hover {
-    background: var(--color-btn-hover);
-    border: solid 1px var(--yadarkblue);
-}*/
-/*.btn__transparent {
-    background: transparent;
-    border-radius: 5px;
-    font-size: 12px;
-    text-decoration: none;
-    display: inline-flex;
-    cursor: pointer;
-    color: var(--yablack);
-    border: 2px solid var(--yablack);
-    transition: 200ms;
-    padding: 6px 10px;
-    gap: 5px;
-    line-height: 1em;
-    font-weight: 500;
-    align-items: center;
-    transition: 200ms;
-    justify-content: center;
-}
-.btn__transparent svg {
-    width: 15px;
-    height: 15px;
-    stroke: var(--yablack);
-    display: block;
-    fill: none;
-    transition: 200ms;
-}
-.btn__transparent:hover {
-    background: transparent;
-    border: 2px solid var(--yadarkblue);
-}
-.btn__big {
-    padding: 6px 25px;
-}
-.btn_icon svg {
-    stroke: inherit;
-    fill: var(--yablack);
-}
-.btn__h {
-    padding: 15px 25px;
-}*/
 .input {
     --size: 1em;
     position: relative;
@@ -2564,11 +2497,11 @@ input[type=range]::-ms-fill-upper {
     background: var(--yadarkblue);
     border: solid 1px var(--yadarkblue);
 }
-.--open .question svg {
-    fill: var(--yawhite);
+.--open .question {
+    color: var(--yawhite);
 }
-.question:hover svg {
-    fill: var(--yawhite);
+.question:hover {
+    color: var(--yawhite);
 }
 .question-drop {
     --max-w: 300px;
@@ -2677,7 +2610,8 @@ input[type=range]::-ms-fill-upper {
     top: 2px;
 }
 .profit__head-discount__item .question {
-    --icon-size: 11px;
+    --icon-size: 10px;
+    font-size: 10px;
 }
 .car__grid-box-profit__head {
     margin-bottom: 2em;
