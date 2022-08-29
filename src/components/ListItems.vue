@@ -7,30 +7,30 @@
             </router-link>
         </div>
 
-        <div 
-            class="model__grid"
-            v-if="viewMode == 'grid'"
-            >
-            <item-grid 
-                v-for="item in items"
-                :key="item.id"
-                :brand="brand"
-                :model="model"
-                :item="item"
-                />
-        </div>
-        <div 
-            class="model__grid"
-            v-if="viewMode == 'list'"
-            :class="{'model__line': viewMode == 'list'}"
-            >
-            <item-line 
-                v-for="item in items"
-                :key="item.id"
-                :brand="brand"
-                :model="model"
-                :item="item"
-                />
+        <div :key="iter">
+            <div v-if="items">
+                <div 
+                    class="model__grid"
+                    v-if="viewMode == 'grid'"
+                    >
+                    <item-grid 
+                        v-for="(item, indx) in items"
+                        :key="indx"
+                        :item="item"
+                        />
+                </div>
+                <div 
+                    class="model__grid"
+                    v-if="viewMode == 'list'"
+                    :class="{'model__line': viewMode == 'list'}"
+                    >
+                    <item-line 
+                        v-for="(item, indx) in items"
+                        :key="indx"
+                        :item="item"
+                        />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -51,7 +51,8 @@ export default {
             model: null,
 			showMore: false,
 			count: 0,
-            random_cta: null
+            page: 0,
+            iter: 0
 		}
 	},
 	computed: {
@@ -59,81 +60,56 @@ export default {
 			return this.$store.state.viewMode
 		}
 	},
-    watch: {
+   watch: {
 
-
-        '$route.query': {
-            immediate: true,
-            handler() {
-                let url = this.$store.state.apiUrl+'model/'+this.$store.state.mode+'/'+this.$route.params.model+'?token='+this.$store.state.apiToken
-                url += '&brand='+this.$route.params.brand
-                url += '&model='+this.$route.params.model
-                if (this.$store.state.city) url += '&city='+this.$store.state.city
-                if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-                for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
-                if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
-                this.axios.get(url).then((response) => {
-                    this.items = response.data.items
-                    this.brand = response.data.brand
-                    this.model = response.data.model
-
-                    this.items.forEach( (item) => {
-                        if (item.Discount) this.$parent.TagButtons.Discount = true
-                        if (item.InStock) this.$parent.TagButtons.InStock = true
-                        if (item.OnWay) this.$parent.TagButtons.OnWay = true
-                    })
-
-                    window.scrollTo(0,0);
-                })
-            }
+        '$route.query': function() {
+            this.page = 0
+            this.getData()
+            window.scrollTo(0,0)
         },
 
-        '$parent.sortMode': function(newValue) {
-            switch(newValue) {
-                case 'name':
-                    this.items.sort((a, b) => a.name > b.name ? 1 : -1)
-                    break;
-                case 'price_up':
-                    this.items.sort((a, b) => a.price > b.price ? 1 : -1)
-                    break;
-                case 'price_down':
-                    this.items.sort((a, b) => a.price < b.price ? 1 : -1)
-                    break;
-            }
+        '$parent.sortMode': function() {
+            this.page = 0
+            this.getData()
+            window.scrollTo(0,0)
         },
 
         '$store.state.city': function() {
-            let url = this.$store.state.apiUrl+'model/'+this.$store.state.mode+'/'+this.$route.params.model+'?token='+this.$store.state.apiToken
-            url += '&brand='+this.$route.params.brand
-            url += '&model='+this.$route.params.model
+            this.page = 0
+            this.getData()
+            window.scrollTo(0,0)
+        }
+    },
+	mounted: function() {
+        this.getData()
+        window.scrollTo(0,0)
+	},
+    methods: {
+        getData() {
+            
+            if ( !this.page ) this.items = []
+            this.page++
+            
+            let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
+            if (this.$route.params.brand) url += '&brand='+this.$route.params.brand
+            if (this.$route.params.model) url += '&model='+this.$route.params.model
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-            for (let k in this.$route.query) if (k!=='brand' && k!=='model') url += '&'+k+'='+this.$route.query[k]
+            for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
+            url += '&page='+this.page
+            if ( this.$parent.sortMode ) url += '&sort='+this.$parent.sortMode
             this.axios.get(url).then((response) => {
-                this.items = response.data.items
-                this.brand = response.data.brand
-                this.model = response.data.model
+                let newitems = this.items.concat(response.data.items)
+                this.items = newitems
+                this.count = response.data.totalCount
+                this.$parent.showMore = response.data.next_page
 
                 this.items.forEach( (item) => {
                     if (item.Discount) this.$parent.TagButtons.Discount = true
                     if (item.InStock) this.$parent.TagButtons.InStock = true
                     if (item.OnWay) this.$parent.TagButtons.OnWay = true
                 })
-
-                window.scrollTo(0,0);
             })
-        }
-    },
-	mounted: function() {
-
-		
-	},
-    methods: {
-        
-        randomInteger(min, max) {
-        // получить случайное число от (min-0.5) до (max+0.5)
-            let rand = min - 0.5 + Math.random() * (max - min + 1);
-            return Math.round(rand);
         }
     }
 }

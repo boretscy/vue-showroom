@@ -1166,8 +1166,8 @@ a.drop-item:hover {
     background: var(--yadarkblue);
     border: solid 1px var(--yadarkblue);
 }
-.question .icon {
-    fill: var(--yawhite);
+.question svg {
+    fill: var(--yablack);
     width: var(--icon-size);
     height: var(--icon-size);
 }

@@ -13,6 +13,9 @@
 			:dataSort="sortMode"
 			ref="items"
             ></list-items>
+		<more
+			@more="more"
+			v-if="showMore" />
 	</div>
 </template>
 
@@ -20,17 +23,18 @@
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
 import ListItems from '@/components/ListItems.vue'
+import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Items',
 	components: {
 		SearchFilter, Sort,
-        ListItems,
+        ListItems, More
 	},
 	data() {
 		return {
+			showMore: false,
 			sortMode: null,
-			iter: 0,
 
 			TagButtons: {
 				Discount: false,
@@ -49,16 +53,13 @@ export default {
 			return res
 		}
 	},
-	watch: {
-		sortMode: function(v) {
-			this.sort(v)
-		}
-    },
 	mounted: function() {
 		this.$cookies.set('CIS_DETAIL_PAGE', 0)
-		this.$store.state.dealership = null
 	},
 	methods: {
+		more() {
+			this.$refs.items.getData()
+		},
 		sortToggle(v) {
 			this.sortMode = v
 		},

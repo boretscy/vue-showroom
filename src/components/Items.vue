@@ -8,8 +8,6 @@
                 <item-grid 
                     v-for="(item, indx) in items"
                     :key="indx"
-                    :brand="item.brand"
-                    :model="item.model"
                     :item="item"
                     />
             </div>
@@ -21,8 +19,6 @@
                 <item-line 
                     v-for="(item, indx) in items"
                     :key="indx"
-                    :brand="item.brand"
-                    :model="item.model"
                     :item="item"
                     />
             </div>

@@ -1,9 +1,5 @@
 <template>
 	<div class="yapps-cis" :key="iter" >
-		<vue-headful
-            :title="metaTitle"
-            :description="metaDescription"
-        />
 		<search-filter @sort="sort"/>
 		<sort
 			:Discount="TagButtons.Discount"
@@ -18,46 +14,19 @@
 		<more
 			@more="more"
 			v-if="showMore"/>
-		<!-- <div v-if="mode == 'new' && brands.length">
-			<list-brand-models
-				v-for="(brand, indx) in brands"
-				:key="indx"
-				v-if="brand._models && brand.vehicles > 0"
-				:dataName="brand.name"
-				:dataCount="brand.vehicles"
-				:dataLink="brand.code"
-				:dataSort="sortMode"
-				:viewMode="viewMode"
-				:brand="brand"/>
-		</div>
-		<div v-if="mode == 'used'" >
-			<items
-				:dataSort="sortMode"
-				ref="used"
-				></items>
-			<more
-				@more="more"
-				v-if="showMore"/>
-		</div> -->
 	</div>
 </template>
 
 <script>
-// import IconBase from '@/components/IconBase.vue'
-// import IconCorner from '@/components/icons/IconCorner.vue'
-
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
-// import ListBrandModels from '@/components/ListBrandModels.vue'
 import Items from '@/components/Items.vue'
 import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Brands',
 	components: {
-		// IconBase, IconCorner,
 		SearchFilter,
-		// ListBrandModels,
 		Sort,
 		More,
 		Items
@@ -66,7 +35,6 @@ export default {
 		return {
 			iter: 0,
 			brands: [],
-			vehicles: [],
 			brandsCount: 0,
 			showMore: false,
 			sortMode: null,
@@ -88,19 +56,7 @@ export default {
 		},
 		mode: function() {
 			return this.$store.state.mode
-		},
-
-        metaTitle: function() {
-            let d = new Date()
-            let res = 'Купить новый автомобиль '+d.getFullYear()+' года выпуска в '+this.$store.state.inCity+' | Официальный дилер — Юг-Авто'
-            return res
-        },
-        metaDescription: function() {
-            let d = new Date()
-            let res = 'Продажа новых автомобилей '+d.getFullYear()-1+'-'+d.getFullYear()+' года выпуска от официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Актуальный модельный ряд *Выгодные цены *Тест-драйв перед покупкой'
-            if (this.$store.state.mode == 'used') res = 'Продажа подержанных б/у автомобилей у официального дилера в Краснодаре и Краснодарском крае — Юг-Авто. *Обмен по Trade-in *Выкуп *Кредит *Подбор'
-            return res
-        }
+		}
 	},
     watch: {
         '$route.query': function() {
@@ -118,7 +74,7 @@ export default {
 	},
 	methods: {
 		more() {
-			this.$refs.page++
+			this.$refs.items.page++
 			this.$refs.items.getData()
 		},
 		sortToggle(v) {

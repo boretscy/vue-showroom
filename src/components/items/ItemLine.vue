@@ -1,5 +1,5 @@
 <template>
-    <div class="model__grid-card">
+    <div class="model__grid-card" v-if="item.type == 'vehicle'">
         <div class="model__grid-card__head">
             <router-link :to="link" class="model__grid-card__head--img">
                 <img :src="item.image" :alt="item.brand.name+' '+item.model.name" v-if="item.image">
@@ -98,19 +98,21 @@ export default {
 
     },
     mounted: function() {
-        this.link = '/'
-        this.link += this.item.brand.code
-        this.link += '/'
-        this.link += this.item.model.code || ' '
-        this.link += '/'
-        this.link += this.item.id
+        if ( this.item.type == 'vehicle' ) {
+            this.link = '/'
+            this.link += this.item.brand.code
+            this.link += '/'
+            this.link += this.item.model.code || ' '
+            this.link += '/'
+            this.link += this.item.id
 
-        setInterval(() => {
-            this.locstore = {
-                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
-                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
-            }
-        }, 500);
+            setInterval(() => {
+                this.locstore = {
+                    FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                    COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+                }
+            }, 500)
+        }
     },
     methods: {
         show(id, name, ds) {

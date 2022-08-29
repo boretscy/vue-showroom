@@ -1,64 +1,69 @@
 <template>
-    <div class="model__grid-card" v-if="item.general || item.status">
-        <div class="model__grid-card__head">
-            <router-link :to="link" class="model__grid-card__head--img">
-                <img :src="item.image" :alt="item.brand.name+' '+item.model.name" v-if="item.image">
-                
-                <icon-base icon-name="ciscrossover" v-if="!item.image && item.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
-                <icon-base icon-name="ciscupe" v-if="!item.image && item.body.code == 'cupe'"><icon-ciscupe /></icon-base>
-                <icon-base icon-name="cisliftback" v-if="!item.image && item.body.code == 'liftback'"><icon-cisliftback /></icon-base>
-                <icon-base icon-name="cishatchback" v-if="!item.image && item.body.code == 'hatchback'"><icon-cishatchback /></icon-base>
-                <icon-base icon-name="cismicrobus" v-if="!item.image && item.body.code == 'microbus'"><icon-cismicrobus /></icon-base>
-                <icon-base icon-name="cisminivan" v-if="!item.image && item.body.code == 'minivan'"><icon-cisminivan /></icon-base>
-                <icon-base icon-name="cispickup" v-if="!item.image && item.body.code == 'pickup'"><icon-cispickup /></icon-base>
-                <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'sedan'"><icon-cissedan /></icon-base>
-                <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'none'"><icon-cissedan /></icon-base>
-                <icon-base icon-name="cissuv" v-if="!item.image && item.body.code == 'suv'"><icon-cissuv /></icon-base>
-                <icon-base icon-name="cisvan" v-if="!item.image && item.body.code == 'van'"><icon-cisvan /></icon-base>
-                <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
-            </router-link>
-            <div class="model__grid-card__head--top">
-                <div class="model__grid-card__head--top_discont" v-if="item.Discount">
-                    до {{ Format(discount) }} <span class="rub">₽</span>
+    <div class="model__grid-card">
+        <div v-if="item.type == 'vehicle'">
+            <div class="model__grid-card__head">
+                <router-link :to="link" class="model__grid-card__head--img">
+                    <img :src="item.image" :alt="item.brand.name+' '+item.model.name" v-if="item.image">
+                    
+                    <icon-base icon-name="ciscrossover" v-if="!item.image && item.body.code == 'crossover'"><icon-ciscrossover /></icon-base>
+                    <icon-base icon-name="ciscupe" v-if="!item.image && item.body.code == 'cupe'"><icon-ciscupe /></icon-base>
+                    <icon-base icon-name="cisliftback" v-if="!item.image && item.body.code == 'liftback'"><icon-cisliftback /></icon-base>
+                    <icon-base icon-name="cishatchback" v-if="!item.image && item.body.code == 'hatchback'"><icon-cishatchback /></icon-base>
+                    <icon-base icon-name="cismicrobus" v-if="!item.image && item.body.code == 'microbus'"><icon-cismicrobus /></icon-base>
+                    <icon-base icon-name="cisminivan" v-if="!item.image && item.body.code == 'minivan'"><icon-cisminivan /></icon-base>
+                    <icon-base icon-name="cispickup" v-if="!item.image && item.body.code == 'pickup'"><icon-cispickup /></icon-base>
+                    <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'sedan'"><icon-cissedan /></icon-base>
+                    <icon-base icon-name="cissedan" v-if="!item.image && item.body.code == 'none'"><icon-cissedan /></icon-base>
+                    <icon-base icon-name="cissuv" v-if="!item.image && item.body.code == 'suv'"><icon-cissuv /></icon-base>
+                    <icon-base icon-name="cisvan" v-if="!item.image && item.body.code == 'van'"><icon-cisvan /></icon-base>
+                    <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
+                </router-link>
+                <div class="model__grid-card__head--top">
+                    <div class="model__grid-card__head--top_discont" v-if="item.Discount">
+                        до {{ Format(discount) }} <span class="rub">₽</span>
+                    </div>
+                    <div class="model__grid-card__head--top_icons">
+                        <VueCustomTooltip label="Избранное">
+                            <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
+                                <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
+                            </a>
+                        </VueCustomTooltip>
+                        <VueCustomTooltip label="Сравнение">
+                            <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
+                                <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
+                            </a>
+                        </VueCustomTooltip>
+                    </div>
                 </div>
-                <div class="model__grid-card__head--top_icons">
-                    <VueCustomTooltip label="Избранное">
-                        <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
-                            <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
-                        </a>
-                    </VueCustomTooltip>
-                    <VueCustomTooltip label="Сравнение">
-                        <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
-                            <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
-                        </a>
-                    </VueCustomTooltip>
+            </div>
+            <div class="model__grid-card__content">
+                <router-link :to="link" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
+                <div class="model__grid-card__content--list">
+                    <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[4].value }} г.в.</span>
+                    <span class="model__grid-card__content--list-item" v-if="$store.state.mode=='used' && item.general">{{ Format(item.general[5].value) }} км</span>
+                    <span class="model__grid-card__content--list-item" v-if="item.body_type">{{ item.body_type }}</span>
+                    <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[1].value }}</span>
+                    <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[0].value }}</span>
                 </div>
             </div>
-        </div>
-        <div class="model__grid-card__content">
-            <router-link :to="link" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
-            <div class="model__grid-card__content--list">
-                <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[4].value }} г.в.</span>
-                <span class="model__grid-card__content--list-item" v-if="$store.state.mode=='used' && item.general">{{ Format(item.general[5].value) }} км</span>
-                <span class="model__grid-card__content--list-item" v-if="item.body_type">{{ item.body_type }}</span>
-                <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[1].value }}</span>
-                <span class="model__grid-card__content--list-item" v-if="item.general">{{ item.general[0].value }}</span>
+            <div class="model__grid-card__footer">
+                <div 
+                    class="model__grid-card__content--status"
+                    v-if="item.status"
+                    :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
+                    >{{ item.status.name }}</div>
+                <div class="model__grid-card__content--price">
+                    <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
+                    <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>
+                </div>
+                <button class="button transparent w100" @click="show(item.id, item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:''), item.dealership.name)">
+                    <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
+                </button>
             </div>
         </div>
-        <div class="model__grid-card__footer">
-            <div 
-                class="model__grid-card__content--status"
-                 v-if="item.status"
-                :class="{'--in-stock': item.status.id == 1, '--in-transit': item.status.id == 2}"
-                >{{ item.status.name }}</div>
-            <div class="model__grid-card__content--price">
-                <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
-                <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>
-            </div>
-            <button class="button transparent w100" @click="show(item.id, item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:''), item.dealership.name)">
-                <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
-            </button>
-        </div>
+        <cta-grid 
+            :cta="item"
+            v-else />
     </div>
 </template>
 
@@ -78,13 +83,16 @@ import IconCissuv from '@/components/icons/IconCissuv.vue'
 import IconCisvan from '@/components/icons/IconCisvan.vue'
 import IconCiswagon from '@/components/icons/IconCiswagon.vue'
 
+import CtaGrid from '@/components/cta/CtaGrid.vue'
+
 export default {
     name: 'ItemGrid',
     components: {
         IconBase, IconCiscompare, IconCisfavorites,
         IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
-        IconCissuv, IconCisvan, IconCiswagon
+        IconCissuv, IconCisvan, IconCiswagon,
+        CtaGrid
     },
     props: ['item'],
     data() {
@@ -104,19 +112,21 @@ export default {
 
     },
     mounted: function() {
-        this.link = '/'
-        this.link += this.item.brand.code
-        this.link += '/'
-        this.link += this.item.model.code || ' '
-        this.link += '/'
-        this.link += this.item.id
+        if ( this.item.type == 'vehicle' ) {
+            this.link = '/'
+            this.link += this.item.brand.code || ' '
+            this.link += '/'
+            this.link += this.item.model.code || ' '
+            this.link += '/'
+            this.link += this.item.id
 
-        setInterval(() => {
-            this.locstore = {
-                FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
-                COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
-            }
-        }, 500);
+            setInterval(() => {
+                this.locstore = {
+                    FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
+                    COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
+                }
+            }, 500)
+        }
     },
     methods: {
         show(id, name, ds) {

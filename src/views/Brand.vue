@@ -33,8 +33,6 @@ export default {
 	},
 	data() {
 		return {
-			brand: null,
-			iter: 0,
 			showMore: false,
 			sortMode: null,
 
@@ -55,14 +53,6 @@ export default {
 			return res
 		},
 	},
-	watch: {
-        '$route.params.brand': {
-            immediate: true,
-            handler() {
-                this.iter++
-            }
-        },
-    },
 	mounted: function() {
 		this.$cookies.set('CIS_DETAIL_PAGE', 0)
 	},

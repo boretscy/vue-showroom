@@ -1,5 +1,5 @@
 <template>
-    <a :href="cta.link" class="available__grid-item grid__icon-form">
+    <div class="available__grid-item grid__icon-form" @click="show(cta.code)">
         <div class="grid-item__head">
             <div class="grid-item__head-img">
                 <icon-base icon-name="ctacredit" v-if="cta.code == 'credit'" ><icon-ctacredit :dark-color="$store.state.styles['--yadarkblue']"  :light-color="$store.state.styles['--yalightyellow']" /></icon-base>
@@ -11,8 +11,8 @@
         <div class="head_items">
             <div class="grid-item__title">{{ cta.title }}</div>
         </div>
-        <div class="button transparent" @click="show(cta.code)"><span style="z-index: 50;">{{ cta.button }}</span></div>
-    </a>
+        <div class="button transparent"><span style="z-index: 50;">{{ cta.button }}</span></div>
+    </div>
 </template>
 
 <script>
@@ -41,7 +41,6 @@ export default {
 <style scoped>
 .available__grid-item {
     text-decoration: none;
-    border: solid 1px var(--yagray);
     display: block;
     padding: 2rem 2rem;
     user-select: none;
@@ -49,9 +48,6 @@ export default {
     border-radius: 3px;
     background: var(--yalightgray);
     min-height: 400px;
-}
-.available__grid-item:hover {
-    border: solid 1px var(--yayellow);
 }
 .available__grid-item .button {
     --padding-left-right: 20px;

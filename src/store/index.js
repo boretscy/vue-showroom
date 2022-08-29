@@ -47,25 +47,25 @@ export default new Vuex.Store({
             brands: [],
             cta: [
                 {
-                    name: 'random_cta',
+                    type: 'random_cta',
                     code: 'credit',
                     title: 'Рассчитайте ежемесячный платеж',
                     button: 'Получить одобрение'
                 },
                 {
-                    name: 'random_cta',
+                    type: 'random_cta',
                     code: 'trade-in',
                     title: 'Обменяйте автомобиль в Trade-in',
                     button: 'Оценить онлайн'
                 },
                 {
-                    name: 'random_cta',
+                    type: 'random_cta',
                     code: 'sell',
                     title: 'Продайте текущий автомобиль',
                     button: 'Продать автомобиль'
                 },
                 {
-                    name: 'random_cta',
+                    type: 'random_cta',
                     code: 'offer',
                     title: 'Не знаете, какой автомобиль выбрать?',
                     button: 'Подберите автомобиль'
