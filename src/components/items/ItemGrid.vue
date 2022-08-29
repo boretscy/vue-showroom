@@ -321,6 +321,7 @@ export default {
     text-decoration: none;
     margin-bottom: 2em;
     display: block;
+    height: 54px;
 }
 .model__grid-card__content--list {
     margin-bottom: var(--margin-bottom);
