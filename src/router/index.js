@@ -12,6 +12,8 @@ import Notfound from '../views/Notfound.vue'
 Vue.use(VueRouter)
 
 let YAppsShowroomMode = document.getElementById('YAppsShowroom').getAttribute('mode')
+let YAppsShowroomHash = document.getElementById('YAppsShowroom').getAttribute('hash') || null
+console.log(YAppsShowroomHash)
 
 const routes = [
     {
@@ -63,7 +65,7 @@ const routes = [
 
 const router = new VueRouter({
     base: '/cars/'+YAppsShowroomMode+'/',
-    mode: 'history',
+    mode: ( YAppsShowroomHash ) ? null : 'history',
     routes,
     scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 }
