@@ -534,12 +534,10 @@ export default {
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
             }
             if ( this.$store.state.mode == 'used' ) {
-                res = 'Продажа '
-                res += ( this.curBrand ) ? this.curBrand.name+' ' : 'автомобилей '
+                res = this.filter.totalCount+' автомобилей '
+                res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
                 res += 'с пробегом '
-                res += '('+this.filter.totalCount+') '
-                res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
             }
             return res
         }
