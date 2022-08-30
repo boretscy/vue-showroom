@@ -333,7 +333,7 @@ export default {
     min-height: 40px;
 }
 .model__grid-card__content--list-item {
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 300;
     line-height: 1em;
     color: var(--yadarkgray);
