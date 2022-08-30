@@ -34,10 +34,12 @@
         <div class="model__grid-card__content">
             <router-link :to="link" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
             <div class="model__grid-card__content--list">
-                <span class="model__grid-card__content--list-item">{{ item.general[4].value }}</span>
-                <span class="model__grid-card__content--list-item">{{ item.body_type }}</span>
-                <span class="model__grid-card__content--list-item">{{ item.general[1].value }}</span>
-                <span class="model__grid-card__content--list-item">{{ item.general[0].value }}</span>
+                <span 
+                    class="model__grid-card__content--list-item"
+                    v-for="(gen, indx) in item._general"
+                    :key="indx"
+                    v-if="gen"
+                    >{{ gen }}</span>
             </div>
         </div>
         <div class="model__grid-card__footer">
@@ -326,8 +328,8 @@ export default {
 .model__grid-card__content--list-item::before {
     content: '\2022';
     color: var(--yadarkblue);
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;
+    margin-right: 0.2rem;
+    margin-left: 0.2rem;
     font-size: 20px;
     vertical-align: middle;
 }
