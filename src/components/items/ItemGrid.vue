@@ -329,6 +329,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    min-height: unset;
 }
 .model__grid-card__content--list-item {
     font-size: 14px;
