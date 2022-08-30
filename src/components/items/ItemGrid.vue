@@ -39,12 +39,13 @@
             <div class="model__grid-card__content">
                 <router-link :to="link" class="model__grid-card__content--title">{{ item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:'') }}</router-link>
                 <div class="model__grid-card__content--list">
-                    <span 
-                        class="model__grid-card__content--list-item"
-                        v-for="(gen, indx) in item._general"
-                        :key="indx"
-                        v-if="gen"
-                        >{{ gen }}</span>
+                    <span class="model__grid-card__content--list-item" v-if="item._general[0]">{{ item._general[0] }}</span>
+                    <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[1]">{{ item._general[1] }}</span>
+                    <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[2]">{{ item._general[2] }}</span>
+                    <div style="display: block;width: 100%;"></div>
+                    <span class="model__grid-card__content--list-item" v-if="item._general[3]">{{ item._general[3] }}</span>
+                    <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[4]">{{ item._general[4] }}</span>
+                    <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[5]">{{ item._general[5] }}</span>
                 </div>
             </div>
             <div class="model__grid-card__footer">
@@ -320,7 +321,7 @@ export default {
     line-height: 1em;
     color: var(--yablack);
     text-decoration: none;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     display: block;
     height: 54px;
 }
@@ -329,7 +330,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    min-height: unset;
+    min-height: 40px;
 }
 .model__grid-card__content--list-item {
     font-size: 14px;
@@ -337,7 +338,7 @@ export default {
     line-height: 1em;
     color: var(--yadarkgray);
 }
-.model__grid-card__content--list-item::before {
+.model__grid-card__content--list-item.bullet-before::before {
     content: '\2022';
     color: var(--yadarkblue);
     margin-right: 0.2rem;
@@ -345,11 +346,11 @@ export default {
     font-size: 20px;
     vertical-align: middle;
 }
-.model__grid-card__content--list-item:nth-child(1)::before {
+/* .model__grid-card__content--list-item:nth-child(1)::before {
     content: '';
     margin-left: 0;
     margin-right: 0;
-}
+} */
 .model__grid-card__content--status {
     font-size: 12px;
     font-weight: 400;
