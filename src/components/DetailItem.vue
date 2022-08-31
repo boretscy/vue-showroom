@@ -3192,6 +3192,7 @@ h2, .h2 a {
 }
 .liner_model .available__grid-item {
     padding: 0 0;
+    width: 100%;
 }
 .head_items-box {
     padding: 1em 1em;
