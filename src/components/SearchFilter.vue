@@ -1179,14 +1179,14 @@ export default {
     box-sizing: border-box;
 }
 .filter__sort-item__switch-radio:nth-child(1) span {
-    border-right: solid 1px var(--yayellow);
+   /* border-right: solid 1px var(--yayellow);
     border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+    border-top-right-radius: 0;*/
 }
 .filter__sort-item__switch-radio:nth-child(2) span {
-    border-left: solid 1px var(--yayellow);
+    /*border-left: solid 1px var(--yayellow);
     border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    border-top-left-radius: 0;*/
 }
 .filter__sort-item__switch-radio input:checked + span {
     border: solid 1px var(--yayellow);

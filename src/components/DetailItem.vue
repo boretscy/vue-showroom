@@ -371,12 +371,18 @@
                                 <div class="head_items">
                                     <router-link :to="item.link" class="grid-item__title">{{ item.name }}</router-link>
                                 </div>
-                                <div class="model__grid-card__content--list">
-                                    <span 
-                                        class="model__grid-card__content--list-item"
-                                        v-for="(i, k) in item.general"
-                                        :key="k"
-                                        >{{ i }}</span>
+                                <div class="model__grid-card__content--list_box">
+                                    <div class="model__grid-card__content--list">
+                                        <span class="model__grid-card__content--list-item" v-if="item.general[0]">{{ item.general[0] }}</span>
+                                        <span class="model__grid-card__content--list-item bullet-before" v-if="item.general[1]">{{ item.general[1] }}</span>
+                                        <span class="model__grid-card__content--list-item bullet-before" v-if="item.general[2]">{{ item.general[2] }}</span>
+                                    </div>
+                                    <div style="display: block;width: 100%;"></div>
+                                    <div class="model__grid-card__content--list">
+                                        <span class="model__grid-card__content--list-item" v-if="item.general[3]">{{ item.general[3] }}</span>
+                                        <span class="model__grid-card__content--list-item bullet-before" v-if="item.general[4]">{{ item.general[4] }}</span>
+                                        <span class="model__grid-card__content--list-item bullet-before" v-if="item.general[5]">{{ item.general[5] }}</span>
+                                    </div>
                                 </div>
                                 <div class="model__grid-card__footer">
                                     <div
@@ -2135,6 +2141,7 @@ input[type=range]::-ms-fill-upper {
 .model__grid-card__content {
     padding: var(--padding);
     padding-bottom: 0;
+    margin-bottom: var(--margin-bottom);
 }
 .model__grid-card__footer {
     padding: var(--padding);
@@ -2176,11 +2183,15 @@ input[type=range]::-ms-fill-upper {
     line-height: 1em;
     margin-bottom: var(--margin-bottom);
 }
-.model__grid-card__content--list {
+.model__grid-card__content--list_box {
     --margin-bottom: 2em;
     margin-bottom: var(--margin-bottom);
+}
+.model__grid-card__content--list {
+    --margin-bottom: 2em;
+    margin-bottom: 0;
     word-break: break-word;
-    min-height: 70px;
+    min-height: revert;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
