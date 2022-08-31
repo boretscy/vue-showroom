@@ -334,7 +334,7 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     min-height: revert;
-    margin-bottom: 0;
+    margin-bottom: 5px;
 
 }
 .model__grid-card__content--list-item {
