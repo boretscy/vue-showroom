@@ -42,7 +42,9 @@
                     <span class="model__grid-card__content--list-item" v-if="item._general[0]">{{ item._general[0] }}</span>
                     <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[1]">{{ item._general[1] }}</span>
                     <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[2]">{{ item._general[2] }}</span>
-                    <div style="display: block;width: 100%;"></div>
+                </div>
+                <div style="display: block;width: 100%;"></div>
+                <div class="model__grid-card__content--list">
                     <span class="model__grid-card__content--list-item" v-if="item._general[3]">{{ item._general[3] }}</span>
                     <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[4]">{{ item._general[4] }}</span>
                     <span class="model__grid-card__content--list-item bullet-before" v-if="item._general[5]">{{ item._general[5] }}</span>
@@ -280,6 +282,7 @@ export default {
 .model__grid-card__content {
     padding: var(--padding);
     padding-bottom: 0;
+    margin-bottom: var(--margin-bottom);
 }
 .model__grid-card__footer {
     padding: var(--padding);
@@ -330,7 +333,9 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    min-height: 40px;
+    min-height: revert;
+    margin-bottom: 0;
+
 }
 .model__grid-card__content--list-item {
     font-size: 13px;
