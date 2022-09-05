@@ -6,7 +6,7 @@
         />
         <div class="car__grid">
 
-            <div class="car_grid-left">
+            <div class="car_grid-left no-select">
                 <div class="car_grid-left__slider">
                     <div class="swiper swiper__detail">
                         <div class="swiper-wrapper">
@@ -798,6 +798,9 @@ export default {
 .drop {
     position: relative;
     z-index: 1;
+}
+.no-select {
+    user-select: none;
 }
 .drop .drop-icon {
     --ui-color: var(--yadarkblue);
