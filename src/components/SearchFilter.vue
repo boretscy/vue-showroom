@@ -6,7 +6,7 @@
         />
         <h1 class="title" v-if="filter">
             <router-link to="/">{{ metaH1 }}</router-link>
-            <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link">в {{ $store.state.inCity }}</a>
+            <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link" @click.prevent="showCity">в {{ $store.state.inCity }}</a>
 		</h1>
         <div class="title" v-else>
             <div class="title-empty"></div>
@@ -1035,6 +1035,10 @@ export default {
             if ( q.length == 7 ) q = '7861'+q
             return '7'+q.slice(1);
         },
+
+        showCity() {
+            localStorage.setItem('YAPP_SELECTED_CITY_SHOW_LIST', 'true')
+        }
     }
 }
 </script>

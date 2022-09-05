@@ -13,7 +13,6 @@ Vue.use(VueRouter)
 
 let YAppsShowroomMode = document.getElementById('YAppsShowroom').getAttribute('mode')
 let YAppsShowroomHash = document.getElementById('YAppsShowroom').getAttribute('hash') || null
-console.log(YAppsShowroomHash)
 
 const routes = [
     {
