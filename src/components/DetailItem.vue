@@ -334,7 +334,21 @@
                 </div>
             </div>
         </div>
-        <div v-else></div>
+        <div v-else>
+            <div class="car__grid loading">
+                <div class="car_grid-left"></div>
+                <div class="car__grid-item">
+                    <div class="h2 car__grid-item_title"></div>
+                    <div class="car__grid-box">
+                        <div class="car__grid-box__dc"></div>
+                        <div class="car__grid-box__price"></div>
+                        <div class="car__grid-box-stock"></div>
+                        <div class="car__grid-box-profit"></div>
+                    </div>
+                </div>
+                <div class="configuration"></div>
+            </div>
+        </div>
 
         <div class="flex__head" v-if="vehicle.recomended.length > 0">
             <router-link 
@@ -3291,6 +3305,37 @@ span.rub {
     margin-left: 5px !important;
 }
 /*multi range slider*/
+.loading {
+    --left-slider: 720px;
+    --rigth-start-box: 211px;
+    --rigth-end-box: 430px;
+    --configuration-box: 750px;
+}
+.loading .car_grid-left {
+    background: var(--yalightgray);
+}
+.loading .car__grid-item_title {background: var(--yalightgray);}
+.loading .car__grid-box__dc {
+    background: var(--yalightgray);
+    height: var(--start-box);
+}
+.loading .car__grid-box__price {
+    background: var(--yalightgray);
+    height: var(--start-box);
+}
+.loading .car__grid-box-stock {
+    background: var(--yalightgray);
+    height: var(--middle-box);
+}
+.loading .car__grid-box-profit {
+    background: var(--yalightgray);
+    height: var(--middle-box);
+}
+.loading .configuration{
+    background: var(--yalightgray);
+    height: var(--end-box);
+}
+
 @media (max-width: 1024px) {
    .mobile {
     display: block;
@@ -3348,6 +3393,12 @@ span.rub {
 
 }
 @media (max-width: 600px) {
+    .loading {
+        --left-slider: 400px;
+        --rigth-start-box: 211px;
+        --rigth-end-box: 420px;
+        --configuration-box: 900px;
+    }
     .flex__head {
         display: block;
     }
