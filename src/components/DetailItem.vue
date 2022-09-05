@@ -4,7 +4,7 @@
             :title="metaTitle"
             :description="metaDescription"
         />
-        <div class="car__grid">
+        <div class="car__grid" v-if="vehicle">
 
             <div class="car_grid-left no-select">
                 <div class="car_grid-left__slider">
@@ -334,6 +334,7 @@
                 </div>
             </div>
         </div>
+        <div v-else></div>
 
         <div class="flex__head" v-if="vehicle.recomended.length > 0">
             <router-link 
