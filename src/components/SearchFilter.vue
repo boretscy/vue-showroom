@@ -725,12 +725,10 @@ export default {
             }
         },
         '$store.state.city': function() {
-            
-            if (  !this.blockFilter ) this.initFilter()
+            if ( !this.blockFilter ) this.initFilter()
         },
         '$route.query': function() {
-            
-            if (  !this.blockFilter ) this.initFilter()
+            if ( !this.blockFilter ) this.initFilter()
         }
     },
     mounted: function() {
@@ -852,15 +850,15 @@ export default {
                 })
             }
             this.bodyValue = v
-            // v = []
-            // if ( this.$route.query.dealership ) {
-            //     this.$route.query.dealership.split(',').forEach( (qi) => {
-            //         this.filter.dropLists.dealerships.forEach( (i) => {
-            //             if ( i.code == qi ) v.push(i)
-            //         })
-            //     })
-            // }
-            // this.dealershipValue = v
+            v = []
+            if ( this.$route.query.dealership ) {
+                this.$route.query.dealership.split(',').forEach( (qi) => {
+                    this.filter.dropLists.dealerships.forEach( (i) => {
+                        if ( i.code == qi ) v.push(i)
+                    })
+                })
+            }
+            this.dealershipValue = v
             v = []
             if ( this.$route.query.color ) {
                 this.$route.query.color.split(',').forEach( (qi) => {

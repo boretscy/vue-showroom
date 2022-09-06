@@ -1,6 +1,6 @@
 <template>
 	<div class="yapps-cis" :key="iter" >
-		<search-filter @sort="sort"/>
+		<search-filter @sort="sort" ref="filter"/>
 		<sort
 			:Discount="TagButtons.Discount"
 			:InStock="TagButtons.InStock"
@@ -60,7 +60,7 @@ export default {
 	},
     watch: {
         '$route.query': function() {
-			this.getData()
+			// if ( !this.$refs.filter.blockFilter ) this.getData()
 		},
 		sortMode: function(v) {
 			this.sort(v)
@@ -70,7 +70,7 @@ export default {
         }
     },
 	mounted: function() {
-		this.getData()
+		// this.getData()
 	},
 	methods: {
 		more() {
