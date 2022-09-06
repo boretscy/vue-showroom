@@ -548,7 +548,11 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             },
 
-            phone: (window.calltouch_phone) ? window.calltouch_phone : this.vehicle.dealership.phone
+            phone: (window.calltouch_phone) ? window.calltouch_phone : this.vehicle.dealership.phone,
+
+            swiper: null,
+            swiperThumb: null,
+            swiperDetail: null
             
         }
     },
@@ -640,6 +644,12 @@ export default {
             return res
         }
     },
+    watch: {
+        '$route.params.item': function() {
+            this.swiperDetail.slideTo(0)
+            this.swiperThumb.slideTo(0)
+        }
+    },
     mounted: function() {
 
         this.accordion = this.vehicle.options
@@ -660,7 +670,7 @@ export default {
             item: this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+this.vehicle.general[4].value+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
         }
 
-        let swiper = new Swiper(".main-slider", {
+        this.swiper = new Swiper(".main-slider", {
             slidesPerView: 4,
             spaceBetween: 20,
             slidesPerGroup: 4,
@@ -699,7 +709,7 @@ export default {
             },
         });
 
-        let swiperThumb = new Swiper(".swiper__detail-thumb", {
+        this.swiperThumb = new Swiper(".swiper__detail-thumb", {
             spaceBetween: 5,
             slidesPerView: 4,
             freeMode: true,
@@ -709,14 +719,14 @@ export default {
                 prevEl: ".detail_prev",
             },
         });
-        let swiperDetail = new Swiper(".swiper__detail", {
+        this.swiperDetail = new Swiper(".swiper__detail", {
             spaceBetween: 10,
             navigation: {
                 nextEl: ".detail_next",
                 prevEl: ".detail_prev",
             },
             thumbs: {
-                swiper: swiperThumb,
+                swiper: this.swiperThumb,
             },
         });
         
