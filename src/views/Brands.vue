@@ -74,7 +74,7 @@ export default {
 	},
 	methods: {
 		more() {
-			this.$refs.items.page++
+			// this.$refs.items.page++
 			this.$refs.items.getData()
 		},
 		sortToggle(v) {

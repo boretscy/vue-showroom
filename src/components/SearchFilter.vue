@@ -5,7 +5,7 @@
             :description="metaDescription"
         />
         <h1 class="title" v-if="filter">
-            <router-link to="/">{{ metaH1 }}</router-link>
+            <a href="#" @click.prevent="resetFilter">{{ metaH1 }}</a>
             <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link" @click.prevent="showCity">в {{ $store.state.inCity }}</a>
 		</h1>
         <div class="title" v-else>
@@ -545,7 +545,7 @@ export default {
     },
     watch: {
         modeValue: function(n, o) {
-            if ( o.code ) {
+            if ( o.code && !this.blockFilter) {
                 let l = '/'
                 if (this.$store.state.mode == 'new') {
                     l += 'cars/'+n.code
@@ -558,78 +558,84 @@ export default {
         },
 
         brandValue: function(n) {
-            
-            let s = []
-            switch (n.length) {
-                case 0:
-                    if ( this.$route.params.brand || this.$route.query.brand ) {
-                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
+            if (  !this.blockFilter ) {
+                let s = []
+                switch (n.length) {
+                    case 0:
+                        if ( this.$route.params.brand || this.$route.query.brand ) {
+                            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                                if (error.name != "NavigationDuplicated") {
+                                    throw error;
+                                }
+                            })
+                        }
+                        break;
+                    case 1:
+                        if ( this.$route.params.brand != n[0].code ) {
+                            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                                if (error.name != "NavigationDuplicated") {
+                                    throw error;
+                                }
+                            })
+                        }
+                        break;
+                    default:
+                        n.forEach( (i) => {
+                            s.push(i.code)
                         })
-                    }
-                    break;
-                case 1:
-                    if ( this.$route.params.brand != n[0].code ) {
-                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
-                        })
-                    }
-                    break;
-                default:
-                    n.forEach( (i) => {
-                        s.push(i.code)
-                    })
-                    if ( this.$route.query.brand != s.join(',') ) {
-                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
-                        })
-                    }
-                    this.iter++
-                    break;
+                        if ( this.$route.query.brand != s.join(',') ) {
+                            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                                if (error.name != "NavigationDuplicated") {
+                                    throw error;
+                                }
+                            })
+                        }
+                        this.iter++
+                        break;
+                }
             }
+            
         },
         modelValue: function(n) {
-            let s = []
-            switch (n.length) {
-                case 0:
-                    if ( this.$route.params.model || this.$route.query.model ) {
-                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
+            if (  !this.blockFilter ) {
+                            let s = []
+                switch (n.length) {
+                    case 0:
+                        if ( this.$route.params.model || this.$route.query.model ) {
+                            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                                if (error.name != "NavigationDuplicated") {
+                                    throw error;
+                                }
+                            })
+                        }
+                        break;
+                    case 1:
+                        if ( this.$route.params.model != n[0].code || this.$route.query.model != n[0].code) {
+                            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                                if (error.name != "NavigationDuplicated") {
+                                    throw error;
+                                }
+                            })
+                        }
+                        break;
+                    default:
+                        n.forEach( (i) => {
+                            s.push(i.code)
                         })
-                    }
-                    break;
-                case 1:
-                    if ( this.$route.params.model != n[0].code || this.$route.query.model != n[0].code) {
-                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
-                        })
-                    }
-                    break;
-                default:
-                    n.forEach( (i) => {
-                        s.push(i.code)
-                    })
-                    if ( this.$route.query.model != s.join(',') ) {
-                        this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
-                        })
-                    }
-                    break;
+                        if ( this.$route.query.model != s.join(',') ) {
+                            this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
+                                if (error.name != "NavigationDuplicated") {
+                                    throw error;
+                                }
+                            })
+                        }
+                        break;
+                }
+
             }
         },
         transmissionsValue: function(n) {
+            if (  !this.blockFilter ) {
             let s = []
             n.forEach( (i) => {
                 s.push(i.code)
@@ -641,8 +647,10 @@ export default {
                     }
                 })
             }
+            }
         },
         engineValue: function(n){
+            if (  !this.blockFilter ) {
             let s = []
             n.forEach( (i) => {
                 s.push(i.code)
@@ -654,8 +662,10 @@ export default {
                     }
                 })
             }
+            }
         },
         dealershipValue: function(n){
+            if (  !this.blockFilter ) {
             let s = []
             n.forEach( (i) => {
                 s.push(i.code)
@@ -667,8 +677,10 @@ export default {
                     }
                 })
             }
+            }
         },
         colorValue: function(n){
+            if (  !this.blockFilter ) {
             let s = []
             n.forEach( (i) => {
                 s.push(i.code)
@@ -680,8 +692,10 @@ export default {
                     }
                 })
             }
+            }
         },
         bodyValue: function(n){
+            if (  !this.blockFilter ) {
             let s = []
             n.forEach( (i) => {
                 s.push(i.code)
@@ -693,8 +707,10 @@ export default {
                     }
                 })
             }
+            }
         },
         driveValue: function(n){
+            if (  !this.blockFilter ) {
             let s = []
             n.forEach( (i) => {
                 s.push(i.code)
@@ -706,12 +722,15 @@ export default {
                     }
                 })
             }
+            }
         },
         '$store.state.city': function() {
-            this.initFilter()
+            
+            if (  !this.blockFilter ) this.initFilter()
         },
         '$route.query': function() {
-            this.initFilter()
+            
+            if (  !this.blockFilter ) this.initFilter()
         }
     },
     mounted: function() {
@@ -757,6 +776,8 @@ export default {
 
         // drops
         getStartDropsValues() {
+
+            this.blockFilter = true
 
             this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489')?1:0)]
             this.$store.state.nav = {}
@@ -831,15 +852,15 @@ export default {
                 })
             }
             this.bodyValue = v
-            v = []
-            if ( this.$route.query.dealership ) {
-                this.$route.query.dealership.split(',').forEach( (qi) => {
-                    this.filter.dropLists.dealerships.forEach( (i) => {
-                        if ( i.code == qi ) v.push(i)
-                    })
-                })
-            }
-            this.dealershipValue = v
+            // v = []
+            // if ( this.$route.query.dealership ) {
+            //     this.$route.query.dealership.split(',').forEach( (qi) => {
+            //         this.filter.dropLists.dealerships.forEach( (i) => {
+            //             if ( i.code == qi ) v.push(i)
+            //         })
+            //     })
+            // }
+            // this.dealershipValue = v
             v = []
             if ( this.$route.query.color ) {
                 this.$route.query.color.split(',').forEach( (qi) => {
@@ -849,8 +870,11 @@ export default {
                 })
             }
             this.colorValue = v
+
+            this.blockFilter = false
         },
         resetDrops() {
+            this.blockFilter = true
             this.brandValue = []
             this.modelValue = []
             this.transmissionsValue = []
@@ -859,6 +883,7 @@ export default {
             this.colorValue = []
             this.driveValue = []
             this.bodyValue = []
+            this.blockFilter = false
         },
 
         // ranges

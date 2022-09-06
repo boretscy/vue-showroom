@@ -78,6 +78,7 @@ export default {
 
             if ( !this.page ) this.items = []
             this.page++
+            console.log(this.page)
 
             let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
             if (this.$route.params.brand) url += '&brand='+this.$route.params.brand
