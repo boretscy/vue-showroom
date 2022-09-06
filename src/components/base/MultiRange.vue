@@ -3,15 +3,15 @@
         <div class="multirange__item">
             <label class="input">
                 <input type="hidden" v-model="$parent.filter.ranges[range].value[0]">
-                <input type="text" :value="String($parent.filter.ranges[range].value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
-                <input type="text" :value="$parent.filter.ranges[range].value[0]" v-else>
+                <!-- <input type="text" :value="String($parent.filter.ranges[range].value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
+                <input type="text" :value="$parent.filter.ranges[range].value[0]" v-else> -->
+                <input type="text" v-model="minVal" @blur="cc">
                 <span class="price">{{ nameRange }} от</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
             <label class="input">
                 <input type="hidden" v-model="$parent.filter.ranges[range].value[1]">
-                <input type="text" :value="String($parent.filter.ranges[range].value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')" v-if="delimiter">
-                <input type="text" :value="$parent.filter.ranges[range].value[1]" v-else>
+                <input type="text" v-model="maxVal" @blur="cc">
                 <span  class="price">до</span>
                 <span class="rub">{{ descVal }}</span>
             </label>
@@ -24,6 +24,7 @@
                 :interval="step"
                 tooltip="none"
                 @drag-end="cc"
+                :ref="range"
                 ></vue-slider>
         </div>
     </div>
@@ -56,6 +57,22 @@ export default {
         indxRange: function() {
             return this.range
         },
+        minVal: {
+            get() {
+                return (this.delimiter) ? String(this.$parent.filter.ranges[this.range].value[0]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') : this.$parent.filter.ranges[this.range].value[0]
+            },  
+            set(v) {
+                this.$parent.filter.ranges[this.range].value[0] = ( Number(v.replace(/[^\d;]/g, '')) > this.$parent.filter.ranges[this.range].value[0] ) ? Number(v.replace(/[^\d;]/g, '')) : this.$parent.filter.ranges[this.range].value[0]
+            }
+        },
+        maxVal: {
+            get() {
+                return (this.delimiter) ? String(this.$parent.filter.ranges[this.range].value[1]).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') : this.$parent.filter.ranges[this.range].value[1]
+            },  
+            set(v) {
+                this.$parent.filter.ranges[this.range].value[1] = ( Number(v.replace(/[^\d;]/g, '')) < this.$parent.filter.ranges[this.range].value[1] ) ? Number(v.replace(/[^\d;]/g, '')) : this.$parent.filter.ranges[this.range].value[1]
+            }
+        }
     },
     watch: {
     },

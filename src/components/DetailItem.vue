@@ -20,6 +20,8 @@
                                class="swiper-slide"
                             >
                                 <img :src="slide.big"/>
+                                <icon-base icon-name="full"><icon-full /></icon-base>
+
                             </a>
                         </div>
                         <div class="swiper-button-next detail_next">
@@ -448,6 +450,7 @@ import IconCiscompare from '@/components/icons/IconCiscompare.vue'
 // import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
+import IconFull from '@/components/icons/IconFull.vue'
 
 import IconCiscrossover from '@/components/icons/IconCiscrossover.vue'
 import IconCiscupe from '@/components/icons/IconCiscupe.vue'
@@ -476,9 +479,9 @@ import { Fancybox, Carousel, Panzoom } from "@fancyapps/ui";
 export default {
     name: 'DetailItem',
     components: {
-        IconBase, IconCisfavorites, IconCiscompare,
+        IconBase, IconCisfavorites, IconCiscompare, 
         // IconShare, 
-        IconCheck, IconCorner,
+        IconCheck, IconCorner, IconFull,
         // agile: VueAgile
         IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
@@ -2966,6 +2969,15 @@ input[type=range]::-ms-fill-upper {
 }.car_grid-left__slider .swiper-slide {
     border-radius: 3px;
     overflow: hidden;
+    position: relative;
+}
+.car_grid-left__slider .swiper-slide svg {
+    position: absolute;
+    fill: var(--yawhite);
+    top: auto;
+    left: auto;
+    width: 48px;
+    height: 48px;
 }
 .car_grid-left__slider .swiper-wrapper{
     cursor: pointer;
