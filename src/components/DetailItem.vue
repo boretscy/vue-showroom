@@ -721,6 +721,7 @@ export default {
         });
         this.swiperDetail = new Swiper(".swiper__detail", {
             spaceBetween: 10,
+            lazy: true,
             navigation: {
                 nextEl: ".detail_next",
                 prevEl: ".detail_prev",

@@ -29,6 +29,7 @@ export default {
 		'$route.params': {
             immediate: true,
             handler(value) {
+				this.vehicle = null
                 let url = this.$store.state.apiUrl+'item/'+this.$store.state.mode+'/'+value.item+'?token='+this.$store.state.apiToken
 				if (this.$store.state.brand) url += '&brand='+this.$store.state.brand
 
