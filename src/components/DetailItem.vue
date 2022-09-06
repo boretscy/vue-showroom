@@ -10,7 +10,11 @@
                 <div class="car_grid-left__slider">
                     <div class="swiper swiper__detail">
                         <div class="swiper-wrapper">
-                            <a data-fancybox="gallery" v-for="(slide, index) in vehicle._images"
+                            <a
+                               data-fancybox="gallery"
+                               data-width="1000"
+                               data-height="1000"
+                               v-for="(slide, index) in vehicle._images"
                                :key="index"
                                :href="slide.big"
                                class="swiper-slide"
@@ -464,8 +468,8 @@ Swiper.use([Thumbs, Navigation, Pagination, ]);
 
 import 'swiper/swiper-bundle.css';
 import "@fancyapps/ui/dist/fancybox.css";
-import { Fancybox } from "@fancyapps/ui/src/Fancybox/Fancybox.js";
 
+import { Fancybox, Carousel, Panzoom } from "@fancyapps/ui";
 
 
 
