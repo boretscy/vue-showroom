@@ -40,6 +40,8 @@ export default {
 					this.$cookies.set('CIS_VEHICLE_ID', this.vehicle.id)
 					this.$cookies.set('CIS_VEHICLE_NAME', this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name))
 					this.$cookies.set('CIS_DETAIL_PAGE', 1)
+				}).catch( (e) => {
+					if (e.response.status == 404) window.location.href = '/404.php'
 				})
             }
         },

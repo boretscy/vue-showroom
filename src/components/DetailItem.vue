@@ -11,16 +11,14 @@
                     <div class="swiper swiper__detail">
                         <div class="swiper-wrapper">
                             <a
-                               data-fancybox="gallery"
-                               data-width="1522"
-                               data-height="1200"
-                               v-for="(slide, index) in vehicle._images"
-                               :key="index"
-                               :href="slide.big"
-                               class="swiper-slide"
-                            >
-                                <img :src="slide.big"/>
-
+                                data-fancybox="gallery"
+                                data-width="1522"
+                                data-height="1200"
+                                v-for="(slide, index) in vehicle._images"
+                                :key="index"
+                                :href="slide.big"
+                                class="swiper-slide"
+                                ><img :src="slide.big" :alt="metaH1" />
                             </a>
                         </div>
                         <div class="swiper-button-next detail_next">
