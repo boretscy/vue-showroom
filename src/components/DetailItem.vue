@@ -12,15 +12,14 @@
                         <div class="swiper-wrapper">
                             <a
                                data-fancybox="gallery"
-                               data-width="1000"
-                               data-height="1000"
+                               data-width="1522"
+                               data-height="1200"
                                v-for="(slide, index) in vehicle._images"
                                :key="index"
                                :href="slide.big"
                                class="swiper-slide"
                             >
                                 <img :src="slide.big"/>
-                                <icon-base icon-name="full"><icon-full /></icon-base>
 
                             </a>
                         </div>
@@ -450,7 +449,7 @@ import IconCiscompare from '@/components/icons/IconCiscompare.vue'
 // import IconShare from '@/components/icons/IconShare.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
 import IconCorner from '@/components/icons/IconCorner.vue'
-import IconFull from '@/components/icons/IconFull.vue'
+// import IconFull from '@/components/icons/IconFull.vue'
 
 import IconCiscrossover from '@/components/icons/IconCiscrossover.vue'
 import IconCiscupe from '@/components/icons/IconCiscupe.vue'
@@ -481,8 +480,8 @@ export default {
     components: {
         IconBase, IconCisfavorites, IconCiscompare, 
         // IconShare, 
-        IconCheck, IconCorner, IconFull,
-        // agile: VueAgile
+        IconCheck, IconCorner,
+        // agile: VueAgile, IconFull
         IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
         IconCissuv, IconCisvan, IconCiswagon
