@@ -668,6 +668,7 @@ export default {
             if ( typeof window.calltouch_phone != 'undefined' && window.calltouch_phone != this.phone ) this.phone = window.calltouch_phone
         }, 100);
 
+        this.$store.state.nav = null
         this.$store.state.nav = {
             brand: this.vehicle.brand,
             model: this.vehicle.model,

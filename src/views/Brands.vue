@@ -110,6 +110,8 @@ export default {
 			this.axios.get(url).then((response) => {
 				this.brands = response.data
 				this.$cookies.set('CIS_DETAIL_PAGE', 0)
+			}).catch( (e) => {
+				if (e.response.status == 404) window.location.href = '/404.php'
 			})
 		}
 	}

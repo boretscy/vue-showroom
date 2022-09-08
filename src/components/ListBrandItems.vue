@@ -97,7 +97,9 @@ export default {
                     if (item.InStock) this.$parent.TagButtons.InStock = true
                     if (item.OnWay) this.$parent.TagButtons.OnWay = true
                 })
-            })
+            }).catch( (e) => {
+				if (e.response.status == 404) window.location.href = '/404.php'
+			})
         }
     }
 }
