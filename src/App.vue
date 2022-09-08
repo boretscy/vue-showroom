@@ -22,13 +22,14 @@ export default {
         "$store.state.city": function() {
             let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
+            if (this.$route.query.dealership) url += '&dealership='+this.$route.query.dealership
+            if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             this.axios.get(url).then((response) => {
                 this.$store.state.global.brands = response.data.dropLists.brands
                 this.$store.state.inCity = response.data.in_city 
             })
         },
         '$route.params': function(v) {
-            
             if ( this.$store.state.brand && typeof v.brand == 'undefined')  this.$router.push( '/'+this.$store.state.brand )
             if ( this.$store.state.brand && typeof v.brand != 'undefined' && v.brand != this.$store.state.brand ) this.$router.push( '/'+this.$store.state.brand )
         },
@@ -90,6 +91,8 @@ export default {
 
         let url = this.$store.state.apiUrl+'brands/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
         if (this.$store.state.city) url += '&city='+this.$store.state.city
+        if (this.$route.query.dealership) url += '&dealership='+this.$route.query.dealership
+        if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
 		this.axios.get(url).then((response) => {
 			this.$store.state.global.brands = response.data.dropLists.brands
             if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
@@ -97,7 +100,6 @@ export default {
 
         setInterval(() => {
             if ( localStorage.getItem('YAPP_SELECTED_CITY') != this.$store.state.city ) {
-                console.log(this.$store.state.city)
                 this.$store.state.city = localStorage.getItem('YAPP_SELECTED_CITY')
             }
         }, 100);

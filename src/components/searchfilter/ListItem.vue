@@ -8,20 +8,10 @@
 <script>
 export default {
     name: 'ListItem',
-    props: ['item'],
+    props: ['item', 'query'],
     computed: {
         link: function() {
             let res = '/'
-            // if ( this.$store.state.mode == 'used' ) {
-            //     res += '?'
-            //     res += 'brand='+((this.item.brand)?this.item.brand:this.item.code)
-            //     if ( this.item.brand ) res += '&model='+this.item.code
-            //     if (this.query) res += this.query.slice(1)
-            // } else {
-            //     res += ((this.item.brand)?this.item.brand.code:this.item.code)
-            //     if ( this.item.brand ) res += '/'+this.item.code
-            //     if (this.query) res += this.query
-            // }
             if ( this.$route.query.brand ) {
                 res += '?brand='+this.$route.query.brand
                 if ( this.item.brand ) res += '&model='+this.item.code

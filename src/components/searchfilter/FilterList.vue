@@ -44,6 +44,8 @@ export default {
             if ( this.items.length < res ) res = this.items.length
             return res
         }
+    },
+    mounted: function() {
     }
 }
 </script>

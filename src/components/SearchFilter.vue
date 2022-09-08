@@ -3,6 +3,7 @@
         <vue-headful
             :title="metaTitle"
             :description="metaDescription"
+            :url="canonical"
         />
         <h1 class="title" v-if="filter">
             <a href="#" @click.prevent="resetFilter">{{ metaH1 }}</a>
@@ -316,6 +317,8 @@ export default {
             complectationOptions: [],
 
             link: '',
+
+            canonical: window.location.href,
 
             query: {
                 brand: null,
