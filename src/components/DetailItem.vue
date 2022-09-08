@@ -643,8 +643,14 @@ export default {
     },
     watch: {
         '$route.params.item': function() {
+            this.$store.state.nav = null
             this.swiperDetail.slideTo(0)
             this.swiperThumb.slideTo(0)
+            this.$store.state.nav = {
+                brand: this.vehicle.brand,
+                model: this.vehicle.model,
+                item: this.metaH1
+            }
         }
     },
     mounted: function() {
