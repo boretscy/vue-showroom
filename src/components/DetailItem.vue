@@ -3,6 +3,7 @@
         <vue-headful
             :title="metaTitle"
             :description="metaDescription"
+            :url="canonical"
         />
         <div class="car__grid" v-if="vehicle">
 
@@ -549,7 +550,9 @@ export default {
 
             swiper: null,
             swiperThumb: null,
-            swiperDetail: null
+            swiperDetail: null,
+
+            canonical: window.location.href,
             
         }
     },
