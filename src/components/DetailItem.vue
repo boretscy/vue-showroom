@@ -545,7 +545,7 @@ export default {
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             },
 
-            phone: (window.calltouch_phone) ? window.calltouch_phone : this.vehicle.dealership.phone,
+            phone: this.vehicle.dealership.phone,
 
             swiper: null,
             swiperThumb: null,
@@ -659,12 +659,13 @@ export default {
                 FAVORITES: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
                 COMPARE: JSON.parse(localStorage.getItem('CIS_COMPARE')) || []
             }
-        }, 500);
+            if ( typeof window.calltouch_phone != 'undefined' && window.calltouch_phone != this.phone ) this.phone = window.calltouch_phone
+        }, 100);
 
         this.$store.state.nav = {
             brand: this.vehicle.brand,
             model: this.vehicle.model,
-            item: this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+this.vehicle.general[4].value+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
+            item: this.metaH1
         }
 
         this.swiper = new Swiper(".main-slider", {
@@ -728,7 +729,7 @@ export default {
             },
         });
         
-        this.$store.state.global.selectedVehicleName = this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
+        this.$store.state.global.selectedVehicleName = this.metaH1
     },
     methods: {
         /* UI */
