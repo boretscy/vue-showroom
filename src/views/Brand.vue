@@ -7,12 +7,9 @@
 			:OnWay="TagButtons.OnWay"
 			:Mode="mode"
 			@sort="sortToggle" />
-		<list-brand-items
-            data="modelItems"
-			:viewMode="viewMode"
-			:dataSort="sortMode"
+		<items
 			ref="items"
-            ></list-brand-items>
+            ></items>
 		<more
 			@more="more"
 			v-if="showMore" />
@@ -22,14 +19,14 @@
 <script>
 import SearchFilter from '@/components/SearchFilter.vue'
 import Sort from '@/components/Sort.vue'
-import ListBrandItems from '@/components/ListBrandItems.vue'
+import Items from '@/components/Items.vue'
 import More from '@/components/brands/More.vue'
 
 export default {
 	name: 'Brand',
 	components: {
 		SearchFilter, Sort, 
-        ListBrandItems, More
+        Items, More
 	},
 	data() {
 		return {

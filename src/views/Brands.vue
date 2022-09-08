@@ -8,7 +8,6 @@
 			:Mode="viewTag"
 			@sort="sortToggle"/>
 		<items
-			:dataSort="sortMode"
 			ref="items"
 			></items>
 		<more

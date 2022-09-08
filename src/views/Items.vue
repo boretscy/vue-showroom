@@ -8,9 +8,6 @@
 			:Mode="mode"
 			@sort="sortToggle" />
         <list-items
-            data="modelItems"
-			:viewMode="viewMode"
-			:dataSort="sortMode"
 			ref="items"
             ></list-items>
 		<more

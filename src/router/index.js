@@ -6,7 +6,6 @@ import Item from '../views/Item.vue'
 import Items from '../views/Items.vue'
 import Favorites from '../views/Favorites.vue'
 import Compare from '../views/Compare.vue'
-import Test from '../views/Test.vue'
 import Notfound from '../views/Notfound.vue'
 
 Vue.use(VueRouter)
@@ -24,11 +23,6 @@ const routes = [
         path: '/compare',
         name: 'Compare',
         component: Compare
-    },
-    {
-        path: '/test',
-        name: 'Test',
-        component: Test
     },
     {
         path: '/favorites',

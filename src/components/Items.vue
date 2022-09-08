@@ -31,7 +31,7 @@ import ItemGrid from '@/components/items/ItemGrid.vue'
 import ItemLine from '@/components/items/ItemLine.vue'
 
 export default {
-	name: 'ListItems',
+	name: 'Items',
 	components: {
         ItemGrid, ItemLine
 	},
@@ -81,6 +81,7 @@ export default {
 
             let url = this.$store.state.apiUrl+'vehicles/'+this.$store.state.mode+'?token='+this.$store.state.apiToken
             if (this.$route.params.brand) url += '&brand='+this.$route.params.brand
+            if (this.$route.params.model) url += '&model='+this.$route.params.model
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
             if (this.$store.state.mode == 'used' && !this.$store.state.dealership && !this.$route.query.dealership) url += '&!dealership=1489'
