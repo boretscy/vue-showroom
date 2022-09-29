@@ -525,8 +525,8 @@ export default {
             res += 'Все машины '
             res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
             res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
-            res += 'в наличии недорого, возможно купить в кредит на выгодных условиях. Телефон: {%tel%}.'
-            res += ( window.calltouch_phone ) ? 'Телефон: '+this.FormatPhoneOut(window.calltouch_phone)+'.' : ''
+            res += 'в наличии недорого, возможно купить в кредит на выгодных условиях.'
+            res += ( window.calltouch_phone ) ? ' Телефон: '+this.FormatPhoneOut(window.calltouch_phone)+'.' : ''
             return res
         },
         metaH1: function() {
