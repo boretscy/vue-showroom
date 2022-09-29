@@ -91,12 +91,9 @@ export default {
                 this.items = newitems
                 this.count = response.data.totalCount
                 this.$parent.showMore = response.data.next_page
-
-                this.items.forEach( (item) => {
-                    if (item.Discount) this.$parent.TagButtons.Discount = true
-                    if (item.InStock) this.$parent.TagButtons.InStock = true
-                    if (item.OnWay) this.$parent.TagButtons.OnWay = true
-                })
+                this.$parent.TagButtons.Discount = response.data.Discount
+                this.$parent.TagButtons.InStock = response.data.InStock
+                this.$parent.TagButtons.OnWay = response.data.OnWay
             }).catch( (e) => {
 				if (e.response.status == 404) window.location.href = '/404.php'
 			})
