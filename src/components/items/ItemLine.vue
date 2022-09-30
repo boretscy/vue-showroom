@@ -18,16 +18,22 @@
                 <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
             </router-link>
             <div class="model__grid-card__head--top">
-                <div class="model__grid-card__head--top_discont" v-if="item.discounts">
-                    до {{ Format(discount) }} <span class="rub">₽</span>
+                <div class="model__grid-card__head--top_discont" v-if="item.Discount">
+                    <VueCustomTooltip :label="discount_tooltip">
+                        до {{ Format(discount) }} <span class="rub">₽</span>
+                    </VueCustomTooltip>
                 </div>
                 <div class="model__grid-card__head--top_icons">
-                    <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
-                        <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
-                    </a>
-                    <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
-                        <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
-                    </a>
+                    <VueCustomTooltip label="Избранное">
+                        <a href="#" :class="{'is--active': locstore.FAVORITES.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('FAVORITES')">
+                            <icon-base icon-name="cisfavorites"><icon-cisfavorites /></icon-base>
+                        </a>
+                    </VueCustomTooltip>
+                    <VueCustomTooltip label="Сравнение">
+                        <a href="#" :class="{'is--active': locstore.COMPARE.indexOf(item.id) >= 0}" @click.prevent="toggleLocstore('COMPARE')">
+                            <icon-base icon-name="ciscompare"><icon-ciscompare /></icon-base>
+                        </a>
+                    </VueCustomTooltip>
                 </div>
             </div>
         </div>
@@ -97,6 +103,17 @@ export default {
 
             return this.item.price - this.item.min_price
         },
+        discount_tooltip: function() {
+            let res = []
+            if ( this.item.discounts ) {
+                this.item.discounts.forEach( (i) => {
+                    if ( i.active ) res.push( i.description+' - до '+this.Format(i.sum)+' ₽' )
+                })
+            } else if ( this.item.Discount ) {
+                res.push( 'Специальная выгода - до '+this.Format(this.discount)+' ₽' )
+            }
+            return res.join('; ')
+        }
 
     },
     mounted: function() {
@@ -262,6 +279,7 @@ export default {
     height: var(--icon-size);
     fill: var(--yagray);
     transition: 200ms;
+    vertical-align: middle;
 }
 .model__grid-card__head--top_icons a:hover svg {
     fill: var(--yadarkblue);

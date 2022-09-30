@@ -20,7 +20,9 @@
                 </router-link>
                 <div class="model__grid-card__head--top">
                     <div class="model__grid-card__head--top_discont" v-if="item.Discount">
-                        до {{ Format(discount) }} <span class="rub">₽</span>
+                        <VueCustomTooltip :label="discount_tooltip">
+                            до {{ Format(discount) }} <span class="rub">₽</span>
+                        </VueCustomTooltip>
                     </div>
                     <div class="model__grid-card__head--top_icons">
                         <VueCustomTooltip label="Избранное">
@@ -113,6 +115,17 @@ export default {
 
             return this.item.price - this.item.min_price
         },
+        discount_tooltip: function() {
+            let res = []
+            if ( this.item.discounts ) {
+                this.item.discounts.forEach( (i) => {
+                    if ( i.active ) res.push( i.description+' - до '+this.Format(i.sum)+' ₽' )
+                })
+            } else if ( this.item.Discount ) {
+                res.push( 'Специальная выгода - до '+this.Format(this.discount)+' ₽' )
+            }
+            return res.join('; ')
+        }
 
     },
     mounted: function() {
