@@ -20,7 +20,7 @@
                 </router-link>
                 <div class="model__grid-card__head--top">
                     <div class="model__grid-card__head--top_discont" v-if="item.Discount">
-                        <VueCustomTooltip :label="discount_tooltip" position="is-bottom">
+                        <VueCustomTooltip :label="discount_tooltip" position="is-bottom" multiline size="is-medium">
                             до {{ Format(discount) }} <span class="rub">₽</span>
                         </VueCustomTooltip>
                     </div>
@@ -124,7 +124,7 @@ export default {
             } else if ( this.item.Discount ) {
                 res.push( 'Специальная выгода - до '+this.Format(this.discount)+' ₽' )
             }
-            return res.join('; ')
+            return res.join(' ')
         }
 
     },
@@ -477,5 +477,9 @@ export default {
     .model__grid-card__head--img img {
         object-fit: cover;
     }
+}
+
+.vue-custom-tooltip.is-bottom.has-multiline.is-medium:after {
+    width: 210px;
 }
 </style>
