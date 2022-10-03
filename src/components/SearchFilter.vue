@@ -554,7 +554,7 @@ export default {
                     l += 'cars/'+n.code
                 } else {
                     l += 'cars/used/'
-                    if ( n.code == 'comm' ) l += '?dealership=1489'
+                    if ( n.code == 'comm' ) l += '?dealership=1489,1533'
                 }
                 window.location.href = l;
             }

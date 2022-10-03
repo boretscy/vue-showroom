@@ -18,8 +18,8 @@ Vue.use(VueAxios, axios)
 Vue.use(VueCookies, { expire: ''})
 Vue.use(VueCustomTooltip, {
   name: 'VueCustomTooltip',
-  color: '#fff',
-  background: '#000',
+  color: '#000',
+  background: '#fff',
   borderRadius: 5,
   fontWeight: 400,
 })

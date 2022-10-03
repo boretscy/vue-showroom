@@ -20,7 +20,7 @@
                 </router-link>
                 <div class="model__grid-card__head--top">
                     <div class="model__grid-card__head--top_discont" v-if="item.Discount">
-                        <VueCustomTooltip :label="discount_tooltip">
+                        <VueCustomTooltip :label="discount_tooltip" position="is-bottom">
                             до {{ Format(discount) }} <span class="rub">₽</span>
                         </VueCustomTooltip>
                     </div>
