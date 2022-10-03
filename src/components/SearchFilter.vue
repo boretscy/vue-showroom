@@ -496,6 +496,17 @@ export default {
                         }
                     )
                 })
+                // switch ( this.$route.query.tag ) {
+                //     case 'discount':
+                //         res.push(
+                //             {
+                //                 name: 'Выгода',
+                //                 indx: k,
+                //                 list: 'colorValue'
+                //             }
+                //         )
+                //         break
+                // }
                 return res
                 
             },
