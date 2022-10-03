@@ -315,6 +315,7 @@ export default {
             driveValue: [],
             sortValue: [],
             complectationOptions: [],
+            tagValue: [],
 
             link: '',
 
@@ -360,7 +361,7 @@ export default {
         },
         filterList: {
             get() {
-                return ( this.$route.params.brand || this.$route.query.brand ) ? this.filter.dropLists.models : this.$store.state.global.brands
+                return ( this.$route.params.brand || this.$route.query.brand ) ? this.filter.dropLists.models : this.filter.dropLists.brands
             },
             set() {
             }
@@ -496,17 +497,16 @@ export default {
                         }
                     )
                 })
-                // switch ( this.$route.query.tag ) {
-                //     case 'discount':
-                //         res.push(
-                //             {
-                //                 name: 'Выгода',
-                //                 indx: k,
-                //                 list: 'colorValue'
-                //             }
-                //         )
-                //         break
-                // }
+                this.tagValue.forEach((i, k) => {
+                    res.push(
+                        {
+                            name: i.name,
+                            indx: k,
+                            list: 'tagValue'
+                        }
+                    )
+                })
+                
                 return res
                 
             },
@@ -739,6 +739,7 @@ export default {
             }
             }
         },
+        
         '$store.state.city': function() {
             if ( !this.blockFilter ) this.initFilter()
         },
@@ -883,6 +884,35 @@ export default {
                 })
             }
             this.colorValue = v
+
+            switch ( this.$route.query.tag ) {
+                case 'discount':
+                    this.tagValue.push(
+                        {
+                            name: 'Выгода',
+                            list: 'tagValue'
+                        }
+                    )
+                    break
+
+                case 'instock':
+                    this.tagValue.push(
+                        {
+                            name: 'В наличии',
+                            list: 'tagValue'
+                        }
+                    )
+                    break
+
+                case 'onway':
+                    this.tagValue.push(
+                        {
+                            name: 'В пути',
+                            list: 'tagValue'
+                        }
+                    )
+                    break
+            }
 
             this.blockFilter = false
         },

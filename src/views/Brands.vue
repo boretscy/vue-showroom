@@ -6,7 +6,8 @@
 			:InStock="TagButtons.InStock"
 			:OnWay="TagButtons.OnWay"
 			:Mode="viewTag"
-			@sort="sortToggle"/>
+			@sort="sortToggle"
+			ref="sort"/>
 		<items
 			ref="items"
 			></items>

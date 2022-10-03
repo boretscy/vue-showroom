@@ -26,7 +26,12 @@ export default {
     },
     methods: {
         clearTag(tag) {
-            if ( tag.list ) this.$parent[tag.list].splice(tag.indx, 1)
+            if ( tag.list == 'tagValue' ) {
+                this.$router.replace({'query.tag': null})
+                this.$parent[tag.list].splice(tag.indx, 1)
+            } else {
+                this.$parent[tag.list].splice(tag.indx, 1)
+            }
             if ( this.$route.params.model && this.$parent.modelValue.length == 0 ) this.$router.push('/'+this.$route.params.brand)
             if ( this.$route.params.model && this.$parent.brandValue.length == 0 ) this.$router.push('/')
             if (this.tags.length == 0) this.$emit('reset')

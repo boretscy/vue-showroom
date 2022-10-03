@@ -24,6 +24,7 @@ export default {
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$route.query.dealership) url += '&dealership='+this.$route.query.dealership
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+            if (this.$route.query.tag) url += '&tag='+this.$route.query.tag
             this.axios.get(url).then((response) => {
                 this.$store.state.global.brands = response.data.dropLists.brands
                 this.$store.state.inCity = response.data.in_city 
@@ -35,7 +36,7 @@ export default {
         },
         '$store.state.nav': function(v) {
             localStorage.setItem('CIS_NAV', JSON.stringify(v))
-        }
+        },
     },
     computed: {
         YAppsShowroomStyles: function() {
@@ -93,6 +94,7 @@ export default {
         if (this.$store.state.city) url += '&city='+this.$store.state.city
         if (this.$route.query.dealership) url += '&dealership='+this.$route.query.dealership
         if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+        if (this.$route.query.tag) url += '&tag='+this.$route.query.tag
 		this.axios.get(url).then((response) => {
 			this.$store.state.global.brands = response.data.dropLists.brands
             if ( response.data.in_city ) this.$store.state.inCity = response.data.in_city 
