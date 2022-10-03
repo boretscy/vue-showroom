@@ -412,6 +412,7 @@ export default {
                 if ( this.filter.ranges.year.value[0] != this.filter.ranges.year.min || this.filter.ranges.year.value[1] != this.filter.ranges.year.max ) {
                     q += '&year='+this.filter.ranges.year.value.join(',')
                 }
+                if ( this.$route.query.tag ) q += '&tag='+this.$route.query.tag
 
                 return ((q.length)?'?':'') + q
 
