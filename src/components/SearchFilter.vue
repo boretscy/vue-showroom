@@ -885,9 +885,10 @@ export default {
             }
             this.colorValue = v
 
+            v = []
             switch ( this.$route.query.tag ) {
                 case 'discount':
-                    this.tagValue.push(
+                    v.push(
                         {
                             name: 'Выгода',
                             list: 'tagValue'
@@ -896,7 +897,7 @@ export default {
                     break
 
                 case 'instock':
-                    this.tagValue.push(
+                    v.push(
                         {
                             name: 'В наличии',
                             list: 'tagValue'
@@ -905,7 +906,7 @@ export default {
                     break
 
                 case 'onway':
-                    this.tagValue.push(
+                    v.push(
                         {
                             name: 'В пути',
                             list: 'tagValue'
@@ -913,6 +914,7 @@ export default {
                     )
                     break
             }
+            this.tagValue = v
 
             this.blockFilter = false
         },
