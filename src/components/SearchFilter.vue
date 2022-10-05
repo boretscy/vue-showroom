@@ -524,7 +524,7 @@ export default {
             res += ' - Автосалон '
             res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
             res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
-            res += d.getFullYear()+' года по выгодным ценам | Дилерский центр — Юг-Авто'
+            res += d.getFullYear()+' года по выгодным ценам'+this.titleSuffix
             return res
         },
         metaDescription: function() {
@@ -554,6 +554,14 @@ export default {
                 res += ( this.curModel ) ? this.curModel.name+' ' : ''
                 res += 'с пробегом '
             }
+            return res
+        },
+        titleSuffix: function() {
+            let res = ''
+            if ( window.location.host == 'yug-avto.ru' ) res = ' | Дилерский центр Юг-Авто'
+            if ( window.location.host == 'yug-avto-expert.ru' ) res = ' | Юг-Авто Эксперт'
+            if ( this.$store.state.brand && typeof this.$route.params.brand == 'undefined') res = ' | Дилерский центра Юг-Авто '+this.$store.state.brand
+
             return res
         }
         
