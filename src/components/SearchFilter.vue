@@ -199,9 +199,8 @@
                     :delimiter="false"
                     @range="setRangeValue"/>
             </div>
-            <div class="filter__head-item" v-show="viewFull">
+            <div class="filter__head-item" v-show="viewFull && filter.dropLists.dealerships.length > 1">
                 <multiselect 
-                    v-if="!$store.state.brand"
                     v-model="dealershipValue" 
                     tag-placeholder="Автосалон" 
                     placeholder="Автосалон" 
