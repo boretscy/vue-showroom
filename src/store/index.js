@@ -108,7 +108,7 @@ export default new Vuex.Store({
                             value: null
                         }
                     ],
-                    rulesCheck: true,
+                    rulesCheck: false,
                     use_vehicle: true,
                     statuses: {
                         sended: false,
@@ -141,7 +141,7 @@ export default new Vuex.Store({
                             value: null
                         }
                     ],
-                    rulesCheck: true,
+                    rulesCheck: false,
                     use_vehicle: true,
                     statuses: {
                         sended: false,
@@ -201,7 +201,7 @@ export default new Vuex.Store({
                             value: null
                         }
                     ],
-                    rulesCheck: true,
+                    rulesCheck: false,
                     use_vehicle: false,
                     statuses: {
                         sended: false,
@@ -261,7 +261,7 @@ export default new Vuex.Store({
                             value: null
                         }
                     ],
-                    rulesCheck: true,
+                    rulesCheck: false,
                     use_vehicle: false,
                     statuses: {
                         sended: false,
@@ -321,7 +321,7 @@ export default new Vuex.Store({
                             value: null
                         }
                     ],
-                    rulesCheck: true,
+                    rulesCheck: false,
                     use_vehicle: false,
                     statuses: {
                         sended: false,
