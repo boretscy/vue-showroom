@@ -336,7 +336,7 @@ export default new Vuex.Store({
             YandexID: window.YandexID || null
         },
         
-        city: localStorage.getItem('YAPP_SELECTED_CITY') || null,
+        city: localStorage.getItem('YAPP_SELECTED_CITY') || '',
         inCity: null,
 
         nav: {}

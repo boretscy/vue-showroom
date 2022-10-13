@@ -46,8 +46,6 @@ export default {
         }
     },
     mounted: function() {
-
-        console.log(this.query)
     }
 }
 </script>

@@ -75,7 +75,7 @@ export default {
 	},
     methods: {
         getData() {
-
+            
             if ( !this.page ) this.items = []
             this.page++
 
