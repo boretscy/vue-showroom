@@ -609,39 +609,42 @@ export default {
             return res
         },
         metaTitle: function() {
-            let res = ''
-            res = 'Купить '
-            res += ( this.$store.state.mode == 'new' ) ? 'новый ' : 'б/у '
-            res += this.vehicle.brand_name+' '
-            res += ( this.vehicle.ref_model_name ) ? this.vehicle.ref_model_name+' ' : this.vehicle.model_name+' '
-            res += this.vehicle.general[2].value+' '
-            res += ( this.vehicle.modification_name ) ? this.vehicle.modification_name+' ' : ''
-            res += this.vehicle.general[4].value+' '
-            res += 'года по цене '+this.curPrice+' рублей '
-            res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
-            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
-            res += '| Дилерский центр — Юг-Авто'
-            return res
+            // let res = ''
+            // res = 'Купить '
+            // res += ( this.$store.state.mode == 'new' ) ? 'новый ' : 'б/у '
+            // res += this.vehicle.brand_name+' '
+            // res += ( this.vehicle.ref_model_name ) ? this.vehicle.ref_model_name+' ' : this.vehicle.model_name+' '
+            // res += this.vehicle.general[2].value+' '
+            // res += ( this.vehicle.modification_name ) ? this.vehicle.modification_name+' ' : ''
+            // res += this.vehicle.general[4].value+' '
+            // res += 'года по цене '+this.curPrice+' рублей '
+            // res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
+            // res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            // res += '| Дилерский центр — Юг-Авто'
+            // return res
+            return this.vehicle.meta.meta.title
         },
         metaDescription: function() {
-            let res = ''
-            res = 'Объявление о продаже  '
-            res += ( this.$store.state.mode == 'new' ) ? 'нового ' : 'подержанного '
-            res += this.vehicle.brand_name+' '
-            res += ( this.vehicle.ref_model_name ) ? this.vehicle.ref_model_name+' ' : this.vehicle.model_name+' '
-            res += this.vehicle.general[2].value+' '
-            res += ( this.vehicle.modification_name ) ? this.vehicle.modification_name+' ' : ''
-            res += this.vehicle.general[4].value+' '
-            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
-            res += '.'
-            res += ( this.$store.state.mode == 'new' ) ? 'Выгодная цена ' : 'Цена  '
-            res += this.curPrice+' рублей от дилерского центра "Юг-Авто" — ✔Кредит ✔Рассрочка ✔Трейд-ин'
-            return res
+            // let res = ''
+            // res = 'Объявление о продаже  '
+            // res += ( this.$store.state.mode == 'new' ) ? 'нового ' : 'подержанного '
+            // res += this.vehicle.brand_name+' '
+            // res += ( this.vehicle.ref_model_name ) ? this.vehicle.ref_model_name+' ' : this.vehicle.model_name+' '
+            // res += this.vehicle.general[2].value+' '
+            // res += ( this.vehicle.modification_name ) ? this.vehicle.modification_name+' ' : ''
+            // res += this.vehicle.general[4].value+' '
+            // res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            // res += '.'
+            // res += ( this.$store.state.mode == 'new' ) ? 'Выгодная цена ' : 'Цена  '
+            // res += this.curPrice+' рублей от дилерского центра "Юг-Авто" — ✔Кредит ✔Рассрочка ✔Трейд-ин'
+            // return res
+            return this.vehicle.meta.meta.description
         },
         metaH1: function() {
-            let res = ''
-            res += this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+this.vehicle.general[4].value+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
-            return res
+            // let res = ''
+            // res += this.vehicle.brand_name+' '+((this.vehicle.ref_model_name)?this.vehicle.ref_model_name:this.vehicle.model_name)+' '+this.vehicle.general[4].value+' '+((this.vehicle.equipment)?this.vehicle.equipment:'')
+            // return res
+            return this.vehicle.meta.meta.h1
         }
     },
     watch: {

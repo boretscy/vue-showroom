@@ -6,7 +6,7 @@
             :url="canonical"
         />
         <h1 class="title" v-if="filter">
-            <a href="#" @click.prevent="resetFilter">{{ metaH1 }}</a>
+            <a href="#" @click.prevent="resetFilter">{{ metaH1 }} </a>
             <a href="#" v-if="$store.state.inCity" role="top-menu-show-list-city" class="city-link" @click.prevent="showCity">в {{ $store.state.inCity }}</a>
 		</h1>
         <div class="title" v-else>
@@ -336,7 +336,15 @@ export default {
             },
             tags: [],
 
-            iter: 0
+            iter: 0,
+
+            meta: {
+                h1: '',
+                title: '',
+                description: '',
+                count: 0,
+                status: 200
+            }
         }
     },
     computed: {
@@ -513,53 +521,56 @@ export default {
         },
 
         metaTitle: function() {
-            let res = '', d = new Date()
-            res = 'Купить '
-            res += ( this.$store.state.mode == 'new' ) ? 'новый ' : ''
-            res += ( this.curBrand ) ? this.curBrand.name+' ' : 'автомобиль '
-            res += ( this.curModel ) ? this.curModel.name+' ' : ''
-            res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
-            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
-            res += ' - Автосалон '
-            res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
-            res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
-            res += d.getFullYear()+' года по выгодным ценам'+this.titleSuffix
-            return res
+            // let res = '', d = new Date()
+            // res = 'Купить '
+            // res += ( this.$store.state.mode == 'new' ) ? 'новый ' : ''
+            // res += ( this.curBrand ) ? this.curBrand.name+' ' : 'автомобиль '
+            // res += ( this.curModel ) ? this.curModel.name+' ' : ''
+            // res += ( this.$store.state.mode == 'used' ) ? 'с пробегом ' : ''
+            // res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            // res += ' - Автосалон '
+            // res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
+            // res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
+            // res += d.getFullYear()+' года по выгодным ценам'+this.titleSuffix
+            // return res
+            return this.meta.title
         },
         metaDescription: function() {
-            let res
-            res = 'Продажа '
-            res += (( this.$store.state.mode == 'new' ) ? 'новых' : 'подержанных') +'авто '
-            res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
-            res += ( this.curModel ) ? this.curModel.name+' ' : ''
-            res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
-            res += 'Все машины '
-            res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
-            res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
-            res += 'в наличии недорого, возможно купить в кредит на выгодных условиях.'
-            res += ( window.calltouch_phone ) ? ' Телефон: '+this.FormatPhoneOut(window.calltouch_phone)+'.' : ''
-            return res
+            // let res
+            // res = 'Продажа '
+            // res += (( this.$store.state.mode == 'new' ) ? 'новых' : 'подержанных') +'авто '
+            // res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+            // res += ( this.curModel ) ? this.curModel.name+' ' : ''
+            // res += ( this.$store.state.inCity ) ? 'в '+this.$store.state.inCity : ''
+            // res += 'Все машины '
+            // res += ( this.curBrand ) ? ((this.curBrand.ru_name)?this.curBrand.ru_name:this.curBrand.name)+' ' : ''
+            // res += ( this.curModel ) ? ((this.curModel.ru_name)?this.curModel.ru_name:this.curModel.name)+' ' : ''
+            // res += 'в наличии недорого, возможно купить в кредит на выгодных условиях.'
+            // res += ( window.calltouch_phone ) ? ' Телефон: '+this.FormatPhoneOut(window.calltouch_phone)+'.' : ''
+            // return res
+            return this.meta.description
         },
         metaH1: function() {
-            let res = ''
-            if ( this.$store.state.mode == 'new' ) {
-                res = this.filter.totalCount+/*' '+this.getWorld(this.totalCount, 'n')+*/' '+this.getWorld(this.filter.totalCount, 'a')+' '
-                res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
-                res += ( this.curModel ) ? this.curModel.name+' ' : ''
-            }
-            if ( this.$store.state.mode == 'used' ) {
-                res = this.filter.totalCount+' '+this.getWorld(this.filter.totalCount, 'a')+' '
-                res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
-                res += ( this.curModel ) ? this.curModel.name+' ' : ''
-                res += 'с пробегом '
-            }
-            return res
+            // let res = ''
+            // if ( this.$store.state.mode == 'new' ) {
+            //     res = this.filter.totalCount+/*' '+this.getWorld(this.totalCount, 'n')+*/' '+this.getWorld(this.filter.totalCount, 'a')+' '
+            //     res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+            //     res += ( this.curModel ) ? this.curModel.name+' ' : ''
+            // }
+            // if ( this.$store.state.mode == 'used' ) {
+            //     res = this.filter.totalCount+' '+this.getWorld(this.filter.totalCount, 'a')+' '
+            //     res += ( this.curBrand ) ? this.curBrand.name+' ' : ''
+            //     res += ( this.curModel ) ? this.curModel.name+' ' : ''
+            //     res += 'с пробегом '
+            // }
+            // return res
+            return this.meta.h1
         },
         titleSuffix: function() {
             let res = ''
             if ( window.location.host == 'yug-avto.ru' ) res = ' | Дилерский центр Юг-Авто'
             if ( window.location.host == 'yug-avto-expert.ru' ) res = ' | Юг-Авто Эксперт'
-            if ( this.$store.state.brand && typeof this.$route.params.brand == 'undefined') res = ' | Дилерский центра Юг-Авто '+this.$store.state.brand
+            if ( this.$store.state.brand && typeof this.$route.params.brand != 'undefined') res = ' | Дилерский центр Юг-Авто '+this.$store.state.brand
 
             return res
         }
@@ -769,6 +780,9 @@ export default {
             this.axios.get(url).then((response) => {
                 this.filter = response.data
                 this.brands = this.filter.dropLists.brands
+                this.meta.h1 = response.data.meta.meta.h1
+                this.meta.title = response.data.meta.meta.title
+                this.meta.description = response.data.meta.meta.description
                 this.link = this.buildLink(this.buildQuery())
                 this.getStartDropsValues()
             })
