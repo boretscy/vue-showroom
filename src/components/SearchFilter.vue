@@ -814,7 +814,7 @@ export default {
 
             this.blockFilter = true
 
-            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489,1533')?1:0)]
+            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489,1533'||this.$route.query.dealership=='1533'||this.$route.query.dealership=='1489')?1:0)]
             this.$store.state.nav = {}
 
             let v = []
