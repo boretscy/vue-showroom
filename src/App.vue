@@ -102,7 +102,7 @@ export default {
 
         setInterval(() => {
             if ( localStorage.getItem('YAPP_SELECTED_CITY') != this.$store.state.city ) {
-                this.$store.state.city = localStorage.getItem('YAPP_SELECTED_CITY')
+                this.$store.state.city = localStorage.getItem('YAPP_SELECTED_CITY') || ''
             }
         }, 100);
     },
