@@ -51,7 +51,7 @@ export default {
 	},
 	data() {
 		return {
-            items: null,
+            items: [],
             favorites: JSON.parse(localStorage.getItem('CIS_FAVORITES')) || [],
 		}
 	},

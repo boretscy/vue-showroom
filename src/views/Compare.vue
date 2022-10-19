@@ -8,7 +8,7 @@
                 <div class="radio_head">
                     <div class="config_head">
                         <div class="tabs_head">
-                            <button class="button transparent" data-role="tab" data-target="#movie" @click="clear">
+                            <button class="button transparent" data-role="tab" data-target="#movie" @click.prevent="clear">
                                 <span>Очистить</span>
                             </button>
                         </div>
@@ -120,7 +120,7 @@
                                                         <div class="compare-card__body-content__list">{{ item.power }}</div>
                                                         <div class="compare-card__body-content__list">{{ item.engine.name }}</div>
                                                         <div class="compare-card__body-content__list">{{ item.specifications[3].value }} - {{ item.specifications[2].value }}</div>
-                                                        <div class="compare-card__body-content__list">{{ item.specifications[0].value }}</div>
+                                                        <div class="compare-card__body-content__list">{{ item.specifications[0].value || '&nbsp;' }}</div>
                                                         <div class="compare-card__body-content__list">{{ item.general[4].value }}</div>
                                                     </div>
                                                 </div>
@@ -193,7 +193,7 @@ export default {
 	},
 	data() {
 		return {
-            items: null,
+            items: [],
             compare: JSON.parse(localStorage.getItem('CIS_COMPARE')) || [],
             accordions: {
                 main: true,
@@ -221,7 +221,7 @@ export default {
             }, 100);
         }
 
-        var swiper = new Swiper(".com-slide", {
+        new Swiper(".com-slide", {
             slidesPerView: 3.5,
             spaceBetween: 10,
             loop: false,
@@ -287,7 +287,6 @@ export default {
         },
 
         deleteItem(indx) {
-            console.log(indx)
             this.compare.splice(indx, 1)
             localStorage.setItem('CIS_COMPARE', JSON.stringify(this.compare))
         },
