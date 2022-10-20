@@ -105,6 +105,8 @@ export default {
                 this.$store.state.city = localStorage.getItem('YAPP_SELECTED_CITY') || ''
             }
         }, 100);
+
+        localStorage.setItem('CIS_NAV', JSON.stringify({}))
     },
     methods: {
     }
