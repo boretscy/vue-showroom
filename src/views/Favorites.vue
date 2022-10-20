@@ -61,6 +61,10 @@ export default {
 	},
 	mounted: function() {
 
+        this.$store.state.nav = {
+                brand: 'Избранные автомобили'
+        }
+
         if ( this.favorites.length ) {
             let url = this.$store.state.apiUrl+'vehicles/all/?token='+this.$store.state.apiToken+'&id='+this.favorites.join(',')
             this.axios.get(url).then((response) => {

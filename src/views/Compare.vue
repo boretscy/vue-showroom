@@ -206,6 +206,10 @@ export default {
 	watch: {
 	},
 	mounted: function() {
+
+        this.$store.state.nav = {
+                brand: 'Сравнение автомобилей'
+        }
         
         if ( this.compare.length ) {
             let url = this.$store.state.apiUrl+'vehicles/all/?token='+this.$store.state.apiToken+'&id='+this.compare.join(',')
