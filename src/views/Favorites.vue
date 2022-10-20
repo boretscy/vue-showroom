@@ -62,7 +62,7 @@ export default {
 	mounted: function() {
 
         this.$store.state.nav = {
-                brand: 'Избранные автомобили'
+                brand: {name: 'Избранные автомобили'}
         }
 
         if ( this.favorites.length ) {

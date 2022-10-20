@@ -208,7 +208,7 @@ export default {
 	mounted: function() {
 
         this.$store.state.nav = {
-                brand: 'Сравнение автомобилей'
+                brand: {name: 'Сравнение автомобилей'}
         }
         
         if ( this.compare.length ) {
