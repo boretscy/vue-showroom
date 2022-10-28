@@ -71,6 +71,7 @@ export default {
     },
 	mounted: function() {
 		// this.getData()
+		this.$cookies.set('CIS_DETAIL_PAGE', 0)
 	},
 	methods: {
 		more() {
