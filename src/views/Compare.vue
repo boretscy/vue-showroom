@@ -580,6 +580,7 @@ export default {
         width: 100%;
         display: block;
         margin-left: 0;
+        position: inherit;
     }
     .tabs_head .button:hover {
 
