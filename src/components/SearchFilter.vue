@@ -763,6 +763,10 @@ export default {
         },
         '$route.query': function() {
             if ( !this.blockFilter ) this.initFilter()
+        },
+
+        'filter.ranges.price.value': function(v) {
+            console.log(v)
         }
     },
     mounted: function() {
@@ -956,10 +960,10 @@ export default {
         setRangeValue() {
             // this.getRangeCount(this.buildQuery())
             this.$router.push(this.buildLink(this.buildQuery())).catch(error => {
-                            if (error.name != "NavigationDuplicated") {
-                                throw error;
-                            }
-                        })
+                if (error.name != "NavigationDuplicated") {
+                    throw error;
+                }
+            })
         },
         
         // link

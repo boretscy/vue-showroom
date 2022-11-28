@@ -55,7 +55,7 @@
                 >{{ item.status.name }}</div>
             <div class="model__grid-card__content--price">
                 <div class="model__grid-card__content--price_curent">{{ Format(item.min_price) }} <span class="rub">₽</span></div>
-                <div class="model__grid-card__content--price_discont" v-if="item.discounts">{{ Format(item.price) }} <span class="rub">₽</span></div>
+                <div class="model__grid-card__content--price_discont" v-if="item.Discount">{{ Format(item.price) }} <span class="rub">₽</span></div>
             </div>
             <button class="button transparent w100" @click="show(item.id, item.brand.name+' '+item.model.name+' '+((item.equipment)?item.equipment:''), item.dealership.name)">
                 <span>ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ</span>
