@@ -585,6 +585,7 @@ export default {
                 } else {
                     l += 'cars/used/'
                     if ( n.code == 'comm' ) l += '?dealership=1489,1533'
+                    // if ( n.code == 'used' ) l += '?!dealership=1489,1533'
                 }
                 window.location.href = l;
             }
@@ -763,10 +764,6 @@ export default {
         },
         '$route.query': function() {
             if ( !this.blockFilter ) this.initFilter()
-        },
-
-        'filter.ranges.price.value': function(v) {
-            console.log(v)
         }
     },
     mounted: function() {
@@ -778,6 +775,7 @@ export default {
             let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
+            if (this.$store.state.mode == 'used' && !this.$store.state.dealership && !this.$route.query.dealership) url += '&!dealership=1489,1533'
             for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
             if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
             if ( this.$route.params.model ) url += '&model='+this.$route.params.model

@@ -84,7 +84,7 @@ export default {
             if (this.$route.params.model) url += '&model='+this.$route.params.model
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-            // if (this.$store.state.mode == 'used' && !this.$store.state.dealership && !this.$route.query.dealership) url += '&!dealership=1489,1533'
+            if (this.$store.state.mode == 'used' && !this.$store.state.dealership && !this.$route.query.dealership) url += '&!dealership=1489,1533'
             for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
             url += '&page='+this.page
             if ( this.$parent.sortMode ) url += '&sort='+this.$parent.sortMode
