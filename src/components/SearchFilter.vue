@@ -584,7 +584,7 @@ export default {
                     l += 'cars/'+n.code
                 } else {
                     l += 'cars/used/'
-                    if ( n.code == 'comm' ) l += '?dealership=1489,1533'
+                    if ( n.code == 'comm' ) l += '?dealership=1489'
                     // if ( n.code == 'used' ) l += '?!dealership=1489,1533'
                 }
                 window.location.href = l;
@@ -775,7 +775,7 @@ export default {
             let url = this.$store.state.apiUrl+'filter/'+this.$store.state.mode+'/?token='+this.$store.state.apiToken
             if (this.$store.state.city) url += '&city='+this.$store.state.city
             if (this.$store.state.dealership) url += '&dealership='+this.$store.state.dealership
-            if (this.$store.state.mode == 'used' && !this.$store.state.dealership && !this.$route.query.dealership) url += '&!dealership=1489,1533'
+            if (this.$store.state.mode == 'used' && !this.$store.state.dealership && !this.$route.query.dealership) url += '&!dealership=1489'
             for (let k in this.$route.query) url += '&'+k+'='+this.$route.query[k]
             if ( this.$route.params.brand ) url += '&brand='+this.$route.params.brand
             if ( this.$route.params.model ) url += '&model='+this.$route.params.model
@@ -816,7 +816,7 @@ export default {
 
             this.blockFilter = true
 
-            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489,1533'||this.$route.query.dealership=='1533'||this.$route.query.dealership=='1489')?1:0)]
+            this.modeValue = this.$store.state.modeOptions[this.$store.state.mode][((this.$route.query.dealership=='1489'||this.$route.query.dealership=='1489')?1:0)]
             this.$store.state.nav = {}
 
             let v = []
