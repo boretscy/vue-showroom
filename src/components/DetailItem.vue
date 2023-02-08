@@ -19,7 +19,7 @@
                                 :key="index"
                                 :href="slide.big"
                                 class="swiper-slide"
-                                ><img :src="slide.big" :alt="metaH1" />
+                                ><img :src="slide.big" :alt="metaH1+' - '+vehicle.id+' - '+index" :title="metaH1" />
                             </a>
                         </div>
                         <div class="swiper-button-next detail_next">

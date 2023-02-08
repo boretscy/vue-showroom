@@ -16,6 +16,12 @@
                 <icon-base icon-name="cissuv" v-if="!item.image && item.body.code == 'suv'"><icon-cissuv /></icon-base>
                 <icon-base icon-name="cisvan" v-if="!item.image && item.body.code == 'van'"><icon-cisvan /></icon-base>
                 <icon-base icon-name="ciswagon" v-if="!item.image && item.body.code == 'wagon'"><icon-ciswagon /></icon-base>
+                <icon-base icon-name="cisbus" v-if="!item.image && item.body.code == 'bus'"><icon-cisbus /></icon-base>
+                <icon-base icon-name="ciscargovan" v-if="!item.image && item.body.code == 'cargovan'"><icon-ciscargovan /></icon-base>
+                <icon-base icon-name="cisflatbedvan" v-if="!item.image && item.body.code == 'flatbedvan'"><icon-cisflatbedvan /></icon-base>
+                <icon-base icon-name="cisgoodsvan" v-if="!item.image && item.body.code == 'goodsvan'"><icon-cisgoodsvan /></icon-base>
+                <icon-base icon-name="cischassis" v-if="!item.image && item.body.code == 'chassis'"><icon-cischassis /></icon-base>
+
             </router-link>
             <div class="model__grid-card__head--top">
                 <div class="model__grid-card__head--top_discont" v-if="item.Discount">
@@ -79,6 +85,11 @@ import IconCissedan from '@/components/icons/IconCissedan.vue'
 import IconCissuv from '@/components/icons/IconCissuv.vue'
 import IconCisvan from '@/components/icons/IconCisvan.vue'
 import IconCiswagon from '@/components/icons/IconCiswagon.vue'
+import IconCisbus from '@/components/icons/IconCisbus.vue'
+import IconCiscargovan from '@/components/icons/IconCiscargovan.vue'
+import IconCisflatbedvan from '@/components/icons/IconCisflatbedvan.vue'
+import IconCisgoodsvan from '@/components/icons/IconCisgoodsvan.vue'
+import IconCischassis from '@/components/icons/IconCischassis.vue'
 
 export default {
     name: 'ItemLine',
@@ -86,7 +97,8 @@ export default {
         IconBase, IconCisfavorites, IconCiscompare,
         IconCiscrossover, IconCiscupe, IconCishatchback, IconCisliftback, 
         IconCismicrobus, IconCisminivan, IconCispickup, IconCissedan,
-        IconCissuv, IconCisvan, IconCiswagon
+        IconCissuv, IconCisvan, IconCiswagon, IconCisbus, IconCiscargovan, IconCisflatbedvan,
+        IconCisgoodsvan, IconCischassis
     },
     props: ['item'],
     data() {
