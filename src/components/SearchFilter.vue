@@ -1142,7 +1142,7 @@ export default {
 .pos-1 {grid-area: 1 / 5}
 .pos-2 {grid-area: 2 / 5}
 .title {
-    font-size: var(--h1);
+    font-size: 32px;
     font-weight: 400;
     line-height: 1em;
     margin-bottom: 2rem;
@@ -1295,6 +1295,9 @@ export default {
 @media (max-width: 768px) {
     .filter__sort-item:nth-last-child(1) {
         gap: 0;
+    }
+    .title {
+        font-size: 24px;
     }
 }
 </style>
