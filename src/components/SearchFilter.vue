@@ -1172,7 +1172,7 @@ export default {
 }
 
 .filter {
-    margin-bottom: 4rem;
+    /* margin-bottom: 4rem; */
     user-select: none;
 }
 .filter__head {
