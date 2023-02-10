@@ -252,6 +252,7 @@
         <filter-list 
             :list="filterList"
             :query="filterListQuery"
+            :class="{'hidelist': hideList}"
             v-if="filter"/>
         <div class="filter__list" v-else>
             <div class="filter__list-item__empty"></div>
@@ -348,6 +349,10 @@ export default {
         }
     },
     computed: {
+        hideList: function() {
+            return ( location.hostname == 'yug-avto-expert.ru' ) ? true : false
+        },
+
         curModel: {
             get() {
                 return ( this.modelValue.length == 1 ) ? this.modelValue[0] : null
@@ -767,6 +772,7 @@ export default {
         }
     },
     mounted: function() {
+        console.log(location.hostname)
         this.initFilter()
     },
     methods: {
@@ -1298,6 +1304,9 @@ export default {
     }
     .title {
         font-size: 24px;
+    }
+    .hidelist {
+        display: none !important;
     }
 }
 </style>
