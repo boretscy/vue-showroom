@@ -360,6 +360,7 @@ export default {
     flex-wrap: wrap;
     min-height: revert;
     margin-bottom: 5px;
+    height: 42px;
 
 }
 .model__grid-card__content--list-item {
