@@ -308,6 +308,7 @@ export default {
     padding: var(--padding);
     padding-bottom: 0;
     margin-bottom: var(--margin-bottom);
+    min-height: 152px;
 }
 .model__grid-card__footer {
     padding: var(--padding);
@@ -360,7 +361,6 @@ export default {
     flex-wrap: wrap;
     min-height: revert;
     margin-bottom: 5px;
-    height: 42px;
 
 }
 .model__grid-card__content--list-item {
