@@ -76,7 +76,13 @@ export default {
                     send = false
                 }
                 sendData.push({name: i.name, value: i.value})
-                if ( i.name == 'phone' ) phone = i.value.replace(/[^\d;]/g, '')
+                if ( i.name == 'phone' ) {
+                    phone = i.value.replace(/[^\d;]/g, '')
+                    if ( phone.length < 11 ) {
+                        i.error = true
+                        send = false
+                    }
+                }
                 if ( i.name == 'name' ) name = i.value
             })
             
