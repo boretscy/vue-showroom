@@ -772,7 +772,6 @@ export default {
         }
     },
     mounted: function() {
-        console.log(location.hostname)
         this.initFilter()
     },
     methods: {

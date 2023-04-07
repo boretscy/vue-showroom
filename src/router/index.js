@@ -12,6 +12,11 @@ Vue.use(VueRouter)
 
 let YAppsShowroomMode = document.getElementById('YAppsShowroom').getAttribute('mode')
 let YAppsShowroomHash = document.getElementById('YAppsShowroom').getAttribute('hash') || null
+let YAppsShowroomPosition = { 
+    x: 0, 
+    y: document.getElementById('YAppsShowroom').getBoundingClientRect().top
+}
+
 
 const routes = [
     {
@@ -61,7 +66,7 @@ const router = new VueRouter({
     mode: ( YAppsShowroomHash ) ? null : 'history',
     routes,
     scrollBehavior(to, from, savedPosition) {
-        return { x: 0, y: 0 }
+        return YAppsShowroomPosition
     }
 })
 

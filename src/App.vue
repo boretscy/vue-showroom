@@ -1,6 +1,6 @@
 <template>
-    <div id="app" :key="GlobalIter" :style="YAppsShowroomStyles" ref="app">
-        <router-view/>
+    <div id="app" :key="GlobalIter" :style="YAppsShowroomStyles">
+        <router-view />
         <forms />
     </div>
 </template>

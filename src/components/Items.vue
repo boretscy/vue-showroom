@@ -54,24 +54,24 @@ export default {
         '$route.query': function() {
             this.page = 0
             this.getData()
-            window.scrollTo(0,0)
+            
         },
 
         '$parent.sortMode': function() {
             this.page = 0
             this.getData()
-            window.scrollTo(0,0);
+            
         },
 
         '$store.state.city': function() {
             this.page = 0
             this.getData()
-            window.scrollTo(0,0)
+            
         }
     },
 	mounted: function() {
         this.getData()
-        window.scrollTo(0,0)
+        
 	},
     methods: {
         getData() {

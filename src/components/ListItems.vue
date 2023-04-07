@@ -65,32 +65,24 @@ export default {
         '$route.query': function() {
             this.page = 0
             this.getData()
-            let app = this.$refs['app']
-            let top = window.scrollY + app.getBoundingClientRect().y;
-            window.scrollTo(0,top)
+            
         },
 
         '$parent.sortMode': function() {
             this.page = 0
             this.getData()
-            let app = this.$refs['app']
-            let top = window.scrollY + app.getBoundingClientRect().y;
-            window.scrollTo(0,top)
+            
         },
 
         '$store.state.city': function() {
             this.page = 0
             this.getData()
-            let app = this.$refs['app']
-            let top = window.scrollY + app.getBoundingClientRect().y;
-            window.scrollTo(0,top)
+            
         }
     },
 	mounted: function() {
         this.getData()
-            let app = this.$refs['app']
-            let top = window.scrollY + app.getBoundingClientRect().y;
-            window.scrollTo(0,top)
+        
 	},
     methods: {
         getData() {
