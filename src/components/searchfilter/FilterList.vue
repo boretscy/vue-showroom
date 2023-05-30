@@ -3,10 +3,10 @@
         <list-item 
             v-for="(item, indx) in items"
             :key="indx"
-            v-show="item.vehicles && ( (viewFull || (items.length > 15 && indx < 14)) || (viewFull || items.length <= 15))"
+            v-show="item.vehicles && ( (viewFull || (items.length > 20 && indx < 19)) || (viewFull || items.length <= 19))"
             :item="item"
             :query="query" />
-        <div class="filter__list-item" @click="viewFull = !viewFull" v-if="items.length > 15">
+        <div class="filter__list-item" @click="viewFull = !viewFull" v-if="items.length > 20">
             <div class="filter__list-item__name">
                 {{ ( (viewFull) ? 'Скрыть' : 'Показать все' ) }}
                 <icon-base icon-name="corner" :class="{'up': viewFull}"><icon-corner /></icon-base>
